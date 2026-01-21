@@ -2,44 +2,59 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Home</title>
+  <title>Home Cute</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: "Segoe UI", sans-serif;
+      background: #fef6f9;
     }
 
-    /* Thanh menu trên cùng */
+    /* Thanh menu */
     .navbar {
       display: flex;
-      justify-content: center;   /* căn giữa */
-      background-color: #333;
-      padding: 10px 0;
+      flex-wrap: wrap;              /* nhiều nút thì tự xuống dòng */
+      gap: 10px;
+      justify-content: center;
+      padding: 15px;
+      background: #ffd6e8;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
 
-    /* Nút */
-    .navbar button {
-      background: none;
+    /* Nút dễ thương */
+    .nav-btn {
+      background: #fff;
       border: none;
-      color: white;
-      padding: 10px 20px;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: 15px;
       cursor: pointer;
-      font-size: 16px;
+      color: #ff5fa2;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
     }
 
-    .navbar button:hover {
-      background-color: #555;
-      border-radius: 4px;
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      background: #ffedf4;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.95);
     }
   </style>
 </head>
 <body>
 
   <div class="navbar">
-    <button>Home</button>
-    <button>About</button>
-    <button>Services</button>
-    <button>Contact</button>
+    <button class="nav-btn">🏠 Home</button>
+    <button class="nav-btn">📖 About</button>
+    <button class="nav-btn">🛠 Services</button>
+    <button class="nav-btn">🧁 Blog</button>
+    <button class="nav-btn">📸 Gallery</button>
+    <button class="nav-btn">💖 Favorites</button>
+    <button class="nav-btn">📞 Contact</button>
+    <button class="nav-btn">⚙ Settings</button>
   </div>
 
 </body>
