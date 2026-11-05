@@ -58,7 +58,7 @@
     --shadow-sm: 0 2px 8px rgba(147,51,234,0.06); --shadow-md: 0 8px 24px rgba(147,51,234,0.12); --shadow-lg: 0 12px 32px rgba(147,51,234,0.18);
   }
 
-  /* Theme Neon / Dark (Image 1) */
+  /* Theme Neon / Dark */
   body.theme-neon {
     --pink-bg: #1a1a1a; --pink-surface: #2a2a2a; --pink-primary: #f97316; --pink-light: #4a4a4a; --pink-dark: #ffedd5;
     --text: #f3f4f6; --text-muted: #9ca3af; --border: #3a3a3a;
@@ -77,7 +77,7 @@
   body.theme-neon .calendar-grid { background: #2a2a2a; border-color: #3a3a3a; }
   body.theme-neon .cal-day { color: white; }
 
-  /* Theme Vintage / Cream (Image 2) */
+  /* Theme Vintage / Cream */
   body.theme-vintage {
     --pink-bg: #fcf5e5; --pink-surface: #ffffff; --pink-primary: #a16207; --pink-light: #fef3c7; --pink-dark: #78350f;
     --text: #3f3f46; --text-muted: #71717a; --border: #e4e4e7;
@@ -114,14 +114,41 @@
     display: flex; align-items: center; gap: 8px; cursor: pointer;
   }
   .greeting svg { width: 24px; height: 24px; stroke: var(--pink-primary); }
-  
-  .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
-  .stat-card {
-    background: var(--pink-surface); border-radius: 20px; padding: 16px 10px;
-    text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+
+  /* Goal Widget */
+  .goal-widget {
+    background: var(--pink-surface); border-radius: 20px; padding: 16px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border); margin-bottom: 24px;
   }
-  .stat-num { font-size: 20px; font-weight: 700; color: var(--pink-primary); margin-bottom: 4px; }
-  .stat-label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
+  .goal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .goal-title { font-size: 15px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px;}
+  .goal-title svg { width: 18px; height: 18px; stroke: var(--pink-primary); }
+  .goal-list { display: flex; flex-direction: column; gap: 8px; }
+  .goal-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--pink-bg); border-radius: 12px; cursor: pointer;
+  }
+  .goal-check { 
+    width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--pink-light); 
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .goal-check svg { width: 12px; height: 12px; stroke: white; opacity: 0; }
+  .goal-item.done .goal-check { background: var(--pink-primary); border-color: var(--pink-primary); }
+  .goal-item.done .goal-check svg { opacity: 1; }
+  .goal-text { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
+  .goal-item.done .goal-text { text-decoration: line-through; color: var(--text-muted); }
+
+  /* Mini Calendar */
+  .mini-cal {
+    background: var(--pink-surface); border-radius: 20px; padding: 16px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border); margin-bottom: 24px;
+  }
+  .mini-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .mini-cal-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .mini-cal-date { font-size: 13px; font-weight: 600; color: var(--pink-primary); }
+  .mini-cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+  .mini-cal-day-name { font-size: 10px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; }
+  .mini-cal-day { font-size: 13px; font-weight: 600; color: var(--text); padding: 6px 0; border-radius: 8px; }
+  .mini-cal-day.active { background: var(--pink-primary); color: white; }
 
   /* Animated Suggest Card */
   .suggest-card {
@@ -152,24 +179,6 @@
   .dash-section { margin-bottom: 24px; }
   .dash-title { font-size: 16px; font-weight: 700; color: var(--pink-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
   .dash-title svg { width: 18px; height: 18px; stroke: var(--pink-primary); }
-
-  .todo-mini-list { display: flex; flex-direction: column; gap: 10px; }
-  .todo-mini-item {
-    background: var(--pink-surface); border-radius: 16px; padding: 14px 16px;
-    display: flex; align-items: center; gap: 12px;
-    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
-    cursor: pointer; transition: all 0.2s;
-  }
-  .todo-mini-item:active { transform: scale(0.98); }
-  .todo-mini-check {
-    width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--pink-light);
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s;
-  }
-  .todo-mini-check svg { width: 14px; height: 14px; stroke: white; opacity: 0; transition: all 0.2s;}
-  .todo-mini-item.done .todo-mini-check { background: var(--pink-primary); border-color: var(--pink-primary); }
-  .todo-mini-item.done .todo-mini-check svg { opacity: 1; }
-  .todo-mini-item.done .todo-mini-title { text-decoration: line-through; color: var(--text-muted); }
-  .todo-mini-title { font-size: 14px; font-weight: 600; color: var(--text); transition: all 0.2s;}
 
   /* ================= TAB CÀI ĐẶT (TÔI) ================= */
   .settings-container { padding: 0 16px; }
@@ -326,16 +335,15 @@
   .card-link svg { width: 12px; height: 12px; }
 
   /* ================= TAB NHẬT KÝ ================= */
-  .diary-header-tools {
-    display: flex; flex-direction: column; align-items: center;
-    padding: 0 16px 16px; gap: 12px;
-  }
   
-  /* Segmented Control: Nhật ký / Niềng răng */
+  /* Chuyển đổi Nhật ký / Niềng răng (Đặt trên cùng giống Tài chính) */
+  .diary-main-tabs-container {
+    display: flex; justify-content: center; margin-bottom: 16px;
+  }
   .diary-main-tabs {
     display: flex; background: var(--pink-surface); border-radius: 999px; padding: 4px; 
     box-shadow: var(--shadow-sm); border: 1px solid var(--border);
-    position: relative; overflow: hidden; width: 100%; max-width: 320px;
+    position: relative; overflow: hidden; width: calc(100% - 32px); max-width: 320px;
   }
   .diary-main-tabs button {
     flex: 1; padding: 10px 0; border-radius: 999px; border: none; background: transparent;
@@ -351,9 +359,13 @@
   }
   .diary-main-tabs.braces-active .slider-bg { transform: translateX(100%); }
 
-  /* Sub Toggle (Timeline / Calendar) */
+  /* Chuyển đổi Dòng thời gian / Lịch */
+  .diary-view-toggle-container {
+    display: flex; justify-content: center; align-items: center;
+    padding: 0 16px 16px;
+  }
   .diary-view-toggle {
-    display: flex; background: var(--pink-surface); border-radius: 999px; padding: 4px; 
+    display: flex; background: white; border-radius: 999px; padding: 4px; 
     box-shadow: var(--shadow-sm); border: 1px solid var(--border);
     position: relative; overflow: hidden; width: 100%; max-width: 300px;
   }
@@ -412,11 +424,61 @@
     font-size: 11px; font-weight: 600; color: var(--pink-dark); margin-top: 8px;
   }
   .timeline-mood svg { width: 12px; height: 12px;}
-  .timeline-amount {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 4px 10px; background: #fef2f2; border-radius: 999px;
-    font-size: 11px; font-weight: 700; color: #dc2626; margin-top: 8px; margin-left: 6px;
+  .timeline-actions {
+    display: flex; gap: 8px; margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 10px;
   }
+  .timeline-actions button {
+    background: var(--pink-bg); border: none; padding: 6px 12px; border-radius: 8px;
+    font-size: 12px; font-weight: 600; color: var(--pink-primary); cursor: pointer;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .timeline-actions button.del-btn { color: #dc2626; background: #fef2f2; }
+
+  /* Braces Specific (Timeline format) */
+  .braces-dashboard-card {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border-radius: 20px; padding: 16px; margin-bottom: 20px;
+    border: 1px solid #bfdbfe; box-shadow: 0 4px 12px rgba(59,130,246,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+    margin: 0 16px 20px;
+  }
+  .braces-dashboard-card .stat-box { flex: 1; text-align: center; }
+  .braces-dashboard-card .stat-val { font-size: 20px; font-weight: 700; color: #1d4ed8; margin-bottom: 2px; }
+  .braces-dashboard-card .stat-lbl { font-size: 11px; font-weight: 600; color: #3b82f6; text-transform: uppercase; }
+  .braces-dashboard-card .divider { width: 1px; height: 40px; background: #bfdbfe; }
+
+  .braces-timeline-wrap { padding: 0 16px 20px; position: relative; }
+  .braces-timeline-wrap::before {
+    content: ''; position: absolute; top: 0; bottom: 0; left: 22px;
+    width: 2px; background: #bfdbfe; z-index: 0;
+  }
+  .braces-timeline-item {
+    position: relative; padding-left: 44px; margin-bottom: 20px;
+  }
+  .braces-timeline-dot {
+    position: absolute; left: 15px; top: 6px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--pink-surface); border: 3px solid #3b82f6;
+    z-index: 1; box-shadow: 0 0 0 3px #eff6ff;
+  }
+  .braces-timeline-date {
+    font-size: 12px; font-weight: 700; color: #2563eb;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
+  }
+  .braces-timeline-date svg { width: 12px; height: 12px; }
+  .braces-timeline-card {
+    background: var(--pink-surface); border-radius: 16px;
+    padding: 14px; box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border); position: relative;
+  }
+  .braces-timeline-card::before {
+    content: ''; position: absolute; left: -5px; top: 12px;
+    width: 10px; height: 10px; background: var(--pink-surface);
+    transform: rotate(45deg); border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .braces-timeline-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .braces-timeline-amount { font-size: 15px; font-weight: 700; color: #dc2626; margin-bottom: 6px; }
+  .braces-timeline-content { font-size: 13px; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; font-weight: 500;}
 
   /* Calendar View */
   .calendar-wrap { padding: 0 12px 20px; }
@@ -530,6 +592,23 @@
   .finance-box-label { font-size: 10.5px; font-weight: 600; opacity: 0.9; margin-bottom: 2px; display: flex; align-items: center; gap: 4px; }
   .finance-box-val { font-size: 14px; font-weight: 700; }
 
+  /* Dự tính lương */
+  .salary-card {
+    background: var(--pink-surface); border-radius: 20px; padding: 16px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+  }
+  .salary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .salary-label { font-size: 14px; font-weight: 600; color: var(--text); }
+  .salary-input-wrap { display: flex; align-items: center; border-bottom: 1.5px solid var(--border); padding-bottom: 4px; }
+  .salary-input-wrap input { 
+    border: none; outline: none; background: transparent; font-family: inherit; 
+    font-size: 15px; font-weight: 700; color: var(--pink-primary); text-align: right; width: 120px; 
+  }
+  .salary-result { 
+    background: var(--pink-bg); padding: 12px; border-radius: 12px; text-align: center; 
+    font-size: 16px; font-weight: 700; color: var(--pink-dark); margin-top: 12px;
+  }
+
   /* Compact Cash Card (List format) */
   .compact-card {
     background: var(--pink-surface); border-radius: 20px; padding: 16px;
@@ -579,16 +658,15 @@
   .rev-row { display: flex; gap: 8px; align-items: center; }
   .rev-row.header { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
   
-  .rev-col-date { width: 90px; flex-shrink: 0; }
-  .rev-col-amount { width: 85px; flex-shrink: 0; }
-  .rev-col-note { flex: 1; min-width: 0; }
+  .rev-col-date { width: 110px; flex-shrink: 0; }
+  .rev-col-amount { flex: 1; min-width: 0; }
   
   .rev-row input { 
     width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border);
     font-family: inherit; font-size: 12.5px; font-weight: 500; background: var(--pink-bg); outline: none; transition: all 0.2s; color: var(--text);
   }
   .rev-row input:focus { border-color: var(--pink-primary); background: var(--pink-surface); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
-  .rev-row input[type="number"] { text-align: right; }
+  .rev-row input[type="text"].currency-input { text-align: right; }
   .rev-row input[type="text"].rev-input-date { text-align: center; padding: 8px 4px; cursor: pointer; }
   .rev-row input[type="date"] { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
 
@@ -884,30 +962,26 @@
       <svg class="hand-icon"><use href="#icon-settings"/></svg> 
       <span id="greetingText">Hello Tran Hien</span>
     </div>
-    
-    <div class="dash-stats">
-      <div class="stat-card">
-        <div class="stat-num" id="statPlaces">0</div>
-        <div class="stat-label">Địa điểm</div>
+
+    <!-- Goal Widget -->
+    <div class="goal-widget">
+      <div class="goal-header">
+        <div class="goal-title"><svg class="hand-icon"><use href="#icon-check-circle"/></svg> Mục tiêu tuần này</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-num" id="statDiaries">0</div>
-        <div class="stat-label">Nhật ký</div>
+      <div class="goal-list" id="homeGoalList">
+        <!-- Rendered by JS -->
       </div>
-      <div class="stat-card">
-        <div class="stat-num" id="statNotes">0</div>
-        <div class="stat-label">Ghi chú</div>
-      </div>
+    </div>
+
+    <!-- Mini Calendar -->
+    <div class="mini-cal" id="homeMiniCal">
+      <!-- Rendered by JS -->
     </div>
 
     <div class="suggest-card" id="homeSuggest" onclick="document.querySelector('.nav-item[data-tab=places]').click()">
       <!-- Render bằng JS -->
     </div>
 
-    <div class="dash-section">
-      <div class="dash-title"><svg class="hand-icon"><use href="#icon-list"/></svg> Việc cần làm</div>
-      <div class="todo-mini-list" id="todoMiniList"></div>
-    </div>
   </div>
 </div>
 
@@ -989,16 +1063,19 @@
 
 <!-- ================= TAB 2: NHẬT KÝ ================= -->
 <div class="tab-content" id="tab-diary">
-  <div class="diary-header-tools">
-    <!-- Chuyển đổi Nhật ký chung / Niềng răng -->
+  
+  <!-- Chuyển đổi Nhật ký / Niềng răng (Đặt trên cùng) -->
+  <div class="diary-main-tabs-container">
     <div class="diary-main-tabs" id="diaryMainTabsContainer">
       <div class="slider-bg"></div>
       <button id="tabDiaryGeneral" class="active">Nhật ký</button>
       <button id="tabDiaryBraces">Niềng răng</button>
     </div>
+  </div>
 
-    <!-- Chuyển đổi Dòng thời gian / Lịch (Chỉ hiện ở Nhật ký chung) -->
-    <div class="diary-view-toggle" id="diaryViewToggleContainer">
+  <!-- Chuyển đổi Dòng thời gian / Lịch (Chỉ hiện ở Nhật ký chung) -->
+  <div class="diary-view-toggle-container" id="diaryViewToggleContainer">
+    <div class="diary-view-toggle">
       <div class="slider-bg"></div>
       <button id="viewTimelineBtn" class="active">
         <svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-list"/></svg> Dòng thời gian
@@ -1034,10 +1111,14 @@
     </div>
   </div>
 
-  <!-- Vùng hiển thị Nhật ký Niềng răng -->
+  <!-- Vùng hiển thị Nhật ký Niềng răng (Dạng Timeline) -->
   <div id="diaryBracesView" style="display:none;">
-    <div class="timeline-wrap" id="bracesTimelineWrap"></div>
+    <div class="braces-dashboard-card" id="bracesDashboard">
+      <!-- Rendered by JS -->
+    </div>
+    <div class="braces-timeline-wrap" id="bracesTimelineWrap"></div>
   </div>
+
 </div>
 
 <!-- ================= TAB 3: KHÁC (GRID) ================= -->
@@ -1113,7 +1194,7 @@
   <!-- Carousel -->
   <div class="finance-carousel" id="finCarousel">
     
-    <!-- PAGE 1: Tổng quan & Tài sản khác -->
+    <!-- PAGE 1: Tổng quan & Dự tính lương -->
     <div class="finance-page" data-page="0">
       <div class="finance-dashboard">
         <div class="finance-balance-label">Tổng tài sản (Báo cáo)</div>
@@ -1139,22 +1220,51 @@
         </div>
       </div>
 
-      <!-- Tài sản & Khoản nợ khác -->
-      <div class="compact-card">
-        <div class="section-header">
-          <div class="section-title">Tài sản & Khoản nợ khác</div>
-          <button class="btn-small" id="btnAddAsset">+ Thêm</button>
+      <!-- Dự tính lương -->
+      <div class="salary-card">
+        <div class="compact-card-title" style="margin-bottom: 16px;"><svg class="hand-icon"><use href="#icon-wallet"/></svg> Dự tính lương</div>
+        
+        <div class="salary-row">
+          <div class="salary-label">Lương dự kiến</div>
+          <div class="salary-input-wrap">
+            <input type="text" class="currency-input" id="salaryIncome" placeholder="0">
+            <span style="font-weight:700; color:var(--pink-primary);">đ</span>
+          </div>
         </div>
-        <div class="asset-list" id="assetListContainer"></div>
+        <div class="salary-row">
+          <div class="salary-label">Tiền nhà</div>
+          <div class="salary-input-wrap">
+            <input type="text" class="currency-input" id="salaryRent" placeholder="0">
+            <span style="font-weight:700; color:var(--pink-primary);">đ</span>
+          </div>
+        </div>
+        <div class="salary-row">
+          <div class="salary-label">Sinh hoạt phí</div>
+          <div class="salary-input-wrap">
+            <input type="text" class="currency-input" id="salaryLiving" placeholder="0">
+            <span style="font-weight:700; color:var(--pink-primary);">đ</span>
+          </div>
+        </div>
+        <div class="salary-row">
+          <div class="salary-label">Trả góp / Nợ</div>
+          <div class="salary-input-wrap">
+            <input type="text" class="currency-input" id="salaryDebt" placeholder="0">
+            <span style="font-weight:700; color:var(--pink-primary);">đ</span>
+          </div>
+        </div>
+        
+        <div class="salary-result" id="salaryResult">
+          Dư kiến: 0 đ
+        </div>
       </div>
     </div>
 
     <!-- PAGE 2: Doanh thu & Bản kê tiền mặt -->
     <div class="finance-page" data-page="1">
-      <!-- Bảng doanh thu 7 ngày -->
+      <!-- Bảng kê doanh thu -->
       <div class="compact-card">
         <div class="compact-card-header">
-          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-chart"/></svg> Doanh thu 7 ngày</div>
+          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-chart"/></svg> Bảng kê doanh thu</div>
         </div>
         <div class="revenue-table" id="revenueTable"></div>
       </div>
@@ -1169,12 +1279,12 @@
       </div>
     </div>
 
-    <!-- PAGE 3: Ví/Ngân hàng & Chi tiêu thẻ tín dụng -->
+    <!-- PAGE 3: Bản kê tiền mới, Thẻ tín dụng & Tài sản khác -->
     <div class="finance-page" data-page="2">
-      <!-- Bản kê tiền mới (Ví điện tử / Ngân hàng) -->
+      <!-- Bản kê tiền mới -->
       <div class="compact-card">
         <div class="compact-card-header">
-          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-card"/></svg> Ví / Ngân hàng</div>
+          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-card"/></svg> Bản kê tiền mới</div>
           <div class="compact-card-total" id="newCashTotalLabel">0 đ</div>
         </div>
         <div class="cash-list-vertical" id="newCashGridContainer"></div>
@@ -1197,6 +1307,15 @@
         </div>
         <div class="credit-list" id="creditListContainer"></div>
         <button class="credit-add-btn" id="btnAddCredit">+ Thêm khoản chi</button>
+      </div>
+
+      <!-- Tài sản & Khoản nợ khác -->
+      <div class="compact-card">
+        <div class="section-header">
+          <div class="section-title">Tài sản & Khoản nợ khác</div>
+          <button class="btn-small" id="btnAddAsset">+ Thêm</button>
+        </div>
+        <div class="asset-list" id="assetListContainer"></div>
       </div>
 
       <!-- Nút Sao lưu / Khôi phục -->
@@ -1477,7 +1596,7 @@
   </div>
 </div>
 
-<!-- Viết Nhật ký Niềng răng (Có thêm số tiền) -->
+<!-- Viết Nhật ký Niềng răng -->
 <div class="overlay" id="bracesOverlay">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -1490,7 +1609,7 @@
 
     <div class="field">
       <label>Số tiền thanh toán (VNĐ)</label>
-      <input type="number" id="bracesAmount" placeholder="VD: 2000000">
+      <input type="text" class="currency-input" id="bracesAmount" placeholder="0">
       <div class="range-wrap">
         <input type="range" id="bracesAmountRange" min="0" max="50000000" step="100000" value="0">
         <div class="range-labels"><span>0</span><span>50 Triệu</span></div>
@@ -1536,7 +1655,7 @@
 
     <div class="field">
       <label>Giá trị (VNĐ) *</label>
-      <input type="number" id="assetValue" placeholder="VD: 10000000">
+      <input type="text" class="currency-input" id="assetValue" placeholder="0">
       <div class="range-wrap">
         <input type="range" id="assetValueRange" min="0" max="1000000000" step="1000000" value="0">
         <div class="range-labels"><span>0</span><span>1 Tỷ</span></div>
@@ -1575,7 +1694,7 @@
 
     <div class="field">
       <label>Số tiền (VNĐ) *</label>
-      <input type="number" id="creditAmount" placeholder="VD: 500000">
+      <input type="text" class="currency-input" id="creditAmount" placeholder="0">
       <div class="range-wrap">
         <input type="range" id="creditAmountRange" min="0" max="50000000" step="100000" value="0">
         <div class="range-labels"><span>0</span><span>50 Triệu</span></div>
@@ -1624,10 +1743,12 @@
   const STORAGE_KEY = 'places_v13';
   const DIARY_KEY = 'diary_v7';
   const NOTE_KEY = 'notes_v5';
-  const FINANCE_KEY = 'finance_v3';
-  const REVENUE_KEY = 'revenue_v2';
+  const FINANCE_KEY = 'finance_v4';
+  const REVENUE_KEY = 'revenue_v3';
   const SETTINGS_KEY = 'settings_v1';
-  const BRACES_KEY = 'braces_v1'; // New key for braces
+  const BRACES_KEY = 'braces_v2';
+  const SALARY_KEY = 'salary_v1';
+  const GOAL_KEY = 'goal_v1';
 
   const DENOMINATIONS = [500000, 200000, 100000, 50000, 20000, 10000, 5000, 2000, 1000];
 
@@ -1659,24 +1780,38 @@
     ]
   };
 
+  const SAMPLE_SALARY = {
+    income: 15000000,
+    rent: 3000000,
+    living: 4000000,
+    debt: 1000000
+  };
+
   const SAMPLE_SETTINGS = {
     name: 'Tran Hien',
     theme: 'pink',
     font: 'quicksand'
   };
 
+  const SAMPLE_GOALS = [
+    { id: 'g_1', text: 'Đi làm đúng giờ cả tuần', isDone: false },
+    { id: 'g_2', text: 'Hoàn thành báo cáo tháng', isDone: true }
+  ];
+
   let places = [];
   let diaries = [];
   let notes = [];
-  let braces = []; // New array for braces entries
+  let braces = [];
   let finances = { cash_counts: {}, cash_include: true, new_cash_counts: {}, new_cash_include: true, credit_expenses: [], other_assets: [] };
-  let revenues = {};
+  let revenues = {}; 
   let settings = { ...SAMPLE_SETTINGS };
+  let salaryData = { ...SAMPLE_SALARY };
+  let goals = [];
   
   let currentTab = 'places';
   let currentFinPage = 0;
   let currentOtherCategory = null; 
-  let currentDiaryMode = 'general'; // 'general' | 'braces'
+  let currentDiaryMode = 'general';
   
   // State cho Place
   let editPlaceId = null;
@@ -1702,6 +1837,7 @@
   let editDiaryId = null;
   let formDiaryMood = '';
   let selectedDiaryId = null;
+  let selectedDiaryType = 'diary';
   let diaryViewMode = 'timeline';
   let calCurrentDate = new Date();
 
@@ -1757,13 +1893,27 @@
     
     try {
       const rawRev = localStorage.getItem(REVENUE_KEY);
-      revenues = rawRev ? JSON.parse(rawRev) : {};
-    } catch(e) { revenues = {}; }
+      revenues = rawRev ? JSON.parse(rawRev) : { startDate: new Date().toISOString().split('T')[0], records: {} };
+    } catch(e) { revenues = { startDate: new Date().toISOString().split('T')[0], records: {} }; }
+    
+    if (!revenues.records) {
+      revenues = { startDate: new Date().toISOString().split('T')[0], records: revenues };
+    }
 
     try {
       const rawS = localStorage.getItem(SETTINGS_KEY);
       settings = rawS ? JSON.parse(rawS) : { ...SAMPLE_SETTINGS };
     } catch(e) { settings = { ...SAMPLE_SETTINGS }; }
+    
+    try {
+      const rawSal = localStorage.getItem(SALARY_KEY);
+      salaryData = rawSal ? JSON.parse(rawSal) : { ...SAMPLE_SALARY };
+    } catch(e) { salaryData = { ...SAMPLE_SALARY }; }
+
+    try {
+      const rawG = localStorage.getItem(GOAL_KEY);
+      goals = rawG ? JSON.parse(rawG) : [...SAMPLE_GOALS];
+    } catch(e) { goals = [...SAMPLE_GOALS]; }
 
     applySettings();
     saveData();
@@ -1778,6 +1928,8 @@
       localStorage.setItem(FINANCE_KEY, JSON.stringify(finances));
       localStorage.setItem(REVENUE_KEY, JSON.stringify(revenues));
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+      localStorage.setItem(SALARY_KEY, JSON.stringify(salaryData));
+      localStorage.setItem(GOAL_KEY, JSON.stringify(goals));
     } catch(e) { toast('⚠️ Lỗi lưu dữ liệu'); }
   }
 
@@ -1838,6 +1990,10 @@
     }
     return dateStr;
   }
+  
+  function parseCurrency(str) {
+    return Number(str.replace(/[^0-9]/g, '')) || 0;
+  }
 
   function toast(msg) {
     const t = $('toast');
@@ -1882,9 +2038,15 @@
       bracesTotal += (b.amount || 0);
     });
 
+    let revenueTotal = 0;
+    Object.values(revenues.records).forEach(amount => {
+      revenueTotal += amount;
+    });
+
     let otherAssetsTotal = 0;
     let loanOutTotal = 0;
-    let loanInTotal = creditTotal + bracesTotal; // Tiền niềng răng tính vào nợ
+    // Nợ = thẻ tín dụng + niềng răng + doanh thu (theo yêu cầu)
+    let loanInTotal = creditTotal + bracesTotal + revenueTotal; 
 
     finances.other_assets.forEach(a => {
       if (a.include) {
@@ -1901,7 +2063,7 @@
     totalAsset += loanOutTotal;
     totalAsset -= loanInTotal;
 
-    return { cashTotal, newCashTotal, creditTotal, bracesTotal, otherAssetsTotal, loanOutTotal, loanInTotal, totalAsset };
+    return { cashTotal, newCashTotal, creditTotal, bracesTotal, revenueTotal, otherAssetsTotal, loanOutTotal, loanInTotal, totalAsset };
   }
 
   /* ==================== TAB SWITCHER ==================== */
@@ -1952,10 +2114,61 @@
 
   /* ==================== TAB TRANG CHỦ ==================== */
   function renderHome() {
-    $('statPlaces').textContent = places.length;
-    $('statDiaries').textContent = diaries.length + braces.length;
-    $('statNotes').textContent = notes.length;
+    // Goal Widget
+    const goalList = $('homeGoalList');
+    if (goals.length === 0) {
+      goalList.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Chưa có mục tiêu nào.</div>`;
+    } else {
+      goalList.innerHTML = goals.map(g => `
+        <div class="goal-item ${g.isDone ? 'done' : ''}" data-id="${g.id}">
+          <div class="goal-check"><svg class="hand-icon"><use href="#icon-check-circle"/></svg></div>
+          <div class="goal-text">${esc(g.text)}</div>
+        </div>
+      `).join('');
+      
+      goalList.querySelectorAll('.goal-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const id = item.dataset.id;
+          const goal = goals.find(g => g.id === id);
+          if (goal) {
+            goal.isDone = !goal.isDone;
+            saveData();
+            renderHome();
+          }
+        });
+      });
+    }
 
+    // Mini Calendar
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+    const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+    
+    let calHtml = `
+      <div class="mini-cal-header">
+        <div class="mini-cal-title">${monthNames[currentMonth]}, ${currentYear}</div>
+        <div class="mini-cal-date">Hôm nay: ${today.getDate()}</div>
+      </div>
+      <div class="mini-cal-days">
+        <div class="mini-cal-day-name">CN</div><div class="mini-cal-day-name">T2</div><div class="mini-cal-day-name">T3</div>
+        <div class="mini-cal-day-name">T4</div><div class="mini-cal-day-name">T5</div><div class="mini-cal-day-name">T6</div><div class="mini-cal-day-name">T7</div>
+    `;
+    
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    
+    for (let i = 0; i < firstDay; i++) {
+      calHtml += `<div></div>`;
+    }
+    for (let i = 1; i <= daysInMonth; i++) {
+      const isToday = i === today.getDate();
+      calHtml += `<div class="mini-cal-day ${isToday ? 'active' : ''}">${i}</div>`;
+    }
+    calHtml += `</div>`;
+    $('homeMiniCal').innerHTML = calHtml;
+
+    // Suggest
     const wantPlaces = places.filter(p => p.status === 'want');
     const homeSuggest = $('homeSuggest');
     if (wantPlaces.length > 0) {
@@ -1971,33 +2184,6 @@
         <div class="suggest-title" style="font-size:16px;">Đã đi hết địa điểm rồi!</div>
         <div class="suggest-address">Hãy thêm địa điểm mới nhé.</div>
       `;
-    }
-
-    const todoList = $('todoMiniList');
-    const tasks = notes.filter(n => n.type === 'task' && !n.isCompleted).slice(0, 3);
-    
-    if (tasks.length > 0) {
-      todoList.innerHTML = tasks.map(t => `
-        <div class="todo-mini-item" data-id="${t.id}">
-          <div class="todo-mini-check"><svg class="hand-icon"><use href="#icon-check-circle"/></svg></div>
-          <div class="todo-mini-title">${esc(t.title)}</div>
-        </div>
-      `).join('');
-      
-      todoList.querySelectorAll('.todo-mini-item').forEach(item => {
-        item.addEventListener('click', () => {
-          const id = item.dataset.id;
-          const task = notes.find(n => n.id === id);
-          if (task) {
-            task.isCompleted = true;
-            saveData();
-            item.classList.add('done');
-            setTimeout(() => renderHome(), 300);
-          }
-        });
-      });
-    } else {
-      todoList.innerHTML = `<div style="background:var(--pink-surface); padding:16px; border-radius:16px; text-align:center; font-size:13px; color:var(--text-muted);">Chưa có việc nào cần làm.</div>`;
     }
   }
 
@@ -2122,7 +2308,7 @@
         $('diaryCalendarView').style.display = 'none';
         $('viewTimelineBtn').classList.add('active');
         $('viewCalendarBtn').classList.remove('active');
-        $('diaryViewToggleContainer').classList.remove('calendar-active');
+        $('diaryViewToggleContainer').querySelector('.diary-view-toggle').classList.remove('calendar-active');
         
         const wrap = $('timelineWrap');
         if (diaries.length === 0) {
@@ -2139,10 +2325,14 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(d.date)}</div>
-            <div class="timeline-card" onclick="openActionMenu('${d.id}', 'diary')">
+            <div class="timeline-card">
               <div class="timeline-title">${esc(d.title) || 'Không có tiêu đề'}</div>
               ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
               <div class="timeline-content">${esc(d.content)}</div>
+              <div class="timeline-actions">
+                <button onclick="openDiaryModal('${d.id}')"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-edit"/></svg> Sửa</button>
+                <button class="del-btn" onclick="askDelete('${d.id}', 'diary')"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-trash"/></svg> Xóa</button>
+              </div>
             </div>
           </div>
         `).join('');
@@ -2151,7 +2341,7 @@
         $('diaryCalendarView').style.display = 'block';
         $('viewTimelineBtn').classList.remove('active');
         $('viewCalendarBtn').classList.add('active');
-        $('diaryViewToggleContainer').classList.add('calendar-active');
+        $('diaryViewToggleContainer').querySelector('.diary-view-toggle').classList.add('calendar-active');
         renderCalendar();
       }
     } else {
@@ -2160,6 +2350,36 @@
       $('diaryBracesView').style.display = 'block';
       $('diaryViewToggleContainer').style.display = 'none';
       
+      // Dashboard logic
+      const dashboardEl = $('bracesDashboard');
+      
+      if (braces.length > 0) {
+        const sortedDates = braces.map(b => new Date(b.date).getTime()).sort((a,b) => a - b);
+        const startDate = new Date(sortedDates[0]);
+        const today = new Date();
+        startDate.setHours(0,0,0,0);
+        today.setHours(0,0,0,0);
+        const diffTime = Math.abs(today - startDate);
+        const daysPassed = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        const fin = calcFinance();
+        
+        dashboardEl.innerHTML = `
+          <div class="stat-box">
+            <div class="stat-val">${daysPassed}</div>
+            <div class="stat-lbl">Ngày đã niềng</div>
+          </div>
+          <div class="divider"></div>
+          <div class="stat-box">
+            <div class="stat-val" style="color:#dc2626;">${fmtMoney(fin.bracesTotal)}</div>
+            <div class="stat-lbl">Tổng tiền đã nộp</div>
+          </div>
+        `;
+        dashboardEl.style.display = 'flex';
+      } else {
+        dashboardEl.style.display = 'none';
+      }
+
       const wrap = $('bracesTimelineWrap');
       if (braces.length === 0) {
         wrap.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-tooth"/></svg></div><h3>Chưa có nhật ký niềng răng</h3><p>Nhấn nút <b>+</b> để ghi lại ngày tái khám và số tiền thanh toán nhé!</p></div>`;
@@ -2172,15 +2392,17 @@
       });
 
       wrap.innerHTML = sorted.map(b => `
-        <div class="timeline-item">
-          <div class="timeline-dot" style="border-color: #3b82f6;"></div>
-          <div class="timeline-date" style="color: #3b82f6;"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(b.date)}</div>
-          <div class="timeline-card" onclick="openActionMenu('${b.id}', 'braces')">
-            <div class="timeline-title">${esc(b.title) || 'Tái khám'}</div>
-            <div class="timeline-mood" style="background:#eff6ff; color:#2563eb;">
-              <svg class="hand-icon"><use href="#icon-dollar"/></svg> ${fmtMoney(b.amount)}
+        <div class="braces-timeline-item">
+          <div class="braces-timeline-dot"></div>
+          <div class="braces-timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(b.date)}</div>
+          <div class="braces-timeline-card">
+            <div class="braces-timeline-title">${esc(b.title) || 'Tái khám'}</div>
+            <div class="braces-timeline-amount">${fmtMoney(b.amount)}</div>
+            <div class="braces-timeline-content">${esc(b.content)}</div>
+            <div class="timeline-actions">
+              <button onclick="openBracesModal('${b.id}')"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-edit"/></svg> Sửa</button>
+              <button class="del-btn" onclick="askDelete('${b.id}', 'braces')"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-trash"/></svg> Xóa</button>
             </div>
-            <div class="timeline-content">${esc(b.content)}</div>
           </div>
         </div>
       `).join('');
@@ -2242,7 +2464,7 @@
         const dateStr = el.dataset.date;
         const dayDiaries = diaries.filter(d => d.date === dateStr);
         if (dayDiaries.length > 0) {
-          openActionMenu(dayDiaries[0].id, 'diary');
+          openDiaryModal(dayDiaries[0].id);
         } else {
           openDiaryModal(null);
           $('diaryDateInput').value = dateStr;
@@ -2397,7 +2619,14 @@
     $('finLoanOut').textContent = fmtMoney(fin.loanOutTotal);
     $('finLoanIn').textContent = fmtMoney(fin.loanInTotal);
 
-    // 1. Cash List (Vertical)
+    // 1. Salary Planning
+    $('salaryIncome').value = salaryData.income ? salaryData.income.toLocaleString('vi-VN') : '';
+    $('salaryRent').value = salaryData.rent ? salaryData.rent.toLocaleString('vi-VN') : '';
+    $('salaryLiving').value = salaryData.living ? salaryData.living.toLocaleString('vi-VN') : '';
+    $('salaryDebt').value = salaryData.debt ? salaryData.debt.toLocaleString('vi-VN') : '';
+    updateSalaryResult();
+
+    // 2. Cash List (Vertical)
     $('cashTotalLabel').textContent = fmtMoney(fin.cashTotal);
     const cashGrid = $('cashGridContainer');
     cashGrid.innerHTML = DENOMINATIONS.map(d => {
@@ -2413,7 +2642,7 @@
       `;
     }).join('');
 
-    // 2. New Cash List (Vertical)
+    // 3. New Cash List (Vertical)
     $('newCashTotalLabel').textContent = fmtMoney(fin.newCashTotal);
     $('newCashInclude').checked = finances.new_cash_include;
     const newCashGrid = $('newCashGridContainer');
@@ -2451,7 +2680,7 @@
       });
     });
 
-    // 3. Credit Expenses List
+    // 4. Credit Expenses List
     $('creditTotalLabel').textContent = fmtMoney(fin.creditTotal);
     const creditList = $('creditListContainer');
     if (finances.credit_expenses.length === 0) {
@@ -2460,39 +2689,44 @@
       creditList.innerHTML = finances.credit_expenses.map(c => `
         <div class="credit-row">
           <input type="text" class="c-name" value="${esc(c.name)}" placeholder="Tên khoản chi..." readonly onclick="openCreditModal('${c.id}')" style="cursor:pointer;">
-          <input type="number" class="c-amount" value="${c.amount}" readonly onclick="openCreditModal('${c.id}')" style="cursor:pointer;">
+          <input type="text" class="c-amount" value="${c.amount.toLocaleString('vi-VN')}" readonly onclick="openCreditModal('${c.id}')" style="cursor:pointer; text-align:right;">
           <div class="c-del" onclick="askDelete('${c.id}', 'credit')"><svg class="hand-icon"><use href="#icon-trash"/></svg></div>
         </div>
       `).join('');
     }
 
-    // 4. Revenue Table (7 days)
+    // 5. Revenue Table (7 days)
     const revTable = $('revenueTable');
     let revHtml = `
       <div class="rev-row header">
         <div class="rev-col-date">Ngày</div>
         <div class="rev-col-amount">Số tiền</div>
-        <div class="rev-col-note">Ghi chú</div>
       </div>
     `;
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
+    
+    if (!revenues.startDate) {
+      revenues.startDate = new Date().toISOString().split('T')[0];
+    }
+    const startDate = new Date(revenues.startDate);
+    
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(startDate);
+      d.setDate(d.getDate() + i);
       const dateStr = d.toISOString().split('T')[0];
       const label = formatDateDDMMYYYY(dateStr);
-      const revData = revenues[dateStr] || { amount: 0, note: '' };
+      const amount = revenues.records[dateStr] || 0;
       
       revHtml += `
         <div class="rev-row" data-date="${dateStr}">
           <div class="rev-col-date">
-            <input type="text" class="rev-input-date" value="${label}" readonly onclick="this.nextElementSibling.showPicker()">
-            <input type="date" class="rev-input-date-real" value="${dateStr}">
+            ${i === 0 
+              ? `<input type="text" class="rev-input-date" value="${label}" readonly onclick="this.nextElementSibling.showPicker()">
+                 <input type="date" class="rev-input-date-real" value="${dateStr}">` 
+              : `<div style="padding:8px 10px; font-size:12.5px; font-weight:600; text-align:center; color:var(--text-muted);">${label}</div>`
+            }
           </div>
           <div class="rev-col-amount">
-            <input type="number" class="rev-input-amount" value="${revData.amount > 0 ? revData.amount : ''}" placeholder="0">
-          </div>
-          <div class="rev-col-note">
-            <input type="text" class="rev-input-note" value="${esc(revData.note)}" placeholder="Ghi chú...">
+            <input type="text" class="rev-input-amount currency-input" value="${amount > 0 ? amount.toLocaleString('vi-VN') : ''}" placeholder="0">
           </div>
         </div>
       `;
@@ -2502,40 +2736,32 @@
     revTable.querySelectorAll('.rev-row[data-date]').forEach(row => {
       const dateStr = row.dataset.date;
       const amountInput = row.querySelector('.rev-input-amount');
-      const noteInput = row.querySelector('.rev-input-note');
       const dateRealInput = row.querySelector('.rev-input-date-real');
-      const dateTextInput = row.querySelector('.rev-input-date');
       
-      dateRealInput.addEventListener('change', (e) => {
-        const newDateStr = e.target.value;
-        if(newDateStr) {
-          dateTextInput.value = formatDateDDMMYYYY(newDateStr);
-          row.dataset.date = newDateStr;
-          const amount = parseFloat(amountInput.value) || 0;
-          const note = noteInput.value.trim();
-          if (amount === 0 && !note) delete revenues[newDateStr];
-          else revenues[newDateStr] = { amount, note };
-          if (dateStr !== newDateStr) {
-            delete revenues[dateStr];
+      if (dateRealInput) {
+        dateRealInput.addEventListener('change', (e) => {
+          const newDateStr = e.target.value;
+          if(newDateStr) {
+            revenues.startDate = newDateStr;
             saveData();
+            renderFinance();
           }
-        }
-      });
+        });
+      }
 
-      const saveRow = () => {
-        const currentDate = row.dataset.date;
-        const amount = parseFloat(amountInput.value) || 0;
-        const note = noteInput.value.trim();
-        if (amount === 0 && !note) delete revenues[currentDate];
-        else revenues[currentDate] = { amount, note };
+      amountInput.addEventListener('change', (e) => {
+        const amount = parseCurrency(e.target.value);
+        if (amount === 0) delete revenues.records[dateStr];
+        else revenues.records[dateStr] = amount;
         saveData();
-      };
-      
-      amountInput.addEventListener('change', saveRow);
-      noteInput.addEventListener('change', saveRow);
+        
+        const f = calcFinance();
+        $('finLoanIn').textContent = fmtMoney(f.loanInTotal);
+        $('finTotalAsset').textContent = fmtMoney(f.totalAsset);
+      });
     });
 
-    // 5. Other Assets List
+    // 6. Other Assets List
     const assetList = $('assetListContainer');
     if (finances.other_assets.length === 0) {
       assetList.innerHTML = `<div style="text-align:center; padding: 20px; color:var(--text-muted); font-size:13px;">Chưa có tài sản nào. Bấm "+ Thêm" để thêm.</div>`;
@@ -2558,7 +2784,36 @@
     }
   }
 
-  // Toggle cho Ví/Ngân hàng
+  // Salary Events
+  function updateSalaryResult() {
+    const income = parseCurrency($('salaryIncome').value);
+    const rent = parseCurrency($('salaryRent').value);
+    const living = parseCurrency($('salaryLiving').value);
+    const debt = parseCurrency($('salaryDebt').value);
+    
+    const remaining = income - (rent + living + debt);
+    $('salaryResult').textContent = `Dư kiến: ${fmtMoney(remaining)}`;
+  }
+
+  ['salaryIncome', 'salaryRent', 'salaryLiving', 'salaryDebt'].forEach(id => {
+    $(id).addEventListener('input', () => {
+      updateSalaryResult();
+    });
+    $(id).addEventListener('blur', (e) => {
+      const val = parseCurrency(e.target.value);
+      e.target.value = val > 0 ? val.toLocaleString('vi-VN') : '';
+      
+      salaryData = {
+        income: parseCurrency($('salaryIncome').value),
+        rent: parseCurrency($('salaryRent').value),
+        living: parseCurrency($('salaryLiving').value),
+        debt: parseCurrency($('salaryDebt').value)
+      };
+      saveData();
+    });
+  });
+
+  // Toggle cho Bản kê tiền mới
   $('newCashInclude').addEventListener('change', (e) => {
     finances.new_cash_include = e.target.checked;
     saveData();
@@ -2587,7 +2842,7 @@
 
   /* ==================== EXPORT / IMPORT ==================== */
   $('btnExportData').addEventListener('click', () => {
-    const backup = { places, diaries, braces, notes, finances, revenues, settings, exportedAt: new Date().toISOString(), version: 'v20' };
+    const backup = { places, diaries, braces, notes, finances, revenues, settings, salaryData, goals, exportedAt: new Date().toISOString(), version: 'v27' };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -2629,9 +2884,17 @@
           if (!finances.credit_expenses) finances.credit_expenses = [];
           if (!finances.other_assets) finances.other_assets = [];
         }
-        if (data.revenues && typeof data.revenues === 'object') revenues = data.revenues;
-        else revenues = {};
+        if (data.revenues && typeof data.revenues === 'object') {
+          revenues = data.revenues;
+          if (!revenues.records) {
+            revenues = { startDate: new Date().toISOString().split('T')[0], records: revenues };
+          }
+        } else {
+          revenues = { startDate: new Date().toISOString().split('T')[0], records: {} };
+        }
         if (data.settings && typeof data.settings === 'object') settings = data.settings;
+        if (data.salaryData && typeof data.salaryData === 'object') salaryData = data.salaryData;
+        if (Array.isArray(data.goals)) goals = data.goals;
         
         applySettings();
         saveData();
@@ -2726,25 +2989,6 @@
     else if(type === 'note') openNoteModal(id);
   };
 
-  /* ==================== ACTION MENU NHẬT KÝ / NIỀNG RĂNG ==================== */
-  window.openActionMenu = function(id, type) {
-    selectedDiaryId = id;
-    selectedDiaryType = type; // 'diary' or 'braces'
-    $('actionMenuOverlay').classList.add('show');
-  };
-  $('btnMenuCancel').addEventListener('click', () => $('actionMenuOverlay').classList.remove('show'));
-  $('actionMenuOverlay').addEventListener('click', e => { if (e.target === $('actionMenuOverlay')) $('actionMenuOverlay').classList.remove('show'); });
-  
-  $('btnMenuEdit').addEventListener('click', () => {
-    $('actionMenuOverlay').classList.remove('show');
-    if (selectedDiaryType === 'braces') openBracesModal(selectedDiaryId);
-    else openDiaryModal(selectedDiaryId);
-  });
-  $('btnMenuDelete').addEventListener('click', () => {
-    $('actionMenuOverlay').classList.remove('show');
-    askDelete(selectedDiaryId, selectedDiaryType);
-  });
-
   /* ==================== FORMS ==================== */
   function openPlaceModal(id) {
     editPlaceId = id || null;
@@ -2833,7 +3077,6 @@
     });
   }
 
-  // Braces Modal
   function openBracesModal(id) {
     editBracesId = id || null;
     if (id) {
@@ -2841,7 +3084,7 @@
       if (!b) return;
       $('bracesModalTitle').textContent = 'Sửa nhật ký Niềng răng';
       $('bracesDateInput').value = b.date || new Date().toISOString().split('T')[0];
-      $('bracesAmount').value = b.amount || '';
+      $('bracesAmount').value = b.amount ? b.amount.toLocaleString('vi-VN') : '';
       $('bracesAmountRange').value = b.amount || 0;
       $('bracesTitle').value = b.title || '';
       $('bracesContent').value = b.content || '';
@@ -2858,8 +3101,12 @@
   }
   function closeBracesModal() { $('bracesOverlay').classList.remove('show'); editBracesId = null; }
 
-  $('bracesAmountRange').addEventListener('input', (e) => { $('bracesAmount').value = e.target.value; });
-  $('bracesAmount').addEventListener('input', (e) => { $('bracesAmountRange').value = Math.min(parseFloat(e.target.value) || 0, 50000000); });
+  $('bracesAmountRange').addEventListener('input', (e) => { $('bracesAmount').value = Number(e.target.value).toLocaleString('vi-VN'); });
+  $('bracesAmount').addEventListener('input', (e) => { $('bracesAmountRange').value = Math.min(parseCurrency(e.target.value), 50000000); });
+  $('bracesAmount').addEventListener('blur', (e) => {
+    const val = parseCurrency(e.target.value);
+    e.target.value = val > 0 ? val.toLocaleString('vi-VN') : '';
+  });
 
   window.openAssetModal = function(id) {
     editAssetId = id || null;
@@ -2868,7 +3115,7 @@
       if (!a) return;
       $('assetModalTitle').textContent = 'Sửa Tài sản';
       $('assetName').value = a.name || '';
-      $('assetValue').value = a.value || '';
+      $('assetValue').value = a.value ? a.value.toLocaleString('vi-VN') : '';
       $('assetValueRange').value = a.value || 0;
       $('assetInclude').checked = a.include;
       setFormAssetType(a.type || 'stock');
@@ -2893,7 +3140,7 @@
       if (!c) return;
       $('creditModalTitle').textContent = 'Sửa khoản chi';
       $('creditName').value = c.name || '';
-      $('creditAmount').value = c.amount || '';
+      $('creditAmount').value = c.amount ? c.amount.toLocaleString('vi-VN') : '';
       $('creditAmountRange').value = c.amount || 0;
     } else {
       $('creditModalTitle').textContent = 'Thêm khoản chi';
@@ -2906,11 +3153,19 @@
   }
   function closeCreditModal() { $('creditOverlay').classList.remove('show'); editCreditId = null; }
 
-  $('assetValueRange').addEventListener('input', (e) => { $('assetValue').value = e.target.value; });
-  $('assetValue').addEventListener('input', (e) => { $('assetValueRange').value = Math.min(parseFloat(e.target.value) || 0, 1000000000); });
+  $('assetValueRange').addEventListener('input', (e) => { $('assetValue').value = Number(e.target.value).toLocaleString('vi-VN'); });
+  $('assetValue').addEventListener('input', (e) => { $('assetValueRange').value = Math.min(parseCurrency(e.target.value), 1000000000); });
+  $('assetValue').addEventListener('blur', (e) => {
+    const val = parseCurrency(e.target.value);
+    e.target.value = val > 0 ? val.toLocaleString('vi-VN') : '';
+  });
   
-  $('creditAmountRange').addEventListener('input', (e) => { $('creditAmount').value = e.target.value; });
-  $('creditAmount').addEventListener('input', (e) => { $('creditAmountRange').value = Math.min(parseFloat(e.target.value) || 0, 50000000); });
+  $('creditAmountRange').addEventListener('input', (e) => { $('creditAmount').value = Number(e.target.value).toLocaleString('vi-VN'); });
+  $('creditAmount').addEventListener('input', (e) => { $('creditAmountRange').value = Math.min(parseCurrency(e.target.value), 50000000); });
+  $('creditAmount').addEventListener('blur', (e) => {
+    const val = parseCurrency(e.target.value);
+    e.target.value = val > 0 ? val.toLocaleString('vi-VN') : '';
+  });
 
   /* ==================== AUTOCOMPLETE ==================== */
   function setupAutocomplete(inputId, listId) {
@@ -3007,7 +3262,7 @@
     else if (currentTab === 'finance') {
       if (currentFinPage === 0) window.openAssetModal(null);
       else if (currentFinPage === 1) window.openCreditModal(null);
-      else if (currentFinPage === 2) window.openCreditModal(null); // Fallback
+      else if (currentFinPage === 2) window.openCreditModal(null);
     }
     else if (currentTab === 'home') openPlaceModal(null); 
   });
@@ -3082,7 +3337,7 @@
 
   $('saveBracesBtn').addEventListener('click', () => {
     const title = $('bracesTitle').value.trim();
-    const amount = parseFloat($('bracesAmount').value) || 0;
+    const amount = parseCurrency($('bracesAmount').value);
     
     if (!title) { $('bracesTitle').focus(); return toast('Nhập tiêu đề (VD: Tái khám tháng 10)'); }
     
@@ -3104,7 +3359,7 @@
 
   $('saveAssetBtn').addEventListener('click', () => {
     const name = $('assetName').value.trim();
-    const value = parseFloat($('assetValue').value);
+    const value = parseCurrency($('assetValue').value);
     const include = $('assetInclude').checked;
     if (!name) { $('assetName').focus(); return toast('Nhập tên tài sản'); }
     if (!value || value <= 0) { $('assetValue').focus(); return toast('Nhập giá trị hợp lệ'); }
@@ -3123,7 +3378,7 @@
 
   $('saveCreditBtn').addEventListener('click', () => {
     const name = $('creditName').value.trim();
-    const amount = parseFloat($('creditAmount').value);
+    const amount = parseCurrency($('creditAmount').value);
     if (!name) { $('creditName').focus(); return toast('Nhập tên khoản chi'); }
     if (!amount || amount <= 0) { $('creditAmount').focus(); return toast('Nhập số tiền hợp lệ'); }
     
