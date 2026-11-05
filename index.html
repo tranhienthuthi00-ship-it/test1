@@ -114,11 +114,6 @@
     display: flex; align-items: center; gap: 8px; cursor: pointer;
   }
   .greeting svg { width: 24px; height: 24px; stroke: var(--pink-primary); }
-  .greeting .avatar {
-    width: 32px; height: 32px; border-radius: 50%; background: var(--pink-light);
-    display: flex; align-items: center; justify-content: center; font-size: 16px; margin-left: auto;
-    color: var(--pink-primary);
-  }
   
   .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
   .stat-card {
@@ -332,28 +327,49 @@
 
   /* ================= TAB NHẬT KÝ ================= */
   .diary-header-tools {
-    display: flex; justify-content: center; align-items: center;
-    padding: 0 16px 16px;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 0 16px 16px; gap: 12px;
   }
   
-  .view-toggle {
+  /* Segmented Control: Nhật ký / Niềng răng */
+  .diary-main-tabs {
     display: flex; background: var(--pink-surface); border-radius: 999px; padding: 4px; 
     box-shadow: var(--shadow-sm); border: 1px solid var(--border);
-    position: relative; overflow: hidden; width: 100%; max-width: 300px;
+    position: relative; overflow: hidden; width: 100%; max-width: 320px;
   }
-  .view-toggle button {
+  .diary-main-tabs button {
     flex: 1; padding: 10px 0; border-radius: 999px; border: none; background: transparent;
     font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text-muted);
     cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.3s ease;
     z-index: 1;
   }
-  .view-toggle button.active { color: white; }
-  .view-toggle .slider-bg {
+  .diary-main-tabs button.active { color: white; }
+  .diary-main-tabs .slider-bg {
     position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px);
     background: var(--pink-primary); border-radius: 999px; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
     box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 0;
   }
-  .view-toggle.calendar-active .slider-bg { transform: translateX(100%); }
+  .diary-main-tabs.braces-active .slider-bg { transform: translateX(100%); }
+
+  /* Sub Toggle (Timeline / Calendar) */
+  .diary-view-toggle {
+    display: flex; background: var(--pink-surface); border-radius: 999px; padding: 4px; 
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+    position: relative; overflow: hidden; width: 100%; max-width: 300px;
+  }
+  .diary-view-toggle button {
+    flex: 1; padding: 8px 0; border-radius: 999px; border: none; background: transparent;
+    font-family: inherit; font-size: 12px; font-weight: 600; color: var(--text-muted);
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.3s ease;
+    z-index: 1;
+  }
+  .diary-view-toggle button.active { color: white; }
+  .diary-view-toggle .slider-bg {
+    position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px);
+    background: var(--pink-primary); border-radius: 999px; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 0;
+  }
+  .diary-view-toggle.calendar-active .slider-bg { transform: translateX(100%); }
 
   /* Timeline View */
   .timeline-wrap { padding: 0 16px 20px; position: relative; }
@@ -396,6 +412,11 @@
     font-size: 11px; font-weight: 600; color: var(--pink-dark); margin-top: 8px;
   }
   .timeline-mood svg { width: 12px; height: 12px;}
+  .timeline-amount {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; background: #fef2f2; border-radius: 999px;
+    font-size: 11px; font-weight: 700; color: #dc2626; margin-top: 8px; margin-left: 6px;
+  }
 
   /* Calendar View */
   .calendar-wrap { padding: 0 12px 20px; }
@@ -844,6 +865,7 @@
   <symbol id="icon-notebook" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 4v16"/><path d="M12 8h4M12 12h4M12 16h4"/><path d="M4 8h4M4 12h4M4 16h4"/></symbol>
   <symbol id="icon-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
   <symbol id="icon-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.4 1 1.1 1 1.9v.4h6v-.4c0-.8.4-1.5 1-1.9A7 7 0 0 0 12 2z"/></symbol>
+  <symbol id="icon-tooth" viewBox="0 0 24 24"><path d="M12 2C8 2 5 4 5 9c0 5 2 9 3 13h8c1-4 3-8 3-13 0-5-3-7-7-7z"/><path d="M9 22v-4h6v4"/></symbol>
   
   <!-- Finance Icons -->
   <symbol id="icon-wallet" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H5a2 2 0 0 1-2-2z"/><path d="M3 7a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v2"/><circle cx="16" cy="13" r="2"/></symbol>
@@ -968,7 +990,15 @@
 <!-- ================= TAB 2: NHẬT KÝ ================= -->
 <div class="tab-content" id="tab-diary">
   <div class="diary-header-tools">
-    <div class="view-toggle" id="viewToggleContainer">
+    <!-- Chuyển đổi Nhật ký chung / Niềng răng -->
+    <div class="diary-main-tabs" id="diaryMainTabsContainer">
+      <div class="slider-bg"></div>
+      <button id="tabDiaryGeneral" class="active">Nhật ký</button>
+      <button id="tabDiaryBraces">Niềng răng</button>
+    </div>
+
+    <!-- Chuyển đổi Dòng thời gian / Lịch (Chỉ hiện ở Nhật ký chung) -->
+    <div class="diary-view-toggle" id="diaryViewToggleContainer">
       <div class="slider-bg"></div>
       <button id="viewTimelineBtn" class="active">
         <svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-list"/></svg> Dòng thời gian
@@ -979,29 +1009,34 @@
     </div>
   </div>
 
-  <!-- Dòng thời gian -->
-  <div id="diaryTimelineView">
-    <div class="timeline-wrap" id="timelineWrap"></div>
-  </div>
-
-  <!-- Lịch -->
-  <div id="diaryCalendarView" style="display:none;">
-    <div class="calendar-wrap">
-      <div class="calendar-header">
-        <div class="calendar-month-year" id="calMonthYear">October <span>2026</span></div>
-        <div class="calendar-nav">
-          <button id="calPrevBtn"><svg class="hand-icon"><use href="#icon-chevron-left"/></svg></button>
-          <button id="calNextBtn"><svg class="hand-icon"><use href="#icon-chevron-right"/></svg></button>
-          <button id="calTodayBtn" style="width:auto; padding:0 12px; font-size:12px; font-weight:600; border-radius:12px; font-family:inherit;">Hôm nay</button>
+  <!-- Vùng hiển thị Nhật ký chung -->
+  <div id="diaryGeneralView">
+    <div id="diaryTimelineView">
+      <div class="timeline-wrap" id="timelineWrap"></div>
+    </div>
+    <div id="diaryCalendarView" style="display:none;">
+      <div class="calendar-wrap">
+        <div class="calendar-header">
+          <div class="calendar-month-year" id="calMonthYear">October <span>2026</span></div>
+          <div class="calendar-nav">
+            <button id="calPrevBtn"><svg class="hand-icon"><use href="#icon-chevron-left"/></svg></button>
+            <button id="calNextBtn"><svg class="hand-icon"><use href="#icon-chevron-right"/></svg></button>
+            <button id="calTodayBtn" style="width:auto; padding:0 12px; font-size:12px; font-weight:600; border-radius:12px; font-family:inherit;">Hôm nay</button>
+          </div>
         </div>
-      </div>
-      <div class="calendar-grid">
-        <div class="calendar-weekdays">
-          <div>CN</div><div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div>
+        <div class="calendar-grid">
+          <div class="calendar-weekdays">
+            <div>CN</div><div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div>
+          </div>
+          <div class="calendar-days" id="calDays"></div>
         </div>
-        <div class="calendar-days" id="calDays"></div>
       </div>
     </div>
+  </div>
+
+  <!-- Vùng hiển thị Nhật ký Niềng răng -->
+  <div id="diaryBracesView" style="display:none;">
+    <div class="timeline-wrap" id="bracesTimelineWrap"></div>
   </div>
 </div>
 
@@ -1442,6 +1477,42 @@
   </div>
 </div>
 
+<!-- Viết Nhật ký Niềng răng (Có thêm số tiền) -->
+<div class="overlay" id="bracesOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2><span id="bracesModalTitle">Nhật ký Niềng răng</span> <button id="closeBracesModal"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+
+    <div class="field">
+      <label>Ngày</label>
+      <input type="date" id="bracesDateInput">
+    </div>
+
+    <div class="field">
+      <label>Số tiền thanh toán (VNĐ)</label>
+      <input type="number" id="bracesAmount" placeholder="VD: 2000000">
+      <div class="range-wrap">
+        <input type="range" id="bracesAmountRange" min="0" max="50000000" step="100000" value="0">
+        <div class="range-labels"><span>0</span><span>50 Triệu</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tiêu đề</label>
+      <input type="text" id="bracesTitle" placeholder="VD: Tái khám tháng 10">
+    </div>
+
+    <div class="field">
+      <label>Nội dung / Ghi chú</label>
+      <textarea id="bracesContent" placeholder="Bác sĩ siết răng, thay thun..." style="min-height: 120px;"></textarea>
+    </div>
+
+    <button class="save-btn" id="saveBracesBtn">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu nhật ký
+    </button>
+  </div>
+</div>
+
 <!-- Thêm Tài sản (Tài chính) -->
 <div class="overlay" id="assetOverlay">
   <div class="modal">
@@ -1556,6 +1627,7 @@
   const FINANCE_KEY = 'finance_v3';
   const REVENUE_KEY = 'revenue_v2';
   const SETTINGS_KEY = 'settings_v1';
+  const BRACES_KEY = 'braces_v1'; // New key for braces
 
   const DENOMINATIONS = [500000, 200000, 100000, 50000, 20000, 10000, 5000, 2000, 1000];
 
@@ -1567,6 +1639,9 @@
   ];
   const SAMPLE_DIARIES = [
     { id: 'd_1', date: '2023-11-10', title: 'Một ngày dạo phố', content: 'Hôm nay đi cà phê với hội bạn thân, trời đẹp và mát mẻ. Rất vui!', mood: '😊 Vui vẻ', createdAt: Date.now() - 50000 }
+  ];
+  const SAMPLE_BRACES = [
+    { id: 'b_1', date: '2023-11-01', title: 'Bắt đầu niềng răng', content: 'Gắn mắc cài kim loại. Đau nhức 3 ngày đầu.', amount: 15000000, createdAt: Date.now() - 400000 }
   ];
   
   const SAMPLE_FINANCE = {
@@ -1593,6 +1668,7 @@
   let places = [];
   let diaries = [];
   let notes = [];
+  let braces = []; // New array for braces entries
   let finances = { cash_counts: {}, cash_include: true, new_cash_counts: {}, new_cash_include: true, credit_expenses: [], other_assets: [] };
   let revenues = {};
   let settings = { ...SAMPLE_SETTINGS };
@@ -1600,6 +1676,7 @@
   let currentTab = 'places';
   let currentFinPage = 0;
   let currentOtherCategory = null; 
+  let currentDiaryMode = 'general'; // 'general' | 'braces'
   
   // State cho Place
   let editPlaceId = null;
@@ -1628,6 +1705,9 @@
   let diaryViewMode = 'timeline';
   let calCurrentDate = new Date();
 
+  // State cho Braces
+  let editBracesId = null;
+
   // State cho Finance
   let editAssetId = null;
   let formAssetType = 'stock';
@@ -1649,6 +1729,11 @@
       const rawD = localStorage.getItem(DIARY_KEY);
       diaries = rawD ? JSON.parse(rawD) : [...SAMPLE_DIARIES];
     } catch(e) { diaries = [...SAMPLE_DIARIES]; }
+    
+    try {
+      const rawB = localStorage.getItem(BRACES_KEY);
+      braces = rawB ? JSON.parse(rawB) : [...SAMPLE_BRACES];
+    } catch(e) { braces = [...SAMPLE_BRACES]; }
 
     try {
       const rawN = localStorage.getItem(NOTE_KEY);
@@ -1688,6 +1773,7 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(places));
       localStorage.setItem(DIARY_KEY, JSON.stringify(diaries));
+      localStorage.setItem(BRACES_KEY, JSON.stringify(braces));
       localStorage.setItem(NOTE_KEY, JSON.stringify(notes));
       localStorage.setItem(FINANCE_KEY, JSON.stringify(finances));
       localStorage.setItem(REVENUE_KEY, JSON.stringify(revenues));
@@ -1726,7 +1812,8 @@
     stock:  { label:'Chứng khoán', icon:'#icon-trending-up' },
     gold:   { label:'Vàng', icon:'#icon-package' },
     loan_out:{ label:'Cho vay', icon:'#icon-trending-up' },
-    loan_in:{ label:'Đi vay', icon:'#icon-trending-down' }
+    loan_in:{ label:'Đi vay', icon:'#icon-trending-down' },
+    braces: { label:'Niềng răng', icon:'#icon-tooth' }
   };
   const STATUS = {
     want: { label:'Chưa đi', icon:'#icon-circle', cls:'want' },
@@ -1790,9 +1877,14 @@
       creditTotal += c.amount;
     });
 
+    let bracesTotal = 0;
+    braces.forEach(b => {
+      bracesTotal += (b.amount || 0);
+    });
+
     let otherAssetsTotal = 0;
     let loanOutTotal = 0;
-    let loanInTotal = creditTotal;
+    let loanInTotal = creditTotal + bracesTotal; // Tiền niềng răng tính vào nợ
 
     finances.other_assets.forEach(a => {
       if (a.include) {
@@ -1809,7 +1901,7 @@
     totalAsset += loanOutTotal;
     totalAsset -= loanInTotal;
 
-    return { cashTotal, newCashTotal, creditTotal, otherAssetsTotal, loanOutTotal, loanInTotal, totalAsset };
+    return { cashTotal, newCashTotal, creditTotal, bracesTotal, otherAssetsTotal, loanOutTotal, loanInTotal, totalAsset };
   }
 
   /* ==================== TAB SWITCHER ==================== */
@@ -1861,7 +1953,7 @@
   /* ==================== TAB TRANG CHỦ ==================== */
   function renderHome() {
     $('statPlaces').textContent = places.length;
-    $('statDiaries').textContent = diaries.length;
+    $('statDiaries').textContent = diaries.length + braces.length;
     $('statNotes').textContent = notes.length;
 
     const wantPlaces = places.filter(p => p.status === 'want');
@@ -2020,42 +2112,78 @@
 
   /* ==================== TAB 2: NHẬT KÝ ==================== */
   function renderDiaries() {
-    if (diaryViewMode === 'timeline') {
-      $('diaryTimelineView').style.display = 'block';
-      $('diaryCalendarView').style.display = 'none';
-      $('viewTimelineBtn').classList.add('active');
-      $('viewCalendarBtn').classList.remove('active');
-      $('viewToggleContainer').classList.remove('calendar-active');
+    if (currentDiaryMode === 'general') {
+      $('diaryGeneralView').style.display = 'block';
+      $('diaryBracesView').style.display = 'none';
+      $('diaryViewToggleContainer').style.display = 'flex';
       
-      const wrap = $('timelineWrap');
-      if (diaries.length === 0) {
-        wrap.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-book"/></svg></div><h3>Chưa có bài viết nào</h3><p>Nhấn nút <b>+</b> để viết lại những kỷ niệm đáng nhớ nhé!</p></div>`;
+      if (diaryViewMode === 'timeline') {
+        $('diaryTimelineView').style.display = 'block';
+        $('diaryCalendarView').style.display = 'none';
+        $('viewTimelineBtn').classList.add('active');
+        $('viewCalendarBtn').classList.remove('active');
+        $('diaryViewToggleContainer').classList.remove('calendar-active');
+        
+        const wrap = $('timelineWrap');
+        if (diaries.length === 0) {
+          wrap.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-book"/></svg></div><h3>Chưa có bài viết nào</h3><p>Nhấn nút <b>+</b> để viết lại những kỷ niệm đáng nhớ nhé!</p></div>`;
+          return;
+        }
+
+        const sorted = diaries.slice().sort((a,b) => {
+          if (a.date !== b.date) return b.date.localeCompare(a.date);
+          return b.createdAt - a.createdAt;
+        });
+
+        wrap.innerHTML = sorted.map(d => `
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(d.date)}</div>
+            <div class="timeline-card" onclick="openActionMenu('${d.id}', 'diary')">
+              <div class="timeline-title">${esc(d.title) || 'Không có tiêu đề'}</div>
+              ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
+              <div class="timeline-content">${esc(d.content)}</div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        $('diaryTimelineView').style.display = 'none';
+        $('diaryCalendarView').style.display = 'block';
+        $('viewTimelineBtn').classList.remove('active');
+        $('viewCalendarBtn').classList.add('active');
+        $('diaryViewToggleContainer').classList.add('calendar-active');
+        renderCalendar();
+      }
+    } else {
+      // Braces Mode
+      $('diaryGeneralView').style.display = 'none';
+      $('diaryBracesView').style.display = 'block';
+      $('diaryViewToggleContainer').style.display = 'none';
+      
+      const wrap = $('bracesTimelineWrap');
+      if (braces.length === 0) {
+        wrap.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-tooth"/></svg></div><h3>Chưa có nhật ký niềng răng</h3><p>Nhấn nút <b>+</b> để ghi lại ngày tái khám và số tiền thanh toán nhé!</p></div>`;
         return;
       }
 
-      const sorted = diaries.slice().sort((a,b) => {
+      const sorted = braces.slice().sort((a,b) => {
         if (a.date !== b.date) return b.date.localeCompare(a.date);
         return b.createdAt - a.createdAt;
       });
 
-      wrap.innerHTML = sorted.map(d => `
+      wrap.innerHTML = sorted.map(b => `
         <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(d.date)}</div>
-          <div class="timeline-card" onclick="openActionMenu('${d.id}')">
-            <div class="timeline-title">${esc(d.title) || 'Không có tiêu đề'}</div>
-            ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
-            <div class="timeline-content">${esc(d.content)}</div>
+          <div class="timeline-dot" style="border-color: #3b82f6;"></div>
+          <div class="timeline-date" style="color: #3b82f6;"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(b.date)}</div>
+          <div class="timeline-card" onclick="openActionMenu('${b.id}', 'braces')">
+            <div class="timeline-title">${esc(b.title) || 'Tái khám'}</div>
+            <div class="timeline-mood" style="background:#eff6ff; color:#2563eb;">
+              <svg class="hand-icon"><use href="#icon-dollar"/></svg> ${fmtMoney(b.amount)}
+            </div>
+            <div class="timeline-content">${esc(b.content)}</div>
           </div>
         </div>
       `).join('');
-    } else {
-      $('diaryTimelineView').style.display = 'none';
-      $('diaryCalendarView').style.display = 'block';
-      $('viewTimelineBtn').classList.remove('active');
-      $('viewCalendarBtn').classList.add('active');
-      $('viewToggleContainer').classList.add('calendar-active');
-      renderCalendar();
     }
   }
 
@@ -2114,7 +2242,7 @@
         const dateStr = el.dataset.date;
         const dayDiaries = diaries.filter(d => d.date === dateStr);
         if (dayDiaries.length > 0) {
-          openActionMenu(dayDiaries[0].id);
+          openActionMenu(dayDiaries[0].id, 'diary');
         } else {
           openDiaryModal(null);
           $('diaryDateInput').value = dateStr;
@@ -2129,6 +2257,22 @@
   
   $('viewTimelineBtn').addEventListener('click', () => { diaryViewMode = 'timeline'; renderDiaries(); });
   $('viewCalendarBtn').addEventListener('click', () => { diaryViewMode = 'calendar'; renderDiaries(); });
+  
+  // Sự kiện chuyển tab Nhật ký / Niềng răng
+  $('tabDiaryGeneral').addEventListener('click', () => {
+    currentDiaryMode = 'general';
+    $('tabDiaryGeneral').classList.add('active');
+    $('tabDiaryBraces').classList.remove('active');
+    $('diaryMainTabsContainer').classList.remove('braces-active');
+    renderDiaries();
+  });
+  $('tabDiaryBraces').addEventListener('click', () => {
+    currentDiaryMode = 'braces';
+    $('tabDiaryGeneral').classList.remove('active');
+    $('tabDiaryBraces').classList.add('active');
+    $('diaryMainTabsContainer').classList.add('braces-active');
+    renderDiaries();
+  });
 
   /* ==================== TAB 3: KHÁC ==================== */
   function renderOthers() {
@@ -2443,7 +2587,7 @@
 
   /* ==================== EXPORT / IMPORT ==================== */
   $('btnExportData').addEventListener('click', () => {
-    const backup = { places, diaries, notes, finances, revenues, settings, exportedAt: new Date().toISOString(), version: 'v19' };
+    const backup = { places, diaries, braces, notes, finances, revenues, settings, exportedAt: new Date().toISOString(), version: 'v20' };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -2474,6 +2618,7 @@
         
         if (Array.isArray(data.places)) places = data.places;
         if (Array.isArray(data.diaries)) diaries = data.diaries;
+        if (Array.isArray(data.braces)) braces = data.braces;
         if (Array.isArray(data.notes)) notes = data.notes;
         if (data.finances && typeof data.finances === 'object') {
           finances = data.finances;
@@ -2581,9 +2726,10 @@
     else if(type === 'note') openNoteModal(id);
   };
 
-  /* ==================== ACTION MENU NHẬT KÝ ==================== */
-  window.openActionMenu = function(id) {
+  /* ==================== ACTION MENU NHẬT KÝ / NIỀNG RĂNG ==================== */
+  window.openActionMenu = function(id, type) {
     selectedDiaryId = id;
+    selectedDiaryType = type; // 'diary' or 'braces'
     $('actionMenuOverlay').classList.add('show');
   };
   $('btnMenuCancel').addEventListener('click', () => $('actionMenuOverlay').classList.remove('show'));
@@ -2591,11 +2737,12 @@
   
   $('btnMenuEdit').addEventListener('click', () => {
     $('actionMenuOverlay').classList.remove('show');
-    openDiaryModal(selectedDiaryId);
+    if (selectedDiaryType === 'braces') openBracesModal(selectedDiaryId);
+    else openDiaryModal(selectedDiaryId);
   });
   $('btnMenuDelete').addEventListener('click', () => {
     $('actionMenuOverlay').classList.remove('show');
-    askDelete(selectedDiaryId, 'diary');
+    askDelete(selectedDiaryId, selectedDiaryType);
   });
 
   /* ==================== FORMS ==================== */
@@ -2685,6 +2832,34 @@
       else o.style.borderColor = 'var(--pink-primary)', o.style.background = 'var(--pink-surface)', o.style.color = 'var(--pink-primary)';
     });
   }
+
+  // Braces Modal
+  function openBracesModal(id) {
+    editBracesId = id || null;
+    if (id) {
+      const b = braces.find(x => x.id === id);
+      if (!b) return;
+      $('bracesModalTitle').textContent = 'Sửa nhật ký Niềng răng';
+      $('bracesDateInput').value = b.date || new Date().toISOString().split('T')[0];
+      $('bracesAmount').value = b.amount || '';
+      $('bracesAmountRange').value = b.amount || 0;
+      $('bracesTitle').value = b.title || '';
+      $('bracesContent').value = b.content || '';
+    } else {
+      $('bracesModalTitle').textContent = 'Thêm nhật ký Niềng răng';
+      $('bracesDateInput').value = new Date().toISOString().split('T')[0];
+      $('bracesAmount').value = '';
+      $('bracesAmountRange').value = 0;
+      $('bracesTitle').value = '';
+      $('bracesContent').value = '';
+    }
+    $('bracesOverlay').classList.add('show');
+    setTimeout(() => $('bracesTitle').focus(), 300);
+  }
+  function closeBracesModal() { $('bracesOverlay').classList.remove('show'); editBracesId = null; }
+
+  $('bracesAmountRange').addEventListener('input', (e) => { $('bracesAmount').value = e.target.value; });
+  $('bracesAmount').addEventListener('input', (e) => { $('bracesAmountRange').value = Math.min(parseFloat(e.target.value) || 0, 50000000); });
 
   window.openAssetModal = function(id) {
     editAssetId = id || null;
@@ -2825,7 +3000,10 @@
       if (currentOtherCategory) openNoteModal(null);
       else toast('Vui lòng chọn một mục để thêm');
     }
-    else if (currentTab === 'diary') openDiaryModal(null);
+    else if (currentTab === 'diary') {
+      if (currentDiaryMode === 'general') openDiaryModal(null);
+      else openBracesModal(null);
+    }
     else if (currentTab === 'finance') {
       if (currentFinPage === 0) window.openAssetModal(null);
       else if (currentFinPage === 1) window.openCreditModal(null);
@@ -2840,6 +3018,7 @@
   $('closePlaceModal').addEventListener('click', closePlaceModal);
   $('closeNoteModal').addEventListener('click', closeNoteModal);
   $('closeDiaryModal').addEventListener('click', closeDiaryModal);
+  $('closeBracesModal').addEventListener('click', closeBracesModal);
   $('closeAssetModal').addEventListener('click', closeAssetModal);
   $('closeCreditModal').addEventListener('click', closeCreditModal);
 
@@ -2899,6 +3078,28 @@
       diaries.push({ id: 'd_' + Date.now(), ...data, createdAt: Date.now() });
     }
     saveData(); renderDiaries(); closeDiaryModal(); toast('✅ Đã lưu');
+  });
+
+  $('saveBracesBtn').addEventListener('click', () => {
+    const title = $('bracesTitle').value.trim();
+    const amount = parseFloat($('bracesAmount').value) || 0;
+    
+    if (!title) { $('bracesTitle').focus(); return toast('Nhập tiêu đề (VD: Tái khám tháng 10)'); }
+    
+    const data = { 
+      date: $('bracesDateInput').value, 
+      title, 
+      amount,
+      content: $('bracesContent').value.trim() 
+    };
+    
+    if (editBracesId) {
+      const b = braces.find(x => x.id === editBracesId);
+      if (b) Object.assign(b, data);
+    } else {
+      braces.push({ id: 'b_' + Date.now(), ...data, createdAt: Date.now() });
+    }
+    saveData(); renderDiaries(); closeBracesModal(); toast('✅ Đã lưu nhật ký niềng răng');
   });
 
   $('saveAssetBtn').addEventListener('click', () => {
@@ -2988,6 +3189,7 @@
     if (type === 'place') name = (places.find(x => x.id === id) || {}).name || 'Địa điểm';
     else if (type === 'note') name = (notes.find(x => x.id === id) || {}).title || 'Ghi chú';
     else if (type === 'diary') name = (diaries.find(x => x.id === id) || {}).title || 'Nhật ký';
+    else if (type === 'braces') name = (braces.find(x => x.id === id) || {}).title || 'Niềng răng';
     else if (type === 'asset') name = (finances.other_assets.find(x => x.id === id) || {}).name || 'Tài sản';
     else if (type === 'credit') name = (finances.credit_expenses.find(x => x.id === id) || {}).name || 'Khoản chi';
     
@@ -3001,6 +3203,7 @@
       if (pendingDeleteType === 'place') places = places.filter(p => p.id !== pendingDeleteId);
       else if (pendingDeleteType === 'note') notes = notes.filter(n => n.id !== pendingDeleteId);
       else if (pendingDeleteType === 'diary') diaries = diaries.filter(d => d.id !== pendingDeleteId);
+      else if (pendingDeleteType === 'braces') braces = braces.filter(b => b.id !== pendingDeleteId);
       else if (pendingDeleteType === 'asset') finances.other_assets = finances.other_assets.filter(a => a.id !== pendingDeleteId);
       else if (pendingDeleteType === 'credit') finances.credit_expenses = finances.credit_expenses.filter(c => c.id !== pendingDeleteId);
       
