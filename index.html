@@ -1,61 +1,253 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Home Cute</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: #fef6f9;
-    }
-
-    /* Thanh menu */
-    .navbar {
-      display: flex;
-      flex-wrap: wrap;              /* nhiều nút thì tự xuống dòng */
-      gap: 10px;
-      justify-content: center;
-      padding: 15px;
-      background: #ffd6e8;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-
-    /* Nút dễ thương */
-    .nav-btn {
-      background: #fff;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 20px;
-      font-size: 15px;
-      cursor: pointer;
-      color: #ff5fa2;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-      transition: all 0.2s ease;
-    }
-
-    .nav-btn:hover {
-      transform: translateY(-2px);
-      background: #ffedf4;
-    }
-
-    .nav-btn:active {
-      transform: scale(0.95);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f8f6f1">
+<title>My Personal Space</title>
+<style>
+:root{
+  --bg:#f8f6f1;--paper:#fffefa;--ink:#34352f;--muted:#898a80;
+  --line:#e9e5dc;--purple:#7778a9;--purple-soft:#eeedf7;
+  --peach:#f3d9c8;--green:#dce9dc;--yellow:#f5ebc9;--pink:#f3e0e3;
+  --shadow:0 8px 28px rgba(65,58,43,.055);--radius:22px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:-.2px}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:1180px;margin:auto;min-height:100vh;display:flex}
+.sidebar{width:220px;padding:30px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:28px;flex-shrink:0}
+.brand{font-size:17px;font-weight:800;letter-spacing:1.2px;padding:4px 10px}
+.brand small{display:block;font-size:10px;letter-spacing:2px;color:var(--muted);font-weight:600;margin-top:5px}
+.profile{display:flex;align-items:center;gap:10px;padding:0 8px}
+.avatar{width:38px;height:38px;border-radius:14px;background:var(--peach);display:grid;place-items:center;font-size:17px}
+.profile strong{display:block;font-size:13px}.profile span{font-size:11px;color:var(--muted)}
+.nav{display:grid;gap:7px}
+.nav button{border:0;background:transparent;text-align:left;padding:12px 13px;border-radius:13px;color:#77786f;font-size:13px;display:flex;gap:11px;align-items:center}
+.nav button.active,.nav button:hover{background:var(--purple-soft);color:#565783;font-weight:700}
+.nav .ico{width:18px;text-align:center;font-size:16px}
+.side-bottom{margin-top:auto;padding:12px;color:var(--muted);font-size:11px;line-height:1.6}
+.main{min-width:0;flex:1;padding:34px 36px 60px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.greeting small{color:var(--muted);font-size:12px}.greeting h1{font-size:27px;margin:5px 0 0;letter-spacing:-1px}
+.today{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:12px;color:#777}
+.page{display:none}.page.active{display:block}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:26px 0 13px}
+.section-head h2{font-size:15px;margin:0}.section-head span{font-size:11px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:19px;box-shadow:var(--shadow);min-width:0}
+.card h3{font-size:14px;margin:0 0 5px}.sub{font-size:11px;color:var(--muted)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.dot-icon{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font-size:16px}
+.purple{background:var(--purple-soft)}.peach{background:#f8e9df}.green{background:var(--green)}.yellow{background:var(--yellow)}.pink{background:var(--pink)}
+.add{border:0;background:var(--purple-soft);color:#5e6091;border-radius:10px;padding:8px 11px;font-size:11px;font-weight:700}
+.add:hover{filter:brightness(.97)}
+.item-list{display:grid;gap:9px}
+.item{display:flex;align-items:center;gap:9px;padding:9px 10px;background:#faf9f5;border-radius:12px;font-size:12px;min-width:0}
+.item span.txt{flex:1;overflow-wrap:anywhere}
+.item.done .txt{text-decoration:line-through;color:#aaa}
+.item input[type=checkbox]{accent-color:var(--purple);width:15px;height:15px}
+.icon-btn{border:0;background:transparent;color:#aaa;padding:3px;font-size:15px}
+.empty{font-size:11px;color:#aaa;text-align:center;padding:14px 5px}
+.quick-add{display:flex;gap:7px;margin-top:12px}
+.quick-add input{min-width:0;flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 11px;font-size:12px;outline:none}
+.quick-add input:focus,textarea:focus,input:focus{border-color:#b6b6d4}
+.note-box{width:100%;min-height:110px;resize:vertical;border:1px solid var(--line);border-radius:13px;background:#fffefa;padding:12px;font-size:12px;line-height:1.6;outline:none}
+.highlight{background:#fcf6e6;border-radius:15px;padding:14px;font-size:12px;line-height:1.6}
+.progress{height:6px;background:#efeee9;border-radius:20px;overflow:hidden;margin:12px 0 6px}.progress i{display:block;height:100%;width:0;background:#9999bd;border-radius:20px}
+.calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.calendar-head strong{font-size:14px}.month-actions{display:flex;gap:6px}.month-actions button{border:1px solid var(--line);background:white;border-radius:9px;padding:6px 10px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day-name{text-align:center;font-size:10px;color:var(--muted);padding:6px 0}
+.day{min-height:67px;border:1px solid var(--line);border-radius:11px;padding:7px;background:#fffefa;font-size:11px;text-align:left;color:var(--ink)}
+.day.muted{opacity:.35}.day.today{border:1.5px solid var(--purple);background:var(--purple-soft)}
+.day .event-dot{display:block;width:5px;height:5px;background:#c78e80;border-radius:50%;margin-top:7px}
+.event-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:13px}
+.event-form input{min-width:0;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;background:white}
+.event-list{display:grid;gap:8px;margin-top:13px}
+.event-row{display:flex;gap:10px;align-items:center;padding:10px;background:#faf9f5;border-radius:12px;font-size:12px}
+.event-date{font-size:10px;color:#7778a9;min-width:48px;font-weight:700}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.toolbar input,.toolbar select{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fff;font-size:12px}
+.modal-backdrop{position:fixed;inset:0;background:#25251f55;display:none;align-items:center;justify-content:center;padding:20px;z-index:5}
+.modal-backdrop.show{display:flex}.modal{background:var(--paper);border-radius:20px;padding:22px;width:min(420px,100%);box-shadow:0 20px 70px #0002}
+.modal h3{margin:0 0 14px}.modal input,.modal textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;margin:5px 0 12px;outline:none}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px}.secondary{border:1px solid var(--line);background:white;border-radius:10px;padding:9px 13px;font-size:12px}
+.mobile-nav{display:none}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:10px 15px;border-radius:20px;font-size:12px;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1}
+@media(max-width:760px){
+ .app{display:block}.sidebar{display:none}.main{padding:23px 16px 100px}
+ .topbar{margin-bottom:20px}.greeting h1{font-size:23px}.today{font-size:10px;padding:9px}
+ .grid{gap:10px}.card{padding:15px;border-radius:18px}.card h3{font-size:13px}
+ .section-head{margin:22px 0 11px}
+ .mobile-nav{display:flex;position:fixed;z-index:4;bottom:0;left:0;right:0;padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#fffefaed;backdrop-filter:blur(15px);border-top:1px solid var(--line);justify-content:space-around}
+ .mobile-nav button{border:0;background:transparent;color:#888;font-size:9px;display:grid;justify-items:center;gap:3px;padding:4px 8px}
+ .mobile-nav button b{font-size:18px;font-weight:400}.mobile-nav button.active{color:#62638f;font-weight:700}
+ .event-form{grid-template-columns:1fr 1fr}.event-form button{grid-column:1/-1}
+ .day{min-height:51px;padding:5px;font-size:10px}.calendar{gap:4px}
+}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.topbar{align-items:flex-start}.today{max-width:115px;text-align:center}}
+</style>
 </head>
 <body>
+<div class="app">
+ <aside class="sidebar">
+  <div class="brand">MY SPACE<small>PERSONAL DASHBOARD</small></div>
+  <div class="profile"><div class="avatar">🌷</div><div><strong>My little space</strong><span>Make today count</span></div></div>
+  <nav class="nav">
+   <button class="active" data-page="home"><span class="ico">⌂</span>Overview</button>
+   <button data-page="tasks"><span class="ico">☑</span>My tasks</button>
+   <button data-page="calendar"><span class="ico">▦</span>Calendar</button>
+   <button data-page="notes"><span class="ico">✎</span>Notes</button>
+  </nav>
+  <div class="side-bottom">A calm place to plan, focus<br>and take care of yourself. ♡</div>
+ </aside>
+ <main class="main">
+  <header class="topbar">
+   <div class="greeting"><small id="greeting">YOUR PERSONAL SPACE</small><h1 id="pageTitle">A little progress every day ✨</h1></div>
+   <div class="today" id="todayLabel"></div>
+  </header>
 
-  <div class="navbar">
-    <button class="nav-btn">🏠 Home</button>
-    <button class="nav-btn">📖 About</button>
-    <button class="nav-btn">🛠 Services</button>
-    <button class="nav-btn">🧁 Blog</button>
-    <button class="nav-btn">📸 Gallery</button>
-    <button class="nav-btn">💖 Favorites</button>
-    <button class="nav-btn">📞 Contact</button>
-    <button class="nav-btn">⚙ Settings</button>
-  </div>
+  <section class="page active" id="home">
+   <div class="section-head"><h2>Today at a glance</h2><span id="todayCount">A fresh start ♡</span></div>
+   <div class="grid">
+    <article class="card">
+     <div class="card-top"><div><h3>My goals</h3><div class="sub">Little steps, big changes</div></div><div class="dot-icon purple">✧</div></div>
+     <div class="item-list" id="goalList"></div>
+     <div class="progress"><i id="goalProgress"></i></div><div class="sub" id="goalStats">0 completed</div>
+     <div class="quick-add"><input id="goalInput" placeholder="Add a goal..."><button class="add" onclick="addItem('goals','goalInput')">＋ Add</button></div>
+    </article>
+    <article class="card">
+     <div class="card-top"><div><h3>To do</h3><div class="sub">Focus on what matters</div></div><div class="dot-icon peach">☼</div></div>
+     <div class="item-list" id="taskList"></div>
+     <div class="quick-add"><input id="taskInput" placeholder="What's next?"><button class="add" onclick="addItem('tasks','taskInput')">＋ Add</button></div>
+    </article>
+    <article class="card">
+     <div class="card-top"><div><h3>Quick notes</h3><div class="sub">A place for passing thoughts</div></div><div class="dot-icon green">✎</div></div>
+     <textarea class="note-box" id="quickNote" placeholder="Write anything on your mind..."></textarea>
+     <div class="sub" style="margin-top:7px">Automatically saved on this device</div>
+    </article>
+    <article class="card">
+     <div class="card-top"><div><h3>Keep in mind</h3><div class="sub">Important things to remember</div></div><div class="dot-icon yellow">♡</div></div>
+     <div class="item-list" id="importantList"></div>
+     <div class="quick-add"><input id="importantInput" placeholder="Remember to..."><button class="add" onclick="addItem('important','importantInput')">＋ Add</button></div>
+    </article>
+   </div>
+   <div class="section-head"><h2>Coming up</h2><span>Upcoming events</span></div>
+   <article class="card"><div class="event-list" id="upcomingList"></div><button class="add" style="margin-top:12px" onclick="navigate('calendar')">＋ Add an event</button></article>
+  </section>
 
+  <section class="page" id="tasks">
+   <div class="section-head"><h2>My tasks</h2><span>One thing at a time</span></div>
+   <article class="card">
+    <div class="quick-add"><input id="allTaskInput" placeholder="Add a task..."><button class="add" onclick="addItem('tasks','allTaskInput')">＋ Add task</button></div>
+    <div class="item-list" id="allTaskList" style="margin-top:15px"></div>
+   </article>
+   <div class="section-head"><h2>My goals</h2><span>Keep moving forward</span></div>
+   <article class="card"><div class="item-list" id="allGoalList"></div><div class="quick-add"><input id="allGoalInput" placeholder="Add a goal..."><button class="add" onclick="addItem('goals','allGoalInput')">＋ Add goal</button></div></article>
+  </section>
+
+  <section class="page" id="calendar">
+   <div class="section-head"><h2>My calendar</h2><span>Plan gently, not perfectly</span></div>
+   <article class="card">
+    <div class="calendar-head"><strong id="monthLabel"></strong><div class="month-actions"><button onclick="changeMonth(-1)">‹</button><button onclick="changeMonth(1)">›</button></div></div>
+    <div class="calendar" id="calendarGrid"></div>
+   </article>
+   <div class="section-head"><h2>Add an event</h2><span>Save a date to remember</span></div>
+   <article class="card">
+    <form class="event-form" id="eventForm"><input id="eventName" placeholder="Event name" required><input id="eventDate" type="date" required><button class="add">＋ Save event</button></form>
+    <div class="event-list" id="allEvents"></div>
+   </article>
+  </section>
+
+  <section class="page" id="notes">
+   <div class="section-head"><h2>My notes</h2><span>Your thoughts, all in one place</span></div>
+   <article class="card"><h3>Quick note</h3><textarea class="note-box" id="fullNote" style="min-height:260px;margin-top:12px" placeholder="Start writing..."></textarea><div class="sub" style="margin-top:8px">Your note is saved automatically on this device.</div></article>
+   <div class="section-head"><h2>Important reminders</h2></div>
+   <article class="card"><div class="item-list" id="notesImportantList"></div><div class="quick-add"><input id="notesImportantInput" placeholder="Add a reminder..."><button class="add" onclick="addItem('important','notesImportantInput')">＋ Add</button></div></article>
+  </section>
+ </main>
+</div>
+<nav class="mobile-nav">
+ <button class="active" data-page="home"><b>⌂</b>Home</button>
+ <button data-page="tasks"><b>☑</b>Tasks</button>
+ <button data-page="calendar"><b>▦</b>Calendar</button>
+ <button data-page="notes"><b>✎</b>Notes</button>
+</nav>
+<div class="toast" id="toast">Saved ♡</div>
+<script>
+const KEY='my-personal-space-v1';
+const initial={goals:[],tasks:[],important:[],events:[],quickNote:'',fullNote:''};
+let data={...initial,...JSON.parse(localStorage.getItem(KEY)||'{}')};
+let viewDate=new Date();
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(KEY,JSON.stringify(data));}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function toast(msg='Saved ♡'){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1400);}
+function renderList(type,target){
+ const el=$(target);if(!el)return;
+ const arr=data[type]||[];
+ el.innerHTML=arr.length?arr.map((x,i)=>`<div class="item ${x.done?'done':''}"><input type="checkbox" ${x.done?'checked':''} onchange="toggleItem('${type}',${i})"><span class="txt">${escapeHTML(x.text)}</span><button class="icon-btn" aria-label="Delete" onclick="removeItem('${type}',${i})">×</button></div>`).join(''):'<div class="empty">Nothing here yet. Add a little something ♡</div>';
+}
+function render(){
+ renderList('goals','goalList');renderList('tasks','taskList');renderList('important','importantList');
+ renderList('tasks','allTaskList');renderList('goals','allGoalList');renderList('important','notesImportantList');
+ const goals=data.goals||[],done=goals.filter(x=>x.done).length;
+ $('goalProgress').style.width=(goals.length?done/goals.length*100:0)+'%';
+ $('goalStats').textContent=`${done} / ${goals.length} goals completed`;
+ $('quickNote').value=data.quickNote||'';$('fullNote').value=data.fullNote||'';
+ $('todayCount').textContent=`${(data.tasks||[]).filter(x=>!x.done).length} tasks to do today`;
+ renderEvents();renderCalendar();
+}
+function addItem(type,inputId){
+ const input=$(inputId),text=input.value.trim();if(!text)return;
+ data[type].push({text,done:false});input.value='';save();render();toast('Added ♡');
+}
+function toggleItem(type,i){data[type][i].done=!data[type][i].done;save();render();}
+function removeItem(type,i){data[type].splice(i,1);save();render();toast('Removed');}
+function navigate(page){
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===page));
+ document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+ const titles={home:'A little progress every day ✨',tasks:'One thing at a time ☁️',calendar:'Make room for what matters',notes:'Your thoughts live here'};
+ $('pageTitle').textContent=titles[page];$('greeting').textContent=page==='home'?'YOUR PERSONAL SPACE':'MY '+page.toUpperCase();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page)));
+function dateKey(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function renderEvents(){
+ const sorted=[...(data.events||[])].sort((a,b)=>a.date.localeCompare(b.date));
+ const today=dateKey(new Date());
+ const upcoming=sorted.filter(e=>e.date>=today);
+ const make=e=>`<div class="event-row"><span class="event-date">${new Date(e.date+'T00:00:00').toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'})}</span><span style="flex:1">${escapeHTML(e.name)}</span><button class="icon-btn" onclick="removeEvent('${e.id}')">×</button></div>`;
+ $('upcomingList').innerHTML=upcoming.length?upcoming.slice(0,4).map(make).join(''):'<div class="empty">No upcoming events. Enjoy the space ♡</div>';
+ $('allEvents').innerHTML=sorted.length?sorted.map(make).join(''):'<div class="empty">Your calendar is waiting for an event.</div>';
+}
+function removeEvent(id){data.events=data.events.filter(e=>e.id!==id);save();renderEvents();renderCalendar();}
+$('eventForm').addEventListener('submit',e=>{e.preventDefault();data.events.push({id:Date.now().toString(),name:$('eventName').value.trim(),date:$('eventDate').value});$('eventName').value='';$('eventDate').value='';save();renderEvents();renderCalendar();toast('Event saved ♡');});
+function renderCalendar(){
+ const y=viewDate.getFullYear(),m=viewDate.getMonth();
+ $('monthLabel').textContent=viewDate.toLocaleDateString('vi-VN',{month:'long',year:'numeric'});
+ const first=new Date(y,m,1),start=(first.getDay()+6)%7,days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate();
+ const names=['T2','T3','T4','T5','T6','T7','CN'];
+ let out=names.map(n=>`<div class="day-name">${n}</div>`).join('');
+ for(let i=0;i<42;i++){
+  let n,month=m,year=y,muted=false;
+  if(i<start){n=prevDays-start+i+1;muted=true;if(m===0){month=11;year=y-1}else month=m-1;}
+  else if(i>=start+days){n=i-start-days+1;muted=true;if(m===11){month=0;year=y+1}else month=m+1;}
+  else n=i-start+1;
+  const key=dateKey(new Date(year,month,n)),has=(data.events||[]).some(e=>e.date===key),today=key===dateKey(new Date());
+  out+=`<div class="day ${muted?'muted':''} ${today?'today':''}">${n}${has?'<i class="event-dot"></i>':''}</div>`;
+ }
+ $('calendarGrid').innerHTML=out;
+}
+function changeMonth(step){viewDate.setMonth(viewDate.getMonth()+step);renderCalendar();}
+$('quickNote').addEventListener('input',e=>{data.quickNote=e.target.value;save();});
+$('fullNote').addEventListener('input',e=>{data.fullNote=e.target.value;save();});
+const now=new Date();
+$('todayLabel').textContent=now.toLocaleDateString('vi-VN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+$('eventDate').min=dateKey(new Date());
+render();
+</script>
 </body>
 </html>
