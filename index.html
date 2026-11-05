@@ -2,252 +2,1713 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f8f6f1">
-<title>My Personal Space</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#fbcfe8">
+<title>📍 Sổ Tay Cá Nhân</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#f8f6f1;--paper:#fffefa;--ink:#34352f;--muted:#898a80;
-  --line:#e9e5dc;--purple:#7778a9;--purple-soft:#eeedf7;
-  --peach:#f3d9c8;--green:#dce9dc;--yellow:#f5ebc9;--pink:#f3e0e3;
-  --shadow:0 8px 28px rgba(65,58,43,.055);--radius:22px;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:-.2px}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.app{max-width:1180px;margin:auto;min-height:100vh;display:flex}
-.sidebar{width:220px;padding:30px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:28px;flex-shrink:0}
-.brand{font-size:17px;font-weight:800;letter-spacing:1.2px;padding:4px 10px}
-.brand small{display:block;font-size:10px;letter-spacing:2px;color:var(--muted);font-weight:600;margin-top:5px}
-.profile{display:flex;align-items:center;gap:10px;padding:0 8px}
-.avatar{width:38px;height:38px;border-radius:14px;background:var(--peach);display:grid;place-items:center;font-size:17px}
-.profile strong{display:block;font-size:13px}.profile span{font-size:11px;color:var(--muted)}
-.nav{display:grid;gap:7px}
-.nav button{border:0;background:transparent;text-align:left;padding:12px 13px;border-radius:13px;color:#77786f;font-size:13px;display:flex;gap:11px;align-items:center}
-.nav button.active,.nav button:hover{background:var(--purple-soft);color:#565783;font-weight:700}
-.nav .ico{width:18px;text-align:center;font-size:16px}
-.side-bottom{margin-top:auto;padding:12px;color:var(--muted);font-size:11px;line-height:1.6}
-.main{min-width:0;flex:1;padding:34px 36px 60px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
-.greeting small{color:var(--muted);font-size:12px}.greeting h1{font-size:27px;margin:5px 0 0;letter-spacing:-1px}
-.today{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:12px;color:#777}
-.page{display:none}.page.active{display:block}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin:26px 0 13px}
-.section-head h2{font-size:15px;margin:0}.section-head span{font-size:11px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
-.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:19px;box-shadow:var(--shadow);min-width:0}
-.card h3{font-size:14px;margin:0 0 5px}.sub{font-size:11px;color:var(--muted)}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
-.dot-icon{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font-size:16px}
-.purple{background:var(--purple-soft)}.peach{background:#f8e9df}.green{background:var(--green)}.yellow{background:var(--yellow)}.pink{background:var(--pink)}
-.add{border:0;background:var(--purple-soft);color:#5e6091;border-radius:10px;padding:8px 11px;font-size:11px;font-weight:700}
-.add:hover{filter:brightness(.97)}
-.item-list{display:grid;gap:9px}
-.item{display:flex;align-items:center;gap:9px;padding:9px 10px;background:#faf9f5;border-radius:12px;font-size:12px;min-width:0}
-.item span.txt{flex:1;overflow-wrap:anywhere}
-.item.done .txt{text-decoration:line-through;color:#aaa}
-.item input[type=checkbox]{accent-color:var(--purple);width:15px;height:15px}
-.icon-btn{border:0;background:transparent;color:#aaa;padding:3px;font-size:15px}
-.empty{font-size:11px;color:#aaa;text-align:center;padding:14px 5px}
-.quick-add{display:flex;gap:7px;margin-top:12px}
-.quick-add input{min-width:0;flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 11px;font-size:12px;outline:none}
-.quick-add input:focus,textarea:focus,input:focus{border-color:#b6b6d4}
-.note-box{width:100%;min-height:110px;resize:vertical;border:1px solid var(--line);border-radius:13px;background:#fffefa;padding:12px;font-size:12px;line-height:1.6;outline:none}
-.highlight{background:#fcf6e6;border-radius:15px;padding:14px;font-size:12px;line-height:1.6}
-.progress{height:6px;background:#efeee9;border-radius:20px;overflow:hidden;margin:12px 0 6px}.progress i{display:block;height:100%;width:0;background:#9999bd;border-radius:20px}
-.calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
-.calendar-head strong{font-size:14px}.month-actions{display:flex;gap:6px}.month-actions button{border:1px solid var(--line);background:white;border-radius:9px;padding:6px 10px}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.day-name{text-align:center;font-size:10px;color:var(--muted);padding:6px 0}
-.day{min-height:67px;border:1px solid var(--line);border-radius:11px;padding:7px;background:#fffefa;font-size:11px;text-align:left;color:var(--ink)}
-.day.muted{opacity:.35}.day.today{border:1.5px solid var(--purple);background:var(--purple-soft)}
-.day .event-dot{display:block;width:5px;height:5px;background:#c78e80;border-radius:50%;margin-top:7px}
-.event-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:13px}
-.event-form input{min-width:0;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;background:white}
-.event-list{display:grid;gap:8px;margin-top:13px}
-.event-row{display:flex;gap:10px;align-items:center;padding:10px;background:#faf9f5;border-radius:12px;font-size:12px}
-.event-date{font-size:10px;color:#7778a9;min-width:48px;font-weight:700}
-.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.toolbar input,.toolbar select{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fff;font-size:12px}
-.modal-backdrop{position:fixed;inset:0;background:#25251f55;display:none;align-items:center;justify-content:center;padding:20px;z-index:5}
-.modal-backdrop.show{display:flex}.modal{background:var(--paper);border-radius:20px;padding:22px;width:min(420px,100%);box-shadow:0 20px 70px #0002}
-.modal h3{margin:0 0 14px}.modal input,.modal textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;margin:5px 0 12px;outline:none}
-.modal-actions{display:flex;justify-content:flex-end;gap:8px}.secondary{border:1px solid var(--line);background:white;border-radius:10px;padding:9px 13px;font-size:12px}
-.mobile-nav{display:none}
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:10px 15px;border-radius:20px;font-size:12px;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1}
-@media(max-width:760px){
- .app{display:block}.sidebar{display:none}.main{padding:23px 16px 100px}
- .topbar{margin-bottom:20px}.greeting h1{font-size:23px}.today{font-size:10px;padding:9px}
- .grid{gap:10px}.card{padding:15px;border-radius:18px}.card h3{font-size:13px}
- .section-head{margin:22px 0 11px}
- .mobile-nav{display:flex;position:fixed;z-index:4;bottom:0;left:0;right:0;padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#fffefaed;backdrop-filter:blur(15px);border-top:1px solid var(--line);justify-content:space-around}
- .mobile-nav button{border:0;background:transparent;color:#888;font-size:9px;display:grid;justify-items:center;gap:3px;padding:4px 8px}
- .mobile-nav button b{font-size:18px;font-weight:400}.mobile-nav button.active{color:#62638f;font-weight:700}
- .event-form{grid-template-columns:1fr 1fr}.event-form button{grid-column:1/-1}
- .day{min-height:51px;padding:5px;font-size:10px}.calendar{gap:4px}
-}
-@media(max-width:390px){.grid{grid-template-columns:1fr}.topbar{align-items:flex-start}.today{max-width:115px;text-align:center}}
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --pink-bg: #fce7f3;
+    --pink-surface: #ffffff;
+    --pink-primary: #ec4899;
+    --pink-light: #fbcfe8;
+    --pink-dark: #be185d;
+    --text: #1f1f2e;
+    --text-muted: #6b7280;
+    --border: #f3e8f4;
+    
+    --want-bg: #fdf2f8; --want-text: #db2777;
+    --done-bg: #f0fdf4; --done-text: #16a34a;
+    --cafe-bg: #fdf2f8; --cafe-text: #ec4899;
+    --food-bg: #fff7ed; --food-text: #ea580c;
+    --travel-bg: #eff6ff; --travel-text: #3b82f6;
+    
+    --note-bg: #f3e8ff; --note-text: #9333ea;
+    --task-bg: #eff6ff; --task-text: #2563eb;
+    --tip-bg: #fff7ed; --tip-text: #ea580c;
+    
+    --shadow-sm: 0 2px 8px rgba(236,72,153,0.06);
+    --shadow-md: 0 8px 24px rgba(236,72,153,0.12);
+    --shadow-lg: 0 12px 32px rgba(236,72,153,0.18);
+    
+    --nav-height: 68px;
+    --nav-margin: 16px;
+    --nav-bottom: calc(var(--nav-height) + var(--nav-margin) + env(safe-area-inset-bottom));
+  }
+  body {
+    font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
+    color: var(--text); min-height: 100vh;
+    -webkit-font-smoothing: antialiased; background-attachment: fixed;
+    padding-bottom: calc(var(--nav-bottom) + 20px);
+  }
+
+  svg.hand-icon { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* HEADER */
+  header {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    color: var(--text); padding: 18px 20px;
+    position: sticky; top: 0; z-index: 50;
+    box-shadow: 0 4px 20px rgba(236,72,153,0.08);
+    border-radius: 0 0 28px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.6);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; color: var(--pink-dark); }
+  header h1 svg { stroke: var(--pink-primary); width: 22px; height: 22px;}
+
+  /* TAB CONTENT */
+  .tab-content { display: none; animation: fadeIn 0.3s ease; }
+  .tab-content.active { display: block; }
+
+  /* ================= TAB TRANG CHỦ ================= */
+  .dash-wrap { padding: 16px; }
+  .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .stat-card {
+    background: var(--pink-surface); border-radius: 20px; padding: 16px 10px;
+    text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+  }
+  .stat-num { font-size: 22px; font-weight: 700; color: var(--pink-primary); margin-bottom: 4px; }
+  .stat-label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
+  
+  .dash-section { margin-bottom: 24px; }
+  .dash-title { font-size: 16px; font-weight: 700; color: var(--pink-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .dash-title svg { width: 18px; height: 18px; stroke: var(--pink-primary); }
+
+  .suggest-card {
+    background: linear-gradient(135deg, #ec4899, #f43f5e);
+    border-radius: 22px; padding: 20px; color: white;
+    box-shadow: 0 8px 24px rgba(236,72,153,0.3);
+    position: relative; overflow: hidden;
+  }
+  .suggest-card::after {
+    content: '✨'; position: absolute; right: -10px; bottom: -20px; font-size: 100px; opacity: 0.2; transform: rotate(15deg);
+  }
+  .suggest-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; margin-bottom: 8px; display: block;}
+  .suggest-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
+  .suggest-address { font-size: 13px; opacity: 0.9; margin-bottom: 16px; display: flex; align-items: center; gap: 4px; }
+  .suggest-address svg { width: 14px; height: 14px; }
+  .suggest-btn {
+    background: white; color: var(--pink-primary); border: none;
+    padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 13px;
+    font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .suggest-btn:active { transform: scale(0.95); }
+
+  .todo-mini-list { display: flex; flex-direction: column; gap: 10px; }
+  .todo-mini-item {
+    background: var(--pink-surface); border-radius: 16px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+  }
+  .todo-mini-check {
+    width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--pink-light);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .todo-mini-check svg { width: 14px; height: 14px; stroke: white; opacity: 0; transition: all 0.2s;}
+  .todo-mini-item.done .todo-mini-check { background: var(--pink-primary); border-color: var(--pink-primary); }
+  .todo-mini-item.done .todo-mini-check svg { opacity: 1; }
+  .todo-mini-item.done .todo-mini-title { text-decoration: line-through; color: var(--text-muted); }
+  .todo-mini-title { font-size: 14px; font-weight: 600; color: var(--text); }
+
+  /* ================= COMMON UI ================= */
+  .toolbar { padding: 0 16px; margin-top: -10px; position: relative; z-index: 60; display: flex; gap: 10px; }
+  .search-box {
+    flex: 1; display: flex; align-items: center; gap: 10px;
+    background: var(--pink-surface); border-radius: 20px; padding: 14px 18px;
+    box-shadow: var(--shadow-md); border: 1px solid rgba(255,255,255,0.8);
+  }
+  .search-box svg { width: 18px; height: 18px; stroke: var(--pink-primary); flex-shrink: 0; }
+  .search-box input { border: none; outline: none; flex: 1; font-size: 15px; background: transparent; color: var(--text); font-family: inherit; font-weight: 500;}
+  .search-box input::placeholder { color: #d1b4c7; }
+  .clear-search { background: #fce7f3; border: none; width: 22px; height: 22px; border-radius: 50%; color: var(--pink-primary); font-size: 12px; cursor: pointer; display: none; align-items: center; justify-content: center; }
+  .clear-search.show { display: flex; }
+
+  .filter-btn {
+    width: 50px; height: 50px; border-radius: 20px; flex-shrink: 0;
+    background: var(--pink-surface); border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s; position: relative;
+  }
+  .filter-btn:active { transform: scale(0.95); }
+  .filter-btn svg { width: 22px; height: 22px; stroke: var(--pink-primary); }
+  .filter-btn .badge {
+    position: absolute; top: -4px; right: -4px; background: var(--pink-primary); color: white;
+    font-size: 10px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%;
+    display: none; align-items: center; justify-content: center; border: 2px solid white;
+  }
+  .filter-btn .badge.show { display: flex; }
+
+  .sort-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 18px 10px; font-size: 12.5px; color: var(--text-muted); gap: 8px;
+    font-weight: 600;
+  }
+  .sort-btn {
+    background: var(--pink-surface); border: 1px solid var(--border);
+    padding: 8px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    color: var(--pink-primary); cursor: pointer; display: flex; align-items: center; gap: 6px;
+    font-family: inherit; box-shadow: var(--shadow-sm);
+  }
+
+  .list { padding: 0 16px; display: flex; flex-direction: column; gap: 14px; }
+  .swipe-item {
+    position: relative; border-radius: 22px; overflow: hidden;
+    animation: fadeIn 0.3s ease; touch-action: pan-y;
+    box-shadow: var(--shadow-sm); cursor: pointer;
+  }
+  .swipe-actions { position: absolute; inset: 0; display: flex; justify-content: space-between; }
+  .swipe-actions .action {
+    width: 92px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; color: white; font-size: 11.5px; font-weight: 700; cursor: pointer;
+  }
+  .swipe-actions .action svg { width: 24px; height: 24px; }
+  .action.edit { background: linear-gradient(135deg, #a78bfa, #8b5cf6); }
+  .action.delete { background: linear-gradient(135deg, #fb7185, #f43f5e); margin-left: auto; }
+
+  .card {
+    background: var(--pink-surface); border-radius: 22px; padding: 16px;
+    display: flex; gap: 13px; align-items: flex-start; position: relative; z-index: 1;
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform; border: 1px solid rgba(255,255,255,0.8);
+  }
+  .card.dragging { transition: none; box-shadow: var(--shadow-md); }
+
+  .card-emoji {
+    width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+  }
+  .card-emoji svg { width: 22px; height: 22px; stroke: var(--cafe-text); }
+  .card-emoji.food { background: linear-gradient(135deg, #fff7ed, #ffedd5); }
+  .card-emoji.food svg { stroke: var(--food-text); }
+  .card-emoji.travel { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+  .card-emoji.travel svg { stroke: var(--travel-text); }
+  .card-emoji.note { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); }
+  .card-emoji.note svg { stroke: var(--note-text); }
+  .card-emoji.task { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+  .card-emoji.task svg { stroke: var(--task-text); }
+  .card-emoji.tip { background: linear-gradient(135deg, #fff7ed, #ffedd5); }
+  .card-emoji.tip svg { stroke: var(--tip-text); }
+
+  .card-body { flex: 1; min-width: 0; }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+  .card-title { font-size: 15px; font-weight: 700; line-height: 1.35; color: var(--text); word-break: break-word; flex: 1; }
+  .card-rating { display: flex; gap: 1px; flex-shrink: 0; margin-top: 2px; }
+  .card-rating svg { width: 12px; height: 12px; }
+  .card-rating svg.on { fill: #f59e0b; stroke: #f59e0b; }
+  .card-rating svg.off { fill: none; stroke: #d1d5db; }
+
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 700; padding: 3px 8px;
+    border-radius: 999px; letter-spacing: 0.4px; text-transform: uppercase;
+  }
+  .status-badge svg { width: 10px; height: 10px; }
+  .status-badge.want { background: var(--want-bg); color: var(--want-text); }
+  .status-badge.done { background: var(--done-bg); color: var(--done-text); }
+
+  .card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag { font-size: 10.5px; padding: 3px 8px; border-radius: 999px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+  .tag svg { width: 10px; height: 10px; }
+  .tag.cafe { background: var(--cafe-bg); color: var(--cafe-text); }
+  .tag.food { background: var(--food-bg); color: var(--food-text); }
+  .tag.travel { background: var(--travel-bg); color: var(--travel-text); }
+  .tag.note { background: var(--note-bg); color: var(--note-text); }
+  .tag.task { background: var(--task-bg); color: var(--task-text); }
+  .tag.tip { background: var(--tip-bg); color: var(--tip-text); }
+  .tag.date { background: #f8f9fa; color: #adb5bd; }
+  .tag.city { background: #f3e8ff; color: #7e22ce; }
+  .tag.hashtag { background: #f0fdf4; color: #16a34a; border: 1px dashed #86efac; }
+
+  .card-info-row { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; font-size: 12px; color: var(--text-muted); font-weight: 500; }
+  .card-info-row .info-item { display: flex; align-items: flex-start; gap: 6px; }
+  .card-info-row .info-item svg { width: 12px; height: 12px; flex-shrink: 0; margin-top: 2px; stroke: #b0a9b6; }
+  
+  .card-note {
+    font-size: 12.5px; color: var(--text); margin-top: 8px; padding: 8px 10px; background: #fafafc;
+    border-radius: 10px; line-height: 1.5; word-break: break-word;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    border: 1px dashed var(--border);
+  }
+  .card-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11.5px; color: var(--pink-primary); font-weight: 700;
+    text-decoration: none; margin-top: 8px;
+    padding: 5px 10px; background: var(--pink-bg); border-radius: 8px;
+  }
+  .card-link svg { width: 12px; height: 12px; }
+
+  .swipe-hint { text-align: center; font-size: 11.5px; color: #d1b4c7; padding: 12px 16px 4px; display: flex; align-items: center; justify-content: center; gap: 4px; font-weight: 500;}
+  .swipe-hint svg { width: 14px; height: 14px; }
+
+  /* ================= TAB NHẬT KÝ (TIMELINE) ================= */
+  .timeline-wrap { padding: 20px 16px; position: relative; }
+  .timeline-wrap::before {
+    content: ''; position: absolute; top: 0; bottom: 0; left: 22px;
+    width: 2px; background: #fbcfe8; z-index: 0;
+  }
+  .timeline-item {
+    position: relative; padding-left: 44px; margin-bottom: 20px;
+    animation: fadeIn 0.3s ease;
+  }
+  .timeline-dot {
+    position: absolute; left: 15px; top: 6px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--pink-surface); border: 3px solid var(--pink-primary);
+    z-index: 1; box-shadow: 0 0 0 3px #fce7f3;
+  }
+  .timeline-date {
+    font-size: 12px; font-weight: 700; color: var(--pink-primary);
+    margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
+  }
+  .timeline-date svg { width: 12px; height: 12px; }
+  .timeline-card {
+    background: var(--pink-surface); border-radius: 16px;
+    padding: 14px; box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border); position: relative;
+    cursor: pointer;
+  }
+  .timeline-card:active { transform: scale(0.98); }
+  .timeline-card::before {
+    content: ''; position: absolute; left: -5px; top: 12px;
+    width: 10px; height: 10px; background: var(--pink-surface);
+    transform: rotate(45deg); border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .timeline-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .timeline-content { font-size: 13px; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; font-weight: 500;}
+  .timeline-mood {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; background: #fdf2f8; border-radius: 999px;
+    font-size: 11px; font-weight: 600; color: var(--pink-dark); margin-top: 8px;
+  }
+  .timeline-mood svg { width: 12px; height: 12px;}
+
+  /* ================= BOTTOM NAVIGATION ================= */
+  .bottom-nav {
+    position: fixed; bottom: var(--nav-margin); left: 50%; transform: translateX(-50%);
+    width: calc(100% - 32px); max-width: 450px; height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    display: flex; justify-content: space-around; align-items: center;
+    box-shadow: 0 8px 30px rgba(236,72,153,0.15);
+    border-radius: 36px; z-index: 100; padding: 0 6px;
+    border: 1px solid rgba(255,255,255,1);
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; color: #9ca3af; cursor: pointer; transition: all 0.2s;
+    font-size: 10.5px; font-weight: 600; padding: 10px 0;
+  }
+  .nav-item svg { width: 22px; height: 22px; transition: all 0.2s; stroke: currentColor; }
+  .nav-item.active { color: var(--pink-primary); }
+  .nav-item.active svg { stroke: var(--pink-primary); fill: rgba(236,72,153,0.1); transform: translateY(-2px); }
+
+  .fab {
+    position: fixed; bottom: calc(var(--nav-bottom) + 10px); right: 20px; z-index: 90;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--pink-primary); color: white; border: none; cursor: pointer;
+    box-shadow: 0 8px 24px rgba(236,72,153,0.4);
+    display: flex; align-items: center; justify-content: center; transition: transform 0.2s;
+  }
+  .fab svg { width: 26px; height: 26px; }
+  .fab:active { transform: scale(0.9) rotate(90deg); }
+
+  /* ================= MODALS ================= */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(31,31,46,0.4);
+    z-index: 200; display: none; align-items: flex-end; justify-content: center;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .overlay.show { display: flex; animation: fadeIn 0.22s; }
+  .modal {
+    background: var(--pink-surface); width: 100%; max-width: 540px;
+    border-radius: 32px 32px 0 0; padding: 12px 22px 32px;
+    max-height: 90vh; overflow-y: auto;
+    animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-handle { width: 44px; height: 5px; background: #fce7f3; border-radius: 999px; margin: 8px auto 20px; }
+  .modal h2 { font-size: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--pink-dark); }
+  .modal h2 button { background: var(--pink-bg); border: none; width: 34px; height: 34px; border-radius: 50%; color: var(--pink-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .modal h2 button svg { width: 18px; height: 18px; }
+
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 11.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .field input, .field textarea, .field select { width: 100%; padding: 14px 16px; border-radius: 16px; border: 1.5px solid var(--border); font-size: 15px; font-family: inherit; background: #fafafc; outline: none; transition: all 0.2s; color: var(--text); font-weight: 500; }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--pink-primary); background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1); }
+  .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+  .picker { display: flex; gap: 10px; flex-wrap: wrap; }
+  .picker .opt {
+    flex: 1; min-width: calc(33.33% - 10px); padding: 12px 8px; border-radius: 14px; text-align: center;
+    border: 1.5px solid var(--border); background: #fafafc; cursor: pointer;
+    font-size: 12px; font-weight: 600; color: var(--text-muted); transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .picker .opt svg { width: 20px; height: 20px; }
+  .picker .opt.active { border-color: var(--pink-primary); background: var(--pink-bg); color: var(--pink-primary); transform: scale(1.02); box-shadow: var(--shadow-sm); }
+  .picker.status .opt.active.want-opt { border-color: #f43f5e; background: #fff1f2; color: #f43f5e; }
+  .picker.status .opt.active.done-opt { border-color: #10b981; background: #ecfdf5; color: #10b981; }
+
+  .save-btn {
+    width: 100%; padding: 16px; border-radius: 18px; border: none;
+    background: var(--pink-primary); color: white; font-size: 16px; font-weight: 700;
+    cursor: pointer; margin-top: 12px; box-shadow: 0 8px 24px rgba(236,72,153,0.3);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: inherit; transition: transform 0.15s;
+  }
+  .save-btn svg { width: 20px; height: 20px; }
+  .save-btn:active { transform: scale(0.97); }
+
+  .rating-picker { display: flex; gap: 8px; }
+  .rating-picker .star-btn { width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .rating-picker .star-btn svg { width: 32px; height: 32px; transition: all 0.15s; fill: none; stroke: #d1d5db; }
+  .rating-picker .star-btn.on svg { fill: #f59e0b; stroke: #f59e0b; transform: scale(1.1); }
+
+  .sort-wrapper { position: relative; }
+  .sort-menu {
+    position: absolute; right: 0; top: calc(100% + 8px);
+    background: white; border-radius: 18px; box-shadow: var(--shadow-lg);
+    padding: 8px; min-width: 200px; z-index: 80; display: none; animation: popIn 0.2s; border: 1px solid var(--border);
+  }
+  .sort-menu.show { display: block; }
+  @keyframes popIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .sort-menu button {
+    width: 100%; padding: 12px 16px; border: none; background: none;
+    text-align: left; font-size: 13.5px; font-weight: 600; color: var(--text);
+    border-radius: 12px; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 10px;
+  }
+  .sort-menu button.active { background: var(--pink-bg); color: var(--pink-primary); }
+  .sort-menu button .check { margin-left: auto; opacity: 0; color: var(--pink-primary); font-weight: 800; }
+  .sort-menu button.active .check { opacity: 1; }
+
+  .chip-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .chip {
+    padding: 9px 15px; border-radius: 999px; background: #f8f9fa;
+    border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+    color: var(--text-muted); cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .chip.active { background: var(--pink-primary); border-color: var(--pink-primary); color: white; }
+
+  /* Thanh menu tuỳ chọn cho Nhật ký */
+  .action-menu-overlay {
+    position: fixed; inset: 0; background: rgba(31,31,46,0.4);
+    z-index: 250; display: none; align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .action-menu-overlay.show { display: flex; animation: fadeIn 0.2s; }
+  .action-menu {
+    background: var(--pink-surface); width: 280px; border-radius: 24px;
+    padding: 20px; animation: popIn 0.2s;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .action-menu button {
+    padding: 14px; border-radius: 14px; border: none; font-size: 15px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; font-family: inherit;
+  }
+  .action-menu button.edit-btn { background: #eff6ff; color: #2563eb; }
+  .action-menu button.del-btn { background: #fef2f2; color: #dc2626; }
+  .action-menu button.cancel-btn { background: #f3f4f6; color: #6b7280; margin-top: 4px; }
+
+  .toast {
+    position: fixed; bottom: calc(var(--nav-bottom) + 20px); left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--text); color: white; padding: 14px 26px; border-radius: 999px;
+    font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none;
+    transition: all 0.35s; z-index: 300; white-space: nowrap; box-shadow: var(--shadow-lg);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .confirm-overlay { position: fixed; inset: 0; background: rgba(31,31,46,0.4); z-index: 400; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 24px; }
+  .confirm-overlay.show { display: flex; animation: fadeIn 0.2s; }
+  .confirm-box { background: white; border-radius: 28px; padding: 28px; max-width: 320px; width: 100%; text-align: center; animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1); box-shadow: var(--shadow-lg); }
+  .confirm-box .ico { display: flex; justify-content: center; margin-bottom: 16px; color: var(--pink-primary); }
+  .confirm-box .ico svg { width: 48px; height: 48px; }
+  .confirm-box h4 { font-size: 18px; margin-bottom: 10px; font-weight: 700; color: var(--text); }
+  .confirm-box p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; font-weight: 500;}
+  .confirm-actions { display: flex; gap: 12px; }
+  .confirm-actions button { flex: 1; padding: 14px; border-radius: 16px; border: none; font-size: 14.5px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .confirm-actions .cancel { background: #f3f4f6; color: #6b7280; }
+  .confirm-actions .confirm { background: var(--pink-primary); color: white; box-shadow: 0 4px 12px rgba(236,72,153,0.3); }
+
+  .empty { text-align: center; padding: 60px 24px; color: var(--text-muted); }
+  .empty .icon-wrap {
+    width: 80px; height: 80px; border-radius: 26px; margin: 0 auto 20px;
+    background: linear-gradient(135deg, #ffffff, #fdf2f8);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-md); border: 2px dashed #fbcfe8;
+  }
+  .empty .icon-wrap svg { width: 40px; height: 40px; stroke: var(--pink-primary); }
+  .empty h3 { font-size: 17px; color: var(--pink-dark); margin-bottom: 8px; font-weight: 700; }
+  .empty p { font-size: 13.5px; line-height: 1.6; max-width: 260px; margin: 0 auto; font-weight: 500; }
+
+  /* Autocomplete */
+  .autocomplete-wrap { position: relative; }
+  .autocomplete-list {
+    position: absolute; left: 0; right: 0; top: calc(100% + 4px);
+    background: white; border-radius: 12px; box-shadow: var(--shadow-lg);
+    max-height: 180px; overflow-y: auto; z-index: 10; border: 1px solid var(--border);
+    display: none;
+  }
+  .autocomplete-list.show { display: block; }
+  .autocomplete-list div { padding: 12px 16px; font-size: 14px; cursor: pointer; color: var(--text); font-weight: 500;}
+  .autocomplete-list div:hover { background: var(--pink-bg); color: var(--pink-primary); }
 </style>
 </head>
 <body>
-<div class="app">
- <aside class="sidebar">
-  <div class="brand">MY SPACE<small>PERSONAL DASHBOARD</small></div>
-  <div class="profile"><div class="avatar">🌷</div><div><strong>My little space</strong><span>Make today count</span></div></div>
-  <nav class="nav">
-   <button class="active" data-page="home"><span class="ico">⌂</span>Overview</button>
-   <button data-page="tasks"><span class="ico">☑</span>My tasks</button>
-   <button data-page="calendar"><span class="ico">▦</span>Calendar</button>
-   <button data-page="notes"><span class="ico">✎</span>Notes</button>
-  </nav>
-  <div class="side-bottom">A calm place to plan, focus<br>and take care of yourself. ♡</div>
- </aside>
- <main class="main">
-  <header class="topbar">
-   <div class="greeting"><small id="greeting">YOUR PERSONAL SPACE</small><h1 id="pageTitle">A little progress every day ✨</h1></div>
-   <div class="today" id="todayLabel"></div>
-  </header>
 
-  <section class="page active" id="home">
-   <div class="section-head"><h2>Today at a glance</h2><span id="todayCount">A fresh start ♡</span></div>
-   <div class="grid">
-    <article class="card">
-     <div class="card-top"><div><h3>My goals</h3><div class="sub">Little steps, big changes</div></div><div class="dot-icon purple">✧</div></div>
-     <div class="item-list" id="goalList"></div>
-     <div class="progress"><i id="goalProgress"></i></div><div class="sub" id="goalStats">0 completed</div>
-     <div class="quick-add"><input id="goalInput" placeholder="Add a goal..."><button class="add" onclick="addItem('goals','goalInput')">＋ Add</button></div>
-    </article>
-    <article class="card">
-     <div class="card-top"><div><h3>To do</h3><div class="sub">Focus on what matters</div></div><div class="dot-icon peach">☼</div></div>
-     <div class="item-list" id="taskList"></div>
-     <div class="quick-add"><input id="taskInput" placeholder="What's next?"><button class="add" onclick="addItem('tasks','taskInput')">＋ Add</button></div>
-    </article>
-    <article class="card">
-     <div class="card-top"><div><h3>Quick notes</h3><div class="sub">A place for passing thoughts</div></div><div class="dot-icon green">✎</div></div>
-     <textarea class="note-box" id="quickNote" placeholder="Write anything on your mind..."></textarea>
-     <div class="sub" style="margin-top:7px">Automatically saved on this device</div>
-    </article>
-    <article class="card">
-     <div class="card-top"><div><h3>Keep in mind</h3><div class="sub">Important things to remember</div></div><div class="dot-icon yellow">♡</div></div>
-     <div class="item-list" id="importantList"></div>
-     <div class="quick-add"><input id="importantInput" placeholder="Remember to..."><button class="add" onclick="addItem('important','importantInput')">＋ Add</button></div>
-    </article>
-   </div>
-   <div class="section-head"><h2>Coming up</h2><span>Upcoming events</span></div>
-   <article class="card"><div class="event-list" id="upcomingList"></div><button class="add" style="margin-top:12px" onclick="navigate('calendar')">＋ Add an event</button></article>
-  </section>
+<!-- KHO ICON SVG VẼ TAY -->
+<svg style="display:none;">
+  <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M12 21C12 21 19 15.5 19 10.5C19 6.5 15.866 3 12 3C8.134 3 5 6.5 5 10.5C5 15.5 12 21 12 21Z" /><circle cx="12" cy="10.5" r="2.5" /></symbol>
+  <symbol id="icon-coffee" viewBox="0 0 24 24"><path d="M17 8H4V15C4 18 7 19 10.5 19C14 19 17 18 17 15V8Z" /><path d="M17 10H19C20.5 10 21 11 21 12C21 13 20.5 14 19 14H17" /><path d="M7 5V3M11 5V2M15 5V3" /></symbol>
+  <symbol id="icon-food" viewBox="0 0 24 24"><path d="M3 12H21V15C21 18 17.5 20 12 20C6.5 20 3 18 3 15V12Z" /><path d="M7 9C7 7 9 6 12 6C15 6 17 7 17 9" /><path d="M8 16H16" /><path d="M10 3V5M14 3V5" /></symbol>
+  <symbol id="icon-travel" viewBox="0 0 24 24"><path d="M3 20L10 8L15 15L19 10L21 13" /><path d="M10 8L7 13H13L10 8Z" /></symbol>
+  <symbol id="icon-star" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></symbol>
+  <symbol id="icon-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M8 12L11 15L16 9" /></symbol>
+  <symbol id="icon-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M9 12H15" /></symbol>
+  <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" /><path d="M3 10H21" /><path d="M8 3V7M16 3V7" /><path d="M8 14H10M14 14H16M8 17H10M14 17H16" /></symbol>
+  <symbol id="icon-hashtag" viewBox="0 0 24 24"><path d="M4 9H20M4 15H20M10 3L8 21M16 3L14 21" /></symbol>
+  <symbol id="icon-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></symbol>
+  <symbol id="icon-edit" viewBox="0 0 24 24"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></symbol>
+  <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M3 6h18" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M10 11v6M14 11v6" /></symbol>
+  <symbol id="icon-filter" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></symbol>
+  <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></symbol>
+  <symbol id="icon-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" /></symbol>
+  <symbol id="icon-save" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" /></symbol>
+  
+  <!-- Nav Icons -->
+  <symbol id="icon-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></symbol>
+  <symbol id="icon-map" viewBox="0 0 24 24"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z" /><path d="M9 3v15M15 6v15" /></symbol>
+  <symbol id="icon-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /><path d="M8 7h8M8 11h8" /></symbol>
+  <symbol id="icon-mood" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></symbol>
+  <symbol id="icon-notebook" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 4v16"/><path d="M12 8h4M12 12h4M12 16h4"/><path d="M4 8h4M4 12h4M4 16h4"/></symbol>
+  <symbol id="icon-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="icon-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.4 1 1.1 1 1.9v.4h6v-.4c0-.8.4-1.5 1-1.9A7 7 0 0 0 12 2z"/></symbol>
+</svg>
 
-  <section class="page" id="tasks">
-   <div class="section-head"><h2>My tasks</h2><span>One thing at a time</span></div>
-   <article class="card">
-    <div class="quick-add"><input id="allTaskInput" placeholder="Add a task..."><button class="add" onclick="addItem('tasks','allTaskInput')">＋ Add task</button></div>
-    <div class="item-list" id="allTaskList" style="margin-top:15px"></div>
-   </article>
-   <div class="section-head"><h2>My goals</h2><span>Keep moving forward</span></div>
-   <article class="card"><div class="item-list" id="allGoalList"></div><div class="quick-add"><input id="allGoalInput" placeholder="Add a goal..."><button class="add" onclick="addItem('goals','allGoalInput')">＋ Add goal</button></div></article>
-  </section>
+<header>
+  <h1 id="headerTitle"></h1>
+</header>
 
-  <section class="page" id="calendar">
-   <div class="section-head"><h2>My calendar</h2><span>Plan gently, not perfectly</span></div>
-   <article class="card">
-    <div class="calendar-head"><strong id="monthLabel"></strong><div class="month-actions"><button onclick="changeMonth(-1)">‹</button><button onclick="changeMonth(1)">›</button></div></div>
-    <div class="calendar" id="calendarGrid"></div>
-   </article>
-   <div class="section-head"><h2>Add an event</h2><span>Save a date to remember</span></div>
-   <article class="card">
-    <form class="event-form" id="eventForm"><input id="eventName" placeholder="Event name" required><input id="eventDate" type="date" required><button class="add">＋ Save event</button></form>
-    <div class="event-list" id="allEvents"></div>
-   </article>
-  </section>
+<!-- ================= TAB 0: TRANG CHỦ ================= -->
+<div class="tab-content" id="tab-home">
+  <div class="dash-wrap">
+    <div class="dash-stats">
+      <div class="stat-card">
+        <div class="stat-num" id="statPlaces">0</div>
+        <div class="stat-label">Địa điểm</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statDiaries">0</div>
+        <div class="stat-label">Nhật ký</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statNotes">0</div>
+        <div class="stat-label">Ghi chú</div>
+      </div>
+    </div>
 
-  <section class="page" id="notes">
-   <div class="section-head"><h2>My notes</h2><span>Your thoughts, all in one place</span></div>
-   <article class="card"><h3>Quick note</h3><textarea class="note-box" id="fullNote" style="min-height:260px;margin-top:12px" placeholder="Start writing..."></textarea><div class="sub" style="margin-top:8px">Your note is saved automatically on this device.</div></article>
-   <div class="section-head"><h2>Important reminders</h2></div>
-   <article class="card"><div class="item-list" id="notesImportantList"></div><div class="quick-add"><input id="notesImportantInput" placeholder="Add a reminder..."><button class="add" onclick="addItem('important','notesImportantInput')">＋ Add</button></div></article>
-  </section>
- </main>
+    <div class="dash-section">
+      <div class="dash-title"><svg class="hand-icon"><use href="#icon-bulb"/></svg> Gợi ý hôm nay</div>
+      <div id="suggestWrap"></div>
+    </div>
+
+    <div class="dash-section">
+      <div class="dash-title"><svg class="hand-icon"><use href="#icon-list"/></svg> Việc cần làm</div>
+      <div class="todo-mini-list" id="todoMiniList"></div>
+    </div>
+  </div>
 </div>
-<nav class="mobile-nav">
- <button class="active" data-page="home"><b>⌂</b>Home</button>
- <button data-page="tasks"><b>☑</b>Tasks</button>
- <button data-page="calendar"><b>▦</b>Calendar</button>
- <button data-page="notes"><b>✎</b>Notes</button>
-</nav>
-<div class="toast" id="toast">Saved ♡</div>
+
+<!-- ================= TAB 1: ĐỊA ĐIỂM ================= -->
+<div class="tab-content" id="tab-places">
+  <div class="toolbar">
+    <div class="search-box">
+      <svg class="hand-icon"><use href="#icon-search"/></svg>
+      <input type="text" id="searchPlaces" placeholder="Tìm tên, hashtag...">
+      <button class="clear-search" id="clearSearchPlaces"><svg class="hand-icon" style="width:12px;height:12px"><use href="#icon-x"/></svg></button>
+    </div>
+    <button class="filter-btn" id="openFilterBtn">
+      <svg class="hand-icon"><use href="#icon-filter"/></svg>
+      <span class="badge" id="filterBadge">1</span>
+    </button>
+  </div>
+
+  <div class="sort-bar">
+    <span id="countPlaces">0 kết quả</span>
+    <div class="sort-wrapper">
+      <button class="sort-btn" id="sortBtn">
+        <svg class="hand-icon" style="width:14px;height:14px;"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/></svg>
+        <span id="sortLabel">Mới nhất</span>
+      </button>
+      <div class="sort-menu" id="sortMenu">
+        <button data-sort="newest" class="active">Mới nhất <span class="check">✓</span></button>
+        <button data-sort="oldest">Cũ nhất <span class="check">✓</span></button>
+        <button data-sort="rating-desc">Điểm cao → thấp <span class="check">✓</span></button>
+        <button data-sort="rating-asc">Điểm thấp → cao <span class="check">✓</span></button>
+        <button data-sort="name-asc">Tên A → Z <span class="check">✓</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="swipe-hint" id="swipeHintPlaces">
+    <svg class="hand-icon"><use href="#icon-arrows"/></svg> Vuốt trái/phải hoặc nhấn để thao tác
+  </div>
+
+  <div class="list" id="listPlaces"></div>
+</div>
+
+<!-- ================= TAB 2: NHẬT KÝ ================= -->
+<div class="tab-content" id="tab-diary">
+  <div class="swipe-hint" style="margin-top: 10px;">
+    Nhấn vào thẻ để Sửa hoặc Xóa
+  </div>
+  <div class="timeline-wrap" id="timelineWrap"></div>
+</div>
+
+<!-- ================= TAB 3: GHI CHÚ ================= -->
+<div class="tab-content" id="tab-notes">
+  <div class="toolbar">
+    <div class="search-box">
+      <svg class="hand-icon"><use href="#icon-search"/></svg>
+      <input type="text" id="searchNotes" placeholder="Tìm ghi chú, hashtag...">
+      <button class="clear-search" id="clearSearchNotes"><svg class="hand-icon" style="width:12px;height:12px"><use href="#icon-x"/></svg></button>
+    </div>
+    <button class="filter-btn" id="openNoteFilterBtn">
+      <svg class="hand-icon"><use href="#icon-filter"/></svg>
+      <span class="badge" id="noteFilterBadge">1</span>
+    </button>
+  </div>
+
+  <div class="sort-bar">
+    <span id="countNotes">0 kết quả</span>
+    <div class="sort-wrapper">
+      <button class="sort-btn" id="sortNotesBtn">
+        <svg class="hand-icon" style="width:14px;height:14px;"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/></svg>
+        <span id="sortNotesLabel">Mới nhất</span>
+      </button>
+      <div class="sort-menu" id="sortNotesMenu">
+        <button data-sort="newest" class="active">Mới nhất <span class="check">✓</span></button>
+        <button data-sort="oldest">Cũ nhất <span class="check">✓</span></button>
+        <button data-sort="name-asc">Tên A → Z <span class="check">✓</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="swipe-hint" id="swipeHintNotes">
+    <svg class="hand-icon"><use href="#icon-arrows"/></svg> Vuốt trái/phải hoặc nhấn để thao tác
+  </div>
+
+  <div class="list" id="listNotes"></div>
+</div>
+
+<!-- NÚT FAB -->
+<button class="fab" id="fab">
+  <svg class="hand-icon"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<!-- ================= BOTTOM NAVIGATION ================= -->
+<div class="bottom-nav">
+  <div class="nav-item" data-tab="home">
+    <svg class="hand-icon"><use href="#icon-home"/></svg>
+    <span>Trang chủ</span>
+  </div>
+  <div class="nav-item active" data-tab="places">
+    <svg class="hand-icon"><use href="#icon-map"/></svg>
+    <span>Địa điểm</span>
+  </div>
+  <div class="nav-item" data-tab="diary">
+    <svg class="hand-icon"><use href="#icon-book"/></svg>
+    <span>Nhật ký</span>
+  </div>
+  <div class="nav-item" data-tab="notes">
+    <svg class="hand-icon"><use href="#icon-notebook"/></svg>
+    <span>Ghi chú</span>
+  </div>
+</div>
+
+<!-- ================= MENU THAO TÁC NHANH (Dành cho Nhật ký) ================= -->
+<div class="action-menu-overlay" id="actionMenuOverlay">
+  <div class="action-menu">
+    <button class="edit-btn" id="btnMenuEdit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa bài viết</button>
+    <button class="del-btn" id="btnMenuDelete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa bài viết</button>
+    <button class="cancel-btn" id="btnMenuCancel">Hủy bỏ</button>
+  </div>
+</div>
+
+<!-- ================= MODAL BỘ LỌC ĐỊA ĐIỂM ================= -->
+<div class="overlay" id="filterOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>Bộ lọc địa điểm <button id="closeFilterBtn"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+    
+    <div class="field">
+      <label>Loại địa điểm</label>
+      <div class="chip-group" id="filterTypeGroup">
+        <div class="chip" data-type="all">Tất cả</div>
+        <div class="chip" data-type="cafe"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-coffee"/></svg> Cà phê</div>
+        <div class="chip" data-type="food"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-food"/></svg> Ăn uống</div>
+        <div class="chip" data-type="travel"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-travel"/></svg> Du lịch</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Trạng thái</label>
+      <div class="chip-group" id="filterStatusGroup">
+        <div class="chip" data-status="all">Tất cả</div>
+        <div class="chip" data-status="want"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-circle"/></svg> Chưa đi</div>
+        <div class="chip" data-status="done"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-check-circle"/></svg> Đã đi</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tỉnh / Thành phố</label>
+      <div class="autocomplete-wrap">
+        <input type="text" id="filterCityInput" placeholder="Nhập tên tỉnh thành..." autocomplete="off">
+        <div class="autocomplete-list" id="citySuggestions"></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Hashtag</label>
+      <input type="text" id="filterHashtagInput" placeholder="VD: viewdep, sachse...">
+    </div>
+
+    <button class="save-btn" id="applyFilterBtn">Áp dụng bộ lọc</button>
+    <button class="save-btn" id="resetFilterBtn" style="background:#f3f4f6;color:#6b7280;box-shadow:none;margin-top:10px;">Xóa tất cả bộ lọc</button>
+  </div>
+</div>
+
+<!-- ================= MODAL BỘ LỌC GHI CHÚ ================= -->
+<div class="overlay" id="noteFilterOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>Bộ lọc ghi chú <button id="closeNoteFilterBtn"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+    
+    <div class="field">
+      <label>Loại ghi chú</label>
+      <div class="chip-group" id="filterNoteTypeGroup">
+        <div class="chip" data-type="all">Tất cả</div>
+        <div class="chip" data-type="note"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-notebook"/></svg> Ghi chú</div>
+        <div class="chip" data-type="task"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-list"/></svg> Việc cần làm</div>
+        <div class="chip" data-type="tip"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-bulb"/></svg> Tips hay</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Hashtag</label>
+      <input type="text" id="filterNoteHashtagInput" placeholder="VD: meoHay, quanTrong...">
+    </div>
+
+    <button class="save-btn" id="applyNoteFilterBtn">Áp dụng bộ lọc</button>
+    <button class="save-btn" id="resetNoteFilterBtn" style="background:#f3f4f6;color:#6b7280;box-shadow:none;margin-top:10px;">Xóa tất cả bộ lọc</button>
+  </div>
+</div>
+
+<!-- ================= MODAL THÊM/SỬA ĐỊA ĐIỂM ================= -->
+<div class="overlay" id="placeOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2><span id="placeModalTitle">Thêm địa điểm</span> <button id="closePlaceModal"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+
+    <div class="field">
+      <label>Trạng thái</label>
+      <div class="picker status" id="statusPicker">
+        <div class="opt active want-opt" data-status="want"><svg class="hand-icon"><use href="#icon-circle"/></svg>Chưa đi</div>
+        <div class="opt done-opt" data-status="done"><svg class="hand-icon"><use href="#icon-check-circle"/></svg>Đã đi</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Loại địa điểm</label>
+      <div class="picker" id="typePicker">
+        <div class="opt active" data-type="cafe"><svg class="hand-icon"><use href="#icon-coffee"/></svg>Cà phê</div>
+        <div class="opt" data-type="food"><svg class="hand-icon"><use href="#icon-food"/></svg>Ăn uống</div>
+        <div class="opt" data-type="travel"><svg class="hand-icon"><use href="#icon-travel"/></svg>Du lịch</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tên địa điểm *</label>
+      <input type="text" id="placeName" placeholder="VD: Cà phê Ngõ Nhỏ">
+    </div>
+
+    <div class="field">
+      <label>Tỉnh / Thành phố</label>
+      <div class="autocomplete-wrap">
+        <input type="text" id="placeCity" placeholder="Nhập tên tỉnh thành..." autocomplete="off">
+        <div class="autocomplete-list" id="formCitySuggestions"></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Địa chỉ chi tiết</label>
+      <input type="text" id="placeAddress" placeholder="VD: 12 Nguyễn Huệ, Q.1">
+    </div>
+
+    <div class="field">
+      <label>Ngày nhập / Trải nghiệm</label>
+      <input type="date" id="placeDate">
+    </div>
+
+    <div class="field">
+      <label>Hashtag (cách nhau bằng dấu phẩy)</label>
+      <input type="text" id="placeHashtags" placeholder="VD: viewdep, chill, sachse">
+    </div>
+
+    <div class="field">
+      <label>Ghi chú / Review</label>
+      <textarea id="placeNote" placeholder="Món ngon, view đẹp, giá cả..."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Đánh giá</label>
+      <div class="rating-picker" id="ratingPicker">
+        <div class="star-btn" data-v="1"><svg class="hand-icon"><use href="#icon-star"/></svg></div>
+        <div class="star-btn" data-v="2"><svg class="hand-icon"><use href="#icon-star"/></svg></div>
+        <div class="star-btn" data-v="3"><svg class="hand-icon"><use href="#icon-star"/></svg></div>
+        <div class="star-btn" data-v="4"><svg class="hand-icon"><use href="#icon-star"/></svg></div>
+        <div class="star-btn" data-v="5"><svg class="hand-icon"><use href="#icon-star"/></svg></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Link video / ảnh (tùy chọn)</label>
+      <input type="url" id="placeLink" placeholder="https://...">
+    </div>
+
+    <button class="save-btn" id="savePlaceBtn">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu địa điểm
+    </button>
+  </div>
+</div>
+
+<!-- ================= MODAL THÊM/SỬA GHI CHÚ ================= -->
+<div class="overlay" id="noteOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2><span id="noteModalTitle">Thêm ghi chú</span> <button id="closeNoteModal"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+
+    <div class="field">
+      <label>Loại ghi chú</label>
+      <div class="picker" id="noteTypePicker">
+        <div class="opt active" data-type="note"><svg class="hand-icon"><use href="#icon-notebook"/></svg>Ghi chú</div>
+        <div class="opt" data-type="task"><svg class="hand-icon"><use href="#icon-list"/></svg>Việc làm</div>
+        <div class="opt" data-type="tip"><svg class="hand-icon"><use href="#icon-bulb"/></svg>Tips hay</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tiêu đề *</label>
+      <input type="text" id="noteTitle" placeholder="VD: Mẹo chụp ảnh đẹp">
+    </div>
+
+    <div class="field">
+      <label>Ngày tạo</label>
+      <input type="date" id="noteDate">
+    </div>
+
+    <div class="field">
+      <label>Hashtag (cách nhau bằng dấu phẩy)</label>
+      <input type="text" id="noteHashtags" placeholder="VD: quantrong, meohay">
+    </div>
+
+    <div class="field">
+      <label>Nội dung chi tiết</label>
+      <textarea id="noteContent" placeholder="Nhập nội dung ghi chú..." style="min-height: 120px;"></textarea>
+    </div>
+
+    <button class="save-btn" id="saveNoteBtn">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu ghi chú
+    </button>
+  </div>
+</div>
+
+<!-- ================= MODAL VIẾT NHẬT KÝ ================= -->
+<div class="overlay" id="diaryOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2><span id="diaryModalTitle">Viết nhật ký</span> <button id="closeDiaryModal"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+
+    <div class="field">
+      <label>Ngày</label>
+      <input type="date" id="diaryDateInput">
+    </div>
+
+    <div class="field">
+      <label>Cảm xúc hôm nay</label>
+      <div class="picker" id="moodPicker">
+        <div class="opt" data-mood="😊 Vui vẻ">😊 Vui vẻ</div>
+        <div class="opt" data-mood="😌 Bình yên">😌 Bình yên</div>
+        <div class="opt" data-mood="😢 Buồn">😢 Buồn</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tiêu đề</label>
+      <input type="text" id="diaryTitle" placeholder="VD: Một ngày cuối tuần thư giãn">
+    </div>
+
+    <div class="field">
+      <label>Nội dung</label>
+      <textarea id="diaryContent" placeholder="Hôm nay tôi đã..." style="min-height: 150px;"></textarea>
+    </div>
+
+    <button class="save-btn" id="saveDiaryBtn">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu nhật ký
+    </button>
+  </div>
+</div>
+
+<!-- Xóa Confirm -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="ico"><svg class="hand-icon"><use href="#icon-trash"/></svg></div>
+    <h4 id="confirmTitle">Xóa mục này?</h4>
+    <p id="confirmMsg">Hành động này không thể hoàn tác.</p>
+    <div class="confirm-actions">
+      <button class="cancel" id="confirmCancel">Hủy</button>
+      <button class="confirm" id="confirmOk">Xóa</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-const KEY='my-personal-space-v1';
-const initial={goals:[],tasks:[],important:[],events:[],quickNote:'',fullNote:''};
-let data={...initial,...JSON.parse(localStorage.getItem(KEY)||'{}')};
-let viewDate=new Date();
-const $=id=>document.getElementById(id);
-function save(){localStorage.setItem(KEY,JSON.stringify(data));}
-function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function toast(msg='Saved ♡'){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1400);}
-function renderList(type,target){
- const el=$(target);if(!el)return;
- const arr=data[type]||[];
- el.innerHTML=arr.length?arr.map((x,i)=>`<div class="item ${x.done?'done':''}"><input type="checkbox" ${x.done?'checked':''} onchange="toggleItem('${type}',${i})"><span class="txt">${escapeHTML(x.text)}</span><button class="icon-btn" aria-label="Delete" onclick="removeItem('${type}',${i})">×</button></div>`).join(''):'<div class="empty">Nothing here yet. Add a little something ♡</div>';
-}
-function render(){
- renderList('goals','goalList');renderList('tasks','taskList');renderList('important','importantList');
- renderList('tasks','allTaskList');renderList('goals','allGoalList');renderList('important','notesImportantList');
- const goals=data.goals||[],done=goals.filter(x=>x.done).length;
- $('goalProgress').style.width=(goals.length?done/goals.length*100:0)+'%';
- $('goalStats').textContent=`${done} / ${goals.length} goals completed`;
- $('quickNote').value=data.quickNote||'';$('fullNote').value=data.fullNote||'';
- $('todayCount').textContent=`${(data.tasks||[]).filter(x=>!x.done).length} tasks to do today`;
- renderEvents();renderCalendar();
-}
-function addItem(type,inputId){
- const input=$(inputId),text=input.value.trim();if(!text)return;
- data[type].push({text,done:false});input.value='';save();render();toast('Added ♡');
-}
-function toggleItem(type,i){data[type][i].done=!data[type][i].done;save();render();}
-function removeItem(type,i){data[type].splice(i,1);save();render();toast('Removed');}
-function navigate(page){
- document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===page));
- document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
- const titles={home:'A little progress every day ✨',tasks:'One thing at a time ☁️',calendar:'Make room for what matters',notes:'Your thoughts live here'};
- $('pageTitle').textContent=titles[page];$('greeting').textContent=page==='home'?'YOUR PERSONAL SPACE':'MY '+page.toUpperCase();
- window.scrollTo({top:0,behavior:'smooth'});
-}
-document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page)));
-function dateKey(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
-function renderEvents(){
- const sorted=[...(data.events||[])].sort((a,b)=>a.date.localeCompare(b.date));
- const today=dateKey(new Date());
- const upcoming=sorted.filter(e=>e.date>=today);
- const make=e=>`<div class="event-row"><span class="event-date">${new Date(e.date+'T00:00:00').toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'})}</span><span style="flex:1">${escapeHTML(e.name)}</span><button class="icon-btn" onclick="removeEvent('${e.id}')">×</button></div>`;
- $('upcomingList').innerHTML=upcoming.length?upcoming.slice(0,4).map(make).join(''):'<div class="empty">No upcoming events. Enjoy the space ♡</div>';
- $('allEvents').innerHTML=sorted.length?sorted.map(make).join(''):'<div class="empty">Your calendar is waiting for an event.</div>';
-}
-function removeEvent(id){data.events=data.events.filter(e=>e.id!==id);save();renderEvents();renderCalendar();}
-$('eventForm').addEventListener('submit',e=>{e.preventDefault();data.events.push({id:Date.now().toString(),name:$('eventName').value.trim(),date:$('eventDate').value});$('eventName').value='';$('eventDate').value='';save();renderEvents();renderCalendar();toast('Event saved ♡');});
-function renderCalendar(){
- const y=viewDate.getFullYear(),m=viewDate.getMonth();
- $('monthLabel').textContent=viewDate.toLocaleDateString('vi-VN',{month:'long',year:'numeric'});
- const first=new Date(y,m,1),start=(first.getDay()+6)%7,days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate();
- const names=['T2','T3','T4','T5','T6','T7','CN'];
- let out=names.map(n=>`<div class="day-name">${n}</div>`).join('');
- for(let i=0;i<42;i++){
-  let n,month=m,year=y,muted=false;
-  if(i<start){n=prevDays-start+i+1;muted=true;if(m===0){month=11;year=y-1}else month=m-1;}
-  else if(i>=start+days){n=i-start-days+1;muted=true;if(m===11){month=0;year=y+1}else month=m+1;}
-  else n=i-start+1;
-  const key=dateKey(new Date(year,month,n)),has=(data.events||[]).some(e=>e.date===key),today=key===dateKey(new Date());
-  out+=`<div class="day ${muted?'muted':''} ${today?'today':''}">${n}${has?'<i class="event-dot"></i>':''}</div>`;
- }
- $('calendarGrid').innerHTML=out;
-}
-function changeMonth(step){viewDate.setMonth(viewDate.getMonth()+step);renderCalendar();}
-$('quickNote').addEventListener('input',e=>{data.quickNote=e.target.value;save();});
-$('fullNote').addEventListener('input',e=>{data.fullNote=e.target.value;save();});
-const now=new Date();
-$('todayLabel').textContent=now.toLocaleDateString('vi-VN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-$('eventDate').min=dateKey(new Date());
-render();
+(function(){
+  'use strict';
+
+  const CITIES = [
+    'An Giang','Bà Rịa - Vũng Tàu','Bắc Giang','Bắc Kạn','Bạc Liêu','Bắc Ninh',
+    'Bến Tre','Bình Định','Bình Dương','Bình Phước','Bình Thuận','Cà Mau',
+    'Cao Bằng','Đắk Lắk','Đắk Nông','Điện Biên','Đồng Nai','Đồng Tháp',
+    'Gia Lai','Hà Giang','Hà Nam','Hà Nội','Hà Tĩnh','Hải Dương','Hải Phòng',
+    'Hậu Giang','Hòa Bình','Hưng Yên','Khánh Hòa','Kiên Giang','Kon Tum',
+    'Lai Châu','Lâm Đồng','Lạng Sơn','Lào Cai','Long An','Nam Định','Nghệ An',
+    'Ninh Bình','Ninh Thuận','Phú Thọ','Phú Yên','Quảng Bình','Quảng Nam',
+    'Quảng Ngãi','Quảng Ninh','Quảng Trị','Sóc Trăng','Sơn La','Tây Ninh',
+    'Thái Bình','Thái Nguyên','Thanh Hóa','Thừa Thiên Huế','Tiền Giang',
+    'Trà Vinh','Tuyên Quang','Vĩnh Long','Vĩnh Phúc','Yên Bái','Cần Thơ',
+    'Đà Nẵng','TP. Hồ Chí Minh'
+  ].sort((a,b) => a.localeCompare(b, 'vi'));
+
+  const STORAGE_KEY = 'places_v10';
+  const DIARY_KEY = 'diary_v4';
+  const NOTE_KEY = 'notes_v2';
+
+  // Dữ liệu mẫu
+  const SAMPLE_PLACES = [
+    { id: 'p_1', name: 'Cà phê Ngõ Nhỏ', type: 'cafe', status: 'want', rating: 5, city: 'Hà Nội', address: '12 Nguyễn Huệ', date: '2023-10-25', hashtags: ['viewdep', 'chill'], note: 'Không gian yên tĩnh, nước uống ổn.', createdAt: Date.now() - 10000000 },
+    { id: 'p_2', name: 'Bún Chả Hương Liên', type: 'food', status: 'done', rating: 4, city: 'Hà Nội', address: '24 Lê Văn Hưu', date: '2023-10-20', hashtags: ['obama', 'bunCha'], note: 'Ngon, đông khách.', createdAt: Date.now() - 9000000 },
+    { id: 'p_3', name: 'Hồ Tuyền Lâm', type: 'travel', status: 'want', rating: 5, city: 'Lâm Đồng', address: 'TP Đà Lạt', date: '2023-11-01', hashtags: ['dalat', 'thienNhien'], note: 'Đi thuyền, cắm trại.', createdAt: Date.now() - 8000000 }
+  ];
+  const SAMPLE_NOTES = [
+    { id: 'n_1', title: 'Mua sạc dự phòng', type: 'task', content: 'Sạc 20.000mAh', date: '2023-11-05', hashtags: ['muasam'], createdAt: Date.now() },
+    { id: 'n_2', title: 'Mẹo chụp ảnh', type: 'tip', content: 'Chụp ngược sáng đẹp hơn', date: '2023-11-01', hashtags: ['tips'], createdAt: Date.now() - 10000 }
+  ];
+
+  let places = [];
+  let diaries = [];
+  let notes = [];
+  let currentTab = 'places'; // Set mặc định là Địa điểm để dễ test
+  
+  // State cho Place
+  let editPlaceId = null;
+  let filterType = 'all';
+  let filterStatus = 'all';
+  let filterCity = '';
+  let filterHashtag = '';
+  let formPlaceType = 'cafe';
+  let formPlaceStatus = 'want';
+  let formPlaceRating = 0;
+  let sortPlacesMode = 'newest';
+  let searchPlaces = '';
+
+  // State cho Note
+  let editNoteId = null;
+  let filterNoteType = 'all';
+  let filterNoteHashtag = '';
+  let formNoteType = 'note';
+  let sortNotesMode = 'newest';
+  let searchNotes = '';
+
+  // State cho Diary
+  let editDiaryId = null;
+  let formDiaryMood = '';
+  let selectedDiaryId = null;
+
+  // State Delete chung
+  let pendingDeleteId = null;
+  let pendingDeleteType = '';
+
+  const $ = id => document.getElementById(id);
+
+  function loadData() {
+    // Places
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) { places = JSON.parse(raw); } 
+      else { places = [...SAMPLE_PLACES]; saveData(); }
+    } catch(e) { places = [...SAMPLE_PLACES]; }
+
+    // Diaries
+    try {
+      const rawD = localStorage.getItem(DIARY_KEY);
+      if (rawD) { diaries = JSON.parse(rawD); } else { diaries = []; }
+    } catch(e) { diaries = []; }
+
+    // Notes
+    try {
+      const rawN = localStorage.getItem(NOTE_KEY);
+      if (rawN) { notes = JSON.parse(rawN); } else { notes = [...SAMPLE_NOTES]; saveData(); }
+    } catch(e) { notes = [...SAMPLE_NOTES]; }
+  }
+
+  function saveData() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(places));
+      localStorage.setItem(DIARY_KEY, JSON.stringify(diaries));
+      localStorage.setItem(NOTE_KEY, JSON.stringify(notes));
+    } catch(e) { toast('⚠️ Lỗi lưu dữ liệu'); }
+  }
+
+  const INFO = {
+    cafe:   { label:'Cà phê',  icon:'#icon-coffee', cls:'cafe' },
+    food:   { label:'Ăn uống', icon:'#icon-food', cls:'food' },
+    travel: { label:'Du lịch', icon:'#icon-travel', cls:'travel' },
+    note:   { label:'Ghi chú', icon:'#icon-notebook', cls:'note' },
+    task:   { label:'Việc làm', icon:'#icon-list', cls:'task' },
+    tip:    { label:'Tips', icon:'#icon-bulb', cls:'tip' }
+  };
+  const STATUS = {
+    want: { label:'Chưa đi', icon:'#icon-circle', cls:'want' },
+    done: { label:'Đã đi',   icon:'#icon-check-circle', cls:'done' }
+  };
+
+  function fmtDate(dateStr) {
+    if (!dateStr) return 'Không rõ';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' });
+  }
+
+  function toast(msg) {
+    const t = $('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  function esc(s) {
+    return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function renderStars(rating) {
+    let html = '';
+    for(let i=1; i<=5; i++) {
+      html += `<svg class="hand-icon ${i<=rating?'on':'off'}" viewBox="0 0 24 24"><use href="#icon-star"/></svg>`;
+    }
+    return html;
+  }
+
+  /* ==================== TAB SWITCHER ==================== */
+  function switchTab(tabId) {
+    currentTab = tabId;
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.tab === tabId));
+    
+    if (tabId === 'home') {
+      $('headerTitle').innerHTML = `<svg class="hand-icon" style="stroke:var(--pink-primary);"><use href="#icon-home"/></svg> Trang Chủ`;
+      renderHome();
+    } else if (tabId === 'places') {
+      $('headerTitle').innerHTML = `<svg class="hand-icon" style="stroke:var(--pink-primary);"><use href="#icon-map"/></svg> Sổ Tay Địa Điểm`;
+      renderPlaces();
+    } else if (tabId === 'diary') {
+      $('headerTitle').innerHTML = `<svg class="hand-icon" style="stroke:var(--pink-primary);"><use href="#icon-book"/></svg> Nhật Ký`;
+      renderDiaries();
+    } else if (tabId === 'notes') {
+      $('headerTitle').innerHTML = `<svg class="hand-icon" style="stroke:var(--pink-primary);"><use href="#icon-notebook"/></svg> Ghi Chú & Tips`;
+      renderNotes();
+    }
+  }
+
+  document.querySelectorAll('.nav-item').forEach(nav => {
+    nav.addEventListener('click', () => switchTab(nav.dataset.tab));
+  });
+
+  /* ==================== TAB TRANG CHỦ ==================== */
+  function renderHome() {
+    $('statPlaces').textContent = places.length;
+    $('statDiaries').textContent = diaries.length;
+    $('statNotes').textContent = notes.length;
+
+    // Gợi ý địa điểm chưa đi
+    const wantPlaces = places.filter(p => p.status === 'want');
+    const suggestWrap = $('suggestWrap');
+    if (wantPlaces.length > 0) {
+      const randomP = wantPlaces[Math.floor(Math.random() * wantPlaces.length)];
+      suggestWrap.innerHTML = `
+        <div class="suggest-card">
+          <span class="suggest-tag">Đi đâu hôm nay?</span>
+          <div class="suggest-title">${esc(randomP.name)}</div>
+          <div class="suggest-address"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(randomP.address || randomP.city || 'Chưa rõ địa chỉ')}</div>
+          <button class="suggest-btn" onclick="document.querySelector('.nav-item[data-tab=places]').click()">Khám phá ngay</button>
+        </div>
+      `;
+    } else {
+      suggestWrap.innerHTML = `<div style="background:var(--pink-surface); padding:16px; border-radius:16px; text-align:center; font-size:13px; color:var(--text-muted);">Bạn đã đi hết địa điểm rồi! Thêm địa điểm mới nhé.</div>`;
+    }
+
+    // Todo List
+    const todoList = $('todoMiniList');
+    const tasks = notes.filter(n => n.type === 'task').slice(0, 3);
+    if (tasks.length > 0) {
+      todoList.innerHTML = tasks.map(t => `
+        <div class="todo-mini-item">
+          <div class="todo-mini-check"><svg class="hand-icon"><use href="#icon-check-circle"/></svg></div>
+          <div class="todo-mini-title">${esc(t.title)}</div>
+        </div>
+      `).join('');
+    } else {
+      todoList.innerHTML = `<div style="background:var(--pink-surface); padding:16px; border-radius:16px; text-align:center; font-size:13px; color:var(--text-muted);">Chưa có việc nào cần làm.</div>`;
+    }
+  }
+
+  /* ==================== TAB 1: ĐỊA ĐIỂM ==================== */
+  function getFilteredPlaces() {
+    let arr = places.slice();
+    if (filterType !== 'all') arr = arr.filter(p => p.type === filterType);
+    if (filterStatus !== 'all') arr = arr.filter(p => p.status === filterStatus);
+    if (filterCity.trim()) {
+      arr = arr.filter(p => (p.city||'').toLowerCase().includes(filterCity.toLowerCase().trim()));
+    }
+    if (filterHashtag.trim()) {
+      const q = filterHashtag.toLowerCase().replace(/^#/, '').trim();
+      arr = arr.filter(p => (p.hashtags || []).some(tag => tag.toLowerCase().includes(q)));
+    }
+    if (searchPlaces) {
+      const q = searchPlaces.toLowerCase();
+      arr = arr.filter(p =>
+        (p.name||'').toLowerCase().includes(q) ||
+        (p.city||'').toLowerCase().includes(q) ||
+        (p.note||'').toLowerCase().includes(q) ||
+        (p.hashtags||[]).join(' ').toLowerCase().includes(q)
+      );
+    }
+    arr.sort((a,b) => {
+      if (sortPlacesMode === 'newest') return b.createdAt - a.createdAt;
+      if (sortPlacesMode === 'oldest') return a.createdAt - b.createdAt;
+      if (sortPlacesMode === 'rating-desc') {
+        if ((b.rating||0) !== (a.rating||0)) return (b.rating||0) - (a.rating||0);
+        return b.createdAt - a.createdAt;
+      }
+      if (sortPlacesMode === 'rating-asc') {
+        if ((a.rating||0) !== (b.rating||0)) return (a.rating||0) - (b.rating||0);
+        return b.createdAt - a.createdAt;
+      }
+      if (sortPlacesMode === 'name-asc') return (a.name||'').localeCompare(b.name||'', 'vi');
+      return 0;
+    });
+    return arr;
+  }
+
+  function updatePlaceFilterBadge() {
+    let count = 0;
+    if (filterType !== 'all') count++;
+    if (filterStatus !== 'all') count++;
+    if (filterCity.trim()) count++;
+    if (filterHashtag.trim()) count++;
+    const badge = $('filterBadge');
+    if (count > 0) { badge.textContent = count; badge.classList.add('show'); } 
+    else { badge.classList.remove('show'); }
+  }
+
+  function renderPlaces() {
+    const list = $('listPlaces');
+    const arr = getFilteredPlaces();
+
+    $('countPlaces').textContent = `${arr.length} kết quả`;
+    $('swipeHintPlaces').style.display = arr.length > 0 ? 'flex' : 'none';
+    updatePlaceFilterBadge();
+
+    const sortLabels = { newest: 'Mới nhất', oldest: 'Cũ nhất', 'rating-desc': 'Điểm cao', 'rating-asc': 'Điểm thấp', 'name-asc': 'Tên A-Z' };
+    $('sortLabel').textContent = sortLabels[sortPlacesMode];
+
+    if (arr.length === 0) {
+      list.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-search"/></svg></div><h3>Không tìm thấy</h3><p>Thử đổi bộ lọc hoặc từ khóa khác nhé.</p></div>`;
+      return;
+    }
+
+    list.innerHTML = arr.map(p => {
+      const info = INFO[p.type] || INFO.cafe;
+      const st = STATUS[p.status] || STATUS.want;
+      const starsHtml = renderStars(p.rating || 0);
+      const linkHtml = p.link ? `<a href="${esc(p.link)}" target="_blank" class="card-link"><svg class="hand-icon"><use href="#icon-link"/></svg> Mở link</a>` : '';
+      
+      const showType = filterType === 'all';
+      const showStatus = filterStatus === 'all';
+      const hashtagHtml = (p.hashtags && p.hashtags.length > 0 && !filterHashtag) 
+        ? p.hashtags.map(tag => `<span class="tag hashtag"><svg class="hand-icon"><use href="#icon-hashtag"/></svg>${esc(tag)}</span>`).join('') : '';
+
+      return `
+        <div class="swipe-item" data-id="${p.id}" data-type="place">
+          <div class="swipe-actions">
+            <div class="action edit" data-action="edit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa</div>
+            <div class="action delete" data-action="delete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa</div>
+          </div>
+          <div class="card" onclick="handleCardClick(event, '${p.id}', 'place')">
+            <div class="card-emoji ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg></div>
+            <div class="card-body">
+              <div class="card-header">
+                <div class="card-title">${esc(p.name)}</div>
+                <div class="card-rating">${starsHtml}</div>
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                ${showStatus ? `<span class="status-badge ${st.cls}"><svg class="hand-icon"><use href="${st.icon}"/></svg> ${st.label}</span>` : ''}
+                ${showType ? `<span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>` : ''}
+                ${p.city ? `<span class="tag city"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(p.city)}</span>` : ''}
+              </div>
+              ${(p.address || p.date) ? `
+              <div class="card-info-row">
+                ${p.address ? `<div class="info-item"><svg class="hand-icon"><use href="#icon-pin"/></svg> <span>${esc(p.address)}</span></div>` : ''}
+                ${p.date ? `<div class="info-item"><svg class="hand-icon"><use href="#icon-calendar"/></svg> <span>${fmtDate(p.date)}</span></div>` : ''}
+              </div>` : ''}
+              ${hashtagHtml ? `<div class="card-meta">${hashtagHtml}</div>` : ''}
+              ${p.note ? `<div class="card-note">${esc(p.note)}</div>` : ''}
+              ${linkHtml}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    bindSwipe(list);
+  }
+
+  /* ==================== TAB 2: NHẬT KÝ ==================== */
+  function renderDiaries() {
+    const wrap = $('timelineWrap');
+    if (diaries.length === 0) {
+      wrap.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-book"/></svg></div><h3>Chưa có bài viết nào</h3><p>Nhấn nút <b>+</b> để viết lại những kỷ niệm đáng nhớ nhé!</p></div>`;
+      return;
+    }
+
+    const sorted = diaries.slice().sort((a,b) => {
+      if (a.date !== b.date) return b.date.localeCompare(a.date);
+      return b.createdAt - a.createdAt;
+    });
+
+    wrap.innerHTML = sorted.map(d => `
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(d.date)}</div>
+        <div class="timeline-card" onclick="openActionMenu('${d.id}')">
+          <div class="timeline-title">${esc(d.title) || 'Không có tiêu đề'}</div>
+          ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
+          <div class="timeline-content">${esc(d.content)}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  /* ==================== TAB 3: GHI CHÚ ==================== */
+  function getFilteredNotes() {
+    let arr = notes.slice();
+    if (filterNoteType !== 'all') arr = arr.filter(n => n.type === filterNoteType);
+    if (filterNoteHashtag.trim()) {
+      const q = filterNoteHashtag.toLowerCase().replace(/^#/, '').trim();
+      arr = arr.filter(n => (n.hashtags || []).some(tag => tag.toLowerCase().includes(q)));
+    }
+    if (searchNotes) {
+      const q = searchNotes.toLowerCase();
+      arr = arr.filter(n =>
+        (n.title||'').toLowerCase().includes(q) ||
+        (n.content||'').toLowerCase().includes(q) ||
+        (n.hashtags||[]).join(' ').toLowerCase().includes(q)
+      );
+    }
+    arr.sort((a,b) => {
+      if (sortNotesMode === 'newest') return b.createdAt - a.createdAt;
+      if (sortNotesMode === 'oldest') return a.createdAt - b.createdAt;
+      if (sortNotesMode === 'name-asc') return (a.title||'').localeCompare(b.title||'', 'vi');
+      return 0;
+    });
+    return arr;
+  }
+
+  function updateNoteFilterBadge() {
+    let count = 0;
+    if (filterNoteType !== 'all') count++;
+    if (filterNoteHashtag.trim()) count++;
+    const badge = $('noteFilterBadge');
+    if (count > 0) { badge.textContent = count; badge.classList.add('show'); } 
+    else { badge.classList.remove('show'); }
+  }
+
+  function renderNotes() {
+    const list = $('listNotes');
+    const arr = getFilteredNotes();
+
+    $('countNotes').textContent = `${arr.length} kết quả`;
+    $('swipeHintNotes').style.display = arr.length > 0 ? 'flex' : 'none';
+    updateNoteFilterBadge();
+
+    const sortLabels = { newest: 'Mới nhất', oldest: 'Cũ nhất', 'name-asc': 'Tên A-Z' };
+    $('sortNotesLabel').textContent = sortLabels[sortNotesMode];
+
+    if (arr.length === 0) {
+      list.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-search"/></svg></div><h3>Không tìm thấy</h3><p>Thử đổi bộ lọc hoặc từ khóa khác nhé.</p></div>`;
+      return;
+    }
+
+    list.innerHTML = arr.map(n => {
+      const info = INFO[n.type] || INFO.note;
+      const showType = filterNoteType === 'all';
+      const hashtagHtml = (n.hashtags && n.hashtags.length > 0 && !filterNoteHashtag) 
+        ? n.hashtags.map(tag => `<span class="tag hashtag"><svg class="hand-icon"><use href="#icon-hashtag"/></svg>${esc(tag)}</span>`).join('') : '';
+
+      return `
+        <div class="swipe-item" data-id="${n.id}" data-type="note">
+          <div class="swipe-actions">
+            <div class="action edit" data-action="edit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa</div>
+            <div class="action delete" data-action="delete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa</div>
+          </div>
+          <div class="card" onclick="handleCardClick(event, '${n.id}', 'note')">
+            <div class="card-emoji ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg></div>
+            <div class="card-body">
+              <div class="card-header">
+                <div class="card-title">${esc(n.title)}</div>
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                ${showType ? `<span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>` : ''}
+                ${n.date ? `<span class="tag date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(n.date)}</span>` : ''}
+              </div>
+              ${hashtagHtml ? `<div class="card-meta">${hashtagHtml}</div>` : ''}
+              ${n.content ? `<div class="card-note">${esc(n.content)}</div>` : ''}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    bindSwipe(list);
+  }
+
+  /* ==================== SWIPE (Place và Note) ==================== */
+  function bindSwipe(container) {
+    container.querySelectorAll('.swipe-item').forEach(item => {
+      const card = item.querySelector('.card');
+      const id = item.dataset.id;
+      const itemType = item.dataset.type;
+
+      let startX = 0, startY = 0, currentX = 0, dragging = false, locked = false, horizontal = false;
+      const MAX = 92;
+
+      card.addEventListener('touchstart', e => {
+        if (e.touches.length !== 1) return;
+        startX = e.touches[0].clientX; startY = e.touches[0].clientY; currentX = 0;
+        dragging = true; locked = false; horizontal = false; card.classList.add('dragging');
+      }, { passive: true });
+
+      card.addEventListener('touchmove', e => {
+        if (!dragging) return;
+        const dx = e.touches[0].clientX - startX;
+        const dy = e.touches[0].clientY - startY;
+        if (!locked) {
+          if (Math.abs(dx) > 8 || Math.abs(dy) > 8) { locked = true; horizontal = Math.abs(dx) > Math.abs(dy); }
+          if (!horizontal) { dragging = false; card.classList.remove('dragging'); return; }
+        }
+        if (!horizontal) return;
+        e.preventDefault();
+        let offset = dx;
+        if (offset > MAX) offset = MAX + (offset - MAX) * 0.25;
+        if (offset < -MAX) offset = -MAX + (offset + MAX) * 0.25;
+        currentX = offset; card.style.transform = `translateX(${offset}px)`;
+      }, { passive: false });
+
+      const endDrag = () => {
+        if (!dragging) return;
+        dragging = false; card.classList.remove('dragging');
+        const threshold = MAX * 0.55;
+        if (currentX > threshold) { card.style.transform = `translateX(${MAX}px)`; }
+        else if (currentX < -threshold) { card.style.transform = `translateX(${-MAX}px)`; }
+        else { card.style.transform = `translateX(0)`; }
+        currentX = 0;
+      };
+
+      card.addEventListener('touchend', endDrag);
+      card.addEventListener('touchcancel', endDrag);
+
+      item.querySelector('[data-action="edit"]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeAllSwipes();
+        if (itemType === 'place') openPlaceModal(id);
+        else if (itemType === 'note') openNoteModal(id);
+      });
+      
+      item.querySelector('[data-action="delete"]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeAllSwipes();
+        askDelete(id, itemType);
+      });
+    });
+    
+    document.addEventListener('touchstart', e => { 
+      if (!e.target.closest('.swipe-item')) closeAllSwipes(); 
+    }, { passive: true });
+  }
+
+  function closeAllSwipes() {
+    document.querySelectorAll('.card').forEach(c => {
+      if (c.style.transform && c.style.transform !== 'translateX(0px)') {
+        c.style.transition = 'transform 0.25s'; c.style.transform = 'translateX(0)';
+      }
+    });
+  }
+
+  // Xử lý khi click vào card (Nếu bị lộ nút thì đóng, nếu không thì mở form sửa)
+  window.handleCardClick = function(e, id, type) {
+    const card = e.currentTarget;
+    if (card.style.transform && card.style.transform !== 'translateX(0px)' && card.style.transform !== '') {
+      closeAllSwipes(); return;
+    }
+    if(type === 'place') openPlaceModal(id);
+    else if(type === 'note') openNoteModal(id);
+  };
+
+  /* ==================== ACTION MENU CHO NHẬT KÝ ==================== */
+  window.openActionMenu = function(id) {
+    selectedDiaryId = id;
+    $('actionMenuOverlay').classList.add('show');
+  };
+  $('btnMenuCancel').addEventListener('click', () => $('actionMenuOverlay').classList.remove('show'));
+  $('actionMenuOverlay').addEventListener('click', e => { if (e.target === $('actionMenuOverlay')) $('actionMenuOverlay').classList.remove('show'); });
+  
+  $('btnMenuEdit').addEventListener('click', () => {
+    $('actionMenuOverlay').classList.remove('show');
+    openDiaryModal(selectedDiaryId);
+  });
+  $('btnMenuDelete').addEventListener('click', () => {
+    $('actionMenuOverlay').classList.remove('show');
+    askDelete(selectedDiaryId, 'diary');
+  });
+
+  /* ==================== FORMS ==================== */
+  function openPlaceModal(id) {
+    editPlaceId = id || null;
+    if (id) {
+      const p = places.find(x => x.id === id);
+      if (!p) return;
+      $('placeModalTitle').textContent = 'Sửa địa điểm';
+      $('placeName').value = p.name || '';
+      $('placeCity').value = p.city || '';
+      $('placeAddress').value = p.address || '';
+      $('placeDate').value = p.date || new Date().toISOString().split('T')[0];
+      $('placeHashtags').value = (p.hashtags || []).join(', ');
+      $('placeNote').value = p.note || '';
+      $('placeLink').value = p.link || '';
+      setFormType(p.type || 'cafe');
+      setFormStatus(p.status || 'want');
+      setFormRating(p.rating || 0);
+    } else {
+      $('placeModalTitle').textContent = 'Thêm địa điểm';
+      $('placeName').value = ''; $('placeCity').value = ''; $('placeAddress').value = ''; 
+      $('placeDate').value = new Date().toISOString().split('T')[0]; $('placeHashtags').value = ''; 
+      $('placeNote').value = ''; $('placeLink').value = '';
+      setFormType('cafe'); setFormStatus('want'); setFormRating(0);
+    }
+    $('placeOverlay').classList.add('show');
+    setTimeout(() => $('placeName').focus(), 300);
+  }
+  function closePlaceModal() { $('placeOverlay').classList.remove('show'); editPlaceId = null; }
+  function setFormType(type) { formPlaceType = type; document.querySelectorAll('#typePicker .opt').forEach(o => o.classList.toggle('active', o.dataset.type === type)); }
+  function setFormStatus(status) { formPlaceStatus = status; document.querySelectorAll('#statusPicker .opt').forEach(o => o.classList.toggle('active', o.dataset.status === status)); }
+  function setFormRating(v) { formPlaceRating = v; document.querySelectorAll('#ratingPicker .star-btn').forEach(s => s.classList.toggle('on', Number(s.dataset.v) <= v)); }
+
+  function openNoteModal(id) {
+    editNoteId = id || null;
+    if (id) {
+      const n = notes.find(x => x.id === id);
+      if (!n) return;
+      $('noteModalTitle').textContent = 'Sửa ghi chú';
+      $('noteTitle').value = n.title || '';
+      $('noteDate').value = n.date || new Date().toISOString().split('T')[0];
+      $('noteHashtags').value = (n.hashtags || []).join(', ');
+      $('noteContent').value = n.content || '';
+      setFormNoteType(n.type || 'note');
+    } else {
+      $('noteModalTitle').textContent = 'Thêm ghi chú';
+      $('noteTitle').value = ''; 
+      $('noteDate').value = new Date().toISOString().split('T')[0]; 
+      $('noteHashtags').value = ''; 
+      $('noteContent').value = '';
+      setFormNoteType('note');
+    }
+    $('noteOverlay').classList.add('show');
+    setTimeout(() => $('noteTitle').focus(), 300);
+  }
+  function closeNoteModal() { $('noteOverlay').classList.remove('show'); editNoteId = null; }
+  function setFormNoteType(type) { formNoteType = type; document.querySelectorAll('#noteTypePicker .opt').forEach(o => o.classList.toggle('active', o.dataset.type === type)); }
+
+  function openDiaryModal(id) {
+    editDiaryId = id || null;
+    if (id) {
+      const d = diaries.find(x => x.id === id);
+      if (!d) return;
+      $('diaryModalTitle').textContent = 'Sửa nhật ký';
+      $('diaryDateInput').value = d.date || new Date().toISOString().split('T')[0];
+      $('diaryTitle').value = d.title || '';
+      $('diaryContent').value = d.content || '';
+      setDiaryMood(d.mood || '');
+    } else {
+      $('diaryModalTitle').textContent = 'Viết nhật ký';
+      $('diaryDateInput').value = new Date().toISOString().split('T')[0];
+      $('diaryTitle').value = '';
+      $('diaryContent').value = '';
+      setDiaryMood('');
+    }
+    $('diaryOverlay').classList.add('show');
+    setTimeout(() => $('diaryTitle').focus(), 300);
+  }
+  function closeDiaryModal() { $('diaryOverlay').classList.remove('show'); editDiaryId = null; }
+
+  function setDiaryMood(mood) {
+    formDiaryMood = mood;
+    document.querySelectorAll('#moodPicker .opt').forEach(o => {
+      o.classList.toggle('active', o.dataset.mood === mood);
+      if(o.dataset.mood !== mood) o.style.borderColor = 'var(--border)', o.style.background = '#fafafc', o.style.color = 'var(--text-muted)';
+      else o.style.borderColor = 'var(--pink-primary)', o.style.background = 'var(--pink-bg)', o.style.color = 'var(--pink-primary)';
+    });
+  }
+
+  /* ==================== AUTOCOMPLETE ==================== */
+  function setupAutocomplete(inputId, listId) {
+    const input = $(inputId), list = $(listId);
+    input.addEventListener('input', () => {
+      const val = input.value.trim().toLowerCase();
+      if (!val) { list.classList.remove('show'); return; }
+      const matches = CITIES.filter(c => c.toLowerCase().includes(val)).slice(0, 5);
+      if (matches.length === 0) { list.classList.remove('show'); return; }
+      list.innerHTML = matches.map(c => `<div data-val="${esc(c)}">${esc(c)}</div>`).join('');
+      list.classList.add('show');
+      list.querySelectorAll('div').forEach(div => {
+        div.addEventListener('click', () => { input.value = div.dataset.val; list.classList.remove('show'); });
+      });
+    });
+    document.addEventListener('click', e => {
+      if (!input.contains(e.target) && !list.contains(e.target)) list.classList.remove('show');
+    });
+  }
+  setupAutocomplete('placeCity', 'formCitySuggestions');
+  setupAutocomplete('filterCityInput', 'citySuggestions');
+
+  /* ==================== EVENT LỌC ==================== */
+  $('openFilterBtn').addEventListener('click', () => {
+    document.querySelectorAll('#filterTypeGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.type === filterType));
+    document.querySelectorAll('#filterStatusGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.status === filterStatus));
+    $('filterCityInput').value = filterCity;
+    $('filterHashtagInput').value = filterHashtag;
+    $('filterOverlay').classList.add('show');
+  });
+  $('closeFilterBtn').addEventListener('click', () => $('filterOverlay').classList.remove('show'));
+  document.querySelectorAll('#filterTypeGroup .chip').forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll('#filterTypeGroup .chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+    });
+  });
+  document.querySelectorAll('#filterStatusGroup .chip').forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll('#filterStatusGroup .chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+    });
+  });
+  $('applyFilterBtn').addEventListener('click', () => {
+    filterType = document.querySelector('#filterTypeGroup .chip.active').dataset.type;
+    filterStatus = document.querySelector('#filterStatusGroup .chip.active').dataset.status;
+    filterCity = $('filterCityInput').value.trim();
+    filterHashtag = $('filterHashtagInput').value.trim();
+    renderPlaces(); $('filterOverlay').classList.remove('show');
+  });
+  $('resetFilterBtn').addEventListener('click', () => {
+    filterType = 'all'; filterStatus = 'all'; filterCity = ''; filterHashtag = '';
+    $('filterCityInput').value = ''; $('filterHashtagInput').value = '';
+    document.querySelectorAll('#filterTypeGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.type === 'all'));
+    document.querySelectorAll('#filterStatusGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.status === 'all'));
+    renderPlaces(); $('filterOverlay').classList.remove('show');
+  });
+
+  $('openNoteFilterBtn').addEventListener('click', () => {
+    document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.type === filterNoteType));
+    $('filterNoteHashtagInput').value = filterNoteHashtag;
+    $('noteFilterOverlay').classList.add('show');
+  });
+  $('closeNoteFilterBtn').addEventListener('click', () => $('noteFilterOverlay').classList.remove('show'));
+  document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+    });
+  });
+  $('applyNoteFilterBtn').addEventListener('click', () => {
+    filterNoteType = document.querySelector('#filterNoteTypeGroup .chip.active').dataset.type;
+    filterNoteHashtag = $('filterNoteHashtagInput').value.trim();
+    renderNotes(); $('noteFilterOverlay').classList.remove('show');
+  });
+  $('resetNoteFilterBtn').addEventListener('click', () => {
+    filterNoteType = 'all'; filterNoteHashtag = '';
+    $('filterNoteHashtagInput').value = '';
+    document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.type === 'all'));
+    renderNotes(); $('noteFilterOverlay').classList.remove('show');
+  });
+
+  /* ==================== SỰ KIỆN LƯU ==================== */
+  $('fab').addEventListener('click', () => {
+    if (currentTab === 'places') openPlaceModal(null);
+    else if (currentTab === 'notes') openNoteModal(null);
+    else if (currentTab === 'diary') openDiaryModal(null);
+    else if (currentTab === 'home') openPlaceModal(null); // Mặc định thêm địa điểm nếu ở Home
+  });
+
+  $('closePlaceModal').addEventListener('click', closePlaceModal);
+  $('closeNoteModal').addEventListener('click', closeNoteModal);
+  $('closeDiaryModal').addEventListener('click', closeDiaryModal);
+
+  document.querySelectorAll('#typePicker .opt').forEach(o => o.addEventListener('click', () => setFormType(o.dataset.type)));
+  document.querySelectorAll('#statusPicker .opt').forEach(o => o.addEventListener('click', () => setFormStatus(o.dataset.status)));
+  document.querySelectorAll('#ratingPicker .star-btn').forEach(s => s.addEventListener('click', () => setFormRating(Number(s.dataset.v))));
+  document.querySelectorAll('#noteTypePicker .opt').forEach(o => o.addEventListener('click', () => setFormNoteType(o.dataset.type)));
+  document.querySelectorAll('#moodPicker .opt').forEach(o => o.addEventListener('click', () => setDiaryMood(o.dataset.mood)));
+
+  $('savePlaceBtn').addEventListener('click', () => {
+    const name = $('placeName').value.trim();
+    if (!name) { $('placeName').focus(); return toast('Nhập tên địa điểm'); }
+    const rawTags = $('placeHashtags').value.split(/[, ]+/).filter(t => t.trim());
+    const data = {
+      name, city: $('placeCity').value.trim(), address: $('placeAddress').value.trim(),
+      date: $('placeDate').value, hashtags: [...new Set(rawTags.map(t=>t.replace(/^#/, '')))],
+      note: $('placeNote').value.trim(), link: $('placeLink').value.trim(),
+      rating: formPlaceRating, type: formPlaceType, status: formPlaceStatus
+    };
+    if (editPlaceId) {
+      const p = places.find(x => x.id === editPlaceId);
+      if (p) Object.assign(p, data);
+    } else {
+      places.push({ id: 'p_' + Date.now(), ...data, createdAt: Date.now() });
+    }
+    saveData(); renderPlaces(); closePlaceModal(); toast('✅ Đã lưu');
+  });
+
+  $('saveNoteBtn').addEventListener('click', () => {
+    const title = $('noteTitle').value.trim();
+    if (!title) { $('noteTitle').focus(); return toast('Nhập tiêu đề ghi chú'); }
+    const rawTags = $('noteHashtags').value.split(/[, ]+/).filter(t => t.trim());
+    const data = {
+      title, date: $('noteDate').value, 
+      hashtags: [...new Set(rawTags.map(t=>t.replace(/^#/, '')))],
+      content: $('noteContent').value.trim(), type: formNoteType
+    };
+    if (editNoteId) {
+      const n = notes.find(x => x.id === editNoteId);
+      if (n) Object.assign(n, data);
+    } else {
+      notes.push({ id: 'n_' + Date.now(), ...data, createdAt: Date.now() });
+    }
+    saveData(); renderNotes(); closeNoteModal(); toast('✅ Đã lưu');
+  });
+
+  $('saveDiaryBtn').addEventListener('click', () => {
+    const title = $('diaryTitle').value.trim();
+    const content = $('diaryContent').value.trim();
+    if (!title && !content) return toast('Nhập nội dung');
+    const data = { date: $('diaryDateInput').value, title, content, mood: formDiaryMood };
+    if (editDiaryId) {
+      const d = diaries.find(x => x.id === editDiaryId);
+      if (d) Object.assign(d, data);
+    } else {
+      diaries.push({ id: 'd_' + Date.now(), ...data, createdAt: Date.now() });
+    }
+    saveData(); renderDiaries(); closeDiaryModal(); toast('✅ Đã lưu');
+  });
+
+  /* ==================== TÌM KIẾM & SẮP XẾP ==================== */
+  $('searchPlaces').addEventListener('input', e => {
+    searchPlaces = e.target.value.trim();
+    $('clearSearchPlaces').classList.toggle('show', !!searchPlaces);
+    renderPlaces();
+  });
+  $('clearSearchPlaces').addEventListener('click', () => {
+    $('searchPlaces').value = ''; searchPlaces = ''; $('clearSearchPlaces').classList.remove('show'); renderPlaces();
+  });
+
+  $('searchNotes').addEventListener('input', e => {
+    searchNotes = e.target.value.trim();
+    $('clearSearchNotes').classList.toggle('show', !!searchNotes);
+    renderNotes();
+  });
+  $('clearSearchNotes').addEventListener('click', () => {
+    $('searchNotes').value = ''; searchNotes = ''; $('clearSearchNotes').classList.remove('show'); renderNotes();
+  });
+
+  $('sortBtn').addEventListener('click', e => { e.stopPropagation(); $('sortMenu').classList.toggle('show'); });
+  $('sortNotesBtn').addEventListener('click', e => { e.stopPropagation(); $('sortNotesMenu').classList.toggle('show'); });
+  
+  document.addEventListener('click', e => { 
+    if (!e.target.closest('.sort-wrapper')) {
+      $('sortMenu').classList.remove('show'); $('sortNotesMenu').classList.remove('show'); 
+    }
+  });
+
+  document.querySelectorAll('#sortMenu button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sortPlacesMode = btn.dataset.sort;
+      document.querySelectorAll('#sortMenu button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      $('sortMenu').classList.remove('show'); renderPlaces();
+    });
+  });
+  document.querySelectorAll('#sortNotesMenu button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sortNotesMode = btn.dataset.sort;
+      document.querySelectorAll('#sortNotesMenu button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      $('sortNotesMenu').classList.remove('show'); renderNotes();
+    });
+  });
+
+  /* ==================== XÓA ==================== */
+  function askDelete(id, type) {
+    pendingDeleteId = id; pendingDeleteType = type;
+    let name = 'Mục này';
+    if (type === 'place') name = (places.find(x => x.id === id) || {}).name || 'Địa điểm';
+    else if (type === 'note') name = (notes.find(x => x.id === id) || {}).title || 'Ghi chú';
+    else if (type === 'diary') name = (diaries.find(x => x.id === id) || {}).title || 'Nhật ký';
+    
+    $('confirmMsg').textContent = `Xóa "${name}"?`;
+    $('confirmOverlay').classList.add('show');
+  }
+
+  $('confirmCancel').addEventListener('click', () => { pendingDeleteId = null; $('confirmOverlay').classList.remove('show'); });
+  $('confirmOk').addEventListener('click', () => {
+    if (pendingDeleteId) {
+      if (pendingDeleteType === 'place') places = places.filter(p => p.id !== pendingDeleteId);
+      else if (pendingDeleteType === 'note') notes = notes.filter(n => n.id !== pendingDeleteId);
+      else diaries = diaries.filter(d => d.id !== pendingDeleteId);
+      saveData(); switchTab(currentTab); toast('🗑️ Đã xóa');
+    }
+    pendingDeleteId = null; $('confirmOverlay').classList.remove('show');
+  });
+
+  /* INIT */
+  loadData();
+  switchTab('home'); // Set default tab
+})();
 </script>
 </body>
 </html>
