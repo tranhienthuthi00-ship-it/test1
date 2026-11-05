@@ -336,36 +336,36 @@
 
   /* ================= TAB NHẬT KÝ ================= */
   
-  /* Chuyển đổi Nhật ký / Niềng răng (Đặt trên cùng giống Tài chính) */
-  .diary-main-tabs-container {
-    display: flex; justify-content: center; margin-bottom: 16px;
+  /* Page Dots (Chuyển đổi Nhật ký / Niềng răng) */
+  .diary-page-dots {
+    display: flex; justify-content: center; gap: 8px; margin-bottom: 16px;
   }
-  .diary-main-tabs {
-    display: flex; background: var(--pink-surface); border-radius: 999px; padding: 4px; 
-    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
-    position: relative; overflow: hidden; width: calc(100% - 32px); max-width: 320px;
+  .d-page-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--pink-light); 
+    transition: all 0.2s; cursor: pointer;
   }
-  .diary-main-tabs button {
-    flex: 1; padding: 10px 0; border-radius: 999px; border: none; background: transparent;
-    font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text-muted);
-    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.3s ease;
-    z-index: 1;
+  .d-page-dot.active {
+    background: var(--pink-primary); width: 24px; border-radius: 4px;
   }
-  .diary-main-tabs button.active { color: white; }
-  .diary-main-tabs .slider-bg {
-    position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px);
-    background: var(--pink-primary); border-radius: 999px; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 0;
-  }
-  .diary-main-tabs.braces-active .slider-bg { transform: translateX(100%); }
 
-  /* Chuyển đổi Dòng thời gian / Lịch */
+  /* Carousel Wrapper */
+  .diary-carousel-wrapper {
+    width: 100%; overflow: hidden; position: relative;
+  }
+  .diary-carousel {
+    display: flex; width: 200%; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  .diary-page {
+    width: 50%; flex-shrink: 0;
+  }
+
+  /* Chuyển đổi Dòng thời gian / Lịch (Trong trang Nhật ký) */
   .diary-view-toggle-container {
     display: flex; justify-content: center; align-items: center;
     padding: 0 16px 16px;
   }
   .diary-view-toggle {
-    display: flex; background: white; border-radius: 999px; padding: 4px; 
+    display: flex; background: var(--pink-surface); border-radius: 999px; padding: 4px; 
     box-shadow: var(--shadow-sm); border: 1px solid var(--border);
     position: relative; overflow: hidden; width: 100%; max-width: 300px;
   }
@@ -1064,59 +1064,64 @@
 <!-- ================= TAB 2: NHẬT KÝ ================= -->
 <div class="tab-content" id="tab-diary">
   
-  <!-- Chuyển đổi Nhật ký / Niềng răng (Đặt trên cùng) -->
-  <div class="diary-main-tabs-container">
-    <div class="diary-main-tabs" id="diaryMainTabsContainer">
-      <div class="slider-bg"></div>
-      <button id="tabDiaryGeneral" class="active">Nhật ký</button>
-      <button id="tabDiaryBraces">Niềng răng</button>
-    </div>
+  <!-- Chấm tròn chuyển đổi Nhật ký / Niềng răng (Page Dots) -->
+  <div class="diary-page-dots" id="diaryPageDots">
+    <div class="d-page-dot active" data-page="0"></div>
+    <div class="d-page-dot" data-page="1"></div>
   </div>
 
-  <!-- Chuyển đổi Dòng thời gian / Lịch (Chỉ hiện ở Nhật ký chung) -->
-  <div class="diary-view-toggle-container" id="diaryViewToggleContainer">
-    <div class="diary-view-toggle">
-      <div class="slider-bg"></div>
-      <button id="viewTimelineBtn" class="active">
-        <svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-list"/></svg> Dòng thời gian
-      </button>
-      <button id="viewCalendarBtn">
-        <svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-calendar"/></svg> Lịch
-      </button>
-    </div>
-  </div>
-
-  <!-- Vùng hiển thị Nhật ký chung -->
-  <div id="diaryGeneralView">
-    <div id="diaryTimelineView">
-      <div class="timeline-wrap" id="timelineWrap"></div>
-    </div>
-    <div id="diaryCalendarView" style="display:none;">
-      <div class="calendar-wrap">
-        <div class="calendar-header">
-          <div class="calendar-month-year" id="calMonthYear">October <span>2026</span></div>
-          <div class="calendar-nav">
-            <button id="calPrevBtn"><svg class="hand-icon"><use href="#icon-chevron-left"/></svg></button>
-            <button id="calNextBtn"><svg class="hand-icon"><use href="#icon-chevron-right"/></svg></button>
-            <button id="calTodayBtn" style="width:auto; padding:0 12px; font-size:12px; font-weight:600; border-radius:12px; font-family:inherit;">Hôm nay</button>
+  <!-- Carousel cho Nhật ký / Niềng răng -->
+  <div class="diary-carousel-wrapper" id="diaryCarouselWrapper">
+    <div class="diary-carousel" id="diaryCarousel">
+      
+      <!-- TRANG 1: NHẬT KÝ CHUNG -->
+      <div class="diary-page" id="diaryGeneralView">
+        
+        <!-- Chuyển đổi Dòng thời gian / Lịch -->
+        <div class="diary-view-toggle-container">
+          <div class="diary-view-toggle">
+            <div class="slider-bg"></div>
+            <button id="viewTimelineBtn" class="active">
+              <svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-list"/></svg> Dòng thời gian
+            </button>
+            <button id="viewCalendarBtn">
+              <svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-calendar"/></svg> Lịch
+            </button>
           </div>
         </div>
-        <div class="calendar-grid">
-          <div class="calendar-weekdays">
-            <div>CN</div><div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div>
+
+        <div id="diaryTimelineView">
+          <div class="timeline-wrap" id="timelineWrap"></div>
+        </div>
+        <div id="diaryCalendarView" style="display:none;">
+          <div class="calendar-wrap">
+            <div class="calendar-header">
+              <div class="calendar-month-year" id="calMonthYear">October <span>2026</span></div>
+              <div class="calendar-nav">
+                <button id="calPrevBtn"><svg class="hand-icon"><use href="#icon-chevron-left"/></svg></button>
+                <button id="calNextBtn"><svg class="hand-icon"><use href="#icon-chevron-right"/></svg></button>
+                <button id="calTodayBtn" style="width:auto; padding:0 12px; font-size:12px; font-weight:600; border-radius:12px; font-family:inherit;">Hôm nay</button>
+              </div>
+            </div>
+            <div class="calendar-grid">
+              <div class="calendar-weekdays">
+                <div>CN</div><div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div>
+              </div>
+              <div class="calendar-days" id="calDays"></div>
+            </div>
           </div>
-          <div class="calendar-days" id="calDays"></div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Vùng hiển thị Nhật ký Niềng răng (Dạng Timeline) -->
-  <div id="diaryBracesView" style="display:none;">
-    <div class="braces-dashboard-card" id="bracesDashboard">
-      <!-- Rendered by JS -->
+      <!-- TRANG 2: NIỀNG RĂNG -->
+      <div class="diary-page" id="diaryBracesView" style="padding-top: 10px;">
+        <div class="braces-dashboard-card" id="bracesDashboard">
+          <!-- Rendered by JS -->
+        </div>
+        <div class="braces-timeline-wrap" id="bracesTimelineWrap"></div>
+      </div>
+
     </div>
-    <div class="braces-timeline-wrap" id="bracesTimelineWrap"></div>
   </div>
 
 </div>
@@ -1810,8 +1815,8 @@
   
   let currentTab = 'places';
   let currentFinPage = 0;
+  let currentDiaryPage = 0; // 0: General, 1: Braces
   let currentOtherCategory = null; 
-  let currentDiaryMode = 'general';
   
   // State cho Place
   let editPlaceId = null;
@@ -2298,59 +2303,57 @@
 
   /* ==================== TAB 2: NHẬT KÝ ==================== */
   function renderDiaries() {
-    if (currentDiaryMode === 'general') {
-      $('diaryGeneralView').style.display = 'block';
-      $('diaryBracesView').style.display = 'none';
-      $('diaryViewToggleContainer').style.display = 'flex';
-      
+    const carousel = $('diaryCarousel');
+    carousel.style.transform = `translateX(-${currentDiaryPage * 50}%)`;
+    
+    document.querySelectorAll('.d-page-dot').forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === currentDiaryPage);
+    });
+
+    if (currentDiaryPage === 0) {
+      // General
       if (diaryViewMode === 'timeline') {
         $('diaryTimelineView').style.display = 'block';
         $('diaryCalendarView').style.display = 'none';
         $('viewTimelineBtn').classList.add('active');
         $('viewCalendarBtn').classList.remove('active');
-        $('diaryViewToggleContainer').querySelector('.diary-view-toggle').classList.remove('calendar-active');
+        $('diaryGeneralView').querySelector('.diary-view-toggle').classList.remove('calendar-active');
         
         const wrap = $('timelineWrap');
         if (diaries.length === 0) {
           wrap.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-book"/></svg></div><h3>Chưa có bài viết nào</h3><p>Nhấn nút <b>+</b> để viết lại những kỷ niệm đáng nhớ nhé!</p></div>`;
-          return;
-        }
+        } else {
+          const sorted = diaries.slice().sort((a,b) => {
+            if (a.date !== b.date) return b.date.localeCompare(a.date);
+            return b.createdAt - a.createdAt;
+          });
 
-        const sorted = diaries.slice().sort((a,b) => {
-          if (a.date !== b.date) return b.date.localeCompare(a.date);
-          return b.createdAt - a.createdAt;
-        });
-
-        wrap.innerHTML = sorted.map(d => `
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(d.date)}</div>
-            <div class="timeline-card">
-              <div class="timeline-title">${esc(d.title) || 'Không có tiêu đề'}</div>
-              ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
-              <div class="timeline-content">${esc(d.content)}</div>
-              <div class="timeline-actions">
-                <button onclick="openDiaryModal('${d.id}')"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-edit"/></svg> Sửa</button>
-                <button class="del-btn" onclick="askDelete('${d.id}', 'diary')"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-trash"/></svg> Xóa</button>
+          wrap.innerHTML = sorted.map(d => `
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(d.date)}</div>
+              <div class="timeline-card">
+                <div class="timeline-title">${esc(d.title) || 'Không có tiêu đề'}</div>
+                ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
+                <div class="timeline-content">${esc(d.content)}</div>
+                <div class="timeline-actions">
+                  <button onclick="openDiaryModal('${d.id}')"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-edit"/></svg> Sửa</button>
+                  <button class="del-btn" onclick="askDelete('${d.id}', 'diary')"><svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-trash"/></svg> Xóa</button>
+                </div>
               </div>
             </div>
-          </div>
-        `).join('');
+          `).join('');
+        }
       } else {
         $('diaryTimelineView').style.display = 'none';
         $('diaryCalendarView').style.display = 'block';
         $('viewTimelineBtn').classList.remove('active');
         $('viewCalendarBtn').classList.add('active');
-        $('diaryViewToggleContainer').querySelector('.diary-view-toggle').classList.add('calendar-active');
+        $('diaryGeneralView').querySelector('.diary-view-toggle').classList.add('calendar-active');
         renderCalendar();
       }
     } else {
-      // Braces Mode
-      $('diaryGeneralView').style.display = 'none';
-      $('diaryBracesView').style.display = 'block';
-      $('diaryViewToggleContainer').style.display = 'none';
-      
-      // Dashboard logic
+      // Braces
       const dashboardEl = $('bracesDashboard');
       
       if (braces.length > 0) {
@@ -2480,20 +2483,37 @@
   $('viewTimelineBtn').addEventListener('click', () => { diaryViewMode = 'timeline'; renderDiaries(); });
   $('viewCalendarBtn').addEventListener('click', () => { diaryViewMode = 'calendar'; renderDiaries(); });
   
-  // Sự kiện chuyển tab Nhật ký / Niềng răng
-  $('tabDiaryGeneral').addEventListener('click', () => {
-    currentDiaryMode = 'general';
-    $('tabDiaryGeneral').classList.add('active');
-    $('tabDiaryBraces').classList.remove('active');
-    $('diaryMainTabsContainer').classList.remove('braces-active');
-    renderDiaries();
-  });
-  $('tabDiaryBraces').addEventListener('click', () => {
-    currentDiaryMode = 'braces';
-    $('tabDiaryGeneral').classList.remove('active');
-    $('tabDiaryBraces').classList.add('active');
-    $('diaryMainTabsContainer').classList.add('braces-active');
-    renderDiaries();
+  // Swipe logic for Diary/Braces Carousel
+  let dTouchStartX = 0;
+  let dTouchEndX = 0;
+  const dWrapper = $('diaryCarouselWrapper');
+  
+  dWrapper.addEventListener('touchstart', e => {
+    dTouchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  
+  dWrapper.addEventListener('touchend', e => {
+    dTouchEndX = e.changedTouches[0].screenX;
+    handleDiarySwipe();
+  }, { passive: true });
+  
+  function handleDiarySwipe() {
+    const swipeThreshold = 50;
+    if (dTouchEndX < dTouchStartX - swipeThreshold) {
+      // Swipe left -> go to braces
+      if (currentDiaryPage === 0) { currentDiaryPage = 1; renderDiaries(); }
+    }
+    if (dTouchEndX > dTouchStartX + swipeThreshold) {
+      // Swipe right -> go to general
+      if (currentDiaryPage === 1) { currentDiaryPage = 0; renderDiaries(); }
+    }
+  }
+
+  document.querySelectorAll('.d-page-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      currentDiaryPage = Number(dot.dataset.page);
+      renderDiaries();
+    });
   });
 
   /* ==================== TAB 3: KHÁC ==================== */
@@ -2842,7 +2862,7 @@
 
   /* ==================== EXPORT / IMPORT ==================== */
   $('btnExportData').addEventListener('click', () => {
-    const backup = { places, diaries, braces, notes, finances, revenues, settings, salaryData, goals, exportedAt: new Date().toISOString(), version: 'v27' };
+    const backup = { places, diaries, braces, notes, finances, revenues, settings, salaryData, goals, exportedAt: new Date().toISOString(), version: 'v28' };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -3256,7 +3276,7 @@
       else toast('Vui lòng chọn một mục để thêm');
     }
     else if (currentTab === 'diary') {
-      if (currentDiaryMode === 'general') openDiaryModal(null);
+      if (currentDiaryPage === 0) openDiaryModal(null);
       else openBracesModal(null);
     }
     else if (currentTab === 'finance') {
