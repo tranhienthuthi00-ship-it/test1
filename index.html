@@ -8,10 +8,11 @@
 <title>📍 Sổ Tay Cá Nhân</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   :root {
+    /* Default Theme (Pink) */
     --pink-bg: #fce7f3;
     --pink-surface: #ffffff;
     --pink-primary: #ec4899;
@@ -31,17 +32,71 @@
     --task-bg: #eff6ff; --task-text: #2563eb;
     --tip-bg: #fff7ed; --tip-text: #ea580c;
     
-    --shadow-sm: 0 2px 8px rgba(236,72,153,0.06);
-    --shadow-md: 0 8px 24px rgba(236,72,153,0.12);
-    --shadow-lg: 0 12px 32px rgba(236,72,153,0.18);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
     
     --nav-height: 68px;
     --nav-margin: 12px;
     --nav-bottom: calc(var(--nav-height) + var(--nav-margin) + env(safe-area-inset-bottom));
+    
+    --font-family: 'Quicksand', sans-serif;
+    --bg-gradient: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
   }
+
+  /* Theme Blue */
+  body.theme-blue {
+    --pink-bg: #e0f2fe; --pink-surface: #ffffff; --pink-primary: #0ea5e9; --pink-light: #bae6fd; --pink-dark: #0369a1;
+    --border: #e0f2fe; --bg-gradient: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+    --shadow-sm: 0 2px 8px rgba(14,165,233,0.06); --shadow-md: 0 8px 24px rgba(14,165,233,0.12); --shadow-lg: 0 12px 32px rgba(14,165,233,0.18);
+  }
+  
+  /* Theme Purple */
+  body.theme-purple {
+    --pink-bg: #f3e8ff; --pink-surface: #ffffff; --pink-primary: #9333ea; --pink-light: #e9d5ff; --pink-dark: #6b21a8;
+    --border: #f3e8ff; --bg-gradient: linear-gradient(180deg, #faf5ff 0%, #f3e8ff 100%);
+    --shadow-sm: 0 2px 8px rgba(147,51,234,0.06); --shadow-md: 0 8px 24px rgba(147,51,234,0.12); --shadow-lg: 0 12px 32px rgba(147,51,234,0.18);
+  }
+
+  /* Theme Neon / Dark (Image 1) */
+  body.theme-neon {
+    --pink-bg: #1a1a1a; --pink-surface: #2a2a2a; --pink-primary: #f97316; --pink-light: #4a4a4a; --pink-dark: #ffedd5;
+    --text: #f3f4f6; --text-muted: #9ca3af; --border: #3a3a3a;
+    --bg-gradient: linear-gradient(180deg, #000000 0%, #111111 100%);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.4); --shadow-md: 0 8px 24px rgba(0,0,0,0.6); --shadow-lg: 0 12px 32px rgba(249,115,22,0.2);
+    --note-bg: #422006; --note-text: #fdba74; --task-bg: #172554; --task-text: #93c5fd; --tip-bg: #14532d; --tip-text: #86efac;
+  }
+  body.theme-neon .card-emoji { background: #3a3a3a; }
+  body.theme-neon .bottom-nav { background: rgba(30,30,30,0.95); border-color: #3a3a3a; }
+  body.theme-neon .search-box { background: #2a2a2a; border-color: #3a3a3a; }
+  body.theme-neon .search-box input { color: white; }
+  body.theme-neon .filter-btn { background: #2a2a2a; border-color: #3a3a3a; }
+  body.theme-neon .modal { background: #1a1a1a; }
+  body.theme-neon .field input, body.theme-neon .field textarea { background: #2a2a2a; border-color: #3a3a3a; color: white; }
+  body.theme-neon .cash-row, body.theme-neon .credit-row, body.theme-neon .rev-row input { background: #2a2a2a; border-color: #3a3a3a; color: white; }
+  body.theme-neon .calendar-grid { background: #2a2a2a; border-color: #3a3a3a; }
+  body.theme-neon .cal-day { color: white; }
+
+  /* Theme Vintage / Cream (Image 2) */
+  body.theme-vintage {
+    --pink-bg: #fcf5e5; --pink-surface: #ffffff; --pink-primary: #a16207; --pink-light: #fef3c7; --pink-dark: #78350f;
+    --text: #3f3f46; --text-muted: #71717a; --border: #e4e4e7;
+    --bg-gradient: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+    --shadow-sm: 0 2px 8px rgba(161,98,7,0.04); --shadow-md: 0 8px 24px rgba(161,98,7,0.08); --shadow-lg: 0 12px 32px rgba(161,98,7,0.12);
+    --note-bg: #f0fdf4; --note-text: #166534; --task-bg: #eff6ff; --task-text: #1e40af; --tip-bg: #fef2f2; --tip-text: #991b1b;
+  }
+  body.theme-vintage .bottom-nav { border: 2px solid #fef3c7; background: rgba(255,255,255,0.9); }
+  body.theme-vintage .card { border: 1.5px solid #fef3c7; }
+  body.theme-vintage .search-box { border: 1.5px solid #fef3c7; }
+  body.theme-vintage .filter-btn { border: 1.5px solid #fef3c7; }
+
+  /* Fonts */
+  body.font-nunito { --font-family: 'Nunito', sans-serif; }
+  body.font-inter { --font-family: 'Inter', sans-serif; }
+
   body {
-    font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
+    font-family: var(--font-family);
+    background: var(--bg-gradient);
     color: var(--text); min-height: 100vh;
     -webkit-font-smoothing: antialiased; background-attachment: fixed;
     padding-bottom: calc(var(--nav-bottom) + 20px);
@@ -54,8 +109,16 @@
 
   /* ================= TAB TRANG CHỦ ================= */
   .dash-wrap { padding: 0 16px 16px; }
-  .greeting { font-size: 24px; font-weight: 700; color: var(--pink-dark); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-  .greeting svg { width: 28px; height: 28px; stroke: var(--pink-primary); }
+  .greeting { 
+    font-size: 22px; font-weight: 700; color: var(--pink-dark); margin-bottom: 20px; 
+    display: flex; align-items: center; gap: 8px; cursor: pointer;
+  }
+  .greeting svg { width: 24px; height: 24px; stroke: var(--pink-primary); }
+  .greeting .avatar {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--pink-light);
+    display: flex; align-items: center; justify-content: center; font-size: 16px; margin-left: auto;
+    color: var(--pink-primary);
+  }
   
   .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
   .stat-card {
@@ -64,38 +127,32 @@
   }
   .stat-num { font-size: 20px; font-weight: 700; color: var(--pink-primary); margin-bottom: 4px; }
   .stat-label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
-  
-  /* Grid đôi: Tài chính & Gợi ý */
-  .home-grid-2 {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;
-  }
 
-  .home-finance-compact {
-    background: linear-gradient(135deg, #ec4899, #f43f5e);
-    border-radius: 22px; padding: 16px; color: white;
-    box-shadow: 0 8px 24px rgba(236,72,153,0.3);
-    display: flex; flex-direction: column; justify-content: center;
-    position: relative; overflow: hidden;
-    min-height: 100px;
-  }
-  .home-finance-compact::after {
-    content: '💰'; position: absolute; right: -5px; bottom: -15px; font-size: 70px; opacity: 0.15;
-  }
-  .hfc-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; margin-bottom: 6px; }
-  .hfc-val { font-size: 20px; font-weight: 700; line-height: 1.2; word-break: break-word;}
-
+  /* Animated Suggest Card */
   .suggest-card {
-    background: var(--pink-surface);
-    border-radius: 22px; padding: 16px; color: var(--text);
-    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
-    position: relative; overflow: hidden;
-    display: flex; flex-direction: column; justify-content: center;
-    min-height: 100px;
+    background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
+    border-radius: 24px; padding: 24px; color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    margin-bottom: 24px; position: relative; overflow: hidden;
+    cursor: pointer; transition: transform 0.2s;
   }
-  .suggest-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--pink-primary); margin-bottom: 4px; display: block;}
-  .suggest-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; line-height: 1.3; color: var(--pink-dark); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
-  .suggest-address { font-size: 11.5px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-  .suggest-address svg { width: 12px; height: 12px; flex-shrink:0;}
+  .suggest-card:active { transform: scale(0.98); }
+  .suggest-card::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+    animation: rotate 10s linear infinite; pointer-events: none;
+  }
+  .suggest-card::after {
+    content: '✨'; position: absolute; right: -10px; bottom: -20px; font-size: 100px; opacity: 0.2; transform: rotate(15deg);
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes rotate { 100% { transform: rotate(360deg); } }
+  @keyframes float { 0%, 100% { transform: translateY(0) rotate(15deg); } 50% { transform: translateY(-10px) rotate(20deg); } }
+  
+  .suggest-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; margin-bottom: 8px; display: block;}
+  .suggest-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; position: relative; z-index: 1;}
+  .suggest-address { font-size: 13px; opacity: 0.9; display: flex; align-items: center; gap: 6px; font-weight: 500; position: relative; z-index: 1;}
+  .suggest-address svg { width: 14px; height: 14px; }
 
   .dash-section { margin-bottom: 24px; }
   .dash-title { font-size: 16px; font-weight: 700; color: var(--pink-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
@@ -111,8 +168,7 @@
   .todo-mini-item:active { transform: scale(0.98); }
   .todo-mini-check {
     width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--pink-light);
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s;
   }
   .todo-mini-check svg { width: 14px; height: 14px; stroke: white; opacity: 0; transition: all 0.2s;}
   .todo-mini-item.done .todo-mini-check { background: var(--pink-primary); border-color: var(--pink-primary); }
@@ -120,22 +176,48 @@
   .todo-mini-item.done .todo-mini-title { text-decoration: line-through; color: var(--text-muted); }
   .todo-mini-title { font-size: 14px; font-weight: 600; color: var(--text); transition: all 0.2s;}
 
+  /* ================= TAB CÀI ĐẶT (TÔI) ================= */
+  .settings-container { padding: 0 16px; }
+  .settings-group { background: var(--pink-surface); border-radius: 20px; padding: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+  .settings-group-title { font-size: 14px; font-weight: 700; color: var(--pink-dark); margin-bottom: 12px; }
+  .setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .setting-item:last-child { margin-bottom: 0; }
+  .setting-label { font-size: 15px; font-weight: 600; color: var(--text); }
+  .setting-options { display: flex; gap: 8px; flex-wrap: wrap; }
+  
+  .theme-dot { 
+    width: 36px; height: 36px; border-radius: 12px; cursor: pointer; 
+    border: 3px solid transparent; transition: all 0.2s; position: relative;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .theme-dot.active { border-color: var(--text); transform: scale(1.1); }
+  .theme-dot.pink { background: #ec4899; }
+  .theme-dot.blue { background: #0ea5e9; }
+  .theme-dot.purple { background: #9333ea; }
+  .theme-dot.neon { background: #1a1a1a; color: white; }
+  .theme-dot.vintage { background: #fef3c7; }
+  
+  .font-btn { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: #fafafc; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text); }
+  .font-btn.active { background: var(--pink-primary); color: white; border-color: var(--pink-primary); }
+  
+  .settings-input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border); font-family: inherit; font-size: 15px; outline: none; background: #fafafc; color: var(--text); }
+
   /* ================= COMMON UI ================= */
   .toolbar { padding: 0 16px; display: flex; gap: 10px; margin-bottom: 12px; }
   .search-box {
     flex: 1; display: flex; align-items: center; gap: 10px;
     background: var(--pink-surface); border-radius: 20px; padding: 14px 18px;
-    box-shadow: var(--shadow-md); border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: var(--shadow-md); border: 1px solid var(--border);
   }
   .search-box svg { width: 18px; height: 18px; stroke: var(--pink-primary); flex-shrink: 0; }
   .search-box input { border: none; outline: none; flex: 1; font-size: 15px; background: transparent; color: var(--text); font-family: inherit; font-weight: 500;}
-  .search-box input::placeholder { color: #d1b4c7; }
-  .clear-search { background: #fce7f3; border: none; width: 22px; height: 22px; border-radius: 50%; color: var(--pink-primary); font-size: 12px; cursor: pointer; display: none; align-items: center; justify-content: center; }
+  .search-box input::placeholder { color: var(--text-muted); }
+  .clear-search { background: var(--pink-bg); border: none; width: 22px; height: 22px; border-radius: 50%; color: var(--pink-primary); font-size: 12px; cursor: pointer; display: none; align-items: center; justify-content: center; }
   .clear-search.show { display: flex; }
 
   .filter-btn {
     width: 50px; height: 50px; border-radius: 20px; flex-shrink: 0;
-    background: var(--pink-surface); border: 1px solid rgba(255,255,255,0.8);
+    background: var(--pink-surface); border: 1px solid var(--border);
     box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center;
     cursor: pointer; transition: all 0.2s; position: relative;
   }
@@ -179,25 +261,25 @@
     background: var(--pink-surface); border-radius: 22px; padding: 16px;
     display: flex; gap: 13px; align-items: flex-start; position: relative; z-index: 1;
     transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
-    will-change: transform; border: 1px solid rgba(255,255,255,0.8);
+    will-change: transform; border: 1px solid var(--border);
   }
   .card.dragging { transition: none; box-shadow: var(--shadow-md); }
 
   .card-emoji {
     width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+    background: var(--pink-bg);
   }
   .card-emoji svg { width: 22px; height: 22px; stroke: var(--cafe-text); }
-  .card-emoji.food { background: linear-gradient(135deg, #fff7ed, #ffedd5); }
+  .card-emoji.food { background: var(--food-bg); }
   .card-emoji.food svg { stroke: var(--food-text); }
-  .card-emoji.travel { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+  .card-emoji.travel { background: var(--travel-bg); }
   .card-emoji.travel svg { stroke: var(--travel-text); }
-  .card-emoji.note { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); }
+  .card-emoji.note { background: var(--note-bg); }
   .card-emoji.note svg { stroke: var(--note-text); }
-  .card-emoji.task { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+  .card-emoji.task { background: var(--task-bg); }
   .card-emoji.task svg { stroke: var(--task-text); }
-  .card-emoji.tip { background: linear-gradient(135deg, #fff7ed, #ffedd5); }
+  .card-emoji.tip { background: var(--tip-bg); }
   .card-emoji.tip svg { stroke: var(--tip-text); }
 
   .card-body { flex: 1; min-width: 0; }
@@ -235,7 +317,7 @@
   .card-info-row .info-item svg { width: 12px; height: 12px; flex-shrink: 0; margin-top: 2px; stroke: #b0a9b6; }
   
   .card-note {
-    font-size: 12.5px; color: var(--text); margin-top: 8px; padding: 8px 10px; background: #fafafc;
+    font-size: 12.5px; color: var(--text); margin-top: 8px; padding: 8px 10px; background: var(--pink-bg);
     border-radius: 10px; line-height: 1.5; word-break: break-word;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     border: 1px dashed var(--border);
@@ -254,23 +336,22 @@
     padding: 0 16px 16px;
   }
   
-  /* Pill Toggle */
   .view-toggle {
-    display: flex; background: white; border-radius: 999px; padding: 4px; 
+    display: flex; background: var(--pink-surface); border-radius: 999px; padding: 4px; 
     box-shadow: var(--shadow-sm); border: 1px solid var(--border);
-    position: relative; overflow: hidden;
+    position: relative; overflow: hidden; width: 100%; max-width: 300px;
   }
   .view-toggle button {
-    padding: 8px 20px; border-radius: 999px; border: none; background: transparent;
+    flex: 1; padding: 10px 0; border-radius: 999px; border: none; background: transparent;
     font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text-muted);
-    cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.3s ease;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.3s ease;
     z-index: 1;
   }
   .view-toggle button.active { color: white; }
   .view-toggle .slider-bg {
     position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px);
     background: var(--pink-primary); border-radius: 999px; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-    box-shadow: 0 2px 8px rgba(236,72,153,0.3); z-index: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 0;
   }
   .view-toggle.calendar-active .slider-bg { transform: translateX(100%); }
 
@@ -278,7 +359,7 @@
   .timeline-wrap { padding: 0 16px 20px; position: relative; }
   .timeline-wrap::before {
     content: ''; position: absolute; top: 0; bottom: 0; left: 22px;
-    width: 2px; background: #fbcfe8; z-index: 0;
+    width: 2px; background: var(--pink-light); z-index: 0;
   }
   .timeline-item {
     position: relative; padding-left: 44px; margin-bottom: 20px;
@@ -288,7 +369,7 @@
     position: absolute; left: 15px; top: 6px;
     width: 16px; height: 16px; border-radius: 50%;
     background: var(--pink-surface); border: 3px solid var(--pink-primary);
-    z-index: 1; box-shadow: 0 0 0 3px #fce7f3;
+    z-index: 1; box-shadow: 0 0 0 3px var(--pink-bg);
   }
   .timeline-date {
     font-size: 12px; font-weight: 700; color: var(--pink-primary);
@@ -311,16 +392,16 @@
   .timeline-content { font-size: 13px; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; font-weight: 500;}
   .timeline-mood {
     display: inline-flex; align-items: center; gap: 4px;
-    padding: 4px 10px; background: #fdf2f8; border-radius: 999px;
+    padding: 4px 10px; background: var(--pink-bg); border-radius: 999px;
     font-size: 11px; font-weight: 600; color: var(--pink-dark); margin-top: 8px;
   }
   .timeline-mood svg { width: 12px; height: 12px;}
 
   /* Calendar View */
-  .calendar-wrap { padding: 0 12px 20px; } /* Giảm padding trái phải để rộng hơn */
+  .calendar-wrap { padding: 0 12px 20px; }
   .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px;}
   .calendar-month-year {
-    font-family: 'Quicksand', sans-serif; /* Đổi sang Quicksand */
+    font-family: var(--font-family);
     font-size: 20px; font-weight: 700; color: var(--text);
     display: flex; align-items: baseline; gap: 6px;
   }
@@ -328,7 +409,7 @@
   .calendar-nav { display: flex; gap: 8px; }
   .calendar-nav button {
     width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border);
-    background: white; display: flex; align-items: center; justify-content: center;
+    background: var(--pink-surface); display: flex; align-items: center; justify-content: center;
     cursor: pointer; color: var(--text-muted);
   }
   .calendar-nav button:active { background: var(--pink-bg); }
@@ -354,14 +435,51 @@
     padding: 4px 0; font-size: 13px; font-weight: 600; color: var(--text); cursor: pointer;
     transition: all 0.2s; position: relative;
   }
-  .cal-day:hover { background: #fdf2f8; }
+  .cal-day:hover { background: var(--pink-bg); }
   .cal-day.other-month { color: #d1d5db; cursor: default; }
   .cal-day.other-month:hover { background: transparent; }
-  .cal-day.today { background: var(--pink-primary); color: white; box-shadow: 0 2px 8px rgba(236,72,153,0.3); }
+  .cal-day.today { background: var(--pink-primary); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
   .cal-day.today .cal-dot { background: white !important; }
   .cal-day-num { margin-bottom: 2px; }
   .cal-day-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 2px; }
   .cal-dot { width: 4px; height: 4px; border-radius: 50%; }
+
+  /* ================= TAB KHÁC (GRID) ================= */
+  .other-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px; margin-bottom: 24px;
+  }
+  .other-card {
+    background: var(--pink-surface); border-radius: 20px; padding: 20px 16px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s; text-align: center;
+  }
+  .other-card:active { transform: scale(0.96); }
+  .other-card-icon {
+    width: 48px; height: 48px; border-radius: 16px; margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .other-card-icon.note { background: #f3e8ff; }
+  .other-card-icon.note svg { stroke: #9333ea; }
+  .other-card-icon.task { background: #eff6ff; }
+  .other-card-icon.task svg { stroke: #2563eb; }
+  .other-card-icon.tip { background: #fff7ed; }
+  .other-card-icon.tip svg { stroke: #ea580c; }
+  .other-card-icon svg { width: 24px; height: 24px; }
+  .other-card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .other-card-count { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+
+  /* List Container (Khi click vào card) */
+  .sub-view-header {
+    display: flex; align-items: center; gap: 12px; padding: 0 16px 16px;
+  }
+  .back-btn {
+    width: 36px; height: 36px; border-radius: 50%; background: var(--pink-surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text);
+    box-shadow: var(--shadow-sm);
+  }
+  .back-btn svg { width: 20px; height: 20px; }
+  .sub-view-title { font-size: 20px; font-weight: 700; color: var(--pink-dark); }
 
   /* ================= TAB TÀI CHÍNH ================= */
   .finance-carousel {
@@ -376,22 +494,22 @@
 
   /* Page Dots */
   .page-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; }
-  .page-dot { width: 8px; height: 8px; border-radius: 50%; background: #fbcfe8; transition: all 0.2s; cursor: pointer; }
+  .page-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pink-light); transition: all 0.2s; cursor: pointer; }
   .page-dot.active { background: var(--pink-primary); width: 24px; border-radius: 4px; }
 
   .finance-dashboard {
-    background: linear-gradient(135deg, #ec4899, #f43f5e);
-    color: white; border-radius: 24px; padding: 24px;
-    box-shadow: 0 8px 24px rgba(236,72,153,0.3);
+    background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
+    color: white; border-radius: 24px; padding: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   }
-  .finance-balance-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; margin-bottom: 6px;}
-  .finance-balance { font-size: 28px; font-weight: 700; margin-bottom: 20px; }
-  .finance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .finance-box { background: rgba(255,255,255,0.15); padding: 12px; border-radius: 16px; backdrop-filter: blur(4px); }
-  .finance-box-label { font-size: 11px; font-weight: 600; opacity: 0.9; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
-  .finance-box-val { font-size: 15px; font-weight: 700; }
+  .finance-balance-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; margin-bottom: 4px;}
+  .finance-balance { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
+  .finance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .finance-box { background: rgba(255,255,255,0.15); padding: 10px; border-radius: 12px; backdrop-filter: blur(4px); }
+  .finance-box-label { font-size: 10.5px; font-weight: 600; opacity: 0.9; margin-bottom: 2px; display: flex; align-items: center; gap: 4px; }
+  .finance-box-val { font-size: 14px; font-weight: 700; }
 
-  /* Compact Cash Card */
+  /* Compact Cash Card (List format) */
   .compact-card {
     background: var(--pink-surface); border-radius: 20px; padding: 16px;
     box-shadow: var(--shadow-sm); border: 1px solid var(--border);
@@ -403,33 +521,34 @@
   .compact-card-title svg { width: 16px; height: 16px; stroke: var(--pink-primary); }
   .compact-card-total { font-size: 16px; font-weight: 700; color: var(--pink-primary); }
   
-  .cash-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  /* Cash List (Vertical) */
+  .cash-list-vertical { display: flex; flex-direction: column; gap: 8px; }
+  .cash-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 12px; background: var(--pink-bg); border-radius: 10px; border: 1px solid var(--border);
   }
-  .cash-grid-item {
-    display: flex; flex-direction: column; align-items: center; background: #fafafc;
-    padding: 8px 4px; border-radius: 10px; border: 1px solid var(--border);
+  .cash-row-label { font-size: 13px; font-weight: 600; color: var(--text); }
+  .cash-row-input-wrap { display: flex; align-items: center; gap: 8px; }
+  .cash-row-x { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+  .cash-row-input {
+    width: 60px; text-align: center; border: none; background: transparent;
+    font-family: inherit; font-size: 14px; font-weight: 700; color: var(--text); outline: none;
   }
-  .cash-grid-label { font-size: 10px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
-  .cash-grid-input {
-    width: 100%; text-align: center; border: none; background: transparent;
-    font-family: inherit; font-size: 13px; font-weight: 700; color: var(--text); outline: none;
-  }
-  .cash-grid-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .cash-row-input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
   /* Credit Table */
   .credit-list { display: flex; flex-direction: column; gap: 8px; }
   .credit-row {
-    display: flex; gap: 8px; align-items: center; background: #fafafc; padding: 10px;
+    display: flex; gap: 8px; align-items: center; background: var(--pink-bg); padding: 10px;
     border-radius: 12px; border: 1px solid var(--border);
   }
-  .credit-row input { border: none; background: transparent; font-family: inherit; font-size: 13px; font-weight: 500; outline: none; }
+  .credit-row input { border: none; background: transparent; font-family: inherit; font-size: 13px; font-weight: 500; outline: none; color: var(--text); }
   .credit-row .c-name { flex: 1; min-width: 0; }
   .credit-row .c-amount { width: 80px; text-align: right; font-weight: 700; color: var(--text); }
   .credit-row .c-del { color: #f43f5e; cursor: pointer; }
   .credit-row .c-del svg { width: 16px; height: 16px; }
   .credit-add-btn {
-    width: 100%; padding: 10px; border-radius: 12px; border: 1.5px dashed #fbcfe8;
+    width: 100%; padding: 10px; border-radius: 12px; border: 1.5px dashed var(--pink-light);
     background: transparent; color: var(--pink-primary); font-family: inherit; font-size: 13px; font-weight: 600;
     cursor: pointer; margin-top: 8px;
   }
@@ -445,37 +564,33 @@
   
   .rev-row input { 
     width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border);
-    font-family: inherit; font-size: 12.5px; font-weight: 500; background: #fafafc; outline: none; transition: all 0.2s;
+    font-family: inherit; font-size: 12.5px; font-weight: 500; background: var(--pink-bg); outline: none; transition: all 0.2s; color: var(--text);
   }
-  .rev-row input:focus { border-color: var(--pink-primary); background: white; box-shadow: 0 0 0 3px rgba(236,72,153,0.1); }
+  .rev-row input:focus { border-color: var(--pink-primary); background: var(--pink-surface); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
   .rev-row input[type="number"] { text-align: right; }
-  
-  /* Custom date input styling */
   .rev-row input[type="text"].rev-input-date { text-align: center; padding: 8px 4px; cursor: pointer; }
-  .rev-row input[type="date"] { 
-    position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; 
-  }
+  .rev-row input[type="date"] { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
 
   /* Nút Sao lưu */
   .backup-bar { display: flex; gap: 10px; }
   .backup-btn {
-    flex: 1; padding: 12px; border-radius: 14px; border: 1.5px dashed #fbcfe8;
-    background: white; font-family: inherit; font-size: 13px; font-weight: 700;
+    flex: 1; padding: 12px; border-radius: 14px; border: 1.5px dashed var(--pink-light);
+    background: var(--pink-surface); font-family: inherit; font-size: 13px; font-weight: 700;
     color: var(--pink-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
     transition: all 0.2s;
   }
-  .backup-btn:active { transform: scale(0.97); background: #fdf2f8; }
+  .backup-btn:active { transform: scale(0.97); background: var(--pink-bg); }
   .backup-btn svg { width: 16px; height: 16px; }
 
   /* Asset Lists */
   .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
   .section-title { font-size: 15px; font-weight: 700; color: var(--text); }
-  .btn-small { background: #f3f4f6; border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; color: var(--text); cursor: pointer; font-family: inherit; }
+  .btn-small { background: var(--pink-bg); border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; color: var(--text); cursor: pointer; font-family: inherit; }
   
   .asset-list { display: flex; flex-direction: column; gap: 10px; }
   .asset-card { background: var(--pink-surface); border-radius: 16px; padding: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border); cursor: pointer; }
   .asset-left { display: flex; align-items: center; gap: 12px; }
-  .asset-icon { width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #f3f4f6; color: #6b7280; }
+  .asset-icon { width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--pink-bg); color: var(--pink-primary); }
   .asset-icon svg { width: 18px; height: 18px; }
   .asset-info { flex: 1; }
   .asset-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
@@ -500,7 +615,7 @@
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     display: flex; justify-content: space-around; align-items: center;
-    box-shadow: 0 8px 30px rgba(236,72,153,0.15);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
     border-radius: 36px; z-index: 100; padding: 0 4px;
     border: 1px solid rgba(255,255,255,1);
   }
@@ -511,13 +626,13 @@
   }
   .nav-item svg { width: 20px; height: 20px; transition: all 0.2s; stroke: currentColor; }
   .nav-item.active { color: var(--pink-primary); }
-  .nav-item.active svg { stroke: var(--pink-primary); fill: rgba(236,72,153,0.1); transform: translateY(-2px); }
+  .nav-item.active svg { stroke: var(--pink-primary); fill: rgba(0,0,0,0.05); transform: translateY(-2px); }
 
   .fab {
     position: fixed; bottom: calc(var(--nav-bottom) + 10px); right: 16px; z-index: 90;
     width: 52px; height: 52px; border-radius: 50%;
     background: var(--pink-primary); color: white; border: none; cursor: pointer;
-    box-shadow: 0 8px 24px rgba(236,72,153,0.4);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
     display: flex; align-items: center; justify-content: center; transition: transform 0.2s;
   }
   .fab svg { width: 24px; height: 24px; }
@@ -537,7 +652,7 @@
     animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
   }
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  .modal-handle { width: 44px; height: 5px; background: #fce7f3; border-radius: 999px; margin: 8px auto 20px; }
+  .modal-handle { width: 44px; height: 5px; background: var(--pink-light); border-radius: 999px; margin: 8px auto 20px; }
   .modal h2 { font-size: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--pink-dark); }
   .modal h2 button { background: var(--pink-bg); border: none; width: 34px; height: 34px; border-radius: 50%; color: var(--pink-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .modal h2 button svg { width: 18px; height: 18px; }
@@ -547,7 +662,7 @@
   
   .field input, .field textarea, .field select { 
     width: 100%; padding: 14px 16px; border-radius: 16px; border: 1.5px solid var(--border); 
-    font-size: 15px; font-family: inherit; background: #fafafc; outline: none; transition: all 0.2s; 
+    font-size: 15px; font-family: inherit; background: var(--pink-bg); outline: none; transition: all 0.2s; 
     color: var(--text); font-weight: 500; line-height: 1.4; min-height: 48px; 
     appearance: none; -webkit-appearance: none;
   }
@@ -555,19 +670,19 @@
   .field input[type="date"]::-webkit-date-and-time-value { text-align: left; }
   
   .field input:focus, .field textarea:focus, .field select:focus { 
-    border-color: var(--pink-primary); background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1); 
+    border-color: var(--pink-primary); background: var(--pink-surface); box-shadow: 0 0 0 4px rgba(0,0,0,0.05); 
   }
   .field textarea { resize: vertical; min-height: 100px; }
 
   .picker { display: flex; gap: 10px; flex-wrap: wrap; }
   .picker .opt {
     flex: 1; min-width: calc(33.33% - 10px); padding: 12px 8px; border-radius: 14px; text-align: center;
-    border: 1.5px solid var(--border); background: #fafafc; cursor: pointer;
+    border: 1.5px solid var(--border); background: var(--pink-bg); cursor: pointer;
     font-size: 12px; font-weight: 600; color: var(--text-muted); transition: all 0.2s;
     display: flex; flex-direction: column; align-items: center; gap: 6px;
   }
   .picker .opt svg { width: 20px; height: 20px; }
-  .picker .opt.active { border-color: var(--pink-primary); background: var(--pink-bg); color: var(--pink-primary); transform: scale(1.02); box-shadow: var(--shadow-sm); }
+  .picker .opt.active { border-color: var(--pink-primary); background: var(--pink-surface); color: var(--pink-primary); transform: scale(1.02); box-shadow: var(--shadow-sm); }
   .picker.status .opt.active.want-opt { border-color: #f43f5e; background: #fff1f2; color: #f43f5e; }
   .picker.status .opt.active.done-opt { border-color: #10b981; background: #ecfdf5; color: #10b981; }
 
@@ -587,14 +702,14 @@
   }
   .range-wrap input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%;
-    background: var(--pink-primary); cursor: pointer; box-shadow: 0 2px 6px rgba(236,72,153,0.4);
+    background: var(--pink-primary); cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   }
   .range-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); font-weight: 600; margin-top: 6px; }
 
   .save-btn {
     width: 100%; padding: 16px; border-radius: 18px; border: none;
     background: var(--pink-primary); color: white; font-size: 16px; font-weight: 700;
-    cursor: pointer; margin-top: 12px; box-shadow: 0 8px 24px rgba(236,72,153,0.3);
+    cursor: pointer; margin-top: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     display: flex; align-items: center; justify-content: center; gap: 8px;
     font-family: inherit; transition: transform 0.15s;
   }
@@ -604,7 +719,7 @@
   .sort-wrapper { position: relative; }
   .sort-menu {
     position: absolute; right: 0; top: calc(100% + 8px);
-    background: white; border-radius: 18px; box-shadow: var(--shadow-lg);
+    background: var(--pink-surface); border-radius: 18px; box-shadow: var(--shadow-lg);
     padding: 8px; min-width: 200px; z-index: 80; display: none; animation: popIn 0.2s; border: 1px solid var(--border);
   }
   .sort-menu.show { display: block; }
@@ -620,7 +735,7 @@
 
   .chip-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
   .chip {
-    padding: 9px 15px; border-radius: 999px; background: #f8f9fa;
+    padding: 9px 15px; border-radius: 999px; background: var(--pink-bg);
     border: 1px solid var(--border); font-size: 13px; font-weight: 600;
     color: var(--text-muted); cursor: pointer; transition: all 0.2s;
     display: flex; align-items: center; gap: 5px;
@@ -642,13 +757,13 @@
     padding: 14px; border-radius: 14px; border: none; font-size: 15px; font-weight: 600;
     display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; font-family: inherit;
   }
-  .action-menu button.edit-btn { background: #eff6ff; color: #2563eb; }
+  .action-menu button.edit-btn { background: var(--pink-bg); color: var(--pink-primary); }
   .action-menu button.del-btn { background: #fef2f2; color: #dc2626; }
-  .action-menu button.cancel-btn { background: #f3f4f6; color: #6b7280; margin-top: 4px; }
+  .action-menu button.cancel-btn { background: var(--pink-bg); color: var(--text-muted); margin-top: 4px; }
 
   .toast {
     position: fixed; bottom: calc(var(--nav-bottom) + 20px); left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--text); color: white; padding: 14px 26px; border-radius: 999px;
+    background: var(--text); color: var(--pink-surface); padding: 14px 26px; border-radius: 999px;
     font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none;
     transition: all 0.35s; z-index: 300; white-space: nowrap; box-shadow: var(--shadow-lg);
   }
@@ -656,22 +771,22 @@
 
   .confirm-overlay { position: fixed; inset: 0; background: rgba(31,31,46,0.4); z-index: 400; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 24px; }
   .confirm-overlay.show { display: flex; animation: fadeIn 0.2s; }
-  .confirm-box { background: white; border-radius: 28px; padding: 28px; max-width: 320px; width: 100%; text-align: center; animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1); box-shadow: var(--shadow-lg); }
+  .confirm-box { background: var(--pink-surface); border-radius: 28px; padding: 28px; max-width: 320px; width: 100%; text-align: center; animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1); box-shadow: var(--shadow-lg); }
   .confirm-box .ico { display: flex; justify-content: center; margin-bottom: 16px; color: var(--pink-primary); }
   .confirm-box .ico svg { width: 48px; height: 48px; }
   .confirm-box h4 { font-size: 18px; margin-bottom: 10px; font-weight: 700; color: var(--text); }
   .confirm-box p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; font-weight: 500;}
   .confirm-actions { display: flex; gap: 12px; }
   .confirm-actions button { flex: 1; padding: 14px; border-radius: 16px; border: none; font-size: 14.5px; font-weight: 700; cursor: pointer; font-family: inherit; }
-  .confirm-actions .cancel { background: #f3f4f6; color: #6b7280; }
-  .confirm-actions .confirm { background: var(--pink-primary); color: white; box-shadow: 0 4px 12px rgba(236,72,153,0.3); }
+  .confirm-actions .cancel { background: var(--pink-bg); color: var(--text-muted); }
+  .confirm-actions .confirm { background: var(--pink-primary); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
   .empty { text-align: center; padding: 40px 24px; color: var(--text-muted); }
   .empty .icon-wrap {
     width: 80px; height: 80px; border-radius: 26px; margin: 0 auto 20px;
-    background: linear-gradient(135deg, #ffffff, #fdf2f8);
+    background: linear-gradient(135deg, var(--pink-surface), var(--pink-bg));
     display: flex; align-items: center; justify-content: center;
-    box-shadow: var(--shadow-md); border: 2px dashed #fbcfe8;
+    box-shadow: var(--shadow-md); border: 2px dashed var(--pink-light);
   }
   .empty .icon-wrap svg { width: 40px; height: 40px; stroke: var(--pink-primary); }
   .empty h3 { font-size: 17px; color: var(--pink-dark); margin-bottom: 8px; font-weight: 700; }
@@ -680,24 +795,13 @@
   .autocomplete-wrap { position: relative; }
   .autocomplete-list {
     position: absolute; left: 0; right: 0; top: calc(100% + 4px);
-    background: white; border-radius: 12px; box-shadow: var(--shadow-lg);
+    background: var(--pink-surface); border-radius: 12px; box-shadow: var(--shadow-lg);
     max-height: 180px; overflow-y: auto; z-index: 10; border: 1px solid var(--border);
     display: none;
   }
   .autocomplete-list.show { display: block; }
   .autocomplete-list div { padding: 12px 16px; font-size: 14px; cursor: pointer; color: var(--text); font-weight: 500;}
   .autocomplete-list div:hover { background: var(--pink-bg); color: var(--pink-primary); }
-
-  .feature-suggest {
-    background: linear-gradient(135deg, #fff7ed, #ffedd5);
-    border: 1px solid #fed7aa; border-radius: 20px; padding: 16px;
-    margin: 0 16px 16px; display: flex; gap: 12px; align-items: flex-start;
-    position: relative; overflow: hidden;
-  }
-  .feature-suggest svg { width: 24px; height: 24px; stroke: #ea580c; flex-shrink: 0; }
-  .feature-suggest .fs-content { flex: 1; }
-  .feature-suggest .fs-title { font-size: 14px; font-weight: 700; color: #c2410c; margin-bottom: 4px; }
-  .feature-suggest .fs-desc { font-size: 12.5px; color: #9a3412; line-height: 1.5; font-weight: 500; }
 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
@@ -729,6 +833,8 @@
   <symbol id="icon-chevron-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
   <symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></symbol>
   <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="icon-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+  <symbol id="icon-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></symbol>
   
   <!-- Nav Icons -->
   <symbol id="icon-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></symbol>
@@ -752,8 +858,9 @@
 <!-- ================= TAB 0: TRANG CHỦ ================= -->
 <div class="tab-content" id="tab-home">
   <div class="dash-wrap">
-    <div class="greeting">
-      <svg class="hand-icon"><use href="#icon-home"/></svg> Hello Tran Hien
+    <div class="greeting" id="greetingBtn">
+      <svg class="hand-icon"><use href="#icon-settings"/></svg> 
+      <span id="greetingText">Hello Tran Hien</span>
     </div>
     
     <div class="dash-stats">
@@ -771,21 +878,56 @@
       </div>
     </div>
 
-    <div class="home-grid-2">
-      <div class="home-finance-compact" onclick="document.querySelector('.nav-item[data-tab=finance]').click()" style="cursor:pointer;">
-        <div class="hfc-label">Tổng tài sản</div>
-        <div class="hfc-val" id="homeFinTotal">0 đ</div>
-      </div>
-      
-      <div class="suggest-card" id="homeSuggest" onclick="document.querySelector('.nav-item[data-tab=places]').click()" style="cursor:pointer;">
-        <!-- Render bằng JS -->
-      </div>
+    <div class="suggest-card" id="homeSuggest" onclick="document.querySelector('.nav-item[data-tab=places]').click()">
+      <!-- Render bằng JS -->
     </div>
 
     <div class="dash-section">
       <div class="dash-title"><svg class="hand-icon"><use href="#icon-list"/></svg> Việc cần làm</div>
       <div class="todo-mini-list" id="todoMiniList"></div>
     </div>
+  </div>
+</div>
+
+<!-- ================= TAB 5: CÀI ĐẶT (TÔI) ================= -->
+<div class="tab-content" id="tab-settings">
+  <div class="settings-container">
+    <div class="sub-view-header" style="padding: 0 0 16px 0;">
+      <button class="back-btn" id="closeSettingsBtn"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
+      <div class="sub-view-title">Cài đặt</div>
+    </div>
+
+    <div class="settings-group">
+      <div class="settings-group-title">Thông tin cá nhân</div>
+      <div class="setting-item" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+        <div class="setting-label">Tên hiển thị</div>
+        <input type="text" id="inputUserName" class="settings-input" placeholder="Nhập tên của bạn..." value="Tran Hien">
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <div class="settings-group-title">Giao diện</div>
+      <div class="setting-item">
+        <div class="setting-label">Màu chủ đề</div>
+        <div class="setting-options">
+          <div class="theme-dot pink active" data-theme="pink"></div>
+          <div class="theme-dot blue" data-theme="blue"></div>
+          <div class="theme-dot purple" data-theme="purple"></div>
+          <div class="theme-dot neon" data-theme="neon">🌙</div>
+          <div class="theme-dot vintage" data-theme="vintage">☕</div>
+        </div>
+      </div>
+      <div class="setting-item">
+        <div class="setting-label">Font chữ</div>
+        <div class="setting-options">
+          <button class="font-btn active" data-font="quicksand">Quicksand</button>
+          <button class="font-btn" data-font="nunito">Nunito</button>
+          <button class="font-btn" data-font="inter">Inter</button>
+        </div>
+      </div>
+    </div>
+    
+    <button class="save-btn" id="saveSettingsBtn">Lưu thay đổi</button>
   </div>
 </div>
 
@@ -863,44 +1005,65 @@
   </div>
 </div>
 
-<!-- ================= TAB 3: GHI CHÚ ================= -->
-<div class="tab-content" id="tab-notes">
-  <div class="feature-suggest">
-    <svg class="hand-icon"><use href="#icon-bulb"/></svg>
-    <div class="fs-content">
-      <div class="fs-title">Bạn muốn app có thêm gì?</div>
-      <div class="fs-desc">Hãy tạo một Ghi chú (Loại: Tips) với tiêu đề bắt đầu bằng <b>[Góp ý]</b> để mình cùng phát triển app nhé!</div>
-    </div>
-  </div>
-
-  <div class="toolbar">
-    <div class="search-box">
-      <svg class="hand-icon"><use href="#icon-search"/></svg>
-      <input type="text" id="searchNotes" placeholder="Tìm ghi chú, hashtag...">
-      <button class="clear-search" id="clearSearchNotes"><svg class="hand-icon" style="width:12px;height:12px"><use href="#icon-x"/></svg></button>
-    </div>
-    <button class="filter-btn" id="openNoteFilterBtn">
-      <svg class="hand-icon"><use href="#icon-filter"/></svg>
-      <span class="badge" id="noteFilterBadge">1</span>
-    </button>
-  </div>
-
-  <div class="sort-bar">
-    <span id="countNotes">0 kết quả</span>
-    <div class="sort-wrapper">
-      <button class="sort-btn" id="sortNotesBtn">
-        <svg class="hand-icon" style="width:14px;height:14px;"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/></svg>
-        <span id="sortNotesLabel">Mới nhất</span>
-      </button>
-      <div class="sort-menu" id="sortNotesMenu">
-        <button data-sort="newest" class="active">Mới nhất <span class="check">✓</span></button>
-        <button data-sort="oldest">Cũ nhất <span class="check">✓</span></button>
-        <button data-sort="name-asc">Tên A → Z <span class="check">✓</span></button>
+<!-- ================= TAB 3: KHÁC (GRID) ================= -->
+<div class="tab-content" id="tab-others">
+  <!-- Trang chủ của Tab Khác -->
+  <div id="othersMainView">
+    <div class="other-grid">
+      <div class="other-card" data-type="note">
+        <div class="other-card-icon note"><svg class="hand-icon"><use href="#icon-notebook"/></svg></div>
+        <div class="other-card-title">Ghi chú</div>
+        <div class="other-card-count" id="countNoteCard">0 mục</div>
+      </div>
+      <div class="other-card" data-type="task">
+        <div class="other-card-icon task"><svg class="hand-icon"><use href="#icon-list"/></svg></div>
+        <div class="other-card-title">Việc làm</div>
+        <div class="other-card-count" id="countTaskCard">0 mục</div>
+      </div>
+      <div class="other-card" data-type="tip">
+        <div class="other-card-icon tip"><svg class="hand-icon"><use href="#icon-bulb"/></svg></div>
+        <div class="other-card-title">Tips</div>
+        <div class="other-card-count" id="countTipCard">0 mục</div>
       </div>
     </div>
   </div>
 
-  <div class="list" id="listNotes"></div>
+  <!-- Trang danh sách chi tiết -->
+  <div id="othersDetailView" style="display: none;">
+    <div class="sub-view-header">
+      <button class="back-btn" id="backToOthersBtn"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
+      <div class="sub-view-title" id="subViewTitle">Ghi chú</div>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-box">
+        <svg class="hand-icon"><use href="#icon-search"/></svg>
+        <input type="text" id="searchNotes" placeholder="Tìm ghi chú, hashtag...">
+        <button class="clear-search" id="clearSearchNotes"><svg class="hand-icon" style="width:12px;height:12px"><use href="#icon-x"/></svg></button>
+      </div>
+      <button class="filter-btn" id="openNoteFilterBtn">
+        <svg class="hand-icon"><use href="#icon-filter"/></svg>
+        <span class="badge" id="noteFilterBadge">1</span>
+      </button>
+    </div>
+
+    <div class="sort-bar">
+      <span id="countNotes">0 kết quả</span>
+      <div class="sort-wrapper">
+        <button class="sort-btn" id="sortNotesBtn">
+          <svg class="hand-icon" style="width:14px;height:14px;"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/></svg>
+          <span id="sortNotesLabel">Mới nhất</span>
+        </button>
+        <div class="sort-menu" id="sortNotesMenu">
+          <button data-sort="newest" class="active">Mới nhất <span class="check">✓</span></button>
+          <button data-sort="oldest">Cũ nhất <span class="check">✓</span></button>
+          <button data-sort="name-asc">Tên A → Z <span class="check">✓</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="list" id="listNotes"></div>
+  </div>
 </div>
 
 <!-- ================= TAB 4: TÀI CHÍNH ================= -->
@@ -915,7 +1078,7 @@
   <!-- Carousel -->
   <div class="finance-carousel" id="finCarousel">
     
-    <!-- PAGE 1: Tổng quan & Bản kê tiền mặt -->
+    <!-- PAGE 1: Tổng quan & Tài sản khác -->
     <div class="finance-page" data-page="0">
       <div class="finance-dashboard">
         <div class="finance-balance-label">Tổng tài sản (Báo cáo)</div>
@@ -941,14 +1104,24 @@
         </div>
       </div>
 
-      <div class="backup-bar">
-        <button class="backup-btn" id="btnExportData">
-          <svg class="hand-icon"><use href="#icon-download"/></svg> Sao lưu
-        </button>
-        <button class="backup-btn" id="btnImportData">
-          <svg class="hand-icon"><use href="#icon-upload"/></svg> Khôi phục
-        </button>
-        <input type="file" id="importFileInput" accept=".json" style="display:none">
+      <!-- Tài sản & Khoản nợ khác -->
+      <div class="compact-card">
+        <div class="section-header">
+          <div class="section-title">Tài sản & Khoản nợ khác</div>
+          <button class="btn-small" id="btnAddAsset">+ Thêm</button>
+        </div>
+        <div class="asset-list" id="assetListContainer"></div>
+      </div>
+    </div>
+
+    <!-- PAGE 2: Doanh thu & Bản kê tiền mặt -->
+    <div class="finance-page" data-page="1">
+      <!-- Bảng doanh thu 7 ngày -->
+      <div class="compact-card">
+        <div class="compact-card-header">
+          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-chart"/></svg> Doanh thu 7 ngày</div>
+        </div>
+        <div class="revenue-table" id="revenueTable"></div>
       </div>
 
       <!-- Bản kê tiền mặt compact -->
@@ -957,20 +1130,19 @@
           <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-wallet"/></svg> Bản kê Tiền mặt</div>
           <div class="compact-card-total" id="cashTotalLabel">0 đ</div>
         </div>
-        <div class="cash-grid" id="cashGridContainer"></div>
+        <div class="cash-list-vertical" id="cashGridContainer"></div>
       </div>
     </div>
 
-    <!-- PAGE 2: Tiền mới & Thẻ tín dụng -->
-    <div class="finance-page" data-page="1">
-      
+    <!-- PAGE 3: Ví/Ngân hàng & Chi tiêu thẻ tín dụng -->
+    <div class="finance-page" data-page="2">
       <!-- Bản kê tiền mới (Ví điện tử / Ngân hàng) -->
       <div class="compact-card">
         <div class="compact-card-header">
           <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-card"/></svg> Ví / Ngân hàng</div>
           <div class="compact-card-total" id="newCashTotalLabel">0 đ</div>
         </div>
-        <div class="cash-grid" id="newCashGridContainer"></div>
+        <div class="cash-list-vertical" id="newCashGridContainer"></div>
         <div class="toggle-row" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
           <div>
             <div class="toggle-label" style="font-size:13px;">Tính vào báo cáo</div>
@@ -992,28 +1164,16 @@
         <button class="credit-add-btn" id="btnAddCredit">+ Thêm khoản chi</button>
       </div>
 
-    </div>
-
-    <!-- PAGE 3: Tài sản khác & Doanh thu -->
-    <div class="finance-page" data-page="2">
-      
-      <!-- Bảng doanh thu 7 ngày -->
-      <div class="compact-card">
-        <div class="compact-card-header">
-          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-chart"/></svg> Doanh thu 7 ngày</div>
-        </div>
-        <div class="revenue-table" id="revenueTable"></div>
+      <!-- Nút Sao lưu / Khôi phục -->
+      <div class="backup-bar">
+        <button class="backup-btn" id="btnExportData">
+          <svg class="hand-icon"><use href="#icon-download"/></svg> Sao lưu
+        </button>
+        <button class="backup-btn" id="btnImportData">
+          <svg class="hand-icon"><use href="#icon-upload"/></svg> Khôi phục
+        </button>
+        <input type="file" id="importFileInput" accept=".json" style="display:none">
       </div>
-
-      <!-- Tài sản & Khoản nợ khác -->
-      <div class="compact-card">
-        <div class="section-header">
-          <div class="section-title">Tài sản & Khoản nợ khác</div>
-          <button class="btn-small" id="btnAddAsset">+ Thêm</button>
-        </div>
-        <div class="asset-list" id="assetListContainer"></div>
-      </div>
-
     </div>
 
   </div>
@@ -1038,9 +1198,9 @@
     <svg class="hand-icon"><use href="#icon-book"/></svg>
     <span>Nhật ký</span>
   </div>
-  <div class="nav-item" data-tab="notes">
-    <svg class="hand-icon"><use href="#icon-notebook"/></svg>
-    <span>Ghi chú</span>
+  <div class="nav-item" data-tab="others">
+    <svg class="hand-icon"><use href="#icon-grid"/></svg>
+    <span>Khác</span>
   </div>
   <div class="nav-item" data-tab="finance">
     <svg class="hand-icon"><use href="#icon-wallet"/></svg>
@@ -1393,12 +1553,12 @@
   const STORAGE_KEY = 'places_v13';
   const DIARY_KEY = 'diary_v7';
   const NOTE_KEY = 'notes_v5';
-  const FINANCE_KEY = 'finance_v3'; // Upgraded
-  const REVENUE_KEY = 'revenue_v2'; // Upgraded
+  const FINANCE_KEY = 'finance_v3';
+  const REVENUE_KEY = 'revenue_v2';
+  const SETTINGS_KEY = 'settings_v1';
 
   const DENOMINATIONS = [500000, 200000, 100000, 50000, 20000, 10000, 5000, 2000, 1000];
 
-  // Dữ liệu mẫu
   const SAMPLE_PLACES = [
     { id: 'p_1', name: 'Cà phê Ngõ Nhỏ', type: 'cafe', status: 'want', rating: 5, city: 'Hà Nội', address: '12 Nguyễn Huệ', date: '2023-10-25', hashtags: ['viewdep', 'chill'], note: 'Không gian yên tĩnh, nước uống ổn.', createdAt: Date.now() - 10000000 }
   ];
@@ -1424,14 +1584,22 @@
     ]
   };
 
+  const SAMPLE_SETTINGS = {
+    name: 'Tran Hien',
+    theme: 'pink',
+    font: 'quicksand'
+  };
+
   let places = [];
   let diaries = [];
   let notes = [];
   let finances = { cash_counts: {}, cash_include: true, new_cash_counts: {}, new_cash_include: true, credit_expenses: [], other_assets: [] };
   let revenues = {};
+  let settings = { ...SAMPLE_SETTINGS };
   
   let currentTab = 'places';
   let currentFinPage = 0;
+  let currentOtherCategory = null; 
   
   // State cho Place
   let editPlaceId = null;
@@ -1495,7 +1663,6 @@
       finances = rawF ? JSON.parse(rawF) : JSON.parse(JSON.stringify(SAMPLE_FINANCE));
     } catch(e) { finances = JSON.parse(JSON.stringify(SAMPLE_FINANCE)); }
     
-    // Migrate older versions
     if (!finances.cash_counts) finances.cash_counts = {};
     if (finances.cash_include === undefined) finances.cash_include = true;
     if (!finances.new_cash_counts) finances.new_cash_counts = {};
@@ -1508,6 +1675,12 @@
       revenues = rawRev ? JSON.parse(rawRev) : {};
     } catch(e) { revenues = {}; }
 
+    try {
+      const rawS = localStorage.getItem(SETTINGS_KEY);
+      settings = rawS ? JSON.parse(rawS) : { ...SAMPLE_SETTINGS };
+    } catch(e) { settings = { ...SAMPLE_SETTINGS }; }
+
+    applySettings();
     saveData();
   }
 
@@ -1518,7 +1691,29 @@
       localStorage.setItem(NOTE_KEY, JSON.stringify(notes));
       localStorage.setItem(FINANCE_KEY, JSON.stringify(finances));
       localStorage.setItem(REVENUE_KEY, JSON.stringify(revenues));
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
     } catch(e) { toast('⚠️ Lỗi lưu dữ liệu'); }
+  }
+
+  function applySettings() {
+    document.body.className = '';
+    if (settings.theme === 'blue') document.body.classList.add('theme-blue');
+    else if (settings.theme === 'purple') document.body.classList.add('theme-purple');
+    else if (settings.theme === 'neon') document.body.classList.add('theme-neon');
+    else if (settings.theme === 'vintage') document.body.classList.add('theme-vintage');
+    
+    if (settings.font === 'nunito') document.body.classList.add('font-nunito');
+    else if (settings.font === 'inter') document.body.classList.add('font-inter');
+
+    $('greetingText').textContent = 'Hello ' + (settings.name || 'Bạn');
+    $('inputUserName').value = settings.name || '';
+
+    document.querySelectorAll('.theme-dot').forEach(dot => {
+      dot.classList.toggle('active', dot.dataset.theme === settings.theme);
+    });
+    document.querySelectorAll('.font-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.font === settings.font);
+    });
   }
 
   const INFO = {
@@ -1597,7 +1792,7 @@
 
     let otherAssetsTotal = 0;
     let loanOutTotal = 0;
-    let loanInTotal = creditTotal; // Thẻ tín dụng là nợ
+    let loanInTotal = creditTotal;
 
     finances.other_assets.forEach(a => {
       if (a.include) {
@@ -1627,12 +1822,40 @@
     if (tabId === 'home') renderHome();
     else if (tabId === 'places') renderPlaces();
     else if (tabId === 'diary') renderDiaries();
-    else if (tabId === 'notes') renderNotes();
+    else if (tabId === 'others') renderOthers();
     else if (tabId === 'finance') renderFinance();
+    else if (tabId === 'settings') { /* Do nothing, form is pre-rendered */ }
   }
 
   document.querySelectorAll('.nav-item').forEach(nav => {
     nav.addEventListener('click', () => switchTab(nav.dataset.tab));
+  });
+
+  $('greetingBtn').addEventListener('click', () => {
+    switchTab('settings');
+  });
+  $('closeSettingsBtn').addEventListener('click', () => {
+    switchTab('home');
+  });
+  
+  // Settings Events
+  document.querySelectorAll('.theme-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      settings.theme = dot.dataset.theme;
+      applySettings();
+    });
+  });
+  document.querySelectorAll('.font-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      settings.font = btn.dataset.font;
+      applySettings();
+    });
+  });
+  $('saveSettingsBtn').addEventListener('click', () => {
+    settings.name = $('inputUserName').value.trim() || 'Bạn';
+    applySettings();
+    saveData();
+    toast('✅ Đã lưu cài đặt');
   });
 
   /* ==================== TAB TRANG CHỦ ==================== */
@@ -1641,22 +1864,20 @@
     $('statDiaries').textContent = diaries.length;
     $('statNotes').textContent = notes.length;
 
-    const fin = calcFinance();
-    $('homeFinTotal').textContent = fmtMoney(fin.totalAsset);
-
     const wantPlaces = places.filter(p => p.status === 'want');
     const homeSuggest = $('homeSuggest');
     if (wantPlaces.length > 0) {
       const randomP = wantPlaces[Math.floor(Math.random() * wantPlaces.length)];
       homeSuggest.innerHTML = `
-        <span class="suggest-tag">Gợi ý hôm nay</span>
+        <span class="suggest-tag">✨ Gợi ý hôm nay</span>
         <div class="suggest-title">${esc(randomP.name)}</div>
         <div class="suggest-address"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(randomP.address || randomP.city || 'Chưa rõ địa chỉ')}</div>
       `;
     } else {
       homeSuggest.innerHTML = `
-        <span class="suggest-tag">Gợi ý hôm nay</span>
-        <div class="suggest-title" style="font-size:14px; color:var(--text-muted);">Đã đi hết địa điểm</div>
+        <span class="suggest-tag">✨ Gợi ý hôm nay</span>
+        <div class="suggest-title" style="font-size:16px;">Đã đi hết địa điểm rồi!</div>
+        <div class="suggest-address">Hãy thêm địa điểm mới nhé.</div>
       `;
     }
 
@@ -1909,7 +2130,41 @@
   $('viewTimelineBtn').addEventListener('click', () => { diaryViewMode = 'timeline'; renderDiaries(); });
   $('viewCalendarBtn').addEventListener('click', () => { diaryViewMode = 'calendar'; renderDiaries(); });
 
-  /* ==================== TAB 3: GHI CHÚ ==================== */
+  /* ==================== TAB 3: KHÁC ==================== */
+  function renderOthers() {
+    const countNotes = notes.filter(n => n.type === 'note').length;
+    const countTasks = notes.filter(n => n.type === 'task').length;
+    const countTips = notes.filter(n => n.type === 'tip').length;
+    
+    $('countNoteCard').textContent = `${countNotes} mục`;
+    $('countTaskCard').textContent = `${countTasks} mục`;
+    $('countTipCard').textContent = `${countTips} mục`;
+
+    if (currentOtherCategory) {
+      $('othersMainView').style.display = 'none';
+      $('othersDetailView').style.display = 'block';
+      $('subViewTitle').textContent = INFO[currentOtherCategory]?.label || 'Danh sách';
+      renderNotes();
+    } else {
+      $('othersMainView').style.display = 'block';
+      $('othersDetailView').style.display = 'none';
+    }
+  }
+
+  document.querySelectorAll('.other-card').forEach(card => {
+    card.addEventListener('click', () => {
+      currentOtherCategory = card.dataset.type;
+      filterNoteType = currentOtherCategory;
+      renderOthers();
+    });
+  });
+
+  $('backToOthersBtn').addEventListener('click', () => {
+    currentOtherCategory = null;
+    filterNoteType = 'all';
+    renderOthers();
+  });
+
   function getFilteredNotes() {
     let arr = notes.slice();
     if (filterNoteType !== 'all') arr = arr.filter(n => n.type === filterNoteType);
@@ -1960,7 +2215,6 @@
 
     list.innerHTML = arr.map(n => {
       const info = INFO[n.type] || INFO.note;
-      const showType = filterNoteType === 'all';
       const hashtagHtml = (n.hashtags && n.hashtags.length > 0 && !filterNoteHashtag) 
         ? n.hashtags.map(tag => `<span class="tag hashtag"><svg class="hand-icon"><use href="#icon-hashtag"/></svg>${esc(tag)}</span>`).join('') : '';
 
@@ -1977,7 +2231,6 @@
                 <div class="card-title">${esc(n.title)}</div>
               </div>
               <div style="display:flex; flex-wrap:wrap; gap:6px;">
-                ${showType ? `<span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>` : ''}
                 ${n.date ? `<span class="tag date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(n.date)}</span>` : ''}
               </div>
               ${hashtagHtml ? `<div class="card-meta">${hashtagHtml}</div>` : ''}
@@ -2000,35 +2253,41 @@
     $('finLoanOut').textContent = fmtMoney(fin.loanOutTotal);
     $('finLoanIn').textContent = fmtMoney(fin.loanInTotal);
 
-    // 1. Cash Grid (Compact)
+    // 1. Cash List (Vertical)
     $('cashTotalLabel').textContent = fmtMoney(fin.cashTotal);
     const cashGrid = $('cashGridContainer');
     cashGrid.innerHTML = DENOMINATIONS.map(d => {
       const qty = finances.cash_counts[d] || 0;
       return `
-        <div class="cash-grid-item">
-          <div class="cash-grid-label">${d >= 1000 ? (d/1000)+'k' : d}</div>
-          <input type="number" class="cash-grid-input" data-denom="${d}" data-type="main" value="${qty}" min="0" placeholder="0">
+        <div class="cash-row">
+          <div class="cash-row-label">${d.toLocaleString('vi-VN')} đ</div>
+          <div class="cash-row-input-wrap">
+            <span class="cash-row-x">x</span>
+            <input type="number" class="cash-row-input" data-denom="${d}" data-type="main" value="${qty}" min="0" placeholder="0">
+          </div>
         </div>
       `;
     }).join('');
 
-    // 2. New Cash Grid (Compact)
+    // 2. New Cash List (Vertical)
     $('newCashTotalLabel').textContent = fmtMoney(fin.newCashTotal);
     $('newCashInclude').checked = finances.new_cash_include;
     const newCashGrid = $('newCashGridContainer');
     newCashGrid.innerHTML = DENOMINATIONS.map(d => {
       const qty = finances.new_cash_counts[d] || 0;
       return `
-        <div class="cash-grid-item">
-          <div class="cash-grid-label">${d >= 1000 ? (d/1000)+'k' : d}</div>
-          <input type="number" class="cash-grid-input" data-denom="${d}" data-type="new" value="${qty}" min="0" placeholder="0">
+        <div class="cash-row">
+          <div class="cash-row-label">${d.toLocaleString('vi-VN')} đ</div>
+          <div class="cash-row-input-wrap">
+            <span class="cash-row-x">x</span>
+            <input type="number" class="cash-row-input" data-denom="${d}" data-type="new" value="${qty}" min="0" placeholder="0">
+          </div>
         </div>
       `;
     }).join('');
 
-    // Cash Grid Input Events
-    document.querySelectorAll('.cash-grid-input').forEach(input => {
+    // Cash List Input Events
+    document.querySelectorAll('.cash-row-input').forEach(input => {
       input.addEventListener('input', (e) => {
         const denom = Number(e.target.dataset.denom);
         const type = e.target.dataset.type;
@@ -2039,13 +2298,11 @@
         
         saveData();
         
-        // Update only totals visually without full re-render to prevent input focus loss
         const f = calcFinance();
         if (type === 'main') $('cashTotalLabel').textContent = fmtMoney(f.cashTotal);
         else $('newCashTotalLabel').textContent = fmtMoney(f.newCashTotal);
       });
       input.addEventListener('blur', () => {
-        // Full re-render on blur to update summary cards
         renderFinance();
       });
     });
@@ -2110,7 +2367,6 @@
         if(newDateStr) {
           dateTextInput.value = formatDateDDMMYYYY(newDateStr);
           row.dataset.date = newDateStr;
-          // Move data to new date
           const amount = parseFloat(amountInput.value) || 0;
           const note = noteInput.value.trim();
           if (amount === 0 && !note) delete revenues[newDateStr];
@@ -2162,7 +2418,7 @@
   $('newCashInclude').addEventListener('change', (e) => {
     finances.new_cash_include = e.target.checked;
     saveData();
-    renderFinance(); // Update totals
+    renderFinance();
   });
 
   /* ==================== FINANCE CAROUSEL ==================== */
@@ -2187,7 +2443,7 @@
 
   /* ==================== EXPORT / IMPORT ==================== */
   $('btnExportData').addEventListener('click', () => {
-    const backup = { places, diaries, notes, finances, revenues, exportedAt: new Date().toISOString(), version: 'v17' };
+    const backup = { places, diaries, notes, finances, revenues, settings, exportedAt: new Date().toISOString(), version: 'v19' };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -2230,7 +2486,9 @@
         }
         if (data.revenues && typeof data.revenues === 'object') revenues = data.revenues;
         else revenues = {};
+        if (data.settings && typeof data.settings === 'object') settings = data.settings;
         
+        applySettings();
         saveData();
         switchTab(currentTab);
         toast('✅ Đã khôi phục dữ liệu thành công');
@@ -2389,7 +2647,7 @@
       $('noteDate').value = new Date().toISOString().split('T')[0]; 
       $('noteHashtags').value = ''; 
       $('noteContent').value = '';
-      setFormNoteType('note');
+      setFormNoteType(currentOtherCategory || 'note');
     }
     $('noteOverlay').classList.add('show');
     setTimeout(() => $('noteTitle').focus(), 300);
@@ -2423,8 +2681,8 @@
     formDiaryMood = mood;
     document.querySelectorAll('#moodPicker .opt').forEach(o => {
       o.classList.toggle('active', o.dataset.mood === mood);
-      if(o.dataset.mood !== mood) o.style.borderColor = 'var(--border)', o.style.background = '#fafafc', o.style.color = 'var(--text-muted)';
-      else o.style.borderColor = 'var(--pink-primary)', o.style.background = 'var(--pink-bg)', o.style.color = 'var(--pink-primary)';
+      if(o.dataset.mood !== mood) o.style.borderColor = 'var(--border)', o.style.background = 'var(--pink-bg)', o.style.color = 'var(--text-muted)';
+      else o.style.borderColor = 'var(--pink-primary)', o.style.background = 'var(--pink-surface)', o.style.color = 'var(--pink-primary)';
     });
   }
 
@@ -2563,12 +2821,15 @@
   /* ==================== SỰ KIỆN LƯU ==================== */
   $('fab').addEventListener('click', () => {
     if (currentTab === 'places') openPlaceModal(null);
-    else if (currentTab === 'notes') openNoteModal(null);
+    else if (currentTab === 'others') {
+      if (currentOtherCategory) openNoteModal(null);
+      else toast('Vui lòng chọn một mục để thêm');
+    }
     else if (currentTab === 'diary') openDiaryModal(null);
     else if (currentTab === 'finance') {
       if (currentFinPage === 0) window.openAssetModal(null);
       else if (currentFinPage === 1) window.openCreditModal(null);
-      else if (currentFinPage === 2) window.openAssetModal(null);
+      else if (currentFinPage === 2) window.openCreditModal(null); // Fallback
     }
     else if (currentTab === 'home') openPlaceModal(null); 
   });
