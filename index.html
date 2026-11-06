@@ -1717,6 +1717,246 @@
     font-size: 16px;
     word-break: break-word;
   }
+  /* ============================================================
+     THEME NOTION AESTHETIC (WIDGETS COMBO)
+     ============================================================ */
+  body.theme-notion {
+    --pink-bg: #f5eee6; /* Nền be nhạt */
+    --pink-surface: #fffcf8; /* Màu thẻ kem trắng */
+    --pink-primary: #d4b895; /* Màu nhấn be đậm */
+    --pink-light: #e8d8c8;
+    --pink-dark: #8c7662;
+    --text: #5c4e41; /* Chữ nâu xám */
+    --text-muted: #9c8e82;
+    --border: #d4b895; /* Viền nâu nhạt */
+    --bg-gradient: #f5eee6;
+    --shadow-sm: 3px 3px 0px #d4b895; /* Bóng cứng lệch */
+    --shadow-md: 4px 4px 0px #d4b895;
+    --shadow-lg: 6px 6px 0px #d4b895;
+    --font-family: 'Quicksand', sans-serif;
+    
+    --want-bg: #fef0f0; --want-text: #c98a8a;
+    --done-bg: #f0f4ef; --done-text: #8da290;
+    --cafe-bg: #fdf5f0; --cafe-text: #b8907e;
+    --food-bg: #fcf8ef; --food-text: #b8a57b;
+    --travel-bg: #f0f4f8; --travel-text: #7e93b8;
+  }
+
+  /* Nền chấm bi (Polka dots) */
+  body.theme-notion {
+    background-color: #f5eee6;
+    background-image: radial-gradient(#d4b895 1.5px, transparent 1.5px);
+    background-size: 20px 20px;
+    background-attachment: fixed;
+  }
+
+  /* Thẻ và Khung (Card) */
+  body.theme-notion .card,
+  body.theme-notion .goal-widget,
+  body.theme-notion .dash-chart-widget,
+  body.theme-notion .suggest-card,
+  body.theme-notion .compact-card,
+  body.theme-notion .salary-card,
+  body.theme-notion .bucket-list-container,
+  body.theme-notion .event-card,
+  body.theme-notion .timeline-card,
+  body.theme-notion .braces-timeline-card,
+  body.theme-notion .diary-compact-card,
+  body.theme-notion .note-list-card,
+  body.theme-notion .search-box,
+  body.theme-notion .filter-btn,
+  body.theme-notion .calendar-grid,
+  body.theme-notion .settings-group,
+  body.theme-notion .finance-dashboard {
+    border: 2.5px solid var(--border);
+    border-radius: 24px; /* Bo góc cực tròn */
+    box-shadow: var(--shadow-md);
+    background: var(--pink-surface);
+    filter: none; /* Tắt filter vẽ tay nếu có */
+    transform: none; /* Tắt nghiêng */
+  }
+
+  /* Làm nổi bật thẻ (Shadow đậm hơn chút) */
+  body.theme-notion .suggest-card {
+    background: #e8d8c8;
+    border: 2.5px solid #b89a7a;
+    box-shadow: 5px 5px 0px #b89a7a;
+  }
+  body.theme-notion .suggest-card .suggest-title { color: #5c4e41; }
+  body.theme-notion .suggest-card .suggest-address { color: #8c7662; }
+
+  /* Thanh điều hướng dưới (Bottom Nav) */
+  body.theme-notion .bottom-nav {
+    background: var(--pink-surface);
+    border: 2.5px solid var(--border);
+    border-radius: 30px;
+    box-shadow: 4px 4px 0px var(--border);
+  }
+  body.theme-notion .nav-item {
+    color: var(--text-muted);
+    font-weight: 700;
+  }
+  body.theme-notion .nav-item.active {
+    color: var(--pink-dark);
+  }
+  body.theme-notion .nav-item.active svg {
+    stroke: var(--pink-dark);
+    transform: translateY(-2px);
+  }
+
+  /* Nút FAB (Nút thêm) */
+  body.theme-notion .fab {
+    background: var(--pink-primary);
+    color: #fff;
+    border: 2.5px solid var(--pink-dark);
+    border-radius: 50%;
+    box-shadow: 3px 3px 0px var(--pink-dark);
+  }
+  body.theme-notion .fab svg { stroke: #fff; }
+
+  /* Ô nhập liệu */
+  body.theme-notion .field input,
+  body.theme-notion .field textarea,
+  body.theme-notion .field select {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    color: var(--text);
+  }
+  body.theme-notion .field input:focus,
+  body.theme-notion .field textarea:focus {
+    border-color: var(--pink-dark);
+    box-shadow: 2px 2px 0px var(--pink-light);
+  }
+
+  /* Nút Lưu (Save Btn) */
+  body.theme-notion .save-btn {
+    background: var(--pink-primary);
+    color: #fff;
+    border: 2px solid var(--pink-dark);
+    border-radius: 16px;
+    box-shadow: 3px 3px 0px var(--pink-dark);
+    font-weight: 700;
+  }
+  body.theme-notion .save-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--pink-dark);
+  }
+
+  /* Icon Box (Đổi màu nền icon) */
+  body.theme-notion .note-icon-box,
+  body.theme-notion .diary-icon-box,
+  body.theme-notion .other-card-icon {
+    background: #fdfaf6;
+    border: 2px solid var(--border);
+    border-radius: 50%; /* Icon bo tròn */
+    color: var(--pink-dark);
+  }
+  body.theme-notion .note-icon-box svg,
+  body.theme-notion .diary-icon-box svg,
+  body.theme-notion .other-card-icon svg {
+    stroke: var(--pink-dark);
+    stroke-width: 2;
+  }
+
+  /* Chỉnh lại một chút cho bảng Bingo (nếu bạn có dùng) */
+  body.theme-notion .bingo-cell {
+    border-radius: 16px;
+    border: 2px solid var(--border);
+    background: var(--pink-surface);
+    box-shadow: 2px 2px 0px var(--border);
+  }
+  body.theme-notion .bingo-cell.done {
+    background: var(--pink-light);
+    border-color: var(--pink-dark);
+  }
+  /* ===== FIX LỖI VIỀN LÒI RA Ở CÁC THẺ SWIPE (Địa điểm, Nhật ký...) ===== */
+  
+  /* 1. Thẻ cha bao bọc (Swipe-item) - Xóa viền đen, bo góc cho khớp */
+  body.theme-notion .swipe-item {
+    border-radius: 24px !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    background: transparent !important;
+  }
+
+  /* 2. Ép thẻ con (Địa điểm, Nhật ký) phải nằm gọn bên trong, không xài bóng đổ lòi ra ngoài */
+  body.theme-notion .swipe-item .diary-compact-card,
+  body.theme-notion .swipe-item .note-list-card {
+    border-radius: 24px !important;
+    border: 2.5px solid var(--border) !important;
+    box-shadow: 4px 4px 0px var(--border) !important;
+    /* Xóa các hiệu ứng viền cũ (nét đứt, viền xanh) */
+    border-left: 2.5px solid var(--border) !important;
+    border-style: solid !important;
+    filter: none !important;
+    transform: none !important;
+    /* Đảm bảo không lòi ra khỏi thẻ cha */
+    margin: 0 !important; 
+    width: 100% !important;
+  }
+
+  /* 3. Xóa cái viền màu xanh dương của thẻ Niềng răng */
+  body.theme-notion .diary-compact-card.braces-card {
+    border-left: 2.5px solid var(--border) !important;
+  }
+
+  /* 4. Xóa cái nền xanh/tím của các nút Sửa/Xóa (Swipe Actions) khi nó bị lộ ra */
+  body.theme-notion .swipe-actions .action.edit {
+    background: var(--pink-light) !important;
+  }
+  body.theme-notion .swipe-actions .action.delete {
+    background: #e8b4b4 !important;
+  }
+  /* ===== FIX MÀU TỔNG TÀI SẢN & NIỀNG RĂNG CHO THEME NOTION ===== */
+
+  /* 1. Tổng tài sản (Finance Dashboard) -> Đổi sang tone Be đậm/Nâu */
+  body.theme-notion .finance-dashboard {
+    background: #d4b895 !important; /* Màu be đậm */
+    border: 2.5px solid #8c7662 !important; /* Viền nâu */
+    box-shadow: 4px 4px 0px #8c7662 !important;
+    color: #fffcf8 !important;
+  }
+  body.theme-notion .finance-balance-label,
+  body.theme-notion .finance-balance,
+  body.theme-notion .finance-box-label,
+  body.theme-notion .finance-box-val {
+    color: #fffcf8 !important; /* Chữ trắng kem cho nổi bật */
+  }
+  body.theme-notion .finance-box {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 12px !important;
+  }
+  body.theme-notion .finance-box svg {
+    stroke: #fffcf8 !important;
+  }
+
+  /* 2. Tổng quan Niềng răng (Braces Dashboard) -> Đổi sang tone Kem sáng */
+  body.theme-notion .braces-dashboard-card {
+    background: #fdfaf6 !important; /* Nền kem */
+    border: 2.5px solid var(--border) !important; /* Viền nâu nhạt */
+    box-shadow: 4px 4px 0px var(--border) !important;
+    border-radius: 24px !important;
+  }
+  body.theme-notion .braces-dashboard-card .stat-val {
+    color: var(--pink-dark) !important; /* Số liệu màu nâu đậm */
+    font-weight: 700 !important;
+  }
+  body.theme-notion .braces-dashboard-card .stat-lbl {
+    color: var(--text-muted) !important; /* Nhãn chữ xám nhạt */
+  }
+  body.theme-notion .braces-dashboard-card .divider {
+    background: var(--border) !important; /* Đường kẻ dọc màu nâu */
+  }
+
+  /* 3. Chỉnh màu chữ của Bảng tổng tài sản phần chữ (nếu có) */
+  body.theme-notion .salary-result {
+    background: #f4e9df !important;
+    color: var(--pink-dark) !important;
+    border: 2px solid var(--border) !important;
+  }
 </style>
 </head>
 <body>
@@ -1887,6 +2127,7 @@
           <button class="theme-btn" data-theme="default">Đơn giản</button>
           <button class="theme-btn" data-theme="neobrutalism">Neobrutalism</button>
           <button class="theme-btn" data-theme="crayon">🖍️ Bút sáp</button>
+          <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>
         </div>
       </div>
       
@@ -2951,6 +3192,7 @@
     document.body.className = '';
     if (settings.theme === 'neobrutalism') document.body.classList.add('theme-neobrutalism');
     if (settings.theme === 'crayon') document.body.classList.add('theme-crayon');
+    if (settings.theme === 'notion') document.body.classList.add('theme-notion');
     
     if (settings.font === 'nunito') document.body.classList.add('font-nunito');
     else if (settings.font === 'inter') document.body.classList.add('font-inter');
