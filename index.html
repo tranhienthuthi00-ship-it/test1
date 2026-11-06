@@ -2521,7 +2521,53 @@
   }
 
   document.querySelectorAll('.nav-item').forEach(nav => {
-    nav.addEventListener('click', () => switchTab(nav.dataset.tab));
+    nav.addEventListener('click', () => {
+      const tab = nav.dataset.tab;
+      const isSameTab = (tab === currentTab);
+
+      // Nếu bấm lại vào tab đang mở -> reset về trang chủ của tab đó
+      if (isSameTab) {
+        if (tab === 'others') {
+          // Về grid chính của tab Khác
+          if (currentOtherCategory !== null) {
+            currentOtherCategory = null;
+            filterNoteType = 'all';
+            filterType = 'all';
+            filterStatus = 'all';
+            filterCity = '';
+            filterHashtag = '';
+            searchPlaces = '';
+            searchNotes = '';
+            renderOthers();
+            return;
+          }
+        } else if (tab === 'finance') {
+          // Về trang 1 (Tổng quan)
+          if (currentFinPage !== 0) {
+            const carousel = document.getElementById('finCarousel');
+            carousel.scrollTo({ left: 0, behavior: 'smooth' });
+            currentFinPage = 0;
+            document.querySelectorAll('.page-dot').forEach((d, i) => d.classList.toggle('active', i === 0));
+            return;
+          }
+        } else if (tab === 'diary') {
+          // Về trang Nhật ký chung (page 0) + timeline
+          if (currentDiaryPage !== 0 || diaryViewMode !== 'timeline') {
+            currentDiaryPage = 0;
+            diaryViewMode = 'timeline';
+            renderDiaries();
+            return;
+          }
+        } else if (tab === 'home') {
+          // Đang ở Trang chủ, bấm lại -> cuộn lên đầu
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+      }
+
+      // Bình thường: chuyển tab
+      switchTab(tab);
+    });
   });
 
   $('greetingBtn').addEventListener('click', () => {
