@@ -8,7 +8,7 @@
 <title>📍 Sổ Tay Cá Nhân</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   :root {
@@ -57,6 +57,74 @@
   body.theme-vintage .search-box { border: 1.5px solid #fef3c7; }
   body.theme-vintage .filter-btn { border: 1.5px solid #fef3c7; }
 
+  /* Theme Neobrutalism */
+  body.theme-neobrutalism {
+    --pink-bg: #ffde00; /* Vàng chanh */
+    --pink-surface: #ffffff;
+    --pink-primary: #ff90e8; /* Hồng đậm */
+    --pink-light: #ffc900;
+    --pink-dark: #000000;
+    --text: #000000;
+    --text-muted: #4b5563;
+    --border: #000000;
+    --bg-gradient: none;
+    --shadow-sm: 4px 4px 0px #000000;
+    --shadow-md: 6px 6px 0px #000000;
+    --shadow-lg: 8px 8px 0px #000000;
+    --note-bg: #90caf9; --note-text: #000;
+    --task-bg: #a7f3d0; --task-text: #000;
+    --tip-bg: #fca5a5; --tip-text: #000;
+    --font-family: 'Space Grotesk', sans-serif;
+  }
+  
+  body.theme-neobrutalism .bottom-nav { 
+    background: var(--pink-primary); border: 4px solid #000000; border-radius: 12px; box-shadow: 6px 6px 0px #000;
+  }
+  body.theme-neobrutalism .nav-item.active { color: #000; }
+  body.theme-neobrutalism .nav-item.active svg { stroke: #000; fill: none; }
+  body.theme-neobrutalism .search-box, 
+  body.theme-neobrutalism .filter-btn,
+  body.theme-neobrutalism .card,
+  body.theme-neobrutalism .goal-widget,
+  body.theme-neobrutalism .mini-cal,
+  body.theme-neobrutalism .suggest-card,
+  body.theme-neobrutalism .compact-card,
+  body.theme-neobrutalism .salary-card,
+  body.theme-neobrutalism .dash-chart-card,
+  body.theme-neobrutalism .bucket-list-container,
+  body.theme-neobrutalism .event-card {
+    border: 3px solid #000000; 
+    border-radius: 12px;
+    box-shadow: 6px 6px 0px #000000;
+  }
+  body.theme-neobrutalism .filter-btn { background: #a78bfa; }
+  body.theme-neobrutalism .filter-btn svg { stroke: #000; }
+  body.theme-neobrutalism .search-box { background: #ffffff; }
+  body.theme-neobrutalism .card { padding: 12px; }
+  body.theme-neobrutalism .fab { 
+    background: #ff90e8; border: 3px solid #000; border-radius: 12px; box-shadow: 4px 4px 0px #000;
+    color: #000;
+  }
+  body.theme-neobrutalism .fab svg { stroke: #000; }
+  body.theme-neobrutalism .stat-badge { border: 2px solid #000; border-radius: 6px; }
+  body.theme-neobrutalism .picker .opt { border: 2px solid #000; border-radius: 8px; }
+  body.theme-neobrutalism .picker .opt.active { background: #ff90e8; box-shadow: 2px 2px 0px #000; transform: none;}
+  body.theme-neobrutalism .save-btn { 
+    border: 3px solid #000; border-radius: 12px; box-shadow: 4px 4px 0px #000; 
+    background: #ff90e8; color: #000; font-weight: 700;
+  }
+  body.theme-neobrutalism .chip { border: 2px solid #000; border-radius: 8px; }
+  body.theme-neobrutalism .chip.active { background: #ff90e8; box-shadow: 2px 2px 0px #000; }
+  body.theme-neobrutalism .bucket-item-check { border-radius: 4px; border: 2px solid #000; }
+  body.theme-neobrutalism .bucket-add-row { border: 2px solid #000; border-radius: 8px; }
+  body.theme-neobrutalism .bucket-add-btn { border-radius: 6px; border: 2px solid #000; background: #a7f3d0; color: #000; }
+  body.theme-neobrutalism .card-emoji { border: 2px solid #000; border-radius: 8px; background: var(--pink-bg); font-size: 24px; display: flex; align-items: center; justify-content: center;}
+  body.theme-neobrutalism .card-emoji svg { width: 24px; height: 24px; stroke: #000; }
+  body.theme-neobrutalism .modal { border: 4px solid #000; border-radius: 16px; }
+  body.theme-neobrutalism .donut-container { border: 2px solid #000; border-radius: 50%; padding: 4px; }
+  body.theme-neobrutalism .modal-handle { background: #000; }
+  body.theme-neobrutalism .event-date-box { border: 2px solid #000; border-radius: 8px; }
+
   /* Fonts */
   body.font-nunito { --font-family: 'Nunito', sans-serif; }
   body.font-inter { --font-family: 'Inter', sans-serif; }
@@ -104,6 +172,25 @@
   .search-res-title { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .search-res-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+  /* Dashboard Donut Charts (Split) */
+  .dash-charts-container {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+  }
+  .dash-chart-widget {
+    background: var(--pink-surface); border-radius: 24px; padding: 16px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+  }
+  .donut-container { position: relative; width: 110px; height: 110px; flex-shrink: 0; margin-bottom: 12px; }
+  .donut-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .donut-circle-bg { fill: none; stroke: var(--pink-bg); stroke-width: 12; }
+  .donut-circle-fill { fill: none; stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset 0.8s ease; }
+  .donut-text-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .donut-pct { font-size: 20px; font-weight: 700; color: var(--text); }
+  
+  .chart-label-title { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+  .chart-label-val { font-size: 15px; font-weight: 700; color: var(--text); }
+
   /* Goal Widget */
   .goal-widget {
     background: var(--pink-surface); border-radius: 20px; padding: 16px;
@@ -143,19 +230,6 @@
   .suggest-address { font-size: 13px; opacity: 0.9; display: flex; align-items: center; gap: 6px; font-weight: 500; position: relative; z-index: 1;}
   .suggest-address svg { width: 14px; height: 14px; }
 
-  /* Mini Calendar */
-  .mini-cal {
-    background: var(--pink-surface); border-radius: 20px; padding: 16px;
-    box-shadow: var(--shadow-sm); border: 1px solid var(--border); margin-bottom: 24px;
-  }
-  .mini-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  .mini-cal-title { font-size: 15px; font-weight: 700; color: var(--text); }
-  .mini-cal-date { font-size: 13px; font-weight: 600; color: var(--pink-primary); }
-  .mini-cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
-  .mini-cal-day-name { font-size: 10px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; }
-  .mini-cal-day { font-size: 13px; font-weight: 600; color: var(--text); padding: 6px 0; border-radius: 8px; }
-  .mini-cal-day.active { background: var(--pink-primary); color: white; }
-
   /* ================= TAB CÀI ĐẶT (TÔI) ================= */
   .settings-container { padding: 0 16px; }
   .settings-group { background: var(--pink-surface); border-radius: 20px; padding: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
@@ -173,6 +247,7 @@
   .theme-dot.active { border-color: var(--text); transform: scale(1.1); }
   .theme-dot.pink { background: #ec4899; }
   .theme-dot.vintage { background: #fef3c7; }
+  .theme-dot.neobrutalism { background: #ff90e8; border: 2px solid #000; box-shadow: 2px 2px 0px #000; }
   
   .font-btn { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: #fafafc; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text); }
   .font-btn.active { background: var(--pink-primary); color: white; border-color: var(--pink-primary); }
@@ -219,6 +294,30 @@
     font-family: inherit; box-shadow: var(--shadow-sm);
   }
 
+  /* Grid List for Places/Notes */
+  .grid-list { 
+    padding: 0 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; 
+  }
+  .grid-card {
+    background: var(--pink-surface); border-radius: 20px; padding: 14px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+    display: flex; flex-direction: column; position: relative; overflow: hidden;
+    cursor: pointer; transition: transform 0.2s; min-height: 140px;
+  }
+  .grid-card:active { transform: scale(0.96); }
+  .grid-card-header { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+  .grid-card-title { 
+    font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.3; 
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    flex: 1;
+  }
+  .grid-card-desc {
+    font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-top: auto;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .grid-card-meta { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+
+  /* Swipe Item for Diary/Braces */
   .list { padding: 0 16px; display: flex; flex-direction: column; gap: 14px; }
   .swipe-item {
     position: relative; border-radius: 22px; overflow: hidden;
@@ -356,48 +455,83 @@
   }
   .diary-view-toggle.calendar-active .slider-bg { transform: translateX(100%); }
 
-  /* Timeline View */
-  .timeline-wrap { padding: 0 16px 20px; position: relative; }
+  /* Timeline View - Vertical Layout with Zigzag (Ảnh 1) */
+  .timeline-wrap {
+    padding: 0 16px 20px;
+    position: relative;
+  }
   .timeline-wrap::before {
-    content: ''; position: absolute; top: 0; bottom: 0; left: 22px;
-    width: 2px; background: var(--pink-light); z-index: 0;
+    content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 2px; background: var(--pink-light); z-index: 0; transform: translateX(-50%);
   }
+
   .timeline-item {
-    position: relative; padding-left: 44px; margin-bottom: 20px;
-    animation: fadeIn 0.3s ease;
+    position: relative; width: 50%; padding: 0 20px; margin-bottom: 24px;
+    box-sizing: border-box; animation: fadeIn 0.4s ease;
   }
+  .timeline-item:nth-child(odd) {
+    left: 0;
+    text-align: right;
+  }
+  .timeline-item:nth-child(even) {
+    left: 50%;
+    text-align: left;
+  }
+
   .timeline-dot {
-    position: absolute; left: 15px; top: 6px;
-    width: 16px; height: 16px; border-radius: 50%;
+    position: absolute; top: 0;
+    width: 18px; height: 18px; border-radius: 50%;
     background: var(--pink-surface); border: 3px solid var(--pink-primary);
-    z-index: 1; box-shadow: 0 0 0 3px var(--pink-bg);
+    z-index: 1; box-shadow: 0 0 0 4px var(--pink-bg);
+    transform: translateX(-50%); /* center dot */
   }
-  .timeline-date {
-    font-size: 12px; font-weight: 700; color: var(--pink-primary);
-    margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
-  }
-  .timeline-date svg { width: 12px; height: 12px; }
-  .timeline-card {
+  .timeline-item:nth-child(odd) .timeline-dot { right: -9px; }
+  .timeline-item:nth-child(even) .timeline-dot { left: -9px; }
+
+  .timeline-content-wrapper {
     background: var(--pink-surface); border-radius: 16px;
-    padding: 14px; box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border); position: relative;
-    cursor: pointer;
+    padding: 16px; box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    position: relative; display: inline-block; text-align: left;
+    width: 100%;
   }
-  .timeline-card:active { transform: scale(0.98); }
-  .timeline-card::before {
-    content: ''; position: absolute; left: -5px; top: 12px;
+
+  /* Arrow styles */
+  .timeline-item:nth-child(odd) .timeline-content-wrapper::before {
+    content: ''; position: absolute; right: -6px; top: 10px;
+    width: 10px; height: 10px; background: var(--pink-surface);
+    transform: rotate(45deg); border-top: 1px solid var(--border); border-right: 1px solid var(--border);
+  }
+  .timeline-item:nth-child(even) .timeline-content-wrapper::before {
+    content: ''; position: absolute; left: -6px; top: 10px;
     width: 10px; height: 10px; background: var(--pink-surface);
     transform: rotate(45deg); border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
   }
+
+  .timeline-date {
+    font-size: 11px; font-weight: 700; color: var(--pink-primary);
+    margin-bottom: 4px; display: flex; align-items: center; gap: 4px;
+    justify-content: flex-start;
+  }
   .timeline-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .timeline-content { font-size: 13px; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; font-weight: 500;}
   .timeline-mood {
     display: inline-flex; align-items: center; gap: 4px;
-    padding: 4px 10px; background: var(--pink-bg); border-radius: 999px;
-    font-size: 11px; font-weight: 600; color: var(--pink-dark); margin-top: 8px;
+    padding: 2px 8px; background: var(--pink-bg); border-radius: 999px;
+    font-size: 10px; font-weight: 600; color: var(--pink-dark); margin-bottom: 6px;
   }
-  .timeline-mood svg { width: 12px; height: 12px;}
-  
+  .timeline-content { font-size: 13px; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; font-weight: 500;}
+
+  .timeline-actions {
+    position: absolute; top: 12px; right: 12px;
+    display: flex; gap: 8px; opacity: 0.4; transition: opacity 0.2s;
+  }
+  .timeline-item:hover .timeline-actions { opacity: 1; }
+  .timeline-actions .action-btn {
+    background: var(--pink-bg); border: none; width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--pink-primary);
+  }
+  .timeline-actions .action-btn svg { width: 12px; height: 12px; }
+
   /* Braces Specific (Timeline format) */
   .braces-dashboard-card {
     background: linear-gradient(135deg, #eff6ff, #dbeafe);
@@ -411,37 +545,52 @@
   .braces-dashboard-card .stat-lbl { font-size: 11px; font-weight: 600; color: #3b82f6; text-transform: uppercase; }
   .braces-dashboard-card .divider { width: 1px; height: 40px; background: #bfdbfe; }
 
-  .braces-timeline-wrap { padding: 0 16px 20px; position: relative; }
+  .braces-timeline-wrap {
+    padding: 0 16px 20px;
+    position: relative;
+  }
   .braces-timeline-wrap::before {
-    content: ''; position: absolute; top: 0; bottom: 0; left: 22px;
-    width: 2px; background: #bfdbfe; z-index: 0;
+    content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 2px; background: #bfdbfe; z-index: 0; transform: translateX(-50%);
   }
+  
   .braces-timeline-item {
-    position: relative; padding-left: 44px; margin-bottom: 20px;
+    position: relative; width: 50%; padding: 0 20px; margin-bottom: 24px;
+    box-sizing: border-box;
   }
+  .braces-timeline-item:nth-child(odd) { left: 0; text-align: right; }
+  .braces-timeline-item:nth-child(even) { left: 50%; text-align: left; }
+
   .braces-timeline-dot {
-    position: absolute; left: 15px; top: 6px;
-    width: 16px; height: 16px; border-radius: 50%;
+    position: absolute; top: 0; width: 18px; height: 18px; border-radius: 50%;
     background: var(--pink-surface); border: 3px solid #3b82f6;
-    z-index: 1; box-shadow: 0 0 0 3px #eff6ff;
+    z-index: 1; box-shadow: 0 0 0 4px #eff6ff; transform: translateX(-50%);
   }
-  .braces-timeline-date {
-    font-size: 12px; font-weight: 700; color: #2563eb;
-    margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
-  }
-  .braces-timeline-date svg { width: 12px; height: 12px; }
+  .braces-timeline-item:nth-child(odd) .braces-timeline-dot { right: -9px; }
+  .braces-timeline-item:nth-child(even) .braces-timeline-dot { left: -9px; }
+
   .braces-timeline-card {
     background: var(--pink-surface); border-radius: 16px;
-    padding: 14px; box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border); position: relative;
+    padding: 16px; box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border); position: relative; display: inline-block; text-align: left; width: 100%;
   }
-  .braces-timeline-card::before {
-    content: ''; position: absolute; left: -5px; top: 12px;
-    width: 10px; height: 10px; background: var(--pink-surface);
-    transform: rotate(45deg); border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  .braces-timeline-item:nth-child(odd) .braces-timeline-card::before {
+    content: ''; position: absolute; right: -6px; top: 10px;
+    width: 10px; height: 10px; background: var(--pink-surface); transform: rotate(45deg);
+    border-top: 1px solid var(--border); border-right: 1px solid var(--border);
+  }
+  .braces-timeline-item:nth-child(even) .braces-timeline-card::before {
+    content: ''; position: absolute; left: -6px; top: 10px;
+    width: 10px; height: 10px; background: var(--pink-surface); transform: rotate(45deg);
+    border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  
+  .braces-timeline-date {
+    font-size: 11px; font-weight: 700; color: #2563eb; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 4px;
   }
   .braces-timeline-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .braces-timeline-amount { font-size: 15px; font-weight: 700; color: #dc2626; margin-bottom: 6px; }
+  .braces-timeline-amount { font-size: 14px; font-weight: 700; color: #dc2626; margin-bottom: 6px; }
   .braces-timeline-content { font-size: 13px; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; font-weight: 500;}
 
   /* Calendar View */
@@ -524,6 +673,8 @@
   .other-card-icon.goal svg { stroke: #ec4899; }
   .other-card-icon.place { background: #eff6ff; }
   .other-card-icon.place svg { stroke: #3b82f6; }
+  .other-card-icon.event { background: #fef2f2; }
+  .other-card-icon.event svg { stroke: #ef4444; }
   .other-card-icon svg { width: 24px; height: 24px; }
   .other-card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
   .other-card-count { font-size: 12px; font-weight: 600; color: var(--text-muted); }
@@ -587,6 +738,30 @@
     background: #6366f1; color: white; border: none; padding: 10px 20px;
     border-radius: 999px; font-weight: 600; font-size: 14px; cursor: pointer; font-family: inherit;
   }
+
+  /* Sự kiện / Deadline (Card format) */
+  .event-list { padding: 0 16px; display: flex; flex-direction: column; gap: 14px; }
+  .event-card {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--pink-surface); border-radius: 20px; padding: 16px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+    cursor: pointer;
+  }
+  .event-date-box {
+    width: 60px; height: 60px; border-radius: 16px; flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: white; font-weight: 700;
+  }
+  .event-month { font-size: 11px; text-transform: uppercase; opacity: 0.9; }
+  .event-day { font-size: 22px; line-height: 1.1; }
+  .event-info { flex: 1; min-width: 0; }
+  .event-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px;}
+  .event-desc { font-size: 12.5px; font-weight: 600; }
+  .event-desc.urgent { color: #dc2626; }
+  .event-desc.normal { color: #16a34a; }
+  .event-desc.past { color: var(--text-muted); }
+  .event-icon-large { font-size: 32px; }
 
   /* ================= TAB TÀI CHÍNH ================= */
   .finance-carousel {
@@ -934,6 +1109,13 @@
   .autocomplete-list div { padding: 12px 16px; font-size: 14px; cursor: pointer; color: var(--text); font-weight: 500;}
   .autocomplete-list div:hover { background: var(--pink-bg); color: var(--pink-primary); }
 
+  /* Detail Modal for Place/Note */
+  .detail-modal-body { padding: 0 0 20px; }
+  .detail-modal-title { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 12px; line-height: 1.3;}
+  .detail-modal-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .detail-modal-content { font-size: 15px; color: var(--text); line-height: 1.6; white-space: pre-wrap; background: var(--pink-bg); padding: 16px; border-radius: 16px; border: 1px solid var(--border);}
+  .detail-modal-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--pink-primary); font-weight: 700; text-decoration: none; margin-top: 16px; padding: 10px 16px; background: var(--pink-bg); border-radius: 12px; border: 1px solid var(--border);}
+
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
 </head>
@@ -967,6 +1149,10 @@
   <symbol id="icon-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
   <symbol id="icon-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></symbol>
   <symbol id="icon-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="icon-gift" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></symbol>
+  <symbol id="icon-trending-up" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
+  <symbol id="icon-bell" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></symbol>
+  <symbol id="icon-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></symbol>
   
   <!-- Nav Icons -->
   <symbol id="icon-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></symbol>
@@ -1006,6 +1192,39 @@
       <div class="global-search-results" id="globalSearchResults"></div>
     </div>
 
+    <!-- Dashboard Donut Charts (Split) -->
+    <div class="dash-charts-container">
+      <!-- Chart 1: Asset -->
+      <div class="dash-chart-widget">
+        <div class="donut-container">
+          <svg class="donut-svg" viewBox="0 0 100 100">
+            <circle class="donut-circle-bg" cx="50" cy="50" r="40"></circle>
+            <circle class="donut-circle-fill" id="donutAsset" cx="50" cy="50" r="40" stroke="var(--pink-primary)" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+          </svg>
+          <div class="donut-text-wrap">
+            <div class="donut-pct" id="donutAssetPct">0%</div>
+          </div>
+        </div>
+        <div class="chart-label-title">Tài sản khả dụng</div>
+        <div class="chart-label-val" id="dashAssetVal">0 đ</div>
+      </div>
+
+      <!-- Chart 2: Goals -->
+      <div class="dash-chart-widget">
+        <div class="donut-container">
+          <svg class="donut-svg" viewBox="0 0 100 100">
+            <circle class="donut-circle-bg" cx="50" cy="50" r="40"></circle>
+            <circle class="donut-circle-fill" id="donutGoal" cx="50" cy="50" r="40" stroke="#6366f1" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+          </svg>
+          <div class="donut-text-wrap">
+            <div class="donut-pct" id="donutGoalPct">0%</div>
+          </div>
+        </div>
+        <div class="chart-label-title">Mục tiêu</div>
+        <div class="chart-label-val" id="dashGoalVal">0/0</div>
+      </div>
+    </div>
+
     <!-- Bucket List Widget (Compact) -->
     <div class="goal-widget" id="homeGoalWidget">
       <div class="goal-title"><svg class="hand-icon"><use href="#icon-target"/></svg> Bucket List</div>
@@ -1015,11 +1234,6 @@
     <!-- Suggest Card -->
     <div class="suggest-card" id="homeSuggest" onclick="document.querySelector('.nav-item[data-tab=others]').click(); setTimeout(()=>{currentOtherCategory='place'; renderOthers();}, 100);">
       <!-- Render bằng JS -->
-    </div>
-
-    <!-- Mini Calendar -->
-    <div class="mini-cal" id="homeMiniCal">
-      <!-- Rendered by JS -->
     </div>
 
   </div>
@@ -1048,6 +1262,7 @@
         <div class="setting-options">
           <div class="theme-dot pink active" data-theme="pink"></div>
           <div class="theme-dot vintage" data-theme="vintage">☕</div>
+          <div class="theme-dot neobrutalism" data-theme="neobrutalism">🎨</div>
         </div>
       </div>
       <div class="setting-item">
@@ -1156,6 +1371,11 @@
         <div class="other-card-title">Tips</div>
         <div class="other-card-count" id="countTipCard">0 mục</div>
       </div>
+      <div class="other-card" data-type="event">
+        <div class="other-card-icon event"><svg class="hand-icon"><use href="#icon-gift"/></svg></div>
+        <div class="other-card-title">Sự kiện</div>
+        <div class="other-card-count" id="countEventCard">0 mục</div>
+      </div>
       <div class="other-card" data-type="goal">
         <div class="other-card-icon goal"><svg class="hand-icon"><use href="#icon-target"/></svg></div>
         <div class="other-card-title">Bucket List</div>
@@ -1197,7 +1417,7 @@
         </div>
       </div>
     </div>
-    <div class="list" id="listPlaces"></div>
+    <div class="grid-list" id="listPlaces"></div>
   </div>
 
   <!-- Trang danh sách chi tiết (Note/Task/Tip) -->
@@ -1234,7 +1454,7 @@
       </div>
     </div>
 
-    <div class="list" id="listNotes"></div>
+    <div class="grid-list" id="listNotes"></div>
   </div>
 
   <!-- Trang Bucket List (Chi tiết) -->
@@ -1259,6 +1479,16 @@
         <button class="bucket-add-btn" id="bucketAddBtn">Thêm</button>
       </div>
     </div>
+  </div>
+
+  <!-- Trang Sự kiện (Chi tiết) -->
+  <div id="eventDetailView" style="display: none;">
+    <div class="sub-view-header">
+      <button class="back-btn" id="backToOthersFromEventBtn"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
+      <div class="sub-view-title">Sự kiện / Deadline</div>
+    </div>
+
+    <div class="event-list" id="eventListContainer"></div>
   </div>
 </div>
 
@@ -1493,6 +1723,20 @@
 
     <button class="save-btn" id="applyNoteFilterBtn">Áp dụng bộ lọc</button>
     <button class="save-btn" id="resetNoteFilterBtn" style="background:#f3f4f6;color:#6b7280;box-shadow:none;margin-top:10px;">Xóa tất cả bộ lọc</button>
+  </div>
+</div>
+
+<!-- Chi tiết Địa điểm / Ghi chú -->
+<div class="overlay" id="detailModalOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2 style="margin-bottom:10px;"><span id="detailModalType">Chi tiết</span> <button id="closeDetailModalBtn"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+    <div class="detail-modal-body">
+      <div class="detail-modal-title" id="detailTitle">Title</div>
+      <div class="detail-modal-meta" id="detailMeta"></div>
+      <div class="detail-modal-content" id="detailContent">Content</div>
+      <a href="#" id="detailLink" target="_blank" class="detail-modal-link" style="display:none;">Mở link</a>
+    </div>
   </div>
 </div>
 
@@ -1762,6 +2006,40 @@
   </div>
 </div>
 
+<!-- Thêm Sự kiện / Deadline -->
+<div class="overlay" id="eventOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2><span id="eventModalTitle">Thêm Sự kiện / Deadline</span> <button id="closeEventModal"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+
+    <div class="field">
+      <label>Tên sự kiện *</label>
+      <input type="text" id="eventName" placeholder="VD: Sinh nhật Simon, Nộp báo cáo...">
+    </div>
+
+    <div class="field">
+      <label>Ngày diễn ra *</label>
+      <input type="date" id="eventDate">
+    </div>
+    
+    <div class="field">
+      <label>Icon hiển thị</label>
+      <div class="picker" id="eventIconPicker">
+        <div class="opt active" data-icon="🎂">🎂 Bánh kem</div>
+        <div class="opt" data-icon="🎁">🎁 Quà tặng</div>
+        <div class="opt" data-icon="📅">📅 Lịch</div>
+        <div class="opt" data-icon="📝">📝 Công việc</div>
+        <div class="opt" data-icon="❤️">❤️ Trái tim</div>
+        <div class="opt" data-icon="⭐">⭐ Ngôi sao</div>
+      </div>
+    </div>
+
+    <button class="save-btn" id="saveEventBtn">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu sự kiện
+    </button>
+  </div>
+</div>
+
 <!-- Xóa Confirm -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
@@ -1802,8 +2080,9 @@
   const REVENUE_KEY = 'revenue_v3';
   const SETTINGS_KEY = 'settings_v1';
   const BRACES_KEY = 'braces_v2';
-  const SALARY_KEY = 'salary_v2'; // Upgraded
+  const SALARY_KEY = 'salary_v2';
   const GOAL_KEY = 'goal_v2';
+  const EVENT_KEY = 'event_v1';
 
   const DENOMINATIONS = [500000, 200000, 100000, 50000, 20000, 10000, 5000, 2000, 1000];
 
@@ -1820,6 +2099,7 @@
     { id: 'b_1', date: '2023-11-01', title: 'Bắt đầu niềng răng', content: 'Gắn mắc cài kim loại. Đau nhức 3 ngày đầu.', amount: 15000000, createdAt: Date.now() - 400000 }
   ];
   
+  const today = new Date();
   const SAMPLE_FINANCE = {
     cash_counts: { 500000: 2, 200000: 5, 100000: 10, 50000: 0, 20000: 0, 10000: 0, 5000: 0, 2000: 0, 1000: 0 },
     cash_include: true,
@@ -1859,17 +2139,23 @@
     { id: 'g_6', text: 'Đi Lý Sơn', isDone: true }
   ];
 
+  const SAMPLE_EVENTS = [
+    { id: 'ev_1', name: 'Sinh nhật Simon', date: new Date(today.getTime() + 3*86400000).toISOString().split('T')[0], icon: '🎂', createdAt: Date.now() },
+    { id: 'ev_2', name: 'Nộp báo cáo tháng', date: new Date(today.getTime() + 5*86400000).toISOString().split('T')[0], icon: '📝', createdAt: Date.now() }
+  ];
+
   let places = [];
   let diaries = [];
   let notes = [];
   let braces = [];
+  let events = [];
   let finances = { cash_counts: {}, cash_include: true, new_cash_counts: {}, new_cash_include: true, credit_expenses: [], other_assets: [] };
   let revenues = {}; 
   let settings = { ...SAMPLE_SETTINGS };
   let salaryData = { income: 0, expenses: [] };
   let goals = [];
   
-  let currentTab = 'finance'; // Defaults to finance now since places moved
+  let currentTab = 'finance'; 
   let currentFinPage = 0;
   let currentDiaryPage = 0; 
   let currentOtherCategory = null; 
@@ -1909,6 +2195,13 @@
   let editAssetId = null;
   let formAssetType = 'stock';
   let editCreditId = null;
+  
+  // State cho Event
+  let editEventId = null;
+  let formEventIcon = '🎂';
+  
+  // State Detail Modal
+  let currentDetailType = null; // 'place' | 'note'
   
   // State Delete chung
   let pendingDeleteId = null;
@@ -1971,9 +2264,7 @@
       salaryData = rawSal ? JSON.parse(rawSal) : JSON.parse(JSON.stringify(SAMPLE_SALARY));
     } catch(e) { salaryData = JSON.parse(JSON.stringify(SAMPLE_SALARY)); }
 
-    // Đảm bảo cấu trúc salaryData đúng
     if (!salaryData.expenses) {
-      // Nếu là data cũ (chỉ có income, rent, living...), chuyển đổi
       if (salaryData.rent !== undefined) {
         const old = salaryData;
         salaryData = {
@@ -1994,6 +2285,11 @@
       goals = rawG ? JSON.parse(rawG) : [...SAMPLE_GOALS];
     } catch(e) { goals = [...SAMPLE_GOALS]; }
 
+    try {
+      const rawEv = localStorage.getItem(EVENT_KEY);
+      events = rawEv ? JSON.parse(rawEv) : [...SAMPLE_EVENTS];
+    } catch(e) { events = [...SAMPLE_EVENTS]; }
+
     applySettings();
     saveData();
   }
@@ -2009,12 +2305,14 @@
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
       localStorage.setItem(SALARY_KEY, JSON.stringify(salaryData));
       localStorage.setItem(GOAL_KEY, JSON.stringify(goals));
+      localStorage.setItem(EVENT_KEY, JSON.stringify(events));
     } catch(e) { toast('⚠️ Lỗi lưu dữ liệu'); }
   }
 
   function applySettings() {
     document.body.className = '';
     if (settings.theme === 'vintage') document.body.classList.add('theme-vintage');
+    if (settings.theme === 'neobrutalism') document.body.classList.add('theme-neobrutalism');
     
     if (settings.font === 'nunito') document.body.classList.add('font-nunito');
     else if (settings.font === 'inter') document.body.classList.add('font-inter');
@@ -2043,7 +2341,8 @@
     loan_in:{ label:'Đi vay', icon:'#icon-trending-down' },
     braces: { label:'Niềng răng', icon:'#icon-tooth' },
     goal:   { label:'Bucket List', icon:'#icon-target', cls:'goal' },
-    place:  { label:'Địa điểm', icon:'#icon-map', cls:'place' }
+    place:  { label:'Địa điểm', icon:'#icon-map', cls:'place' },
+    event:  { label:'Sự kiện', icon:'#icon-gift', cls:'event' }
   };
   const STATUS = {
     want: { label:'Chưa đi', icon:'#icon-circle', cls:'want' },
@@ -2190,12 +2489,37 @@
 
   /* ==================== TAB TRANG CHỦ ==================== */
   function renderHome() {
-    // Bucket List Progress
-    const total = goals.length;
-    const done = goals.filter(g => g.isDone).length;
-    $('homeGoalProgress').textContent = `${done}/${total} hoàn thành`;
+    // 1. Dashboard Charts Logic
+    const fin = calcFinance();
+    const totalGoals = goals.length;
+    const doneGoals = goals.filter(g => g.isDone).length;
+    const goalPct = totalGoals === 0 ? 0 : Math.round((doneGoals / totalGoals) * 100);
+    
+    // Giả sử mục tiêu tài sản là 100 triệu (hoặc có thể lấy từ 1 trường nào đó, ở đây fixed)
+    const targetAsset = 100000000;
+    const assetPct = Math.min(100, Math.round((fin.totalAsset / targetAsset) * 100));
 
-    // Suggest
+    // Cập nhật Text
+    $('dashAssetVal').textContent = fmtMoney(fin.totalAsset);
+    $('dashGoalVal').textContent = `${doneGoals}/${totalGoals}`;
+    
+    // Cập nhật Donut SVG (Mỗi cái 1 vòng riêng)
+    const circumference = 2 * Math.PI * 40; // r=40
+    
+    // Asset Chart
+    const assetOffset = circumference - (assetPct / 100) * circumference;
+    $('donutAsset').style.strokeDashoffset = assetOffset;
+    $('donutAssetPct').textContent = `${assetPct}%`;
+
+    // Goal Chart
+    const goalOffset = circumference - (goalPct / 100) * circumference;
+    $('donutGoal').style.strokeDashoffset = goalOffset;
+    $('donutGoalPct').textContent = `${goalPct}%`;
+
+    // 2. Bucket List Progress
+    $('homeGoalProgress').textContent = `${doneGoals}/${totalGoals} hoàn thành`;
+
+    // 3. Suggest
     const wantPlaces = places.filter(p => p.status === 'want');
     const homeSuggest = $('homeSuggest');
     if (wantPlaces.length > 0) {
@@ -2212,37 +2536,6 @@
         <div class="suggest-address">Hãy thêm địa điểm mới nhé.</div>
       `;
     }
-
-    // Mini Calendar
-    const today = new Date();
-    const currentMonth = today.getMonth();
-    const currentYear = today.getFullYear();
-    const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
-    
-    let calHtml = `
-      <div class="mini-cal-header">
-        <div class="mini-cal-title">${monthNames[currentMonth]}, ${currentYear}</div>
-        <div class="mini-cal-date">Hôm nay: ${today.getDate()}</div>
-      </div>
-      <div class="mini-cal-days">
-        <div class="mini-cal-day-name">T2</div><div class="mini-cal-day-name">T3</div><div class="mini-cal-day-name">T4</div>
-        <div class="mini-cal-day-name">T5</div><div class="mini-cal-day-name">T6</div><div class="mini-cal-day-name">T7</div><div class="mini-cal-day-name">CN</div>
-    `;
-    
-    let firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    let startDay = firstDay === 0 ? 6 : firstDay - 1;
-    
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    
-    for (let i = 0; i < startDay; i++) {
-      calHtml += `<div></div>`;
-    }
-    for (let i = 1; i <= daysInMonth; i++) {
-      const isToday = i === today.getDate();
-      calHtml += `<div class="mini-cal-day ${isToday ? 'active' : ''}">${i}</div>`;
-    }
-    calHtml += `</div>`;
-    $('homeMiniCal').innerHTML = calHtml;
   }
 
   /* ==================== GLOBAL SEARCH ==================== */
@@ -2342,6 +2635,26 @@
         `;
       });
     }
+    
+    // Tìm Sự kiện
+    const matchedEvents = events.filter(e => 
+      (e.name||'').toLowerCase().includes(q)
+    ).slice(0, 3);
+
+    if (matchedEvents.length > 0) {
+      html += `<div class="search-res-category">Sự kiện</div>`;
+      matchedEvents.forEach(e => {
+        html += `
+          <div class="search-res-item" onclick="searchGoTo('event', '${e.id}')">
+            <svg class="hand-icon" style="width:16px;height:16px; stroke:#ef4444;"><use href="#icon-gift"/></svg>
+            <div style="flex:1; min-width:0;">
+              <div class="search-res-title">${esc(e.name)}</div>
+              <div class="search-res-desc">${fmtDate(e.date)}</div>
+            </div>
+          </div>
+        `;
+      });
+    }
 
     if (!html) {
       html = `<div style="padding: 16px; text-align: center; color: var(--text-muted); font-size: 13px;">Không tìm thấy kết quả nào.</div>`;
@@ -2367,7 +2680,7 @@
       switchTab('others');
       currentOtherCategory = 'place';
       renderOthers();
-      setTimeout(() => openPlaceModal(id), 300);
+      setTimeout(() => openDetailModal('place', id), 300);
     } else if (type === 'diary') {
       switchTab('diary');
       currentDiaryPage = 0;
@@ -2378,11 +2691,16 @@
       switchTab('others');
       currentOtherCategory = 'note';
       renderOthers();
-      setTimeout(() => openNoteModal(id), 300);
+      setTimeout(() => openDetailModal('note', id), 300);
     } else if (type === 'goal') {
       switchTab('others');
       currentOtherCategory = 'goal';
       renderOthers();
+    } else if (type === 'event') {
+      switchTab('others');
+      currentOtherCategory = 'event';
+      renderOthers();
+      setTimeout(() => openEventModal(id), 300);
     }
   };
 
@@ -2454,53 +2772,36 @@
     $('sortLabel').textContent = sortLabels[sortPlacesMode];
 
     if (arr.length === 0) {
-      list.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-search"/></svg></div><h3>Không tìm thấy</h3><p>Thử đổi bộ lọc hoặc từ khóa khác nhé.</p></div>`;
+      list.innerHTML = `<div class="empty" style="grid-column: span 2;"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-search"/></svg></div><h3>Không tìm thấy</h3><p>Thử đổi bộ lọc hoặc từ khóa khác nhé.</p></div>`;
       return;
     }
 
     list.innerHTML = arr.map(p => {
       const info = INFO[p.type] || INFO.cafe;
       const st = STATUS[p.status] || STATUS.want;
-      const starsHtml = renderStars(p.rating || 0);
-      const linkHtml = p.link ? `<a href="${esc(p.link)}" target="_blank" class="card-link"><svg class="hand-icon"><use href="#icon-link"/></svg> Mở link</a>` : '';
       
-      const showType = filterType === 'all';
-      const showStatus = filterStatus === 'all';
-      const hashtagHtml = (p.hashtags && p.hashtags.length > 0 && !filterHashtag) 
-        ? p.hashtags.map(tag => `<span class="tag hashtag"><svg class="hand-icon"><use href="#icon-hashtag"/></svg>${esc(tag)}</span>`).join('') : '';
+      // Lấy 1 tag hashtag đầu tiên để hiển thị
+      const firstTag = (p.hashtags && p.hashtags.length > 0) ? p.hashtags[0] : '';
 
       return `
-        <div class="swipe-item" data-id="${p.id}" data-type="place">
-          <div class="swipe-actions">
-            <div class="action edit" data-action="edit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa</div>
-            <div class="action delete" data-action="delete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa</div>
-          </div>
-          <div class="card" onclick="handleCardClick(event, '${p.id}', 'place')">
+        <div class="grid-card" onclick="openDetailModal('place', '${p.id}')">
+          <div class="grid-card-header">
             <div class="card-emoji ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg></div>
-            <div class="card-body">
-              <div class="card-header">
-                <div class="card-title">${esc(p.name)}</div>
-                <div class="card-rating">${starsHtml}</div>
-              </div>
-              <div style="display:flex; flex-wrap:wrap; gap:6px;">
-                ${showStatus ? `<span class="status-badge ${st.cls}"><svg class="hand-icon"><use href="${st.icon}"/></svg> ${st.label}</span>` : ''}
-                ${showType ? `<span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>` : ''}
-                ${p.city ? `<span class="tag city"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(p.city)}</span>` : ''}
-              </div>
-              ${(p.address || p.date) ? `
-              <div class="card-info-row">
-                ${p.address ? `<div class="info-item"><svg class="hand-icon"><use href="#icon-pin"/></svg> <span>${esc(p.address)}</span></div>` : ''}
-                ${p.date ? `<div class="info-item"><svg class="hand-icon"><use href="#icon-calendar"/></svg> <span>${fmtDate(p.date)}</span></div>` : ''}
-              </div>` : ''}
-              ${hashtagHtml ? `<div class="card-meta">${hashtagHtml}</div>` : ''}
-              ${p.note ? `<div class="card-note">${esc(p.note)}</div>` : ''}
-              ${linkHtml}
-            </div>
+            <div class="grid-card-title">${esc(p.name)}</div>
           </div>
-        </div>`;
+          <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px;">
+            ${filterStatus === 'all' ? `<span class="status-badge ${st.cls}"><svg class="hand-icon"><use href="${st.icon}"/></svg> ${st.label}</span>` : ''}
+            ${p.city ? `<span class="tag city"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(p.city)}</span>` : ''}
+          </div>
+          <div class="grid-card-desc">
+            ${p.note ? esc(p.note) : 'Không có ghi chú.'}
+          </div>
+          <div class="grid-card-meta">
+             ${firstTag ? `<span class="tag hashtag" style="font-size:9px; padding:2px 6px;">#${esc(firstTag)}</span>` : ''}
+          </div>
+        </div>
+      `;
     }).join('');
-
-    bindSwipe(list);
   }
 
   /* ==================== TAB 2: NHẬT KÝ ==================== */
@@ -2530,23 +2831,22 @@
             return b.createdAt - a.createdAt;
           });
 
+          // Render Timeline Format (Zigzag)
           wrap.innerHTML = sorted.map(d => `
-            <div class="swipe-item" data-id="${d.id}" data-type="diary">
-              <div class="swipe-actions">
-                <div class="action edit" data-action="edit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa</div>
-                <div class="action delete" data-action="delete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa</div>
-              </div>
-              <div class="card" onclick="handleDiaryCardClick(event, '${d.id}', 'diary')">
-                <div class="card-body" style="padding-left: 10px;">
-                  <div class="timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(d.date)}</div>
-                  <div class="timeline-title">${esc(d.title) || 'Không có tiêu đề'}</div>
-                  ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
-                  <div class="timeline-content" style="margin-top:6px;">${esc(d.content)}</div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content-wrapper">
+                <div class="timeline-actions">
+                  <button class="action-btn" onclick="handleDiaryAction(event, '${d.id}', 'edit')"><svg class="hand-icon"><use href="#icon-edit"/></svg></button>
+                  <button class="action-btn" onclick="handleDiaryAction(event, '${d.id}', 'delete')"><svg class="hand-icon"><use href="#icon-trash"/></svg></button>
                 </div>
+                <div class="timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(d.date)}</div>
+                <div class="timeline-title">${esc(d.title) || 'Không có tiêu đề'}</div>
+                ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
+                <div class="timeline-content">${esc(d.content)}</div>
               </div>
             </div>
           `).join('');
-          bindDiarySwipe(wrap);
         }
       } else {
         $('diaryTimelineView').style.display = 'none';
@@ -2598,28 +2898,37 @@
         return b.createdAt - a.createdAt;
       });
 
+      // Render Braces Timeline (Zigzag)
       wrap.innerHTML = sorted.map(b => `
-        <div class="swipe-item" data-id="${b.id}" data-type="braces" style="margin-bottom: 20px;">
-          <div class="swipe-actions">
-            <div class="action edit" data-action="edit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa</div>
-            <div class="action delete" data-action="delete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa</div>
-          </div>
-          <div class="card" onclick="handleDiaryCardClick(event, '${b.id}', 'braces')">
-            <div class="card-body" style="padding-left: 10px;">
-              <div class="timeline-date" style="color: #2563eb;"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(b.date)}</div>
-              <div class="timeline-title">${esc(b.title) || 'Tái khám'}</div>
-              <div class="timeline-mood" style="background:#eff6ff; color:#1e40af; font-weight:700;">
-                <svg class="hand-icon"><use href="#icon-dollar"/></svg> ${fmtMoney(b.amount)}
-              </div>
-              <div class="timeline-content" style="margin-top:6px;">${esc(b.content)}</div>
+        <div class="braces-timeline-item">
+          <div class="braces-timeline-dot"></div>
+          <div class="braces-timeline-card">
+            <div class="timeline-actions">
+              <button class="action-btn" onclick="handleDiaryAction(event, '${b.id}', 'edit', 'braces')"><svg class="hand-icon"><use href="#icon-edit"/></svg></button>
+              <button class="action-btn" onclick="handleDiaryAction(event, '${b.id}', 'delete', 'braces')"><svg class="hand-icon"><use href="#icon-trash"/></svg></button>
             </div>
+            <div class="braces-timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(b.date)}</div>
+            <div class="braces-timeline-title">${esc(b.title) || 'Tái khám'}</div>
+            <div class="braces-timeline-amount" style="display:flex; align-items:center; gap:4px;">
+              <svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-dollar"/></svg> ${fmtMoney(b.amount)}
+            </div>
+            <div class="braces-timeline-content">${esc(b.content)}</div>
           </div>
         </div>
       `).join('');
-      
-      bindDiarySwipe(wrap);
     }
   }
+
+  // Hàm xử lý sự kiện click vào nút edit/delete trong timeline
+  window.handleDiaryAction = function(e, id, action, type = 'diary') {
+    e.stopPropagation();
+    if (action === 'edit') {
+      if (type === 'diary') openDiaryModal(id);
+      else if (type === 'braces') openBracesModal(id);
+    } else if (action === 'delete') {
+      askDelete(id, type);
+    }
+  };
 
   function renderCalendar() {
     const year = calCurrentDate.getFullYear();
@@ -2741,18 +3050,21 @@
     const countTasks = notes.filter(n => n.type === 'task').length;
     const countTips = notes.filter(n => n.type === 'tip').length;
     const countGoals = goals.length;
+    const countEvents = events.length;
     
     $('countPlaceCard').textContent = `${countPlaces} mục`;
     $('countNoteCard').textContent = `${countNotes} mục`;
     $('countTaskCard').textContent = `${countTasks} mục`;
     $('countTipCard').textContent = `${countTips} mục`;
     $('countGoalCard').textContent = `${countGoals} mục`;
+    $('countEventCard').textContent = `${countEvents} mục`;
 
     // Hide all detail views
     $('othersMainView').style.display = 'none';
     $('placeDetailView').style.display = 'none';
     $('othersDetailView').style.display = 'none';
     $('goalDetailView').style.display = 'none';
+    $('eventDetailView').style.display = 'none';
 
     if (!currentOtherCategory) {
       $('othersMainView').style.display = 'block';
@@ -2765,6 +3077,9 @@
     } else if (currentOtherCategory === 'place') {
       $('placeDetailView').style.display = 'block';
       renderPlaces();
+    } else if (currentOtherCategory === 'event') {
+      $('eventDetailView').style.display = 'block';
+      renderEvents();
     } else {
       $('othersDetailView').style.display = 'block';
       $('subViewTitle').textContent = INFO[currentOtherCategory]?.label || 'Danh sách';
@@ -2791,6 +3106,10 @@
     renderOthers();
   });
   $('backToOthersFromGoalBtn').addEventListener('click', () => {
+    currentOtherCategory = null;
+    renderOthers();
+  });
+  $('backToOthersFromEventBtn').addEventListener('click', () => {
     currentOtherCategory = null;
     renderOthers();
   });
@@ -2839,39 +3158,102 @@
     $('sortNotesLabel').textContent = sortLabels[sortNotesMode];
 
     if (arr.length === 0) {
-      list.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-search"/></svg></div><h3>Không tìm thấy</h3><p>Thử đổi bộ lọc hoặc từ khóa khác nhé.</p></div>`;
+      list.innerHTML = `<div class="empty" style="grid-column: span 2;"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-search"/></svg></div><h3>Không tìm thấy</h3><p>Thử đổi bộ lọc hoặc từ khóa khác nhé.</p></div>`;
       return;
     }
 
     list.innerHTML = arr.map(n => {
       const info = INFO[n.type] || INFO.note;
-      const hashtagHtml = (n.hashtags && n.hashtags.length > 0 && !filterNoteHashtag) 
-        ? n.hashtags.map(tag => `<span class="tag hashtag"><svg class="hand-icon"><use href="#icon-hashtag"/></svg>${esc(tag)}</span>`).join('') : '';
+      const firstTag = (n.hashtags && n.hashtags.length > 0) ? n.hashtags[0] : '';
 
       return `
-        <div class="swipe-item" data-id="${n.id}" data-type="note">
-          <div class="swipe-actions">
-            <div class="action edit" data-action="edit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa</div>
-            <div class="action delete" data-action="delete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa</div>
-          </div>
-          <div class="card" onclick="handleCardClick(event, '${n.id}', 'note')">
+        <div class="grid-card" onclick="openDetailModal('note', '${n.id}')">
+          <div class="grid-card-header">
             <div class="card-emoji ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg></div>
-            <div class="card-body">
-              <div class="card-header">
-                <div class="card-title">${esc(n.title)}</div>
-              </div>
-              <div style="display:flex; flex-wrap:wrap; gap:6px;">
-                ${n.date ? `<span class="tag date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(n.date)}</span>` : ''}
-              </div>
-              ${hashtagHtml ? `<div class="card-meta">${hashtagHtml}</div>` : ''}
-              ${n.content ? `<div class="card-note">${esc(n.content)}</div>` : ''}
-            </div>
+            <div class="grid-card-title">${esc(n.title)}</div>
           </div>
-        </div>`;
+          <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px;">
+            ${filterNoteType === 'all' ? `<span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>` : ''}
+            ${n.date ? `<span class="tag date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(n.date)}</span>` : ''}
+          </div>
+          <div class="grid-card-desc">
+            ${n.content ? esc(n.content) : 'Không có nội dung.'}
+          </div>
+          <div class="grid-card-meta">
+             ${firstTag ? `<span class="tag hashtag" style="font-size:9px; padding:2px 6px;">#${esc(firstTag)}</span>` : ''}
+          </div>
+        </div>
+      `;
     }).join('');
-
-    bindSwipe(list);
   }
+
+  // Detail Modal Logic
+  window.openDetailModal = function(type, id) {
+    currentDetailType = type;
+    let item = null;
+    let info = null;
+    
+    if (type === 'place') {
+      item = places.find(x => x.id === id);
+      info = INFO[item.type] || INFO.cafe;
+      $('detailModalType').textContent = 'Chi tiết địa điểm';
+    } else if (type === 'note') {
+      item = notes.find(x => x.id === id);
+      info = INFO[item.type] || INFO.note;
+      $('detailModalType').textContent = 'Chi tiết ghi chú';
+    }
+
+    if (!item) return;
+
+    $('detailTitle').textContent = item.name || item.title;
+    
+    // Meta
+    let metaHtml = '';
+    if (type === 'place') {
+      const st = STATUS[item.status] || STATUS.want;
+      metaHtml += `<span class="status-badge ${st.cls}"><svg class="hand-icon"><use href="${st.icon}"/></svg> ${st.label}</span>`;
+      metaHtml += `<span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>`;
+      if (item.city) metaHtml += `<span class="tag city"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(item.city)}</span>`;
+      if (item.date) metaHtml += `<span class="tag date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(item.date)}</span>`;
+      if (item.rating > 0) metaHtml += `<span class="card-rating" style="margin-top:0; margin-left:4px;">${renderStars(item.rating)}</span>`;
+    } else {
+      metaHtml += `<span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>`;
+      if (item.date) metaHtml += `<span class="tag date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(item.date)}</span>`;
+    }
+    
+    // Hashtags
+    if (item.hashtags && item.hashtags.length > 0) {
+      item.hashtags.forEach(tag => {
+        metaHtml += `<span class="tag hashtag"><svg class="hand-icon"><use href="#icon-hashtag"/></svg>${esc(tag)}</span>`;
+      });
+    }
+    $('detailMeta').innerHTML = metaHtml;
+
+    // Content
+    let content = '';
+    if (type === 'place') {
+      if (item.address) content += `<div style="margin-bottom:8px;"><b>Địa chỉ:</b> ${esc(item.address)}</div>`;
+      if (item.note) content += `<div>${esc(item.note)}</div>`;
+      else content += `<div style="color:var(--text-muted); font-style:italic;">Không có ghi chú.</div>`;
+    } else {
+      content = item.content ? esc(item.content) : `<div style="color:var(--text-muted); font-style:italic;">Không có nội dung.</div>`;
+    }
+    $('detailContent').innerHTML = content;
+
+    // Link
+    if (type === 'place' && item.link) {
+      $('detailLink').href = item.link;
+      $('detailLink').style.display = 'inline-flex';
+    } else {
+      $('detailLink').style.display = 'none';
+    }
+
+    $('detailModalOverlay').classList.add('show');
+  };
+
+  $('closeDetailModalBtn').addEventListener('click', () => $('detailModalOverlay').classList.remove('show'));
+  $('detailModalOverlay').addEventListener('click', (e) => { if(e.target === $('detailModalOverlay')) $('detailModalOverlay').classList.remove('show'); });
+
 
   // Bucket List Render
   function renderBucketList() {
@@ -2944,6 +3326,68 @@
     }
   });
 
+  // Sự kiện / Deadline Render
+  function renderEvents() {
+    const container = $('eventListContainer');
+    if (events.length === 0) {
+      container.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-gift"/></svg></div><h3>Chưa có sự kiện nào</h3><p>Nhấn nút <b>+</b> để thêm sự kiện hoặc deadline mới nhé!</p></div>`;
+      return;
+    }
+
+    const sorted = events.slice().sort((a,b) => a.date.localeCompare(b.date));
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    const colors = [
+      { bg: '#fef3c7', dateBg: '#b45309', text: '#78350f' }, // Vàng
+      { bg: '#fce7f3', dateBg: '#be185d', text: '#831843' }, // Hồng
+      { bg: '#dcfce7', dateBg: '#15803d', text: '#166534' }, // Xanh lá
+      { bg: '#dbeafe', dateBg: '#1d4ed8', text: '#1e3a8a' }, // Xanh dương
+      { bg: '#f3e8ff', dateBg: '#7e22ce', text: '#581c87' }  // Tím
+    ];
+
+    container.innerHTML = sorted.map((ev, idx) => {
+      const d = new Date(ev.date);
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+      const monthStr = monthNames[d.getMonth()];
+      const dayStr = String(d.getDate()).padStart(2, '0');
+      
+      const diffTime = d.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      let desc = '';
+      let descClass = '';
+      
+      if (diffDays > 0) {
+        desc = `còn ${diffDays} ngày`;
+        descClass = 'normal';
+      } else if (diffDays === 0) {
+        desc = `Hôm nay!`;
+        descClass = 'urgent';
+      } else {
+        desc = `Đã qua ${Math.abs(diffDays)} ngày`;
+        descClass = 'past';
+      }
+
+      const themeColor = colors[idx % colors.length];
+
+      return `
+        <div class="event-card" style="background: ${themeColor.bg};" onclick="openEventModal('${ev.id}')">
+          <div class="event-date-box" style="background: ${themeColor.dateBg};">
+            <div class="event-month">${monthStr}</div>
+            <div class="event-day">${dayStr}</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title" style="color: ${themeColor.text};">
+              <span class="event-icon-large">${ev.icon || '🎂'}</span> ${esc(ev.name)}
+            </div>
+            <div class="event-desc ${descClass}">${desc}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
   /* ==================== TAB 4: TÀI CHÍNH ==================== */
   function renderFinance() {
     const fin = calcFinance();
@@ -2957,7 +3401,6 @@
     // 1. Salary Planning
     $('salaryIncome').value = salaryData.income ? salaryData.income.toLocaleString('vi-VN') : '';
     
-    // Render Expense Rows
     const expContainer = $('expenseRowsContainer');
     if (salaryData.expenses.length === 0) {
       expContainer.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted); margin-bottom:10px;">Chưa có khoản chi nào.</div>`;
@@ -3109,7 +3552,6 @@
         else revenues.records[dateStr] = amount;
         saveData();
         
-        // Cập nhật lại tổng doanh thu ngay lập tức
         let newTotal = 0;
         Object.values(revenues.records).forEach(val => { newTotal += val; });
         $('revTotalVal').textContent = fmtMoney(newTotal);
@@ -3218,7 +3660,7 @@
 
   /* ==================== EXPORT / IMPORT ==================== */
   $('btnExportData').addEventListener('click', () => {
-    const backup = { places, diaries, braces, notes, finances, revenues, settings, salaryData, goals, exportedAt: new Date().toISOString(), version: 'v31' };
+    const backup = { places, diaries, braces, notes, finances, revenues, settings, salaryData, goals, events, exportedAt: new Date().toISOString(), version: 'v33' };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -3288,6 +3730,7 @@
           }
         }
         if (Array.isArray(data.goals)) goals = data.goals;
+        if (Array.isArray(data.events)) events = data.events;
         
         applySettings();
         saveData();
@@ -3366,64 +3809,8 @@
   }
 
   /* ==================== SWIPE NHẬT KÝ / NIỀNG RĂNG ==================== */
-  function bindDiarySwipe(container) {
-    container.querySelectorAll('.swipe-item').forEach(item => {
-      const card = item.querySelector('.card');
-      const id = item.dataset.id;
-      const itemType = item.dataset.type;
-
-      let startX = 0, startY = 0, currentX = 0, dragging = false, locked = false, horizontal = false;
-      const MAX = 92;
-
-      card.addEventListener('touchstart', e => {
-        if (e.touches.length !== 1) return;
-        startX = e.touches[0].clientX; startY = e.touches[0].clientY; currentX = 0;
-        dragging = true; locked = false; horizontal = false; card.classList.add('dragging');
-      }, { passive: true });
-
-      card.addEventListener('touchmove', e => {
-        if (!dragging) return;
-        const dx = e.touches[0].clientX - startX;
-        const dy = e.touches[0].clientY - startY;
-        if (!locked) {
-          if (Math.abs(dx) > 8 || Math.abs(dy) > 8) { locked = true; horizontal = Math.abs(dx) > Math.abs(dy); }
-          if (!horizontal) { dragging = false; card.classList.remove('dragging'); return; }
-        }
-        if (!horizontal) return;
-        e.preventDefault();
-        let offset = dx;
-        if (offset > MAX) offset = MAX + (offset - MAX) * 0.25;
-        if (offset < -MAX) offset = -MAX + (offset + MAX) * 0.25;
-        currentX = offset; card.style.transform = `translateX(${offset}px)`;
-      }, { passive: false });
-
-      const endDrag = () => {
-        if (!dragging) return;
-        dragging = false; card.classList.remove('dragging');
-        const threshold = MAX * 0.55;
-        if (currentX > threshold) { card.style.transform = `translateX(${MAX}px)`; }
-        else if (currentX < -threshold) { card.style.transform = `translateX(${-MAX}px)`; }
-        else { card.style.transform = `translateX(0)`; }
-        currentX = 0;
-      };
-
-      card.addEventListener('touchend', endDrag);
-      card.addEventListener('touchcancel', endDrag);
-
-      item.querySelector('[data-action="edit"]').addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeAllSwipes();
-        if (itemType === 'diary') openDiaryModal(id);
-        else if (itemType === 'braces') openBracesModal(id);
-      });
-      
-      item.querySelector('[data-action="delete"]').addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeAllSwipes();
-        askDelete(id, itemType);
-      });
-    });
-  }
+  // Hàm này không còn dùng vì đã chuyển sang giao diện Timeline, nhưng giữ lại để tránh lỗi
+  function bindDiarySwipe(container) {}
 
   function closeAllSwipes() {
     document.querySelectorAll('.card').forEach(c => {
@@ -3440,15 +3827,6 @@
     }
     if(type === 'place') openPlaceModal(id);
     else if(type === 'note') openNoteModal(id);
-  };
-
-  window.handleDiaryCardClick = function(e, id, type) {
-    const card = e.currentTarget;
-    if (card.style.transform && card.style.transform !== 'translateX(0px)' && card.style.transform !== '') {
-      closeAllSwipes(); return;
-    }
-    if(type === 'diary') openDiaryModal(id);
-    else if(type === 'braces') openBracesModal(id);
   };
 
   /* ==================== FORMS ==================== */
@@ -3615,6 +3993,30 @@
   }
   function closeCreditModal() { $('creditOverlay').classList.remove('show'); editCreditId = null; }
 
+  window.openEventModal = function(id) {
+    editEventId = id || null;
+    if (id) {
+      const ev = events.find(x => x.id === id);
+      if (!ev) return;
+      $('eventModalTitle').textContent = 'Sửa Sự kiện';
+      $('eventName').value = ev.name || '';
+      $('eventDate').value = ev.date || '';
+      setEventIcon(ev.icon || '🎂');
+    } else {
+      $('eventModalTitle').textContent = 'Thêm Sự kiện';
+      $('eventName').value = '';
+      $('eventDate').value = new Date().toISOString().split('T')[0];
+      setEventIcon('🎂');
+    }
+    $('eventOverlay').classList.add('show');
+    setTimeout(() => $('eventName').focus(), 300);
+  }
+  function closeEventModal() { $('eventOverlay').classList.remove('show'); editEventId = null; }
+  function setEventIcon(icon) {
+    formEventIcon = icon;
+    document.querySelectorAll('#eventIconPicker .opt').forEach(o => o.classList.toggle('active', o.dataset.icon === icon));
+  }
+
   $('assetValueRange').addEventListener('input', (e) => { $('assetValue').value = Number(e.target.value).toLocaleString('vi-VN'); });
   $('assetValue').addEventListener('input', (e) => { $('assetValueRange').value = Math.min(parseCurrency(e.target.value), 1000000000); });
   $('assetValue').addEventListener('blur', (e) => {
@@ -3715,6 +4117,7 @@
     if (currentTab === 'others') {
       if (currentOtherCategory === 'place') openPlaceModal(null);
       else if (currentOtherCategory === 'goal') toast('Vui lòng thêm trực tiếp ở bảng bên dưới');
+      else if (currentOtherCategory === 'event') openEventModal(null);
       else if (currentOtherCategory) openNoteModal(null);
       else toast('Vui lòng chọn một mục để thêm');
     }
@@ -3739,6 +4142,7 @@
   $('closeBracesModal').addEventListener('click', closeBracesModal);
   $('closeAssetModal').addEventListener('click', closeAssetModal);
   $('closeCreditModal').addEventListener('click', closeCreditModal);
+  $('closeEventModal').addEventListener('click', closeEventModal);
 
   document.querySelectorAll('#typePicker .opt').forEach(o => o.addEventListener('click', () => setFormType(o.dataset.type)));
   document.querySelectorAll('#statusPicker .opt').forEach(o => o.addEventListener('click', () => setFormStatus(o.dataset.status)));
@@ -3746,6 +4150,7 @@
   document.querySelectorAll('#noteTypePicker .opt').forEach(o => o.addEventListener('click', () => setFormNoteType(o.dataset.type)));
   document.querySelectorAll('#moodPicker .opt').forEach(o => o.addEventListener('click', () => setDiaryMood(o.dataset.mood)));
   document.querySelectorAll('#assetTypePicker .opt').forEach(o => o.addEventListener('click', () => setFormAssetType(o.dataset.type)));
+  document.querySelectorAll('#eventIconPicker .opt').forEach(o => o.addEventListener('click', () => setEventIcon(o.dataset.icon)));
 
   $('savePlaceBtn').addEventListener('click', () => {
     const name = $('placeName').value.trim();
@@ -3855,6 +4260,21 @@
     saveData(); renderFinance(); closeCreditModal(); toast('✅ Đã lưu khoản chi');
   });
 
+  $('saveEventBtn').addEventListener('click', () => {
+    const name = $('eventName').value.trim();
+    const date = $('eventDate').value;
+    if (!name) { $('eventName').focus(); return toast('Nhập tên sự kiện'); }
+    if (!date) { $('eventDate').focus(); return toast('Chọn ngày diễn ra'); }
+
+    if (editEventId) {
+      const ev = events.find(x => x.id === editEventId);
+      if (ev) { ev.name = name; ev.date = date; ev.icon = formEventIcon; }
+    } else {
+      events.push({ id: 'ev_' + Date.now(), name, date, icon: formEventIcon, createdAt: Date.now() });
+    }
+    saveData(); renderEvents(); closeEventModal(); toast('✅ Đã lưu sự kiện');
+  });
+
   /* ==================== TÌM KIẾM & SẮP XẾP ==================== */
   $('searchPlaces').addEventListener('input', e => {
     searchPlaces = e.target.value.trim();
@@ -3910,6 +4330,7 @@
     else if (type === 'braces') name = (braces.find(x => x.id === id) || {}).title || 'Niềng răng';
     else if (type === 'asset') name = (finances.other_assets.find(x => x.id === id) || {}).name || 'Tài sản';
     else if (type === 'credit') name = (finances.credit_expenses.find(x => x.id === id) || {}).name || 'Khoản chi';
+    else if (type === 'event') name = (events.find(x => x.id === id) || {}).name || 'Sự kiện';
     
     $('confirmMsg').textContent = `Xóa "${name}"?`;
     $('confirmOverlay').classList.add('show');
@@ -3924,6 +4345,7 @@
       else if (pendingDeleteType === 'braces') braces = braces.filter(b => b.id !== pendingDeleteId);
       else if (pendingDeleteType === 'asset') finances.other_assets = finances.other_assets.filter(a => a.id !== pendingDeleteId);
       else if (pendingDeleteType === 'credit') finances.credit_expenses = finances.credit_expenses.filter(c => c.id !== pendingDeleteId);
+      else if (pendingDeleteType === 'event') events = events.filter(e => e.id !== pendingDeleteId);
       
       saveData(); switchTab(currentTab); toast('🗑️ Đã xóa');
     }
