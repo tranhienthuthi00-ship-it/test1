@@ -1,10 +1,3 @@
-Tôi hiểu vấn đề. Lỗi nằm ở chỗ thẻ <input type="date"> mặc định của trình duyệt luôn có các đường kẻ và định dạng riêng, rất khó để làm cho nó "trong suốt" hoàn toàn và giống hệt một thẻ <input type="text"> bình thường.
-
-Để sửa triệt để, tôi sẽ thay đổi cấu trúc: Ô ngày đầu tiên sẽ là một thẻ div bình thường (có nền hồng, bo góc, canh lề trái giống hệt các ngày dưới). Thẻ <input type="date"> thật sẽ được đặt đè lên trên và làm cho hoàn toàn trong suốt (opacity: 0) để bạn vẫn có thể bấm vào chọn ngày từ lịch.
-
-Dưới đây là code đã được sửa triệt để lỗi này. Bạn hãy copy toàn bộ và chạy lại nhé.
-
-```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
