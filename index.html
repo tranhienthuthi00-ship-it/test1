@@ -2055,6 +2055,136 @@
   body.theme-notion .place-card-image svg { stroke: #8c7662; }
   body.theme-notion .place-card-title-bar { background: #a8c0d0; color: #5c4e41; }
   body.theme-notion .place-card-desc { background: #fdfaf6; color: #5c4e41; }
+  /* =======================================================
+     TÙY CHỈNH MÀU SẮC & FONT CHỮ CHO THẺ BÀI THEO TỪNG THEME
+     ======================================================= */
+
+  /* 1. THEME MẶC ĐỊNH (Hồng Pastel) */
+  body:not(.theme-neobrutalism):not(.theme-crayon):not(.theme-notion) .place-card-item {
+    border-color: #fbcfe8;
+    background: #ffffff;
+  }
+  body:not(.theme-neobrutalism):not(.theme-crayon):not(.theme-notion) .place-card-title-bar {
+    background: #ec4899;
+  }
+  body:not(.theme-neobrutalism):not(.theme-crayon):not(.theme-notion) .place-card-desc {
+    background: #fdf2f8;
+  }
+
+  /* 2. THEME BÚT SÁP (Crayon) */
+  /* Font chữ viết tay cho theme Bút sáp */
+  body.theme-crayon .place-card-desc, 
+  body.theme-crayon .place-card-title-bar {
+    font-family: 'Quicksand', cursive; /* Giữ nguyên font chữ mềm mại của bút sáp */
+    font-weight: 700;
+  }
+  body.theme-crayon .place-card-item {
+    border-color: #2b2d42; /* Viền đen sáp */
+    border-width: 3px;
+    box-shadow: 4px 4px 0px rgba(43,45,66,0.3);
+    background: #fffdf5;
+  }
+  body.theme-crayon .place-card-image {
+    background: #ffb703; /* Vàng sáp */
+    box-shadow: inset 0 0 0 2px #2b2d42;
+    border-color: #fffdf5;
+  }
+  body.theme-crayon .place-card-image svg {
+    stroke: #2b2d42;
+  }
+  body.theme-crayon .place-card-title-bar {
+    background: #e63946; /* Đỏ sáp */
+    color: #ffffff;
+    border: 2px solid #2b2d42;
+    border-radius: 12px 10px 13px 11px;
+  }
+  body.theme-crayon .place-card-desc {
+    background: #fff3cd;
+    border: 2px solid #2b2d42;
+    border-radius: 12px 10px 13px 11px;
+  }
+
+  /* 3. THEME NOTION AESTHETIC */
+  /* Font chữ viết tay Patrick Hand cho theme Notion */
+  body.theme-notion .place-card-desc, 
+  body.theme-notion .place-card-title-bar {
+    font-family: 'Patrick Hand', cursive;
+    font-weight: normal;
+    letter-spacing: 0.5px;
+  }
+  body.theme-notion .place-card-item {
+    border-color: #a8c0d0; /* Xanh xám pastel */
+    border-width: 3.5px;
+    box-shadow: 5px 5px 0px #a8c0d0; /* Bóng cứng */
+    background: #fdfaf6; /* Nền kem */
+    border-radius: 20px;
+  }
+  body.theme-notion .place-card-image {
+    background: #f0f4f8; /* Xanh cực nhạt */
+    border-color: #fdfaf6;
+    box-shadow: inset 0 0 0 2px #a8c0d0;
+  }
+  body.theme-notion .place-card-image svg {
+    stroke: #8c7662; /* Nâu xám */
+  }
+  body.theme-notion .place-card-title-bar {
+    background: #d4b895; /* Màu be đậm */
+    color: #fffcf8;
+    border-radius: 16px;
+    border: 1.5px solid #8c7662;
+  }
+  body.theme-notion .place-card-desc {
+    background: #fdf5e6;
+    border: 1.5px solid #e8d8c8;
+    border-radius: 16px;
+    color: #5c4e41;
+  }
+  /* =======================================================
+     FIX LỖI KHUNG ĐEN VÀ NÚT ĐÓNG CHO POP-UP THẺ BÀI
+     ======================================================= */
+
+  /* Xóa bóng đen của thẻ cha bao quanh popup */
+  #placeCardPopupOverlay .modal {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  /* 1. FIX CHO THEME BÚT SÁP (Crayon) */
+  body.theme-crayon #placeCardPopupOverlay .place-card-item {
+    filter: none !important; /* Tắt hiệu ứng run tay */
+    border: 3px solid #2b2d42 !important; /* Viền đen sáp chuẩn */
+    box-shadow: 6px 6px 0px rgba(43,45,66,0.3) !important;
+  }
+  
+  /* Nút đóng thẻ ở theme Bút sáp */
+  body.theme-crayon #placeCardPopupOverlay .save-btn {
+    background: #e63946 !important;
+    color: white !important;
+    border: 3px solid #2b2d42 !important;
+    box-shadow: 4px 4px 0px #2b2d42 !important;
+  }
+
+  /* 2. FIX CHO THEME NEOBRUTALISM */
+  body.theme-neobrutalism #placeCardPopupOverlay .modal {
+    border: none !important; /* Xóa cái viền đen to đùng của khung chứa */
+    box-shadow: none !important; 
+  }
+  
+  body.theme-neobrutalism #placeCardPopupOverlay .place-card-item {
+    border: 4px solid #000 !important; 
+    box-shadow: 8px 8px 0px #000 !important; 
+    background: #ffffff !important;
+    border-radius: 16px !important;
+  }
+  
+  /* Nút đóng thẻ ở theme Neobrutalism */
+  body.theme-neobrutalism #placeCardPopupOverlay .save-btn {
+    background: #a7f3d0 !important; /* Màu xanh mint đặc trưng */
+    color: #000 !important;
+    border: 3px solid #000 !important;
+    box-shadow: 4px 4px 0px #000 !important;
+  }
 </style>
 </head>
 <body>
