@@ -1513,6 +1513,210 @@
     filter: none;
     transform: none;
   }
+
+  /* ===== Đồng điệu màu các chỗ còn sót ===== */
+
+  /* 1. Bảng tổng hợp niềng răng */
+  body.theme-crayon .braces-dashboard-card {
+    background: linear-gradient(135deg, #ffe5e7, #fff3cd);
+    border: 2.5px solid var(--text);
+    border-radius: 12px 10px 13px 11px;
+    box-shadow: 3px 3px 0px rgba(43,45,66,0.35);
+    filter: url(#crayon-wobble);
+  }
+  body.theme-crayon .braces-dashboard-card .stat-val {
+    color: var(--crayon-red);
+    font-weight: 700;
+  }
+  body.theme-crayon .braces-dashboard-card .stat-lbl {
+    color: var(--crayon-orange);
+    font-weight: 700;
+  }
+  body.theme-crayon .braces-dashboard-card .divider {
+    background: var(--text);
+    opacity: 0.3;
+  }
+
+  /* 2. Thẻ niềng răng (braces-card) */
+  body.theme-crayon .diary-compact-card.braces-card {
+    border-left: 4px solid var(--crayon-red);
+  }
+  body.theme-crayon .diary-compact-card.braces-card .diary-icon-box {
+    background: #ffe5e7;
+    color: var(--crayon-red);
+  }
+  body.theme-crayon .diary-compact-card.braces-card .diary-date-text {
+    color: var(--crayon-red);
+  }
+
+  /* 3. Timeline niềng răng */
+  body.theme-crayon .braces-timeline-wrap::before {
+    background: var(--crayon-red);
+    opacity: 0.4;
+  }
+  body.theme-crayon .braces-timeline-dot {
+    border-color: var(--crayon-red);
+    box-shadow: 0 0 0 3px #ffe5e7;
+  }
+  body.theme-crayon .braces-timeline-date {
+    color: var(--crayon-red);
+  }
+  body.theme-crayon .braces-timeline-amount {
+    color: var(--crayon-red);
+  }
+
+  /* 4. Timeline nhật ký */
+  body.theme-crayon .timeline-wrap::before {
+    background: var(--crayon-blue);
+    opacity: 0.4;
+  }
+  body.theme-crayon .timeline-dot {
+    border-color: var(--crayon-blue);
+    box-shadow: 0 0 0 3px #dbeafe;
+  }
+  body.theme-crayon .timeline-date {
+    color: var(--crayon-blue);
+  }
+  body.theme-crayon .timeline-mood {
+    background: #dbeafe;
+    color: var(--crayon-blue);
+  }
+
+  /* 5. Calendar */
+  body.theme-crayon .calendar-month-year span {
+    color: var(--crayon-red);
+  }
+  body.theme-crayon .calendar-weekdays div {
+    color: var(--crayon-blue);
+  }
+
+  /* 6. Finance dashboard — chữ trắng trên nền vàng khó đọc, đổi sang màu đậm */
+  body.theme-crayon .finance-dashboard {
+    background: var(--crayon-yellow);
+    color: var(--text);
+  }
+  body.theme-crayon .finance-balance-label {
+    color: var(--text);
+    opacity: 0.7;
+  }
+  body.theme-crayon .finance-balance {
+    color: var(--text);
+  }
+  body.theme-crayon .finance-box {
+    background: rgba(255,255,255,0.6);
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+  }
+  body.theme-crayon .finance-box-label {
+    color: var(--text);
+    opacity: 0.75;
+  }
+  body.theme-crayon .finance-box-val {
+    color: var(--crayon-red);
+  }
+
+  /* 7. Salary result */
+  body.theme-crayon .salary-result {
+    background: #ffe5e7;
+    color: var(--crayon-red);
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+  }
+  body.theme-crayon .salary-section-title {
+    color: var(--crayon-blue);
+  }
+
+  /* 8. Compact card total (số tiền) */
+  body.theme-crayon .compact-card-total {
+    color: var(--crayon-red);
+  }
+
+  /* 9. Card total đỏ (chi tiêu thẻ tín dụng) giữ đỏ */
+  body.theme-crayon #creditTotalLabel {
+    color: var(--crayon-red) !important;
+  }
+
+  /* 10. Cash row */
+  body.theme-crayon .cash-row {
+    background: #fffdf5;
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+  }
+  body.theme-crayon .cash-row-input {
+    color: var(--crayon-red);
+  }
+
+  /* 11. Credit row */
+  body.theme-crayon .credit-row {
+    background: #fffdf5;
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+  }
+  body.theme-crayon .credit-row .c-amount {
+    color: var(--crayon-red);
+  }
+
+  /* 12. Rev row input */
+  body.theme-crayon .rev-row input {
+    background: #fffdf5;
+    border: 2px solid var(--text);
+    border-radius: 8px;
+  }
+  body.theme-crayon .rev-date-display {
+    background: #fffdf5;
+    border: 2px solid var(--text);
+    border-radius: 8px;
+  }
+
+  /* 13. Asset group */
+  body.theme-crayon .asset-group {
+    background: #fffdf5;
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+  }
+  body.theme-crayon .asset-group-header {
+    background: #fffdf5;
+  }
+  body.theme-crayon .asset-group-total {
+    color: var(--crayon-red);
+  }
+  body.theme-crayon .asset-item {
+    background: #fffdf5;
+    border: 1.5px solid var(--text);
+    border-radius: 8px;
+  }
+
+  /* 14. Braces amount range */
+  body.theme-crayon .range-wrap input[type="range"] {
+    background: #ffe5e7;
+  }
+  body.theme-crayon .range-wrap input[type="range"]::-webkit-slider-thumb {
+    background: var(--crayon-red);
+    border: 2px solid var(--text);
+  }
+
+  /* 15. Calendar day today */
+  body.theme-crayon .cal-day.today {
+    background: var(--crayon-red);
+    color: white;
+  }
+
+  /* 16. Page dots */
+  body.theme-crayon .page-dot.active,
+  body.theme-crayon .d-page-dot.active {
+    background: var(--crayon-red);
+  }
+
+  /* 17. Diary view toggle */
+  body.theme-crayon .diary-view-toggle .slider-bg {
+    background: var(--crayon-red);
+  }
+
+  /* 18. Braces dashboard card responsive — chống tràn */
+  body.theme-crayon .braces-dashboard-card .stat-val {
+    font-size: 16px;
+    word-break: break-word;
+  }
 </style>
 </head>
 <body>
