@@ -1170,15 +1170,30 @@
     --tip-bg: #fff3e0; --tip-text: #e65100;
   }
 
-  /* Nền giấy nhám */
+  /* Nền giấy kẻ ô ly */
   body.theme-crayon {
     background-color: #fdf6e3;
     background-image:
-      radial-gradient(circle at 25% 15%, rgba(255,183,3,0.06) 0%, transparent 40%),
-      radial-gradient(circle at 75% 85%, rgba(230,57,70,0.05) 0%, transparent 40%),
-      radial-gradient(circle at 50% 50%, rgba(42,157,143,0.04) 0%, transparent 50%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+      /* texture noise nhẹ */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"),
+      /* lưới ô ly: dọc + ngang, mỗi ô 24px */
+      linear-gradient(to right, rgba(100,160,200,0.18) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(100,160,200,0.18) 1px, transparent 1px);
+    background-size: 200px 200px, 24px 24px, 24px 24px;
     background-attachment: fixed;
+  }
+
+  /* Thêm lề đỏ dọc bên trái kiểu vở ô ly (tùy chọn) */
+  body.theme-crayon::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 40px;
+    width: 1.5px;
+    background: rgba(230,57,70,0.25);
+    pointer-events: none;
+    z-index: 0;
   }
 
   /* Viền run run cho mọi card */
