@@ -1408,9 +1408,128 @@
     box-shadow: 2px 2px 0px rgba(43,45,66,0.35);
   }
   body.theme-crayon .backup-btn svg { stroke: var(--text); stroke-width: 2.5; }
+
+  /* ===== Nét vẽ tay: filter wobble ===== */
+  body.theme-crayon .card,
+  body.theme-crayon .goal-widget,
+  body.theme-crayon .dash-chart-widget,
+  body.theme-crayon .suggest-card,
+  body.theme-crayon .compact-card,
+  body.theme-crayon .salary-card,
+  body.theme-crayon .bucket-list-container,
+  body.theme-crayon .event-card,
+  body.theme-crayon .timeline-card,
+  body.theme-crayon .braces-timeline-card,
+  body.theme-crayon .diary-compact-card,
+  body.theme-crayon .note-list-card,
+  body.theme-crayon .search-box,
+  body.theme-crayon .filter-btn,
+  body.theme-crayon .calendar-grid,
+  body.theme-crayon .settings-group,
+  body.theme-crayon .finance-dashboard {
+    filter: url(#crayon-wobble);
+    transform: rotate(-0.3deg);
+  }
+  /* Card chẵn nghiêng ngược lại cho tự nhiên */
+  body.theme-crayon .note-list-card:nth-child(even),
+  body.theme-crayon .diary-compact-card:nth-child(even),
+  body.theme-crayon .event-card:nth-child(even),
+  body.theme-crayon .compact-card:nth-child(even) {
+    transform: rotate(0.3deg);
+  }
+
+  /* Icon box: filter mạnh hơn + nghiêng nhẹ */
+  body.theme-crayon .note-icon-box,
+  body.theme-crayon .diary-icon-box,
+  body.theme-crayon .other-card-icon,
+  body.theme-crayon .event-icon-right,
+  body.theme-crayon .event-date-box {
+    filter: url(#crayon-wobble-strong);
+    transform: rotate(-2deg);
+  }
+  body.theme-crayon .note-icon-box:nth-child(even),
+  body.theme-crayon .diary-icon-box:nth-child(even) {
+    transform: rotate(2deg);
+  }
+  body.theme-crayon .note-icon-box svg,
+  body.theme-crayon .diary-icon-box svg,
+  body.theme-crayon .other-card-icon svg,
+  body.theme-crayon .event-icon-right svg {
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transform: rotate(-3deg);
+  }
+
+  /* Nút FAB, filter btn: nghiêng + filter */
+  body.theme-crayon .fab,
+  body.theme-crayon .filter-btn,
+  body.theme-crayon .sort-btn,
+  body.theme-crayon .backup-btn {
+    filter: url(#crayon-wobble-strong);
+  }
+  body.theme-crayon .fab { transform: rotate(-6deg); }
+  body.theme-crayon .filter-btn { transform: rotate(2deg); }
+
+  /* Badge, tag: nghiêng nhẹ như sticker dán */
+  body.theme-crayon .tag,
+  body.theme-crayon .status-badge,
+  body.theme-crayon .bucket-progress {
+    transform: rotate(-1.5deg);
+    border-style: solid;
+    border-width: 1.5px;
+  }
+  body.theme-crayon .tag:nth-child(even),
+  body.theme-crayon .status-badge:nth-child(even) {
+    transform: rotate(1.5deg);
+  }
+
+  /* Icon trong nav: nghiêng nhẹ khi active */
+  body.theme-crayon .nav-item.active svg {
+    transform: translateY(-2px) rotate(-5deg);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Search icon, filter icon: nghiêng */
+  body.theme-crayon .search-box svg,
+  body.theme-crayon .sort-btn svg {
+    transform: rotate(-4deg);
+  }
+
+  /* Giảm wobble cho text bên trong card để chữ vẫn rõ */
+  body.theme-crayon .note-title-text,
+  body.theme-crayon .note-desc-text,
+  body.theme-crayon .diary-title-text,
+  body.theme-crayon .diary-desc-text,
+  body.theme-crayon .event-title,
+  body.theme-crayon .compact-card-title,
+  body.theme-crayon .finance-balance,
+  body.theme-crayon .salary-label,
+  body.theme-crayon .salary-input-wrap,
+  body.theme-crayon .cash-row-label,
+  body.theme-crayon .credit-row input,
+  body.theme-crayon .asset-item-title {
+    filter: none;
+    transform: none;
+  }
 </style>
 </head>
 <body>
+
+<!-- Filter SVG làm run nét vẽ tay -->
+<svg style="position:absolute; width:0; height:0; overflow:hidden;" aria-hidden="true">
+  <defs>
+    <filter id="crayon-wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="crayon-wobble-strong" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" seed="5" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
 
 <!-- KHO ICON SVG VẼ TAY -->
 <svg style="display:none;">
