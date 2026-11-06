@@ -1851,9 +1851,12 @@
     </div>
 
     <!-- Suggest Card -->
-    <div class="suggest-card" id="homeSuggest" onclick="document.querySelector('.nav-item[data-tab=others]').click(); setTimeout(()=>{currentOtherCategory='place'; renderOthers();}, 100);">
-      <!-- Render bằng JS -->
-    </div>
+      <div class="suggest-card" id="homeSuggest" onclick="document.querySelector('.nav-item[data-tab=others]').click(); setTimeout(()=>{currentOtherCategory='place'; renderOthers();}, 100);">
+        <!-- Render bằng JS -->
+      </div>
+
+      <!-- Việc hôm nay (nằm dưới Suggest) -->
+      <div id="homeTodayTasks" style="margin-top: 24px; margin-bottom: 20px;"></div>
 
   </div>
 </div>
@@ -3246,7 +3249,66 @@
         <div class="suggest-address">Hãy thêm địa điểm mới nhé.</div>
       `;
     }
+
+    renderHomeTasks();
   }
+
+  // Hàm render widget Việc hôm nay
+  function renderHomeTasks() {
+    const box = document.getElementById('homeTodayTasks');
+    if (!box) return;
+
+    // Lấy 3 việc chưa làm
+    const pendingTasks = notes.filter(n => n.type === 'task' && !n.isCompleted).slice(0, 3);
+
+    if (pendingTasks.length === 0) {
+      box.innerHTML = `
+        <div class="compact-card" style="margin-bottom: 12px;">
+          <div class="compact-card-title" style="margin-bottom: 8px;">
+            <svg class="hand-icon"><use href="#icon-list"/></svg> Việc hôm nay
+          </div>
+          <div style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 10px 0;">
+            Tuyệt vời! Không có việc nào cần làm. 🎉
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    const taskHtml = pendingTasks.map(t => `
+      <div style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--border);">
+        <div onclick="toggleHomeTask('${t.id}')" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <svg class="hand-icon" style="width: 12px; height: 12px; stroke: white; opacity: 0;"><use href="#icon-check-circle"/></svg>
+        </div>
+        <div style="flex: 1; font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${esc(t.title)}</div>
+      </div>
+    `).join('');
+
+    box.innerHTML = `
+      <div class="compact-card" style="margin-bottom: 12px;">
+        <div class="compact-card-header" style="margin-bottom: 4px;">
+          <div class="compact-card-title">
+            <svg class="hand-icon"><use href="#icon-list"/></svg> Việc hôm nay
+          </div>
+          <div onclick="document.querySelector('.nav-item[data-tab=others]').click(); setTimeout(()=>{currentOtherCategory='task'; renderOthers();}, 100);" style="font-size: 12px; font-weight: 700; color: var(--pink-primary); cursor: pointer;">
+            Xem tất cả
+          </div>
+        </div>
+        ${taskHtml}
+      </div>
+    `;
+  }
+
+  // Hàm tick hoàn thành việc từ trang chủ
+  window.toggleHomeTask = function(id) {
+    const task = notes.find(n => n.id === id);
+    if (task) {
+      task.isCompleted = true;
+      saveData();
+      renderHomeTasks(); // Cập nhật lại widget
+      toast('✅ Đã xong: ' + task.title);
+    }
+  };
 
   /* ==================== GLOBAL SEARCH ==================== */
   $('globalSearchInput').addEventListener('input', (e) => {
