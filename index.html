@@ -1957,6 +1957,104 @@
     color: var(--pink-dark) !important;
     border: 2px solid var(--border) !important;
   }
+  /* ===== GIAO DIỆN THẺ BÀI CHO ĐỊA ĐIỂM ===== */
+  #listPlaces.place-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .place-card-item {
+    background: var(--pink-surface);
+    border: 3px solid var(--pink-light);
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .place-card-item:active { transform: scale(0.96); }
+  .place-card-image {
+    background: var(--pink-bg);
+    border: 2px solid var(--pink-surface);
+    border-radius: 10px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: inset 0 0 0 1.5px var(--pink-light);
+  }
+  .place-card-image svg {
+    width: 40px;
+    height: 40px;
+    stroke: var(--pink-dark);
+    stroke-width: 1.5;
+  }
+  .place-card-title-bar {
+    background: var(--pink-primary);
+    color: white;
+    border-radius: 999px;
+    padding: 6px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .place-card-title-bar .stars {
+    display: flex;
+    gap: 1px;
+  }
+  .place-card-title-bar .stars svg {
+    width: 10px;
+    height: 10px;
+  }
+  .place-card-desc {
+    background: #fffdf5;
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 11px;
+    color: var(--text);
+    line-height: 1.4;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .place-card-footer {
+    text-align: center;
+    font-size: 10px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+  .place-card-desc, .place-card-title-bar {
+    font-family: 'Patrick Hand', cursive;
+  }
+  /* Màu cho theme Bút sáp */
+  body.theme-crayon .place-card-item { border-color: #457b9d; }
+  body.theme-crayon .place-card-image { background: #ffb703; border-color: #fffdf5; box-shadow: inset 0 0 0 2px #457b9d; }
+  body.theme-crayon .place-card-image svg { stroke: #1d3557; }
+  body.theme-crayon .place-card-title-bar { background: #457b9d; }
+  body.theme-crayon .place-card-desc { background: #fff3cd; }
+  /* Màu cho theme Notion */
+  body.theme-notion .place-card-item { border-color: #a8c0d0; box-shadow: 3px 3px 0px #a8c0d0; }
+  body.theme-notion .place-card-image { background: #fdf5e6; border-color: #fff; box-shadow: inset 0 0 0 2px #a8c0d0; }
+  body.theme-notion .place-card-image svg { stroke: #8c7662; }
+  body.theme-notion .place-card-title-bar { background: #a8c0d0; color: #5c4e41; }
+  body.theme-notion .place-card-desc { background: #fdfaf6; color: #5c4e41; }
 </style>
 </head>
 <body>
@@ -2276,6 +2374,19 @@
         <span class="badge" id="filterBadge">1</span>
       </button>
     </div>
+    <!-- Nút chuyển đổi giao diện -->
+    <div class="diary-view-toggle-container" style="padding: 0 16px 12px 16px;">
+      <div class="diary-view-toggle" id="placeViewToggle" style="max-width: 100%;">
+        <div class="slider-bg"></div>
+        <button id="viewPlaceListBtn" class="active">
+          <svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-list"/></svg> Danh sách
+        </button>
+        <button id="viewPlaceCardBtn">
+          <svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-grid"/></svg> Thẻ bài
+        </button>
+      </div>
+    </div>
+
     <div class="sort-bar">
       <span id="countPlaces">0 kết quả</span>
       <div class="sort-wrapper">
@@ -2603,6 +2714,13 @@
 </div>
 
 <!-- Chi tiết Địa điểm / Ghi chú -->
+<!-- Pop-up hiển thị toàn bộ Thẻ bài Địa điểm -->
+<div class="overlay" id="placeCardPopupOverlay">
+  <div class="modal" style="background: transparent; box-shadow: none; padding: 0; max-width: 340px;">
+    <div id="placeCardPopupContent" style="width: 100%;"></div>
+    <button class="save-btn" onclick="document.getElementById('placeCardPopupOverlay').classList.remove('show')" style="margin-top: 16px; background: var(--pink-primary);">Đóng thẻ</button>
+  </div>
+</div>
 <div class="overlay" id="detailModalOverlay">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -3768,6 +3886,8 @@
     else { badge.classList.remove('show'); }
   }
 
+  let placeViewMode = 'list'; // 'list' hoặc 'card'
+
   function renderPlaces() {
     const list = $('listPlaces');
     const arr = getFilteredPlaces();
@@ -3778,46 +3898,87 @@
     const sortLabels = { newest: 'Mới nhất', oldest: 'Cũ nhất', 'rating-desc': 'Điểm cao', 'rating-asc': 'Điểm thấp', 'name-asc': 'Tên A-Z' };
     $('sortLabel').textContent = sortLabels[sortPlacesMode];
 
+    if (placeViewMode === 'list') {
+      $('viewPlaceListBtn').classList.add('active');
+      $('viewPlaceCardBtn').classList.remove('active');
+      $('placeViewToggle').classList.remove('calendar-active');
+      list.classList.remove('place-card-grid');
+    } else {
+      $('viewPlaceListBtn').classList.remove('active');
+      $('viewPlaceCardBtn').classList.add('active');
+      $('placeViewToggle').classList.add('calendar-active');
+      list.classList.add('place-card-grid');
+    }
+
     if (arr.length === 0) {
       list.innerHTML = `<div class="empty" style="grid-column: span 2;"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-search"/></svg></div><h3>Không tìm thấy</h3><p>Thử đổi bộ lọc hoặc từ khóa khác nhé.</p></div>`;
       return;
     }
 
-    // Note List Format với Swipe
-    list.innerHTML = arr.map(p => {
-      const info = INFO[p.type] || INFO.cafe;
-      const st = STATUS[p.status] || STATUS.want;
-
-      return `
-        <div class="swipe-item" data-id="${p.id}" data-type="place">
-          <div class="swipe-actions">
-            <div class="action edit" data-action="edit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa</div>
-            <div class="action delete" data-action="delete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa</div>
-          </div>
-          <div class="note-list-card" onclick="handleCardClick(event, '${p.id}', 'place')">
-            <div class="note-icon-box ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg></div>
-            <div class="note-content-box">
-              <div class="note-title-text">${esc(p.name)}</div>
-              
-              <div class="note-meta-row">
-                <span class="status-badge ${st.cls}"><svg class="hand-icon"><use href="${st.icon}"/></svg> ${st.label}</span>
-                ${p.date ? `<span class="note-date-text"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(p.date)}</span>` : ''}
-                ${p.city ? `<span class="tag city"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(p.city)}</span>` : ''}
+    if (placeViewMode === 'list') {
+      // --- GIAO DIỆN DANH SÁCH (Cũ) ---
+      list.innerHTML = arr.map(p => {
+        const info = INFO[p.type] || INFO.cafe;
+        const st = STATUS[p.status] || STATUS.want;
+        return `
+          <div class="swipe-item" data-id="${p.id}" data-type="place">
+            <div class="swipe-actions">
+              <div class="action edit" data-action="edit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa</div>
+              <div class="action delete" data-action="delete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa</div>
+            </div>
+            <div class="note-list-card" onclick="handleCardClick(event, '${p.id}', 'place')">
+              <div class="note-icon-box ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg></div>
+              <div class="note-content-box">
+                <div class="note-title-text">${esc(p.name)}</div>
+                <div class="note-meta-row">
+                  <span class="status-badge ${st.cls}"><svg class="hand-icon"><use href="${st.icon}"/></svg> ${st.label}</span>
+                  ${p.date ? `<span class="note-date-text"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(p.date)}</span>` : ''}
+                  ${p.city ? `<span class="tag city"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(p.city)}</span>` : ''}
+                </div>
+                <div class="note-meta-row">
+                  ${p.hashtags && p.hashtags.length > 0 ? p.hashtags.map(tag => `<span class="tag hashtag">#${esc(tag)}</span>`).join('') : ''}
+                </div>
+                ${p.note ? `<div class="note-desc-text">${esc(p.note)}</div>` : ''}
               </div>
-              
-              <div class="note-meta-row">
-                ${p.hashtags && p.hashtags.length > 0 ? p.hashtags.map(tag => `<span class="tag hashtag">#${esc(tag)}</span>`).join('') : ''}
-              </div>
-
-              ${p.note ? `<div class="note-desc-text">${esc(p.note)}</div>` : ''}
             </div>
           </div>
-        </div>
-      `;
-    }).join('');
-    
-    bindSwipe(list);
+        `;
+      }).join('');
+      bindSwipe(list);
+    } else {
+      // --- GIAO DIỆN THẺ BÀI (Mới) ---
+      list.innerHTML = arr.map(p => {
+        const info = INFO[p.type] || INFO.cafe;
+        let starsHtml = '';
+        for(let i=1; i<=5; i++) {
+          starsHtml += `<svg class="hand-icon" viewBox="0 0 24 24" style="${i <= (p.rating||0) ? 'fill:white; stroke:white;' : 'fill:none; stroke:white; opacity:0.4;'}"><use href="#icon-star"/></svg>`;
+        }
+        return `
+          <div class="place-card-item" onclick="openPlaceCardPopup('${p.id}')">
+            <div class="place-card-image">
+              <svg class="hand-icon"><use href="${info.icon}"/></svg>
+              ${p.status === 'done' ? `<div style="position:absolute; top:-6px; right:-6px; background:#10b981; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1.5px solid white;"><svg class="hand-icon" style="width:10px; height:10px; stroke:white;"><use href="#icon-check-circle"/></svg></div>` : ''}
+            </div>
+            <div class="place-card-title-bar">
+              <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${esc(p.name)}</span>
+              <div class="stars">${starsHtml}</div>
+            </div>
+            <div class="place-card-desc">
+              ${p.note ? esc(p.note) : '<i>(Chưa có ghi chú)</i>'}
+            </div>
+            <div class="place-card-footer">
+              ${p.city ? `<span>📍 ${esc(p.city)}</span>` : ''}
+              ${p.hashtags && p.hashtags.length > 0 ? `<span>#${esc(p.hashtags[0])}</span>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
   }
+
+  // Gắn sự kiện cho nút chuyển đổi (dán vào ngay dưới dấu } của hàm renderPlaces)
+  $('viewPlaceListBtn').addEventListener('click', () => { placeViewMode = 'list'; renderPlaces(); });
+  $('viewPlaceCardBtn').addEventListener('click', () => { placeViewMode = 'card'; renderPlaces(); });
 
   /* ==================== TAB 2: NHẬT KÝ ==================== */
   function renderDiaries() {
@@ -5430,7 +5591,43 @@
     }
     pendingDeleteId = null; $('confirmOverlay').classList.remove('show');
   });
+window.openPlaceCardPopup = function(id) {
+    const p = places.find(x => x.id === id);
+    if (!p) return;
 
+    const info = INFO[p.type] || INFO.cafe;
+    let starsHtml = '';
+    for(let i=1; i<=5; i++) {
+      starsHtml += `<svg class="hand-icon" viewBox="0 0 24 24" style="${i <= (p.rating||0) ? 'fill:white; stroke:white;' : 'fill:none; stroke:white; opacity:0.4;'}"><use href="#icon-star"/></svg>`;
+    }
+
+    const cardHtml = `
+      <div class="place-card-item" style="margin-bottom:0; padding: 20px; border-width: 6px; border-radius: 24px; box-shadow: 8px 8px 0px var(--pink-light);">
+        <div class="place-card-image" style="height: 160px; border-radius: 16px;">
+          <svg class="hand-icon" style="width:80px; height:80px;"><use href="${info.icon}"/></svg>
+          ${p.status === 'done' ? `<div style="position:absolute; top:-8px; right:-8px; background:#10b981; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid white;"><svg class="hand-icon" style="width:16px; height:16px; stroke:white;"><use href="#icon-check-circle"/></svg></div>` : ''}
+        </div>
+        
+        <div class="place-card-title-bar" style="padding: 12px 16px; font-size: 18px; border-radius: 999px;">
+          <span>${esc(p.name)}</span>
+          <div class="stars" style="margin-top:4px;">${starsHtml}</div>
+        </div>
+        
+        <div class="place-card-desc" style="font-size: 15px; padding: 16px; min-height: 100px; -webkit-line-clamp: unset; display: block; text-align: left;">
+          ${p.note ? esc(p.note) : '<i>(Chưa có ghi chú)</i>'}
+        </div>
+        
+        <div class="place-card-footer" style="font-size: 13px; flex-direction: column; gap: 8px;">
+          ${p.city ? `<span>📍 ${esc(p.city)}</span>` : ''}
+          ${p.address ? `<span>🏠 ${esc(p.address)}</span>` : ''}
+          ${p.hashtags && p.hashtags.length > 0 ? `<span style="color:var(--pink-primary);">#${p.hashtags.join(' #')}</span>` : ''}
+        </div>
+      </div>
+    `;
+
+    document.getElementById('placeCardPopupContent').innerHTML = cardHtml;
+    document.getElementById('placeCardPopupOverlay').classList.add('show');
+  };
   /* INIT */
   loadData();
   switchTab('finance');
