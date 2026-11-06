@@ -92,7 +92,10 @@
   body.theme-neobrutalism .salary-card,
   body.theme-neobrutalism .dash-chart-card,
   body.theme-neobrutalism .bucket-list-container,
-  body.theme-neobrutalism .event-card {
+  body.theme-neobrutalism .event-card,
+  body.theme-neobrutalism .timeline-card,
+  body.theme-neobrutalism .braces-timeline-card,
+  body.theme-neobrutalism .diary-compact-card {
     border: 3px solid #000000; 
     border-radius: 12px;
     box-shadow: 6px 6px 0px #000000;
@@ -121,7 +124,7 @@
   body.theme-neobrutalism .card-emoji { border: 2px solid #000; border-radius: 8px; background: var(--pink-bg); font-size: 24px; display: flex; align-items: center; justify-content: center;}
   body.theme-neobrutalism .card-emoji svg { width: 24px; height: 24px; stroke: #000; }
   body.theme-neobrutalism .modal { border: 4px solid #000; border-radius: 16px; }
-  body.theme-neobrutalism .donut-container { border: 2px solid #000; border-radius: 50%; padding: 4px; }
+  body.theme-neobrutalism .donut-container { border: 2px solid #000; border-radius: 50%; padding: 4px; background: #fff;}
   body.theme-neobrutalism .modal-handle { background: #000; }
   body.theme-neobrutalism .event-date-box { border: 2px solid #000; border-radius: 8px; }
 
@@ -172,24 +175,40 @@
   .search-res-title { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .search-res-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  /* Dashboard Donut Charts (Split) */
+  /* Dashboard Donut Charts (LỒNG NHAU) */
   .dash-charts-container {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+    display: flex; justify-content: center; margin-bottom: 24px;
   }
   .dash-chart-widget {
-    background: var(--pink-surface); border-radius: 24px; padding: 16px;
+    background: var(--pink-surface); border-radius: 24px; padding: 20px;
     box-shadow: var(--shadow-sm); border: 1px solid var(--border);
     display: flex; flex-direction: column; align-items: center; text-align: center;
+    width: 100%; max-width: 320px; /* Giới hạn chiều rộng */
   }
-  .donut-container { position: relative; width: 110px; height: 110px; flex-shrink: 0; margin-bottom: 12px; }
-  .donut-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-  .donut-circle-bg { fill: none; stroke: var(--pink-bg); stroke-width: 12; }
-  .donut-circle-fill { fill: none; stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset 0.8s ease; }
-  .donut-text-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .donut-pct { font-size: 20px; font-weight: 700; color: var(--text); }
+  .donut-container { 
+    position: relative; width: 180px; height: 180px; flex-shrink: 0; margin-bottom: 16px; 
+  }
+  .donut-svg { width: 100%; height: 100%; transform: rotate(-90deg); position: absolute; top:0; left:0;}
+  .donut-circle-bg { fill: none; stroke: var(--pink-bg); stroke-width: 10; }
+  .donut-circle-fill { fill: none; stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 0.8s ease; }
+  
+  /* Biểu đồ ngoài (Tài sản) */
+  .donut-outer .donut-circle-bg { stroke-width: 12; }
+  .donut-outer .donut-circle-fill { stroke-width: 12; }
+  /* Biểu đồ trong (Mục tiêu) */
+  .donut-inner { width: 120px; height: 120px; top: 30px; left: 30px; transform: rotate(-90deg); }
+  .donut-inner .donut-circle-bg { stroke-width: 10; stroke: #e5e7eb; }
+  .donut-inner .donut-circle-fill { stroke-width: 10; }
+
+  .donut-text-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;}
+  .donut-pct { font-size: 18px; font-weight: 700; color: var(--text); line-height: 1.2;}
+  .donut-sub-pct { font-size: 12px; font-weight: 600; color: #6366f1; }
   
   .chart-label-title { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
-  .chart-label-val { font-size: 15px; font-weight: 700; color: var(--text); }
+  .chart-label-val { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px;}
+  .chart-legend { display: flex; gap: 16px; justify-content: center; font-size: 12px; font-weight: 600; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-color { width: 10px; height: 10px; border-radius: 50%; }
 
   /* Goal Widget */
   .goal-widget {
@@ -317,98 +336,36 @@
   }
   .grid-card-meta { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
 
-  /* Swipe Item for Diary/Braces */
-  .list { padding: 0 16px; display: flex; flex-direction: column; gap: 14px; }
-  .swipe-item {
-    position: relative; border-radius: 22px; overflow: hidden;
-    animation: fadeIn 0.3s ease; touch-action: pan-y;
-    box-shadow: var(--shadow-sm); cursor: pointer;
+  /* Card List cho Nhật ký / Niềng răng (Thu gọn) */
+  .diary-list { padding: 0 16px; display: flex; flex-direction: column; gap: 12px; }
+  .diary-compact-card {
+    background: var(--pink-surface); border-radius: 16px; padding: 14px;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px; cursor: pointer;
+    transition: transform 0.2s;
   }
-  .swipe-actions { position: absolute; inset: 0; display: flex; justify-content: space-between; }
-  .swipe-actions .action {
-    width: 92px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 4px; color: white; font-size: 11.5px; font-weight: 700; cursor: pointer;
-  }
-  .swipe-actions .action svg { width: 24px; height: 24px; }
-  .action.edit { background: linear-gradient(135deg, #a78bfa, #8b5cf6); }
-  .action.delete { background: linear-gradient(135deg, #fb7185, #f43f5e); margin-left: auto; }
-
-  .card {
-    background: var(--pink-surface); border-radius: 22px; padding: 16px;
-    display: flex; gap: 13px; align-items: flex-start; position: relative; z-index: 1;
-    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
-    will-change: transform; border: 1px solid var(--border);
-  }
-  .card.dragging { transition: none; box-shadow: var(--shadow-md); }
-
-  .card-emoji {
-    width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--pink-bg);
-  }
-  .card-emoji svg { width: 22px; height: 22px; stroke: var(--cafe-text); }
-  .card-emoji.food { background: var(--food-bg); }
-  .card-emoji.food svg { stroke: var(--food-text); }
-  .card-emoji.travel { background: var(--travel-bg); }
-  .card-emoji.travel svg { stroke: var(--travel-text); }
-  .card-emoji.note { background: var(--note-bg); }
-  .card-emoji.note svg { stroke: var(--note-text); }
-  .card-emoji.task { background: var(--task-bg); }
-  .card-emoji.task svg { stroke: var(--task-text); }
-  .card-emoji.tip { background: var(--tip-bg); }
-  .card-emoji.tip svg { stroke: var(--tip-text); }
-
-  .card-body { flex: 1; min-width: 0; }
-  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
-  .card-title { font-size: 15px; font-weight: 700; line-height: 1.35; color: var(--text); word-break: break-word; flex: 1; }
-  .card-rating { display: flex; gap: 1px; flex-shrink: 0; margin-top: 2px; }
-  .card-rating svg { width: 12px; height: 12px; }
-  .card-rating svg.on { fill: #f59e0b; stroke: #f59e0b; }
-  .card-rating svg.off { fill: none; stroke: #d1d5db; }
-
-  .status-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 10px; font-weight: 700; padding: 3px 8px;
-    border-radius: 999px; letter-spacing: 0.4px; text-transform: uppercase;
-  }
-  .status-badge svg { width: 10px; height: 10px; }
-  .status-badge.want { background: var(--want-bg); color: var(--want-text); }
-  .status-badge.done { background: var(--done-bg); color: var(--done-text); }
-
-  .card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .tag { font-size: 10.5px; padding: 3px 8px; border-radius: 999px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
-  .tag svg { width: 10px; height: 10px; }
-  .tag.cafe { background: var(--cafe-bg); color: var(--cafe-text); }
-  .tag.food { background: var(--food-bg); color: var(--food-text); }
-  .tag.travel { background: var(--travel-bg); color: var(--travel-text); }
-  .tag.note { background: var(--note-bg); color: var(--note-text); }
-  .tag.task { background: var(--task-bg); color: var(--task-text); }
-  .tag.tip { background: var(--tip-bg); color: var(--tip-text); }
-  .tag.date { background: #f8f9fa; color: #adb5bd; }
-  .tag.city { background: #f3e8ff; color: #7e22ce; }
-  .tag.hashtag { background: #f0fdf4; color: #16a34a; border: 1px dashed #86efac; }
-
-  .card-info-row { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; font-size: 12px; color: var(--text-muted); font-weight: 500; }
-  .card-info-row .info-item { display: flex; align-items: flex-start; gap: 6px; }
-  .card-info-row .info-item svg { width: 12px; height: 12px; flex-shrink: 0; margin-top: 2px; stroke: #b0a9b6; }
+  .diary-compact-card:active { transform: scale(0.98); }
+  .diary-compact-card.braces-card { border-left: 4px solid #3b82f6; }
   
-  .card-note {
-    font-size: 12.5px; color: var(--text); margin-top: 8px; padding: 8px 10px; background: var(--pink-bg);
-    border-radius: 10px; line-height: 1.5; word-break: break-word;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    border: 1px dashed var(--border);
+  .diary-icon-box {
+    width: 40px; height: 40px; border-radius: 12px; background: var(--pink-bg);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    color: var(--pink-primary);
   }
-  .card-link {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 11.5px; color: var(--pink-primary); font-weight: 700;
-    text-decoration: none; margin-top: 8px;
-    padding: 5px 10px; background: var(--pink-bg); border-radius: 8px;
-  }
-  .card-link svg { width: 12px; height: 12px; }
+  .diary-compact-card.braces-card .diary-icon-box { background: #eff6ff; color: #3b82f6; }
+  .diary-icon-box svg { width: 20px; height: 20px; }
+  
+  .diary-content-box { flex: 1; min-width: 0; }
+  .diary-date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .diary-date-text { font-size: 11px; font-weight: 700; color: var(--pink-primary); }
+  .diary-compact-card.braces-card .diary-date-text { color: #2563eb; }
+  .diary-mood-text { font-size: 11px; background: var(--pink-bg); padding: 2px 6px; border-radius: 4px; color: var(--pink-dark); }
+  
+  .diary-title-text { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;}
+  .diary-desc-text { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .diary-amount-text { font-size: 12px; font-weight: 700; color: #dc2626; margin-top: 2px; }
 
   /* ================= TAB NHẬT KÝ ================= */
-  
-  /* Page Dots (Chuyển đổi Nhật ký / Niềng răng) */
   .diary-page-dots {
     display: flex; justify-content: center; gap: 8px; margin-bottom: 16px;
   }
@@ -420,7 +377,6 @@
     background: var(--pink-primary); width: 24px; border-radius: 4px;
   }
 
-  /* Carousel Wrapper */
   .diary-carousel-wrapper {
     width: 100%; overflow: hidden; position: relative;
   }
@@ -431,7 +387,6 @@
     width: 50%; flex-shrink: 0;
   }
 
-  /* Chuyển đổi Dòng thời gian / Lịch (Trong trang Nhật ký) */
   .diary-view-toggle-container {
     display: flex; justify-content: center; align-items: center;
     padding: 0 16px 16px;
@@ -455,71 +410,47 @@
   }
   .diary-view-toggle.calendar-active .slider-bg { transform: translateX(100%); }
 
-  /* Timeline View - Vertical Layout with Zigzag (Ảnh 1) */
-  .timeline-wrap {
-    padding: 0 16px 20px;
-    position: relative;
-  }
+  /* Timeline View */
+  .timeline-wrap { padding: 0 16px 20px; position: relative; }
   .timeline-wrap::before {
-    content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
-    width: 2px; background: var(--pink-light); z-index: 0; transform: translateX(-50%);
+    content: ''; position: absolute; top: 0; bottom: 0; left: 22px;
+    width: 2px; background: var(--pink-light); z-index: 0;
   }
-
   .timeline-item {
-    position: relative; width: 50%; padding: 0 20px; margin-bottom: 24px;
-    box-sizing: border-box; animation: fadeIn 0.4s ease;
+    position: relative; padding-left: 44px; margin-bottom: 20px;
+    animation: fadeIn 0.3s ease;
   }
-  .timeline-item:nth-child(odd) {
-    left: 0;
-    text-align: right;
-  }
-  .timeline-item:nth-child(even) {
-    left: 50%;
-    text-align: left;
-  }
-
   .timeline-dot {
-    position: absolute; top: 0;
-    width: 18px; height: 18px; border-radius: 50%;
+    position: absolute; left: 15px; top: 6px;
+    width: 16px; height: 16px; border-radius: 50%;
     background: var(--pink-surface); border: 3px solid var(--pink-primary);
-    z-index: 1; box-shadow: 0 0 0 4px var(--pink-bg);
-    transform: translateX(-50%); /* center dot */
+    z-index: 1; box-shadow: 0 0 0 3px var(--pink-bg);
   }
-  .timeline-item:nth-child(odd) .timeline-dot { right: -9px; }
-  .timeline-item:nth-child(even) .timeline-dot { left: -9px; }
-
-  .timeline-content-wrapper {
+  .timeline-date {
+    font-size: 12px; font-weight: 700; color: var(--pink-primary);
+    margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
+  }
+  .timeline-date svg { width: 12px; height: 12px; }
+  .timeline-card {
     background: var(--pink-surface); border-radius: 16px;
-    padding: 16px; box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border);
-    position: relative; display: inline-block; text-align: left;
-    width: 100%;
+    padding: 14px; box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border); position: relative;
+    cursor: pointer;
   }
-
-  /* Arrow styles */
-  .timeline-item:nth-child(odd) .timeline-content-wrapper::before {
-    content: ''; position: absolute; right: -6px; top: 10px;
-    width: 10px; height: 10px; background: var(--pink-surface);
-    transform: rotate(45deg); border-top: 1px solid var(--border); border-right: 1px solid var(--border);
-  }
-  .timeline-item:nth-child(even) .timeline-content-wrapper::before {
-    content: ''; position: absolute; left: -6px; top: 10px;
+  .timeline-card:active { transform: scale(0.98); }
+  .timeline-card::before {
+    content: ''; position: absolute; left: -5px; top: 12px;
     width: 10px; height: 10px; background: var(--pink-surface);
     transform: rotate(45deg); border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
   }
-
-  .timeline-date {
-    font-size: 11px; font-weight: 700; color: var(--pink-primary);
-    margin-bottom: 4px; display: flex; align-items: center; gap: 4px;
-    justify-content: flex-start;
-  }
   .timeline-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .timeline-content { font-size: 13px; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; font-weight: 500;}
   .timeline-mood {
     display: inline-flex; align-items: center; gap: 4px;
-    padding: 2px 8px; background: var(--pink-bg); border-radius: 999px;
-    font-size: 10px; font-weight: 600; color: var(--pink-dark); margin-bottom: 6px;
+    padding: 4px 10px; background: var(--pink-bg); border-radius: 999px;
+    font-size: 11px; font-weight: 600; color: var(--pink-dark); margin-top: 8px;
   }
-  .timeline-content { font-size: 13px; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; font-weight: 500;}
+  .timeline-mood svg { width: 12px; height: 12px;}
 
   .timeline-actions {
     position: absolute; top: 12px; right: 12px;
@@ -532,7 +463,7 @@
   }
   .timeline-actions .action-btn svg { width: 12px; height: 12px; }
 
-  /* Braces Specific (Timeline format) */
+  /* Braces Specific */
   .braces-dashboard-card {
     background: linear-gradient(135deg, #eff6ff, #dbeafe);
     border-radius: 20px; padding: 16px; margin-bottom: 20px;
@@ -545,52 +476,37 @@
   .braces-dashboard-card .stat-lbl { font-size: 11px; font-weight: 600; color: #3b82f6; text-transform: uppercase; }
   .braces-dashboard-card .divider { width: 1px; height: 40px; background: #bfdbfe; }
 
-  .braces-timeline-wrap {
-    padding: 0 16px 20px;
-    position: relative;
-  }
+  .braces-timeline-wrap { padding: 0 16px 20px; position: relative; }
   .braces-timeline-wrap::before {
-    content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
-    width: 2px; background: #bfdbfe; z-index: 0; transform: translateX(-50%);
+    content: ''; position: absolute; top: 0; bottom: 0; left: 22px;
+    width: 2px; background: #bfdbfe; z-index: 0;
   }
-  
   .braces-timeline-item {
-    position: relative; width: 50%; padding: 0 20px; margin-bottom: 24px;
-    box-sizing: border-box;
+    position: relative; padding-left: 44px; margin-bottom: 20px;
   }
-  .braces-timeline-item:nth-child(odd) { left: 0; text-align: right; }
-  .braces-timeline-item:nth-child(even) { left: 50%; text-align: left; }
-
   .braces-timeline-dot {
-    position: absolute; top: 0; width: 18px; height: 18px; border-radius: 50%;
+    position: absolute; left: 15px; top: 6px;
+    width: 16px; height: 16px; border-radius: 50%;
     background: var(--pink-surface); border: 3px solid #3b82f6;
-    z-index: 1; box-shadow: 0 0 0 4px #eff6ff; transform: translateX(-50%);
+    z-index: 1; box-shadow: 0 0 0 3px #eff6ff;
   }
-  .braces-timeline-item:nth-child(odd) .braces-timeline-dot { right: -9px; }
-  .braces-timeline-item:nth-child(even) .braces-timeline-dot { left: -9px; }
-
+  .braces-timeline-date {
+    font-size: 12px; font-weight: 700; color: #2563eb;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
+  }
+  .braces-timeline-date svg { width: 12px; height: 12px; }
   .braces-timeline-card {
     background: var(--pink-surface); border-radius: 16px;
-    padding: 16px; box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border); position: relative; display: inline-block; text-align: left; width: 100%;
+    padding: 14px; box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border); position: relative;
   }
-  .braces-timeline-item:nth-child(odd) .braces-timeline-card::before {
-    content: ''; position: absolute; right: -6px; top: 10px;
-    width: 10px; height: 10px; background: var(--pink-surface); transform: rotate(45deg);
-    border-top: 1px solid var(--border); border-right: 1px solid var(--border);
-  }
-  .braces-timeline-item:nth-child(even) .braces-timeline-card::before {
-    content: ''; position: absolute; left: -6px; top: 10px;
-    width: 10px; height: 10px; background: var(--pink-surface); transform: rotate(45deg);
-    border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
-  }
-  
-  .braces-timeline-date {
-    font-size: 11px; font-weight: 700; color: #2563eb; margin-bottom: 4px;
-    display: flex; align-items: center; gap: 4px;
+  .braces-timeline-card::before {
+    content: ''; position: absolute; left: -5px; top: 12px;
+    width: 10px; height: 10px; background: var(--pink-surface);
+    transform: rotate(45deg); border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
   }
   .braces-timeline-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .braces-timeline-amount { font-size: 14px; font-weight: 700; color: #dc2626; margin-bottom: 6px; }
+  .braces-timeline-amount { font-size: 15px; font-weight: 700; color: #dc2626; margin-bottom: 6px; }
   .braces-timeline-content { font-size: 13px; color: var(--text-muted); line-height: 1.5; white-space: pre-wrap; font-weight: 500;}
 
   /* Calendar View */
@@ -761,7 +677,8 @@
   .event-desc.urgent { color: #dc2626; }
   .event-desc.normal { color: #16a34a; }
   .event-desc.past { color: var(--text-muted); }
-  .event-icon-large { font-size: 32px; }
+  .event-icon-large { display: flex; align-items: center; }
+  .event-icon-large svg { width: 20px; height: 20px; }
 
   /* ================= TAB TÀI CHÍNH ================= */
   .finance-carousel {
@@ -1153,6 +1070,9 @@
   <symbol id="icon-trending-up" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
   <symbol id="icon-bell" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></symbol>
   <symbol id="icon-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></symbol>
+  <symbol id="icon-cake" viewBox="0 0 24 24"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v3M12 8v3M17 8v3"/><path d="M7 4h.01M12 4h.01M17 4h.01"/></symbol>
+  <symbol id="icon-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></symbol>
+  <symbol id="icon-pencil-square" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4L18.5 2.5z"/></symbol>
   
   <!-- Nav Icons -->
   <symbol id="icon-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></symbol>
@@ -1192,36 +1112,37 @@
       <div class="global-search-results" id="globalSearchResults"></div>
     </div>
 
-    <!-- Dashboard Donut Charts (Split) -->
+    <!-- Dashboard Donut Charts (LỒNG NHAU) -->
     <div class="dash-charts-container">
-      <!-- Chart 1: Asset -->
       <div class="dash-chart-widget">
         <div class="donut-container">
-          <svg class="donut-svg" viewBox="0 0 100 100">
+          <!-- Vòng ngoài: Tài sản -->
+          <svg class="donut-svg donut-outer" viewBox="0 0 100 100">
             <circle class="donut-circle-bg" cx="50" cy="50" r="40"></circle>
             <circle class="donut-circle-fill" id="donutAsset" cx="50" cy="50" r="40" stroke="var(--pink-primary)" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
           </svg>
-          <div class="donut-text-wrap">
-            <div class="donut-pct" id="donutAssetPct">0%</div>
-          </div>
-        </div>
-        <div class="chart-label-title">Tài sản khả dụng</div>
-        <div class="chart-label-val" id="dashAssetVal">0 đ</div>
-      </div>
-
-      <!-- Chart 2: Goals -->
-      <div class="dash-chart-widget">
-        <div class="donut-container">
-          <svg class="donut-svg" viewBox="0 0 100 100">
+          <!-- Vòng trong: Mục tiêu -->
+          <svg class="donut-svg donut-inner" viewBox="0 0 100 100">
             <circle class="donut-circle-bg" cx="50" cy="50" r="40"></circle>
             <circle class="donut-circle-fill" id="donutGoal" cx="50" cy="50" r="40" stroke="#6366f1" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
           </svg>
+          
           <div class="donut-text-wrap">
-            <div class="donut-pct" id="donutGoalPct">0%</div>
+            <div class="donut-pct" id="donutAssetPct">0%</div>
+            <div class="donut-sub-pct" id="donutGoalPct">0%</div>
           </div>
         </div>
-        <div class="chart-label-title">Mục tiêu</div>
-        <div class="chart-label-val" id="dashGoalVal">0/0</div>
+        
+        <div class="chart-label-title">Tổng quan</div>
+        <div class="chart-label-val" id="dashAssetVal">0 đ</div>
+        <div class="chart-legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background: var(--pink-primary);"></div> Tài sản
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #6366f1;"></div> Mục tiêu
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1309,7 +1230,7 @@
         </div>
 
         <div id="diaryTimelineView">
-          <div class="timeline-wrap" id="timelineWrap"></div>
+          <div class="diary-list" id="timelineWrap"></div>
         </div>
         <div id="diaryCalendarView" style="display:none;">
           <div class="calendar-wrap">
@@ -1338,7 +1259,7 @@
         <div class="braces-dashboard-card" id="bracesDashboard">
           <!-- Rendered by JS -->
         </div>
-        <div class="braces-timeline-wrap" id="bracesTimelineWrap"></div>
+        <div class="diary-list" id="bracesTimelineWrap"></div>
       </div>
 
     </div>
@@ -2025,12 +1946,12 @@
     <div class="field">
       <label>Icon hiển thị</label>
       <div class="picker" id="eventIconPicker">
-        <div class="opt active" data-icon="🎂">🎂 Bánh kem</div>
-        <div class="opt" data-icon="🎁">🎁 Quà tặng</div>
-        <div class="opt" data-icon="📅">📅 Lịch</div>
-        <div class="opt" data-icon="📝">📝 Công việc</div>
-        <div class="opt" data-icon="❤️">❤️ Trái tim</div>
-        <div class="opt" data-icon="⭐">⭐ Ngôi sao</div>
+        <div class="opt active" data-icon="cake"><svg class="hand-icon"><use href="#icon-cake"/></svg></div>
+        <div class="opt" data-icon="gift"><svg class="hand-icon"><use href="#icon-gift"/></svg></div>
+        <div class="opt" data-icon="calendar"><svg class="hand-icon"><use href="#icon-calendar"/></svg></div>
+        <div class="opt" data-icon="pencil"><svg class="hand-icon"><use href="#icon-pencil-square"/></svg></div>
+        <div class="opt" data-icon="heart"><svg class="hand-icon"><use href="#icon-heart"/></svg></div>
+        <div class="opt" data-icon="star"><svg class="hand-icon"><use href="#icon-star"/></svg></div>
       </div>
     </div>
 
@@ -2140,8 +2061,8 @@
   ];
 
   const SAMPLE_EVENTS = [
-    { id: 'ev_1', name: 'Sinh nhật Simon', date: new Date(today.getTime() + 3*86400000).toISOString().split('T')[0], icon: '🎂', createdAt: Date.now() },
-    { id: 'ev_2', name: 'Nộp báo cáo tháng', date: new Date(today.getTime() + 5*86400000).toISOString().split('T')[0], icon: '📝', createdAt: Date.now() }
+    { id: 'ev_1', name: 'Sinh nhật Simon', date: new Date(today.getTime() + 3*86400000).toISOString().split('T')[0], icon: 'cake', createdAt: Date.now() },
+    { id: 'ev_2', name: 'Nộp báo cáo tháng', date: new Date(today.getTime() + 5*86400000).toISOString().split('T')[0], icon: 'pencil', createdAt: Date.now() }
   ];
 
   let places = [];
@@ -2198,7 +2119,7 @@
   
   // State cho Event
   let editEventId = null;
-  let formEventIcon = '🎂';
+  let formEventIcon = 'cake';
   
   // State Detail Modal
   let currentDetailType = null; // 'place' | 'note'
@@ -2489,29 +2410,28 @@
 
   /* ==================== TAB TRANG CHỦ ==================== */
   function renderHome() {
-    // 1. Dashboard Charts Logic
+    // 1. Dashboard Charts Logic (Lồng nhau)
     const fin = calcFinance();
     const totalGoals = goals.length;
     const doneGoals = goals.filter(g => g.isDone).length;
     const goalPct = totalGoals === 0 ? 0 : Math.round((doneGoals / totalGoals) * 100);
     
-    // Giả sử mục tiêu tài sản là 100 triệu (hoặc có thể lấy từ 1 trường nào đó, ở đây fixed)
+    // Giả sử mục tiêu tài sản là 100 triệu
     const targetAsset = 100000000;
     const assetPct = Math.min(100, Math.round((fin.totalAsset / targetAsset) * 100));
 
     // Cập nhật Text
     $('dashAssetVal').textContent = fmtMoney(fin.totalAsset);
-    $('dashGoalVal').textContent = `${doneGoals}/${totalGoals}`;
     
     // Cập nhật Donut SVG (Mỗi cái 1 vòng riêng)
     const circumference = 2 * Math.PI * 40; // r=40
     
-    // Asset Chart
+    // Asset Chart (Vòng ngoài)
     const assetOffset = circumference - (assetPct / 100) * circumference;
     $('donutAsset').style.strokeDashoffset = assetOffset;
     $('donutAssetPct').textContent = `${assetPct}%`;
 
-    // Goal Chart
+    // Goal Chart (Vòng trong)
     const goalOffset = circumference - (goalPct / 100) * circumference;
     $('donutGoal').style.strokeDashoffset = goalOffset;
     $('donutGoalPct').textContent = `${goalPct}%`;
@@ -2831,19 +2751,17 @@
             return b.createdAt - a.createdAt;
           });
 
-          // Render Timeline Format (Zigzag)
+          // Render Compact Card Format
           wrap.innerHTML = sorted.map(d => `
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-content-wrapper">
-                <div class="timeline-actions">
-                  <button class="action-btn" onclick="handleDiaryAction(event, '${d.id}', 'edit')"><svg class="hand-icon"><use href="#icon-edit"/></svg></button>
-                  <button class="action-btn" onclick="handleDiaryAction(event, '${d.id}', 'delete')"><svg class="hand-icon"><use href="#icon-trash"/></svg></button>
+            <div class="diary-compact-card" onclick="openDiaryModal('${d.id}')">
+              <div class="diary-icon-box"><svg class="hand-icon"><use href="#icon-book"/></svg></div>
+              <div class="diary-content-box">
+                <div class="diary-date-row">
+                  <div class="diary-date-text">${fmtDate(d.date)}</div>
+                  ${d.mood ? `<div class="diary-mood-text">${esc(d.mood)}</div>` : ''}
                 </div>
-                <div class="timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(d.date)}</div>
-                <div class="timeline-title">${esc(d.title) || 'Không có tiêu đề'}</div>
-                ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
-                <div class="timeline-content">${esc(d.content)}</div>
+                <div class="diary-title-text">${esc(d.title) || 'Không có tiêu đề'}</div>
+                <div class="diary-desc-text">${esc(d.content)}</div>
               </div>
             </div>
           `).join('');
@@ -2898,37 +2816,22 @@
         return b.createdAt - a.createdAt;
       });
 
-      // Render Braces Timeline (Zigzag)
+      // Render Compact Braces Card
       wrap.innerHTML = sorted.map(b => `
-        <div class="braces-timeline-item">
-          <div class="braces-timeline-dot"></div>
-          <div class="braces-timeline-card">
-            <div class="timeline-actions">
-              <button class="action-btn" onclick="handleDiaryAction(event, '${b.id}', 'edit', 'braces')"><svg class="hand-icon"><use href="#icon-edit"/></svg></button>
-              <button class="action-btn" onclick="handleDiaryAction(event, '${b.id}', 'delete', 'braces')"><svg class="hand-icon"><use href="#icon-trash"/></svg></button>
+        <div class="diary-compact-card braces-card" onclick="openBracesModal('${b.id}')">
+          <div class="diary-icon-box"><svg class="hand-icon"><use href="#icon-tooth"/></svg></div>
+          <div class="diary-content-box">
+            <div class="diary-date-row">
+              <div class="diary-date-text">${fmtDate(b.date)}</div>
             </div>
-            <div class="braces-timeline-date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(b.date)}</div>
-            <div class="braces-timeline-title">${esc(b.title) || 'Tái khám'}</div>
-            <div class="braces-timeline-amount" style="display:flex; align-items:center; gap:4px;">
-              <svg class="hand-icon" style="width:14px;height:14px;"><use href="#icon-dollar"/></svg> ${fmtMoney(b.amount)}
-            </div>
-            <div class="braces-timeline-content">${esc(b.content)}</div>
+            <div class="diary-title-text">${esc(b.title) || 'Tái khám'}</div>
+            <div class="diary-amount-text">${fmtMoney(b.amount)}</div>
+            <div class="diary-desc-text">${esc(b.content)}</div>
           </div>
         </div>
       `).join('');
     }
   }
-
-  // Hàm xử lý sự kiện click vào nút edit/delete trong timeline
-  window.handleDiaryAction = function(e, id, action, type = 'diary') {
-    e.stopPropagation();
-    if (action === 'edit') {
-      if (type === 'diary') openDiaryModal(id);
-      else if (type === 'braces') openBracesModal(id);
-    } else if (action === 'delete') {
-      askDelete(id, type);
-    }
-  };
 
   function renderCalendar() {
     const year = calCurrentDate.getFullYear();
@@ -3346,6 +3249,15 @@
       { bg: '#f3e8ff', dateBg: '#7e22ce', text: '#581c87' }  // Tím
     ];
 
+    const iconMap = {
+      cake: '#icon-cake',
+      gift: '#icon-gift',
+      calendar: '#icon-calendar',
+      pencil: '#icon-pencil-square',
+      heart: '#icon-heart',
+      star: '#icon-star'
+    };
+
     container.innerHTML = sorted.map((ev, idx) => {
       const d = new Date(ev.date);
       const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
@@ -3370,6 +3282,7 @@
       }
 
       const themeColor = colors[idx % colors.length];
+      const iconHref = iconMap[ev.icon] || iconMap['cake'];
 
       return `
         <div class="event-card" style="background: ${themeColor.bg};" onclick="openEventModal('${ev.id}')">
@@ -3379,7 +3292,7 @@
           </div>
           <div class="event-info">
             <div class="event-title" style="color: ${themeColor.text};">
-              <span class="event-icon-large">${ev.icon || '🎂'}</span> ${esc(ev.name)}
+              <span class="event-icon-large"><svg class="hand-icon"><use href="${iconHref}"/></svg></span> ${esc(ev.name)}
             </div>
             <div class="event-desc ${descClass}">${desc}</div>
           </div>
@@ -3808,10 +3721,6 @@
     }, { passive: true });
   }
 
-  /* ==================== SWIPE NHẬT KÝ / NIỀNG RĂNG ==================== */
-  // Hàm này không còn dùng vì đã chuyển sang giao diện Timeline, nhưng giữ lại để tránh lỗi
-  function bindDiarySwipe(container) {}
-
   function closeAllSwipes() {
     document.querySelectorAll('.card').forEach(c => {
       if (c.style.transform && c.style.transform !== 'translateX(0px)') {
@@ -4001,12 +3910,12 @@
       $('eventModalTitle').textContent = 'Sửa Sự kiện';
       $('eventName').value = ev.name || '';
       $('eventDate').value = ev.date || '';
-      setEventIcon(ev.icon || '🎂');
+      setEventIcon(ev.icon || 'cake');
     } else {
       $('eventModalTitle').textContent = 'Thêm Sự kiện';
       $('eventName').value = '';
       $('eventDate').value = new Date().toISOString().split('T')[0];
-      setEventIcon('🎂');
+      setEventIcon('cake');
     }
     $('eventOverlay').classList.add('show');
     setTimeout(() => $('eventName').focus(), 300);
