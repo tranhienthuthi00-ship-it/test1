@@ -1,3 +1,10 @@
+Tôi hiểu vấn đề. Lỗi nằm ở chỗ thẻ <input type="date"> mặc định của trình duyệt luôn có các đường kẻ và định dạng riêng, rất khó để làm cho nó "trong suốt" hoàn toàn và giống hệt một thẻ <input type="text"> bình thường.
+
+Để sửa triệt để, tôi sẽ thay đổi cấu trúc: Ô ngày đầu tiên sẽ là một thẻ div bình thường (có nền hồng, bo góc, canh lề trái giống hệt các ngày dưới). Thẻ <input type="date"> thật sẽ được đặt đè lên trên và làm cho hoàn toàn trong suốt (opacity: 0) để bạn vẫn có thể bấm vào chọn ngày từ lịch.
+
+Dưới đây là code đã được sửa triệt để lỗi này. Bạn hãy copy toàn bộ và chạy lại nhé.
+
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -834,42 +841,31 @@
   .rev-row input:focus { border-color: var(--pink-primary); background: var(--pink-surface); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
   .rev-row input[type="text"].currency-input { text-align: right; }
   
-  /* Input date hiển thị dd/mm/yyyy và canh lề trái */
-  .rev-row input[type="date"].rev-date-picker {
-    text-align: left;
+  /* Ô hiển thị ngày (giả lập input) */
+  .rev-date-display {
+    width: 100%;
     padding: 8px 10px;
-    cursor: pointer;
-    -webkit-appearance: none;
-    appearance: none;
-    background: var(--pink-bg);
-    color: var(--text);
-    font-weight: 500;
-  }
-  /* Ẩn icon lịch mặc định để custom */
-  .rev-row input[type="date"].rev-date-picker::-webkit-calendar-picker-indicator {
-    opacity: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
-  .rev-row .date-display {
-    pointer-events: none;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* Canh lề trái */
-    padding-left: 10px;
-    font-size: 12.5px;
-    color: var(--text);
-    font-weight: 500;
-    background: var(--pink-bg);
     border-radius: 8px;
     border: 1px solid var(--border);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    background: var(--pink-bg);
+    color: var(--text);
+    text-align: left;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 35px; /* Đảm bảo chiều cao giống input */
+  }
+
+  /* Input date thật (trong suốt, đè lên trên) */
+  .rev-date-input-hidden {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
   }
 
   /* Nút Sao lưu */
@@ -3555,8 +3551,8 @@
       // Tất cả đều có nền màu hồng (--pink-bg) và canh lề trái như nhau
       const dateInputHtml = i === 0 
         ? `<div style="position:relative; width:100%;">
-             <input type="date" class="rev-date-picker" value="${dateStr}" onchange="updateRevenueStartDate(this.value)" style="opacity:0; position:absolute; width:100%; height:100%; z-index:2; cursor:pointer;">
-             <div class="date-display">${formatDateDDMMYYYY(dateStr)}</div>
+             <div class="rev-date-display">${formatDateDDMMYYYY(dateStr)}</div>
+             <input type="date" class="rev-date-input-hidden" value="${dateStr}" onchange="updateRevenueStartDate(this.value)">
            </div>`
         : `<input type="text" class="rev-input-date" value="${formatDateDDMMYYYY(dateStr)}" readonly style="background: var(--pink-bg); text-align: left;">`;
 
