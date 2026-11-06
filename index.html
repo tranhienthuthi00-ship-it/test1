@@ -1131,6 +1131,268 @@
   .detail-modal-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--pink-primary); font-weight: 700; text-decoration: none; margin-top: 16px; padding: 10px 16px; background: var(--pink-bg); border-radius: 12px; border: 1px solid var(--border);}
 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ============================================================
+     THEME CRAYON — Bút sáp màu vẽ tay
+     ============================================================ */
+  body.theme-crayon {
+    --pink-bg: #fdf6e3;
+    --pink-surface: #fffdf5;
+    --pink-primary: #e63946;
+    --pink-light: #ffd166;
+    --pink-dark: #1d3557;
+    --text: #2b2d42;
+    --text-muted: #6c6f85;
+    --border: #2b2d42;
+    --bg-gradient: #fdf6e3;
+    --shadow-sm: 2px 2px 0px rgba(43,45,66,0.35);
+    --shadow-md: 3px 3px 0px rgba(43,45,66,0.4);
+    --shadow-lg: 4px 4px 0px rgba(43,45,66,0.45);
+    --font-family: 'Quicksand', sans-serif;
+
+    /* Màu crayon đa sắc */
+    --crayon-red: #e63946;
+    --crayon-yellow: #ffb703;
+    --crayon-green: #2a9d8f;
+    --crayon-blue: #457b9d;
+    --crayon-purple: #9d4edd;
+    --crayon-orange: #f77f00;
+    --crayon-pink: #ff70a6;
+
+    --want-bg: #ffe5e7; --want-text: #c1121f;
+    --done-bg: #d8f3dc; --done-text: #2a9d8f;
+    --cafe-bg: #ffe5e7; --cafe-text: #c1121f;
+    --food-bg: #fff3cd; --food-text: #b45309;
+    --travel-bg: #dbeafe; --travel-text: #1d4ed8;
+
+    --note-bg: #ede7f6; --note-text: #6a1b9a;
+    --task-bg: #e3f2fd; --task-text: #1565c0;
+    --tip-bg: #fff3e0; --tip-text: #e65100;
+  }
+
+  /* Nền giấy nhám */
+  body.theme-crayon {
+    background-color: #fdf6e3;
+    background-image:
+      radial-gradient(circle at 25% 15%, rgba(255,183,3,0.06) 0%, transparent 40%),
+      radial-gradient(circle at 75% 85%, rgba(230,57,70,0.05) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(42,157,143,0.04) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+  }
+
+  /* Viền run run cho mọi card */
+  body.theme-crayon .card,
+  body.theme-crayon .goal-widget,
+  body.theme-crayon .dash-chart-widget,
+  body.theme-crayon .suggest-card,
+  body.theme-crayon .compact-card,
+  body.theme-crayon .salary-card,
+  body.theme-crayon .bucket-list-container,
+  body.theme-crayon .event-card,
+  body.theme-crayon .timeline-card,
+  body.theme-crayon .braces-timeline-card,
+  body.theme-crayon .diary-compact-card,
+  body.theme-crayon .note-list-card,
+  body.theme-crayon .search-box,
+  body.theme-crayon .filter-btn,
+  body.theme-crayon .mini-cal,
+  body.theme-crayon .calendar-grid,
+  body.theme-crayon .settings-group,
+  body.theme-crayon .finance-dashboard {
+    border: 2.5px solid var(--text);
+    border-radius: 12px 10px 13px 11px;
+    box-shadow: 3px 3px 0px rgba(43,45,66,0.35);
+    background: var(--pink-surface);
+  }
+
+  /* Search box */
+  body.theme-crayon .search-box {
+    background: var(--pink-surface);
+    border: 2.5px solid var(--text);
+    border-radius: 14px 12px 15px 13px;
+  }
+  body.theme-crayon .search-box svg { stroke: var(--crayon-red); stroke-width: 2.5; }
+
+  /* Filter btn */
+  body.theme-crayon .filter-btn {
+    background: var(--crayon-yellow);
+    border: 2.5px solid var(--text);
+    border-radius: 14px 12px 15px 13px;
+  }
+  body.theme-crayon .filter-btn svg { stroke: var(--text); stroke-width: 2.5; }
+
+  /* Bottom nav */
+  body.theme-crayon .bottom-nav {
+    background: #fffdf5;
+    border: 2.5px solid var(--text);
+    border-radius: 22px 20px 23px 21px;
+    box-shadow: 4px 4px 0px rgba(43,45,66,0.4);
+  }
+  body.theme-crayon .nav-item {
+    color: #6c6f85;
+    font-weight: 700;
+  }
+  body.theme-crayon .nav-item:nth-child(1).active { color: var(--crayon-red); }
+  body.theme-crayon .nav-item:nth-child(2).active { color: var(--crayon-blue); }
+  body.theme-crayon .nav-item:nth-child(3).active { color: var(--crayon-green); }
+  body.theme-crayon .nav-item:nth-child(4).active { color: var(--crayon-purple); }
+  body.theme-crayon .nav-item.active svg { stroke: currentColor; stroke-width: 2.5; transform: translateY(-2px) rotate(-3deg); }
+
+  /* FAB */
+  body.theme-crayon .fab {
+    background: var(--crayon-red);
+    border: 2.5px solid var(--text);
+    border-radius: 50%;
+    box-shadow: 4px 4px 0px rgba(43,45,66,0.4);
+    color: white;
+    transform: rotate(-4deg);
+  }
+  body.theme-crayon .fab svg { stroke: white; stroke-width: 3; }
+  body.theme-crayon .fab:active { transform: rotate(90deg) scale(0.9); }
+
+  /* Icon boxes đa sắc */
+  body.theme-crayon .note-icon-box.cafe,
+  body.theme-crayon .diary-icon-box {
+    background: #ffe5e7;
+    color: var(--crayon-red);
+    border: 2px solid var(--text);
+    border-radius: 10px 12px 11px 13px;
+  }
+  body.theme-crayon .note-icon-box.food { background: #fff3cd; color: #b45309; border: 2px solid var(--text); border-radius: 10px 12px 11px 13px; }
+  body.theme-crayon .note-icon-box.travel { background: #dbeafe; color: #1d4ed8; border: 2px solid var(--text); border-radius: 10px 12px 11px 13px; }
+  body.theme-crayon .note-icon-box.note { background: #ede7f6; color: #6a1b9a; border: 2px solid var(--text); border-radius: 10px 12px 11px 13px; }
+  body.theme-crayon .note-icon-box.task { background: #e3f2fd; color: #1565c0; border: 2px solid var(--text); border-radius: 10px 12px 11px 13px; }
+  body.theme-crayon .note-icon-box.tip { background: #fff3e0; color: #e65100; border: 2px solid var(--text); border-radius: 10px 12px 11px 13px; }
+
+  body.theme-crayon .note-icon-box svg,
+  body.theme-crayon .diary-icon-box svg { stroke-width: 2.5; }
+
+  /* Chart */
+  body.theme-crayon .dash-chart-widget {
+    background: linear-gradient(135deg, #fff3cd, #ffe5e7);
+  }
+  body.theme-crayon .donut-circle-bg { stroke: rgba(43,45,66,0.15); }
+
+  /* Bucket check */
+  body.theme-crayon .bucket-item-check {
+    border: 2.5px solid var(--text);
+    border-radius: 6px 4px 7px 5px;
+    background: white;
+  }
+  body.theme-crayon .bucket-item.done .bucket-item-check { background: var(--crayon-green); border-color: var(--text); }
+
+  /* Picker opt */
+  body.theme-crayon .picker .opt {
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+    background: #fffdf5;
+  }
+  body.theme-crayon .picker .opt.active {
+    background: var(--crayon-yellow);
+    border-color: var(--text);
+    box-shadow: 2px 2px 0px rgba(43,45,66,0.4);
+    transform: scale(1.02) rotate(-1deg);
+    color: var(--text);
+  }
+
+  /* Save btn */
+  body.theme-crayon .save-btn {
+    background: var(--crayon-green);
+    color: white;
+    border: 2.5px solid var(--text);
+    border-radius: 12px 10px 13px 11px;
+    box-shadow: 3px 3px 0px rgba(43,45,66,0.4);
+    font-weight: 700;
+  }
+  body.theme-crayon .save-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px rgba(43,45,66,0.4); }
+
+  /* Chip */
+  body.theme-crayon .chip {
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+    background: #fffdf5;
+  }
+  body.theme-crayon .chip.active { background: var(--crayon-red); color: white; border-color: var(--text); box-shadow: 2px 2px 0px rgba(43,45,66,0.4); }
+
+  /* Modal */
+  body.theme-crayon .modal {
+    border: 3px solid var(--text);
+    border-radius: 18px 16px 19px 17px;
+    box-shadow: 6px 6px 0px rgba(43,45,66,0.4);
+  }
+  body.theme-crayon .modal-handle { background: var(--text); border-radius: 999px; }
+
+  /* Input field */
+  body.theme-crayon .field input,
+  body.theme-crayon .field textarea,
+  body.theme-crayon .field select {
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+    background: #fffdf5;
+  }
+  body.theme-crayon .field input:focus,
+  body.theme-crayon .field textarea:focus,
+  body.theme-crayon .field select:focus {
+    border-color: var(--crayon-red);
+    box-shadow: 3px 3px 0px rgba(230,57,70,0.3);
+  }
+
+  /* Sort btn */
+  body.theme-crayon .sort-btn {
+    background: var(--crayon-yellow);
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+    color: var(--text);
+    box-shadow: 2px 2px 0px rgba(43,45,66,0.35);
+  }
+  body.theme-crayon .sort-btn svg { stroke: var(--text); stroke-width: 2.5; }
+
+  /* Swipe actions */
+  body.theme-crayon .action.edit { background: var(--crayon-blue); }
+  body.theme-crayon .action.delete { background: var(--crayon-red); }
+
+  /* Finance dashboard */
+  body.theme-crayon .finance-dashboard {
+    background: var(--crayon-yellow);
+    color: var(--text);
+  }
+  body.theme-crayon .finance-box {
+    background: rgba(255,255,255,0.6);
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+  }
+
+  /* Tags */
+  body.theme-crayon .tag { border: 1.5px solid var(--text); border-radius: 6px 4px 7px 5px; font-weight: 700; }
+  body.theme-crayon .status-badge { border: 1.5px solid currentColor; border-radius: 6px 4px 7px 5px; }
+
+  /* Calendar today */
+  body.theme-crayon .cal-day.today { background: var(--crayon-red); color: white; box-shadow: 2px 2px 0px rgba(43,45,66,0.4); }
+
+  /* Toggle switch */
+  body.theme-crayon .slider { border: 2px solid var(--text); }
+  body.theme-crayon input:checked + .slider { background: var(--crayon-green); }
+
+  /* Welcome greeting */
+  body.theme-crayon .greeting { color: var(--crayon-red); }
+
+  /* Suggest card */
+  body.theme-crayon .suggest-card {
+    background: linear-gradient(135deg, var(--crayon-pink), var(--crayon-orange));
+    border: 2.5px solid var(--text);
+    box-shadow: 4px 4px 0px rgba(43,45,66,0.4);
+  }
+
+  /* Backup btn */
+  body.theme-crayon .backup-btn {
+    border: 2px solid var(--text);
+    border-radius: 10px 8px 11px 9px;
+    color: var(--text);
+    background: var(--crayon-yellow);
+    box-shadow: 2px 2px 0px rgba(43,45,66,0.35);
+  }
+  body.theme-crayon .backup-btn svg { stroke: var(--text); stroke-width: 2.5; }
 </style>
 </head>
 <body>
@@ -1283,6 +1545,7 @@
         <div class="setting-options">
           <button class="theme-btn" data-theme="default">Đơn giản</button>
           <button class="theme-btn" data-theme="neobrutalism">Neobrutalism</button>
+          <button class="theme-btn" data-theme="crayon">🖍️ Bút sáp</button>
         </div>
       </div>
       
@@ -2346,6 +2609,7 @@
   function applySettings() {
     document.body.className = '';
     if (settings.theme === 'neobrutalism') document.body.classList.add('theme-neobrutalism');
+    if (settings.theme === 'crayon') document.body.classList.add('theme-crayon');
     
     if (settings.font === 'nunito') document.body.classList.add('font-nunito');
     else if (settings.font === 'inter') document.body.classList.add('font-inter');
