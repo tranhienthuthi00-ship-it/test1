@@ -2307,7 +2307,126 @@
     border: 2px solid #2b2d42 !important;
     box-shadow: 3px 3px 0px rgba(43,45,66,0.3) !important;
   }
+/* ============================================================
+     THEME NIGHT SKY (BẦU TRỜI ĐÊM MỘNG MƠ)
+     ============================================================ */
+  @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap');
 
+  body.theme-nightsky {
+    --pink-bg: #5c7698; /* Xanh đêm pastel */
+    --pink-surface: #fdf5e6; /* Kem sáng cho thẻ */
+    --pink-primary: #f4b6c2; /* Hồng phấn */
+    --pink-light: #e6d5c3;
+    --pink-dark: #3b4d63; /* Xanh đêm đậm cho chữ */
+    --text: #2c3e50;
+    --text-muted: #7f8c8d;
+    --border: #e6d5c3;
+    
+    --bg-gradient: #5c7698;
+    --font-family: 'Comfortaa', sans-serif;
+    
+    /* Đổi màu icon/status cho hợp tone */
+    --want-bg: #fce4e8; --want-text: #d17a8a;
+    --done-bg: #e8f4f8; --done-text: #5c7698;
+  }
+
+  /* Nền bầu trời đêm có sao và chấm bi */
+  body.theme-nightsky {
+    background-color: #5c7698;
+    /* Lớp 1: Sao vàng. Lớp 2: Chấm bi hồng mờ (tạo cảm giác lấp lánh) */
+    background-image: 
+      radial-gradient(#ffe082 2px, transparent 2.5px), 
+      radial-gradient(#ffe082 1.5px, transparent 2px),
+      radial-gradient(rgba(244, 182, 194, 0.15) 3px, transparent 3.5px);
+    background-size: 80px 80px, 120px 120px, 40px 40px;
+    background-position: 0 0, 40px 60px, 20px 20px;
+    background-attachment: fixed;
+  }
+
+  /* Dải ren hồng ở đầu trang (giả lập) */
+  body.theme-nightsky::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; height: 15px;
+    background: repeating-linear-gradient(45deg, #f4b6c2, #f4b6c2 10px, #e8a2b0 10px, #e8a2b0 20px);
+    z-index: 999;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  /* Style cho tất cả các thẻ (Card) */
+  body.theme-nightsky .card,
+  body.theme-nightsky .goal-widget,
+  body.theme-nightsky .dash-chart-widget,
+  body.theme-nightsky .suggest-card,
+  body.theme-nightsky .compact-card,
+  body.theme-nightsky .salary-card,
+  body.theme-nightsky .bucket-list-container,
+  body.theme-nightsky .event-card,
+  body.theme-nightsky .timeline-card,
+  body.theme-nightsky .braces-timeline-card,
+  body.theme-nightsky .diary-compact-card,
+  body.theme-nightsky .note-list-card,
+  body.theme-nightsky .search-box,
+  body.theme-nightsky .filter-btn,
+  body.theme-nightsky .calendar-grid,
+  body.theme-nightsky .settings-group,
+  body.theme-nightsky .finance-dashboard,
+  body.theme-nightsky .place-card-item {
+    background-color: var(--pink-surface) !important;
+    border: 2px solid var(--border) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15) !important; /* Đổ bóng mềm */
+    filter: none !important; 
+    transform: none !important;
+  }
+
+  /* Chỉnh màu chữ cho nổi bật trên nền kem */
+  body.theme-nightsky .note-title-text,
+  body.theme-nightsky .diary-title-text,
+  body.theme-nightsky .finance-balance,
+  body.theme-nightsky .compact-card-title {
+    color: var(--pink-dark) !important;
+  }
+
+  /* Nút bấm, Thanh điều hướng */
+  body.theme-nightsky .nav-item.active { color: var(--pink-primary) !important; }
+  body.theme-nightsky .nav-item.active svg { stroke: var(--pink-primary) !important; fill: none; }
+  
+  body.theme-nightsky .bottom-nav {
+    background: #fdf5e6;
+    border: 2px solid var(--border);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+  
+  body.theme-nightsky .fab {
+    background: var(--pink-primary);
+    color: #2c3e50;
+    box-shadow: 0 6px 15px rgba(244, 182, 194, 0.4);
+    border: 2px solid var(--pink-light);
+  }
+  body.theme-nightsky .fab svg { stroke: #2c3e50; }
+
+  body.theme-nightsky .save-btn {
+    background: var(--pink-primary);
+    color: #2c3e50;
+    border-radius: 12px;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(244, 182, 194, 0.3);
+  }
+
+  /* Icon (Doodle) đổi màu cho hợp tone */
+  body.theme-nightsky .note-icon-box,
+  body.theme-nightsky .diary-icon-box,
+  body.theme-nightsky .other-card-icon {
+    background: #fce4e8 !important;
+    color: #d17a8a !important;
+    border: 1.5px solid #f4b6c2 !important;
+  }
+  body.theme-nightsky .note-icon-box svg,
+  body.theme-nightsky .diary-icon-box svg,
+  body.theme-nightsky .other-card-icon svg {
+    stroke: #d17a8a !important;
+  }
 </style>
 </head>
 <body>
@@ -2518,7 +2637,7 @@
           <button class="theme-btn" data-theme="default">Đơn giản</button>
           <button class="theme-btn" data-theme="neobrutalism">Neobrutalism</button>
           <button class="theme-btn" data-theme="crayon">🖍️ Bút sáp</button>
-          <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>
+          <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>           <button class="theme-btn" data-theme="nightsky">🌙 Night Sky</button>
         </div>
       </div>
       
@@ -3606,6 +3725,7 @@
   function applySettings() {
     document.body.className = '';
     if (settings.theme === 'neobrutalism') document.body.classList.add('theme-neobrutalism');
+    if (settings.theme === 'nightsky') document.body.classList.add('theme-nightsky');
     if (settings.theme === 'crayon') document.body.classList.add('theme-crayon');
     if (settings.theme === 'notion') document.body.classList.add('theme-notion');
     
