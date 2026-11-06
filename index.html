@@ -1970,9 +1970,8 @@
 
     <div class="field">
       <label>Loại tài sản</label>
-      <div class="picker" id="assetTypePicker">
-        <div class="opt active" data-type="stock">Chứng khoán</div>
-        <div class="opt" data-type="gold">Vàng</div>
+    <div class="picker" id="assetTypePicker">
+        <div class="opt active" data-type="bank">Ngân hàng</div>
         <div class="opt" data-type="loan_out">Cho vay</div>
         <div class="opt" data-type="loan_in">Đi vay (Nợ)</div>
       </div>
@@ -1980,7 +1979,7 @@
 
     <div class="field">
       <label>Tên / Mô tả *</label>
-      <input type="text" id="assetName" placeholder="VD: Chứng khoán VND, Vàng SJC...">
+      <input type="text" id="assetName" placeholder="VD: Vietcombank, Techcombank...">
     </div>
 
     <div class="field">
@@ -2140,7 +2139,7 @@
       { id: 'c_1', name: 'Mua sắm Shopee', amount: 500000 }
     ],
     other_assets: [
-      { id: 'a_1', type: 'stock', name: 'Chứng khoán VND', value: 20000000, include: true },
+      { id: 'a_1', type: 'bank', name: 'Vietcombank', value: 20000000, include: true },
       { id: 'a_2', type: 'loan_out', name: 'Cho bạn A vay', value: 5000000, include: true },
       { id: 'a_3', type: 'loan_in', name: 'Nợ thẻ tín dụng', value: 2000000, include: true }
     ]
@@ -2225,7 +2224,7 @@
 
   // State cho Finance
   let editAssetId = null;
-  let formAssetType = 'stock';
+  let formAssetType = 'bank';
   let editCreditId = null;
   
   // State cho Event
@@ -2276,6 +2275,9 @@
     if (finances.new_cash_include === undefined) finances.new_cash_include = true;
     if (!finances.credit_expenses) finances.credit_expenses = [];
     if (!finances.other_assets) finances.other_assets = [];
+    finances.other_assets.forEach(a => {
+      if (a.type === 'stock' || a.type === 'gold') a.type = 'bank';
+    });
     
     try {
       const rawRev = localStorage.getItem(REVENUE_KEY);
@@ -2397,8 +2399,7 @@
     note:   { label:'Ghi chú', icon:'#icon-notebook', cls:'note' },
     task:   { label:'Việc làm', icon:'#icon-list', cls:'task' },
     tip:    { label:'Tips', icon:'#icon-bulb', cls:'tip' },
-    stock:  { label:'Chứng khoán', icon:'#icon-trending-up' },
-    gold:   { label:'Vàng', icon:'#icon-package' },
+    bank:   { label:'Ngân hàng', icon:'#icon-card' },
     loan_out:{ label:'Cho vay', icon:'#icon-trending-up' },
     loan_in:{ label:'Đi vay', icon:'#icon-trending-down' },
     braces: { label:'Niềng răng', icon:'#icon-tooth' },
@@ -3614,14 +3615,14 @@
     } else {
       // Nhóm theo loại
       const groups = {
-        stock: { title: 'Tài sản (Chứng khoán, Vàng)', items: [], total: 0 },
+        bank: { title: 'Tài khoản ngân hàng', items: [], total: 0 },
         loan_out: { title: 'Cho vay', items: [], total: 0 },
         loan_in: { title: 'Đi vay (Nợ)', items: [], total: 0 }
       };
       
       finances.other_assets.forEach(a => {
         let key = a.type;
-        if (key === 'gold') key = 'stock'; // Gộp vàng vào tài sản
+        if (key === 'stock' || key === 'gold') key = 'bank';
         if (!groups[key]) groups[key] = { title: 'Khác', items: [], total: 0 };
         groups[key].items.push(a);
         if (a.include) groups[key].total += a.value;
@@ -3632,7 +3633,7 @@
         const g = groups[key];
         if (g.items.length === 0) return;
         
-        const info = INFO[key] || INFO.stock;
+        const info = INFO[key] || INFO.bank;
         html += `
           <div class="asset-group" onclick="this.classList.toggle('open')">
             <div class="asset-group-header">
@@ -3822,6 +3823,9 @@
           if (finances.new_cash_include === undefined) finances.new_cash_include = true;
           if (!finances.credit_expenses) finances.credit_expenses = [];
           if (!finances.other_assets) finances.other_assets = [];
+          finances.other_assets.forEach(a => {
+            if (a.type === 'stock' || a.type === 'gold') a.type = 'bank';
+          });
         }
         if (data.revenues && typeof data.revenues === 'object') {
           revenues = data.revenues;
@@ -4081,14 +4085,14 @@
       $('assetValue').value = a.value ? a.value.toLocaleString('vi-VN') : '';
       $('assetValueRange').value = a.value || 0;
       $('assetInclude').checked = a.include;
-      setFormAssetType(a.type || 'stock');
+      setFormAssetType(a.type || 'bank');
     } else {
       $('assetModalTitle').textContent = 'Thêm Tài sản';
       $('assetName').value = '';
       $('assetValue').value = '';
       $('assetValueRange').value = 0;
       $('assetInclude').checked = true;
-      setFormAssetType('stock');
+      setFormAssetType('bank');
     }
     $('assetOverlay').classList.add('show');
     setTimeout(() => $('assetName').focus(), 300);
