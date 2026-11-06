@@ -1859,17 +1859,6 @@
     stroke-width: 2;
   }
 
-  /* Chỉnh lại một chút cho bảng Bingo (nếu bạn có dùng) */
-  body.theme-notion .bingo-cell {
-    border-radius: 16px;
-    border: 2px solid var(--border);
-    background: var(--pink-surface);
-    box-shadow: 2px 2px 0px var(--border);
-  }
-  body.theme-notion .bingo-cell.done {
-    background: var(--pink-light);
-    border-color: var(--pink-dark);
-  }
   /* ===== FIX LỖI VIỀN LÒI RA Ở CÁC THẺ SWIPE (Địa điểm, Nhật ký...) ===== */
   
   /* 1. Thẻ cha bao bọc (Swipe-item) - Xóa viền đen, bo góc cho khớp */
@@ -2275,6 +2264,50 @@
     width: 100% !important;
     box-sizing: border-box !important;
   }
+  /* ============================================================
+     BIẾN Ô NHẬP NỘI DUNG THÀNH TRANG GIẤY
+     ============================================================ */
+
+  /* 1. Trang giấy mặc định (Giấy vở kẻ ngang) */
+  #noteContent {
+    background-color: #fdfdfd !important;
+    background-image: 
+      linear-gradient(90deg, transparent 39px, #ffb3b3 39px, #ffb3b3 41px, transparent 41px), /* Lề đỏ */
+      repeating-linear-gradient(transparent, transparent 27px, #dbeafe 27px, #dbeafe 28px); /* Dòng kẻ xanh */
+    background-attachment: local;
+    line-height: 28px !important; /* Khớp với khoảng cách dòng kẻ */
+    padding: 10px 15px 10px 50px !important; /* Cách lề trái 50px để chừa chỗ lề đỏ */
+    border: 1.5px solid var(--border) !important;
+    border-radius: 4px !important; /* Trang giấy thường vuông vức */
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.05) !important;
+    font-family: inherit !important;
+    color: var(--text) !important;
+    resize: vertical;
+  }
+  #noteContent:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2) !important;
+  }
+
+  /* 2. Trang giấy cho Theme Notion (Giấy Note vàng nhạt) */
+  body.theme-notion #noteContent {
+    background-color: #fdfaf6 !important;
+    background-image: 
+      linear-gradient(90deg, transparent 39px, #d4b895 39px, #d4b895 41px, transparent 41px),
+      repeating-linear-gradient(transparent, transparent 27px, #e8d8c8 27px, #e8d8c8 28px);
+    border-color: #d4b895 !important;
+  }
+
+  /* 3. Trang giấy cho Theme Bút sáp (Giấy vẽ) */
+  body.theme-crayon #noteContent {
+    background-color: #fffdf5 !important;
+    background-image: 
+      repeating-linear-gradient(transparent, transparent 27px, #fde68a 27px, #fde68a 28px); /* Chỉ có dòng kẻ vàng, không có lề đỏ */
+    padding-left: 15px !important;
+    border: 2px solid #2b2d42 !important;
+    box-shadow: 3px 3px 0px rgba(43,45,66,0.3) !important;
+  }
+
 </style>
 </head>
 <body>
