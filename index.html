@@ -44,19 +44,6 @@
     --bg-gradient: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
   }
 
-  /* Theme Vintage / Cream */
-  body.theme-vintage {
-    --pink-bg: #fcf5e5; --pink-surface: #ffffff; --pink-primary: #a16207; --pink-light: #fef3c7; --pink-dark: #78350f;
-    --text: #3f3f46; --text-muted: #71717a; --border: #e4e4e7;
-    --bg-gradient: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
-    --shadow-sm: 0 2px 8px rgba(161,98,7,0.04); --shadow-md: 0 8px 24px rgba(161,98,7,0.08); --shadow-lg: 0 12px 32px rgba(161,98,7,0.12);
-    --note-bg: #f0fdf4; --note-text: #166534; --task-bg: #eff6ff; --task-text: #1e40af; --tip-bg: #fef2f2; --tip-text: #991b1b;
-  }
-  body.theme-vintage .bottom-nav { border: 2px solid #fef3c7; background: rgba(255,255,255,0.9); }
-  body.theme-vintage .card { border: 1.5px solid #fef3c7; }
-  body.theme-vintage .search-box { border: 1.5px solid #fef3c7; }
-  body.theme-vintage .filter-btn { border: 1.5px solid #fef3c7; }
-
   /* Theme Neobrutalism */
   body.theme-neobrutalism {
     --pink-bg: #ffde00; /* Vàng chanh */
@@ -90,7 +77,7 @@
   body.theme-neobrutalism .suggest-card,
   body.theme-neobrutalism .compact-card,
   body.theme-neobrutalism .salary-card,
-  body.theme-neobrutalism .dash-chart-card,
+  body.theme-neobrutalism .dash-chart-widget,
   body.theme-neobrutalism .bucket-list-container,
   body.theme-neobrutalism .event-card,
   body.theme-neobrutalism .timeline-card,
@@ -175,18 +162,24 @@
   .search-res-title { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .search-res-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  /* Dashboard Donut Charts (LỒNG NHAU) */
-  .dash-charts-container {
-    display: flex; justify-content: center; margin-bottom: 24px;
+  /* Dashboard Layout: Tổng quan & Bucket List ngang hàng */
+  .home-top-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
   }
+
   .dash-chart-widget {
-    background: var(--pink-surface); border-radius: 24px; padding: 20px;
+    background: var(--pink-surface); border-radius: 20px; padding: 12px;
     box-shadow: var(--shadow-sm); border: 1px solid var(--border);
     display: flex; flex-direction: column; align-items: center; text-align: center;
-    width: 100%; max-width: 320px; /* Giới hạn chiều rộng */
+    justify-content: center;
   }
+  
+  /* Donut lồng nhau */
   .donut-container { 
-    position: relative; width: 180px; height: 180px; flex-shrink: 0; margin-bottom: 16px; 
+    position: relative; width: 110px; height: 110px; flex-shrink: 0; margin-bottom: 10px; 
   }
   .donut-svg { width: 100%; height: 100%; transform: rotate(-90deg); position: absolute; top:0; left:0;}
   .donut-circle-bg { fill: none; stroke: var(--pink-bg); stroke-width: 10; }
@@ -196,30 +189,31 @@
   .donut-outer .donut-circle-bg { stroke-width: 12; }
   .donut-outer .donut-circle-fill { stroke-width: 12; }
   /* Biểu đồ trong (Mục tiêu) */
-  .donut-inner { width: 120px; height: 120px; top: 30px; left: 30px; transform: rotate(-90deg); }
+  .donut-inner { width: 70px; height: 70px; top: 20px; left: 20px; transform: rotate(-90deg); }
   .donut-inner .donut-circle-bg { stroke-width: 10; stroke: #e5e7eb; }
   .donut-inner .donut-circle-fill { stroke-width: 10; }
 
   .donut-text-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;}
-  .donut-pct { font-size: 18px; font-weight: 700; color: var(--text); line-height: 1.2;}
-  .donut-sub-pct { font-size: 12px; font-weight: 600; color: #6366f1; }
+  .donut-pct { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.1;}
+  .donut-sub-pct { font-size: 10px; font-weight: 600; color: #6366f1; }
   
-  .chart-label-title { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
-  .chart-label-val { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px;}
-  .chart-legend { display: flex; gap: 16px; justify-content: center; font-size: 12px; font-weight: 600; }
-  .legend-item { display: flex; align-items: center; gap: 6px; }
-  .legend-color { width: 10px; height: 10px; border-radius: 50%; }
+  .chart-label-title { font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 2px; }
+  .chart-label-val { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px;}
+  .chart-legend { display: flex; gap: 8px; justify-content: center; font-size: 10px; font-weight: 600; flex-wrap: wrap;}
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-color { width: 8px; height: 8px; border-radius: 50%; }
 
-  /* Goal Widget */
+  /* Goal Widget -> Chỉnh thành thẻ dọc cho ngang hàng */
   .goal-widget {
     background: var(--pink-surface); border-radius: 20px; padding: 16px;
-    box-shadow: var(--shadow-sm); border: 1px solid var(--border); margin-bottom: 24px;
-    display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+    display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer;
+    text-align: center;
   }
-  .goal-title { font-size: 15px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px;}
+  .goal-title { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; margin-bottom: 12px;}
   .goal-title svg { width: 18px; height: 18px; stroke: var(--pink-primary); }
   .goal-progress-badge {
-    background: #e0e7ff; color: #4338ca; padding: 4px 10px; border-radius: 999px;
+    background: #e0e7ff; color: #4338ca; padding: 8px 12px; border-radius: 999px;
     font-size: 12px; font-weight: 700;
   }
 
@@ -253,21 +247,30 @@
   .settings-container { padding: 0 16px; }
   .settings-group { background: var(--pink-surface); border-radius: 20px; padding: 16px; margin-bottom: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
   .settings-group-title { font-size: 14px; font-weight: 700; color: var(--pink-dark); margin-bottom: 12px; }
-  .setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;}
   .setting-item:last-child { margin-bottom: 0; }
   .setting-label { font-size: 15px; font-weight: 600; color: var(--text); }
-  .setting-options { display: flex; gap: 8px; flex-wrap: wrap; }
+  .setting-options { display: flex; gap: 8px; flex-wrap: wrap; align-items: center;}
   
-  .theme-dot { 
-    width: 36px; height: 36px; border-radius: 12px; cursor: pointer; 
-    border: 3px solid transparent; transition: all 0.2s; position: relative;
-    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  .theme-btn { 
+    padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border); 
+    background: #fafafc; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text);
   }
-  .theme-dot.active { border-color: var(--text); transform: scale(1.1); }
-  .theme-dot.pink { background: #ec4899; }
-  .theme-dot.vintage { background: #fef3c7; }
-  .theme-dot.neobrutalism { background: #ff90e8; border: 2px solid #000; box-shadow: 2px 2px 0px #000; }
+  .theme-btn.active { background: var(--pink-primary); color: white; border-color: var(--pink-primary); }
   
+  /* Color Picker Wheel */
+  .color-picker-wrapper {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .color-picker-label { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+  .color-input {
+    -webkit-appearance: none; -moz-appearance: none; appearance: none;
+    width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--border);
+    cursor: pointer; padding: 0; background: none; outline: none;
+  }
+  .color-input::-webkit-color-swatch-wrapper { padding: 0; }
+  .color-input::-webkit-color-swatch { border: none; border-radius: 50%; }
+
   .font-btn { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: #fafafc; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text); }
   .font-btn.active { background: var(--pink-primary); color: white; border-color: var(--pink-primary); }
   
@@ -671,16 +674,22 @@
   }
   .event-month { font-size: 11px; text-transform: uppercase; opacity: 0.9; }
   .event-day { font-size: 22px; line-height: 1.1; }
-  .event-info { flex: 1; min-width: 0; }
+  .event-info { flex: 1; min-width: 0; padding-right: 12px;}
   .event-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px;}
   .event-desc { font-size: 12.5px; font-weight: 600; }
   .event-desc.urgent { color: #dc2626; }
   .event-desc.normal { color: #16a34a; }
   .event-desc.past { color: var(--text-muted); }
-  .event-icon-large { display: flex; align-items: center; }
-  .event-icon-large svg { width: 20px; height: 20px; }
+  
+  /* Icon Sự kiện bên phải */
+  .event-icon-right { 
+    display: flex; align-items: center; justify-content: center; 
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    background: rgba(255,255,255,0.4);
+  }
+  .event-icon-right svg { width: 24px; height: 24px; }
 
-  /* ================= TAB TÀI CHÍNH ================= */
+  /* ================= TAB TÀI CHÍNH ==================== */
   .finance-carousel {
     display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px;
     padding: 0 16px 20px; -webkit-overflow-scrolling: touch; scrollbar-width: none;
@@ -777,7 +786,7 @@
     cursor: pointer; margin-top: 8px;
   }
 
-  /* Revenue Table */
+  /* Revenue Table - Đã cập nhật để chọn ngày và format tiền */
   .revenue-table { display: flex; flex-direction: column; gap: 8px; }
   .rev-row { display: flex; gap: 8px; align-items: center; }
   .rev-row.header { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
@@ -791,8 +800,7 @@
   }
   .rev-row input:focus { border-color: var(--pink-primary); background: var(--pink-surface); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
   .rev-row input[type="text"].currency-input { text-align: right; }
-  .rev-row input[type="text"].rev-input-date { text-align: center; padding: 8px 4px; cursor: pointer; }
-  .rev-row input[type="date"] { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+  .rev-row input[type="date"].rev-date-picker { text-align: center; padding: 8px 4px; cursor: pointer; -webkit-appearance: none; appearance: none; }
 
   /* Nút Sao lưu */
   .backup-bar { display: flex; gap: 10px; }
@@ -1112,8 +1120,9 @@
       <div class="global-search-results" id="globalSearchResults"></div>
     </div>
 
-    <!-- Dashboard Donut Charts (LỒNG NHAU) -->
-    <div class="dash-charts-container">
+    <!-- HÀNG NGANG: TỔNG QUAN & BUCKET LIST -->
+    <div class="home-top-row">
+      <!-- Tổng quan Donut Charts -->
       <div class="dash-chart-widget">
         <div class="donut-container">
           <!-- Vòng ngoài: Tài sản -->
@@ -1144,12 +1153,12 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Bucket List Widget (Compact) -->
-    <div class="goal-widget" id="homeGoalWidget">
-      <div class="goal-title"><svg class="hand-icon"><use href="#icon-target"/></svg> Bucket List</div>
-      <div class="goal-progress-badge" id="homeGoalProgress">0/0 hoàn thành</div>
+      <!-- Bucket List Widget -->
+      <div class="goal-widget" id="homeGoalWidget" onclick="document.querySelector('.nav-item[data-tab=others]').click(); setTimeout(()=>{currentOtherCategory='goal'; renderOthers();}, 100);">
+        <div class="goal-title"><svg class="hand-icon"><use href="#icon-target"/></svg> Bucket List</div>
+        <div class="goal-progress-badge" id="homeGoalProgress">0/0</div>
+      </div>
     </div>
 
     <!-- Suggest Card -->
@@ -1178,14 +1187,25 @@
 
     <div class="settings-group">
       <div class="settings-group-title">Giao diện</div>
+      
+      <!-- Theme Selection (Chỉ còn 2 lựa chọn) -->
       <div class="setting-item">
-        <div class="setting-label">Màu chủ đề</div>
+        <div class="setting-label">Kiểu giao diện</div>
         <div class="setting-options">
-          <div class="theme-dot pink active" data-theme="pink"></div>
-          <div class="theme-dot vintage" data-theme="vintage">☕</div>
-          <div class="theme-dot neobrutalism" data-theme="neobrutalism">🎨</div>
+          <button class="theme-btn" data-theme="default">Đơn giản</button>
+          <button class="theme-btn" data-theme="neobrutalism">Neobrutalism</button>
         </div>
       </div>
+      
+      <!-- Color Picker -->
+      <div class="setting-item">
+        <div class="setting-label">Màu chủ đề</div>
+        <div class="color-picker-wrapper">
+          <span class="color-picker-label">Chọn màu:</span>
+          <input type="color" id="colorPicker" class="color-input" value="#ec4899">
+        </div>
+      </div>
+
       <div class="setting-item">
         <div class="setting-label">Font chữ</div>
         <div class="setting-options">
@@ -1485,6 +1505,7 @@
           <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-chart"/></svg> Bảng kê doanh thu</div>
           <div class="compact-card-total" id="revTotalVal">0 đ</div>
         </div>
+        <!-- Cập nhật giao diện chọn ngày -->
         <div class="revenue-table" id="revenueTable"></div>
       </div>
 
@@ -2047,7 +2068,8 @@
 
   const SAMPLE_SETTINGS = {
     name: 'Tran Hien',
-    theme: 'pink',
+    theme: 'default',
+    primaryColor: '#ec4899',
     font: 'quicksand'
   };
 
@@ -2232,21 +2254,54 @@
 
   function applySettings() {
     document.body.className = '';
-    if (settings.theme === 'vintage') document.body.classList.add('theme-vintage');
     if (settings.theme === 'neobrutalism') document.body.classList.add('theme-neobrutalism');
     
     if (settings.font === 'nunito') document.body.classList.add('font-nunito');
     else if (settings.font === 'inter') document.body.classList.add('font-inter');
 
+    // Apply Custom Color
+    if (settings.primaryColor) {
+      document.documentElement.style.setProperty('--pink-primary', settings.primaryColor);
+      
+      // Generate Darker color for --pink-dark
+      const darkHex = adjustColor(settings.primaryColor, -30);
+      document.documentElement.style.setProperty('--pink-dark', darkHex);
+    } else {
+      document.documentElement.style.removeProperty('--pink-primary');
+      document.documentElement.style.removeProperty('--pink-dark');
+    }
+
     $('greetingText').textContent = 'Hello ' + (settings.name || 'Bạn');
     $('inputUserName').value = settings.name || '';
-
-    document.querySelectorAll('.theme-dot').forEach(dot => {
-      dot.classList.toggle('active', dot.dataset.theme === settings.theme);
+    
+    // Set active theme button
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.theme === settings.theme);
     });
+    
+    // Set color picker
+    $('colorPicker').value = settings.primaryColor || '#ec4899';
+
     document.querySelectorAll('.font-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.font === settings.font);
     });
+  }
+  
+  // Helper to darken hex color
+  function adjustColor(color, percent) {
+    let R = parseInt(color.substring(1,3),16);
+    let G = parseInt(color.substring(3,5),16);
+    let B = parseInt(color.substring(5,7),16);
+    R = parseInt(R * (100 + percent) / 100);
+    G = parseInt(G * (100 + percent) / 100);
+    B = parseInt(B * (100 + percent) / 100);
+    R = (R<255)?R:255;  
+    G = (G<255)?G:255;  
+    B = (B<255)?B:255;  
+    let rr = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+    let gg = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+    let bb = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+    return "#"+rr+gg+bb;
   }
 
   const INFO = {
@@ -2389,18 +2444,25 @@
   });
   
   // Settings Events
-  document.querySelectorAll('.theme-dot').forEach(dot => {
-    dot.addEventListener('click', () => {
-      settings.theme = dot.dataset.theme;
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      settings.theme = btn.dataset.theme;
       applySettings();
     });
   });
+  
+  $('colorPicker').addEventListener('input', (e) => {
+    settings.primaryColor = e.target.value;
+    applySettings();
+  });
+
   document.querySelectorAll('.font-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       settings.font = btn.dataset.font;
       applySettings();
     });
   });
+  
   $('saveSettingsBtn').addEventListener('click', () => {
     settings.name = $('inputUserName').value.trim() || 'Bạn';
     applySettings();
@@ -2410,36 +2472,28 @@
 
   /* ==================== TAB TRANG CHỦ ==================== */
   function renderHome() {
-    // 1. Dashboard Charts Logic (Lồng nhau)
     const fin = calcFinance();
     const totalGoals = goals.length;
     const doneGoals = goals.filter(g => g.isDone).length;
     const goalPct = totalGoals === 0 ? 0 : Math.round((doneGoals / totalGoals) * 100);
     
-    // Giả sử mục tiêu tài sản là 100 triệu
     const targetAsset = 100000000;
     const assetPct = Math.min(100, Math.round((fin.totalAsset / targetAsset) * 100));
 
-    // Cập nhật Text
     $('dashAssetVal').textContent = fmtMoney(fin.totalAsset);
     
-    // Cập nhật Donut SVG (Mỗi cái 1 vòng riêng)
-    const circumference = 2 * Math.PI * 40; // r=40
+    const circumference = 2 * Math.PI * 40; 
     
-    // Asset Chart (Vòng ngoài)
     const assetOffset = circumference - (assetPct / 100) * circumference;
     $('donutAsset').style.strokeDashoffset = assetOffset;
     $('donutAssetPct').textContent = `${assetPct}%`;
 
-    // Goal Chart (Vòng trong)
     const goalOffset = circumference - (goalPct / 100) * circumference;
     $('donutGoal').style.strokeDashoffset = goalOffset;
     $('donutGoalPct').textContent = `${goalPct}%`;
 
-    // 2. Bucket List Progress
-    $('homeGoalProgress').textContent = `${doneGoals}/${totalGoals} hoàn thành`;
+    $('homeGoalProgress').textContent = `${doneGoals}/${totalGoals}`;
 
-    // 3. Suggest
     const wantPlaces = places.filter(p => p.status === 'want');
     const homeSuggest = $('homeSuggest');
     if (wantPlaces.length > 0) {
@@ -2472,7 +2526,6 @@
 
     let html = '';
 
-    // Tìm Địa điểm
     const matchedPlaces = places.filter(p => 
       (p.name||'').toLowerCase().includes(q) || 
       (p.city||'').toLowerCase().includes(q) || 
@@ -2494,7 +2547,6 @@
       });
     }
 
-    // Tìm Nhật ký
     const matchedDiaries = diaries.filter(d => 
       (d.title||'').toLowerCase().includes(q) || 
       (d.content||'').toLowerCase().includes(q)
@@ -2515,7 +2567,6 @@
       });
     }
 
-    // Tìm Ghi chú
     const matchedNotes = notes.filter(n => 
       (n.title||'').toLowerCase().includes(q) || 
       (n.content||'').toLowerCase().includes(q)
@@ -2536,7 +2587,6 @@
       });
     }
 
-    // Tìm Bucket List
     const matchedGoals = goals.filter(g => 
       (g.text||'').toLowerCase().includes(q)
     ).slice(0, 3);
@@ -2556,7 +2606,6 @@
       });
     }
     
-    // Tìm Sự kiện
     const matchedEvents = events.filter(e => 
       (e.name||'').toLowerCase().includes(q)
     ).slice(0, 3);
@@ -2590,7 +2639,6 @@
     $('globalSearchResults').classList.remove('show');
   });
 
-  // Hàm điều hướng khi click kết quả search
   window.searchGoTo = function(type, id) {
     $('globalSearchInput').value = '';
     $('globalClearSearch').classList.remove('show');
@@ -2624,7 +2672,6 @@
     }
   };
 
-  // Close search on click outside
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.global-search-wrapper')) {
       $('globalSearchResults').classList.remove('show');
@@ -2700,7 +2747,6 @@
       const info = INFO[p.type] || INFO.cafe;
       const st = STATUS[p.status] || STATUS.want;
       
-      // Lấy 1 tag hashtag đầu tiên để hiển thị
       const firstTag = (p.hashtags && p.hashtags.length > 0) ? p.hashtags[0] : '';
 
       return `
@@ -2734,7 +2780,6 @@
     });
 
     if (currentDiaryPage === 0) {
-      // General
       if (diaryViewMode === 'timeline') {
         $('diaryTimelineView').style.display = 'block';
         $('diaryCalendarView').style.display = 'none';
@@ -2751,7 +2796,6 @@
             return b.createdAt - a.createdAt;
           });
 
-          // Render Compact Card Format
           wrap.innerHTML = sorted.map(d => `
             <div class="diary-compact-card" onclick="openDiaryModal('${d.id}')">
               <div class="diary-icon-box"><svg class="hand-icon"><use href="#icon-book"/></svg></div>
@@ -2775,7 +2819,6 @@
         renderCalendar();
       }
     } else {
-      // Braces
       const dashboardEl = $('bracesDashboard');
       
       if (braces.length > 0) {
@@ -2816,7 +2859,6 @@
         return b.createdAt - a.createdAt;
       });
 
-      // Render Compact Braces Card
       wrap.innerHTML = sorted.map(b => `
         <div class="diary-compact-card braces-card" onclick="openBracesModal('${b.id}')">
           <div class="diary-icon-box"><svg class="hand-icon"><use href="#icon-tooth"/></svg></div>
@@ -2915,7 +2957,6 @@
   $('viewTimelineBtn').addEventListener('click', () => { diaryViewMode = 'timeline'; renderDiaries(); });
   $('viewCalendarBtn').addEventListener('click', () => { diaryViewMode = 'calendar'; renderDiaries(); });
   
-  // Swipe logic for Diary/Braces Carousel
   let dTouchStartX = 0;
   let dTouchEndX = 0;
   const dWrapper = $('diaryCarouselWrapper');
@@ -2962,7 +3003,6 @@
     $('countGoalCard').textContent = `${countGoals} mục`;
     $('countEventCard').textContent = `${countEvents} mục`;
 
-    // Hide all detail views
     $('othersMainView').style.display = 'none';
     $('placeDetailView').style.display = 'none';
     $('othersDetailView').style.display = 'none';
@@ -2998,7 +3038,6 @@
     });
   });
 
-  // Back buttons
   $('backToOthersFromPlaceBtn').addEventListener('click', () => {
     currentOtherCategory = null;
     renderOthers();
@@ -3090,7 +3129,6 @@
     }).join('');
   }
 
-  // Detail Modal Logic
   window.openDetailModal = function(type, id) {
     currentDetailType = type;
     let item = null;
@@ -3110,7 +3148,6 @@
 
     $('detailTitle').textContent = item.name || item.title;
     
-    // Meta
     let metaHtml = '';
     if (type === 'place') {
       const st = STATUS[item.status] || STATUS.want;
@@ -3124,7 +3161,6 @@
       if (item.date) metaHtml += `<span class="tag date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(item.date)}</span>`;
     }
     
-    // Hashtags
     if (item.hashtags && item.hashtags.length > 0) {
       item.hashtags.forEach(tag => {
         metaHtml += `<span class="tag hashtag"><svg class="hand-icon"><use href="#icon-hashtag"/></svg>${esc(tag)}</span>`;
@@ -3132,7 +3168,6 @@
     }
     $('detailMeta').innerHTML = metaHtml;
 
-    // Content
     let content = '';
     if (type === 'place') {
       if (item.address) content += `<div style="margin-bottom:8px;"><b>Địa chỉ:</b> ${esc(item.address)}</div>`;
@@ -3143,7 +3178,6 @@
     }
     $('detailContent').innerHTML = content;
 
-    // Link
     if (type === 'place' && item.link) {
       $('detailLink').href = item.link;
       $('detailLink').style.display = 'inline-flex';
@@ -3158,7 +3192,6 @@
   $('detailModalOverlay').addEventListener('click', (e) => { if(e.target === $('detailModalOverlay')) $('detailModalOverlay').classList.remove('show'); });
 
 
-  // Bucket List Render
   function renderBucketList() {
     const now = new Date();
     $('bucketTitleYear').textContent = `${now.getFullYear()} Bucket list`;
@@ -3292,9 +3325,13 @@
           </div>
           <div class="event-info">
             <div class="event-title" style="color: ${themeColor.text};">
-              <span class="event-icon-large"><svg class="hand-icon"><use href="${iconHref}"/></svg></span> ${esc(ev.name)}
+              ${esc(ev.name)}
             </div>
             <div class="event-desc ${descClass}">${desc}</div>
+          </div>
+          <!-- Icon chuyển sang bên phải -->
+          <div class="event-icon-right" style="color: ${themeColor.text};">
+            <svg class="hand-icon"><use href="${iconHref}"/></svg>
           </div>
         </div>
       `;
@@ -3405,7 +3442,7 @@
       `).join('');
     }
 
-    // 5. Revenue Table (7 days)
+    // 5. Revenue Table (Chọn ngày đầu tiên tự động cộng 7 ngày, format tiền)
     const revTable = $('revenueTable');
     let revHtml = `
       <div class="rev-row header">
@@ -3424,56 +3461,27 @@
       const d = new Date(startDate);
       d.setDate(d.getDate() + i);
       const dateStr = d.toISOString().split('T')[0];
-      const label = formatDateDDMMYYYY(dateStr);
       const amount = revenues.records[dateStr] || 0;
       revTotal += amount;
       
+      // Dòng đầu tiên có input date, các dòng sau readonly
+      const dateInputHtml = i === 0 
+        ? `<input type="date" class="rev-date-picker" value="${dateStr}" onchange="updateRevenueStartDate(this.value)">`
+        : `<input type="text" class="rev-input-date" value="${formatDateDDMMYYYY(dateStr)}" readonly>`;
+
       revHtml += `
         <div class="rev-row" data-date="${dateStr}">
           <div class="rev-col-date">
-            <input type="text" class="rev-input-date" value="${label}" readonly onclick="this.nextElementSibling.showPicker()">
-            <input type="date" class="rev-input-date-real" value="${dateStr}">
+            ${dateInputHtml}
           </div>
           <div class="rev-col-amount">
-            <input type="text" class="rev-input-amount currency-input" value="${amount > 0 ? amount.toLocaleString('vi-VN') : ''}" placeholder="0">
+            <input type="text" class="rev-input-amount currency-input" value="${amount > 0 ? amount.toLocaleString('vi-VN') : ''}" placeholder="0" onchange="updateRevenueAmount('${dateStr}', this.value)">
           </div>
         </div>
       `;
     }
     revTable.innerHTML = revHtml;
     $('revTotalVal').textContent = fmtMoney(revTotal);
-
-    revTable.querySelectorAll('.rev-row[data-date]').forEach(row => {
-      const dateStr = row.dataset.date;
-      const amountInput = row.querySelector('.rev-input-amount');
-      const dateRealInput = row.querySelector('.rev-input-date-real');
-      
-      if (dateRealInput) {
-        dateRealInput.addEventListener('change', (e) => {
-          const newDateStr = e.target.value;
-          if(newDateStr) {
-            revenues.startDate = newDateStr;
-            saveData();
-            renderFinance();
-          }
-        });
-      }
-
-      amountInput.addEventListener('change', (e) => {
-        const amount = parseCurrency(e.target.value);
-        if (amount === 0) delete revenues.records[dateStr];
-        else revenues.records[dateStr] = amount;
-        saveData();
-        
-        let newTotal = 0;
-        Object.values(revenues.records).forEach(val => { newTotal += val; });
-        $('revTotalVal').textContent = fmtMoney(newTotal);
-        
-        const f = calcFinance();
-        $('finLoanIn').textContent = fmtMoney(f.loanInTotal);
-        $('finTotalAsset').textContent = fmtMoney(f.totalAsset);
-      });
-    });
 
     // 6. Other Assets List
     const assetList = $('assetListContainer');
@@ -3497,6 +3505,31 @@
       }).join('');
     }
   }
+
+  // Hàm xử lý khi đổi ngày ở dòng đầu
+  window.updateRevenueStartDate = function(newDateStr) {
+    if(newDateStr) {
+      revenues.startDate = newDateStr;
+      saveData();
+      renderFinance();
+    }
+  };
+
+  // Hàm xử lý khi đổi số tiền
+  window.updateRevenueAmount = function(dateStr, val) {
+    const amount = parseCurrency(val);
+    if (amount === 0) delete revenues.records[dateStr];
+    else revenues.records[dateStr] = amount;
+    saveData();
+    
+    let newTotal = 0;
+    Object.values(revenues.records).forEach(val => { newTotal += val; });
+    $('revTotalVal').textContent = fmtMoney(newTotal);
+    
+    const f = calcFinance();
+    $('finLoanIn').textContent = fmtMoney(f.loanInTotal);
+    $('finTotalAsset').textContent = fmtMoney(f.totalAsset);
+  };
 
   // Salary Events
   function updateSalaryResult() {
@@ -3544,7 +3577,6 @@
     renderFinance();
   });
 
-  // Toggle cho Bản kê tiền mới
   $('newCashInclude').addEventListener('change', (e) => {
     finances.new_cash_include = e.target.checked;
     saveData();
