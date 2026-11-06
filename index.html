@@ -2467,7 +2467,13 @@
       creditTotal += c.amount;
     });
 
-    // Bỏ bracesTotal ra khỏi loanInTotal
+    // Ở ĐÂY: Bỏ bracesTotal ra khỏi loanInTotal (theo yêu cầu)
+    // Tổng niềng răng chỉ để hiển thị ở tab Niềng răng, không cộng vào Nợ
+    let bracesTotal = 0;
+    braces.forEach(b => {
+      bracesTotal += (b.amount || 0);
+    });
+
     let revenueTotal = 0;
     Object.values(revenues.records).forEach(amount => {
       revenueTotal += amount;
@@ -2475,7 +2481,7 @@
 
     let otherAssetsTotal = 0;
     let loanOutTotal = 0;
-    let loanInTotal = creditTotal + revenueTotal; // Braces không còn ở đây
+    let loanInTotal = creditTotal + revenueTotal; // Không cộng bracesTotal
 
     finances.other_assets.forEach(a => {
       if (a.include) {
@@ -2492,7 +2498,7 @@
     totalAsset += loanOutTotal;
     totalAsset -= loanInTotal;
 
-    return { cashTotal, newCashTotal, creditTotal, revenueTotal, otherAssetsTotal, loanOutTotal, loanInTotal, totalAsset };
+    return { cashTotal, newCashTotal, creditTotal, bracesTotal, revenueTotal, otherAssetsTotal, loanOutTotal, loanInTotal, totalAsset };
   }
 
   /* ==================== TAB SWITCHER ==================== */
