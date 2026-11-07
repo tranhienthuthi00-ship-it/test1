@@ -3207,17 +3207,11 @@
         </div>
       </div>
 
-      <!-- Bucket List Widget -->
-      <div class="goal-widget" id="homeGoalWidget" onclick="document.querySelector('.nav-item[data-tab=others]').click(); setTimeout(()=>{currentOtherCategory='goal'; renderOthers();}, 100);">
-        <div class="goal-title"><svg class="hand-icon"><use href="#icon-target"/></svg> Bucket List</div>
-        <div class="goal-progress-badge" id="homeGoalProgress">0/0</div>
-      </div>
-    </div>
-
-    <!-- Suggest Card -->
-      <div class="suggest-card" id="homeSuggest" onclick="document.querySelector('.nav-item[data-tab=others]').click(); setTimeout(()=>{currentOtherCategory='place'; renderOthers();}, 100);">
+   <!-- Thẻ Gợi ý (Đã chuyển lên đây) -->
+      <div class="suggest-card" id="homeSuggest" style="margin-bottom: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 16px;" onclick="document.querySelector('.nav-item[data-tab=others]').click(); setTimeout(()=>{currentOtherCategory='place'; renderOthers();}, 100);">
         <!-- Render bằng JS -->
       </div>
+    </div>
 
       <!-- Việc hôm nay (nằm dưới Suggest) -->
       <div id="homeTodayTasks" style="margin-top: 24px; margin-bottom: 20px;"></div>
@@ -4654,9 +4648,6 @@
     const goalOffset = circumference - (goalPct / 100) * circumference;
     $('donutGoal').style.strokeDashoffset = goalOffset;
     $('donutGoalPct').textContent = `${goalPct}%`;
-
-    $('homeGoalProgress').textContent = `${doneGoals}/${totalGoals}`;
-
     const wantPlaces = places.filter(p => p.status === 'want');
     const homeSuggest = $('homeSuggest');
     if (wantPlaces.length > 0) {
