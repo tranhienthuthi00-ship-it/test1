@@ -2544,6 +2544,74 @@
     text-decoration: line-through;
     color: var(--text-muted);
   }
+  /* =======================================================
+     XỬ LÝ DỨT ĐIỂM LỖI LÒI NÚT XOÁ/SỬA (SWIPE ACTIONS)
+     ======================================================= */
+
+  /* 1. Thẻ cha chứa nút (swipe-item) phải bo góc và giấu đi phần thừa */
+  .swipe-item {
+    border-radius: 16px !important;
+    overflow: hidden !important; /* Cắt gọn mọi thứ lòi ra ngoài */
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* 2. Thẻ con (chứa nội dung chính) phải nằm TRÊN 2 cái nút */
+  .swipe-item .diary-compact-card,
+  .swipe-item .note-list-card {
+    position: relative;
+    z-index: 2; /* Nổi lên trên */
+    margin: 0 !important; 
+    width: 100%;
+    border-radius: 16px !important;
+    /* Thêm viền trắng mờ để che đi khe hở giữa thẻ và nút */
+    border: 1.5px solid var(--border) !important; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+  }
+
+  /* 3. Khung chứa 2 nút Xóa/Sửa nằm ở dưới cùng */
+  .swipe-actions {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: 16px !important;
+    overflow: hidden;
+  }
+  
+  /* 4. Bo tròn góc của 2 nút (để nó không chạm vào viền thẻ) */
+  .swipe-actions .action.edit {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+  }
+  .swipe-actions .action.delete {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+  /* 5. Timeline: Thêm đường kẻ dọc và chấm tròn (nếu bạn muốn giữ) */
+  #timelineWrap, #bracesTimelineWrap {
+    position: relative;
+    padding-left: 20px;
+    margin-top: 10px;
+  }
+  #timelineWrap::before {
+    content: '';
+    position: absolute;
+    top: 15px; bottom: 15px; left: 6px;
+    width: 3px;
+    background: var(--pink-light);
+    border-radius: 3px;
+    z-index: 0;
+  }
+  #bracesTimelineWrap::before {
+    content: '';
+    position: absolute;
+    top: 15px; bottom: 15px; left: 6px;
+    width: 3px;
+    background: #bfdbfe;
+    border-radius: 3px;
+    z-index: 0;
+  }
 </style>
 </head>
 <body>
