@@ -3019,6 +3019,21 @@
   .compact-card-title, .goal-title, .event-title, .note-title-text, .diary-title-text {
     color: var(--pink-dark) !important;
   }
+  /* Ẩn hàng chọn Loại ghi chú trong Form vì đã có nút nhập riêng */
+  #noteTypePicker {
+    display: none !important;
+  }
+  
+  /* Ẩn luôn cái nhãn chữ "LOẠI GHI CHÚ" ở phía trên */
+  #noteTypePicker + label,
+  label[for="noteTypePicker"] {
+    display: none !important;
+  }
+  
+  /* Xóa khoảng trống thừa của khung chứa */
+  #noteOverlay .field:has(#noteTypePicker) {
+    display: none !important;
+  }
 </style>
 </head>
 <body>
