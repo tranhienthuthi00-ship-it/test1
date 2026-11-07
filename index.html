@@ -3640,7 +3640,24 @@
     </button>
   </div>
 </div>
+<!-- Modal Sửa Mục Tiêu -->
+<div class="overlay" id="editGoalOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>Sửa Mục tiêu <button onclick="document.getElementById('editGoalOverlay').classList.remove('show')"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+    
+    <input type="hidden" id="editGoalId">
+    
+    <div class="field">
+      <label>Tên mục tiêu</label>
+      <input type="text" id="editGoalText" placeholder="VD: ✈️ Đi Đà Lạt...">
+    </div>
 
+    <button class="save-btn" onclick="saveGoalEdit()">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu thay đổi
+    </button>
+  </div>
+</div>
 <!-- Xóa Confirm -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
@@ -5088,7 +5105,7 @@
       ` : `<div style="font-size: 12px; color: var(--text-muted); font-style: italic;">Chưa có công việc nào được gắn vào mục tiêu này.</div>`;
 
       return `
-        <div class="bucket-card-item">
+        <div class="bucket-card-item" onclick="if(!event.target.closest('input, .bucket-item-check')) openEditGoalModal('${g.id}')">
           <!-- Header thẻ: Tên + Nút check -->
           <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
             <div style="flex: 1;">
@@ -6347,6 +6364,35 @@ window.openPlaceCardPopup = function(id) {
       saveData();
       renderBucketList(); 
       if (currentTab === 'home') renderHome();
+    }
+  };
+  // Hàm mở Modal Sửa
+  window.openEditGoalModal = function(goalId) {
+    const goal = goals.find(g => g.id === goalId);
+    if (!goal) return;
+    
+    document.getElementById('editGoalId').value = goal.id;
+    document.getElementById('editGoalText').value = goal.text;
+    document.getElementById('editGoalOverlay').classList.add('show');
+  };
+
+  // Hàm Lưu khi bấm nút
+  window.saveGoalEdit = function() {
+    const goalId = document.getElementById('editGoalId').value;
+    const newText = document.getElementById('editGoalText').value.trim();
+    
+    if (!newText) {
+      toast('Tên mục tiêu không được để trống!');
+      return;
+    }
+
+    const goal = goals.find(g => g.id === goalId);
+    if (goal) {
+      goal.text = newText;
+      saveData();
+      renderBucketList();
+      document.getElementById('editGoalOverlay').classList.remove('show');
+      toast('✅ Đã cập nhật mục tiêu');
     }
   };
   /* INIT */
