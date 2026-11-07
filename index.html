@@ -3041,6 +3041,158 @@
     background: var(--pink-light) !important; /* Nền màu Be */
     color: var(--pink-dark) !important; /* Chữ màu Nâu đậm */
   }
+ /* ============================================================
+     THEME EDITORIAL POP (TẠP CHÍ) - ĐÃ TINH CHỈNH
+     ============================================================ */
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Caveat:wght@600&family=Quicksand:wght@500;700&display=swap');
+
+  body.theme-editorial {
+    --pink-bg: #C1D7FF; 
+    --pink-surface: #F3F0EA; 
+    --pink-primary: #FFC0FB; 
+    --pink-light: #E0E9FA; 
+    --pink-dark: #000000; 
+    --text: #000000;
+    --text-muted: #555555;
+    --border: #000000; 
+    
+    --bg-gradient: #C1D7FF;
+    --font-family: 'Quicksand', sans-serif; 
+  }
+
+  body.theme-editorial {
+    background-color: #C1D7FF !important;
+    background-image: none !important; 
+  }
+
+  /* 1. CÁC THẺ (CARD) - Thêm hiệu ứng dán sticker */
+  body.theme-editorial .card,
+  body.theme-editorial .goal-widget,
+  body.theme-editorial .dash-chart-widget,
+  body.theme-editorial .suggest-card,
+  body.theme-editorial .compact-card,
+  body.theme-editorial .salary-card,
+  body.theme-editorial .bucket-list-container,
+  body.theme-editorial .event-card,
+  body.theme-editorial .timeline-card,
+  body.theme-editorial .braces-timeline-card,
+  body.theme-editorial .diary-compact-card,
+  body.theme-editorial .note-list-card,
+  body.theme-editorial .search-box,
+  body.theme-editorial .filter-btn,
+  body.theme-editorial .calendar-grid,
+  body.theme-editorial .settings-group,
+  body.theme-editorial .place-card-item,
+  body.theme-editorial .other-card {
+    background-color: var(--pink-surface) !important;
+    border: 1.5px solid #000000 !important; 
+    border-radius: 20px !important; 
+    box-shadow: 4px 4px 0px #000000 !important; 
+    filter: none !important; 
+    transform: none !important;
+    position: relative; /* Cần để neo sticker */
+  }
+
+  /* 2. STICKER TRANG TRÍ (Chỉ áp dụng cho các thẻ to) */
+  /* Thêm ngôi sao ✦ ở góc trên bên phải */
+  body.theme-editorial .other-card::after {
+    content: '✦';
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 20px;
+    color: #000;
+    font-family: sans-serif;
+    z-index: 2;
+  }
+  /* Thêm bông hoa ✿ ở góc dưới bên trái */
+  body.theme-editorial .other-card::before {
+    content: '✿';
+    position: absolute;
+    bottom: 8px;
+    left: 12px;
+    font-size: 16px;
+    color: var(--pink-primary);
+    z-index: 2;
+  }
+
+  /* 3. TIÊU ĐỀ - Hạn chế highlight */
+  /* Các tiêu đề trong thẻ Card (Như "Địa điểm", "Ghi chú") thì KHÔNG highlight, chỉ in đậm */
+  body.theme-editorial .other-card-title {
+    font-family: 'Oswald', sans-serif !important;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--pink-dark) !important;
+    background: none !important; /* Bỏ highlight */
+    padding: 0;
+    transform: none;
+  }
+
+  /* Chỉ những tiêu đề chính (như Tên địa điểm) mới có highlight */
+  body.theme-editorial .suggest-title,
+  body.theme-editorial .note-title-text,
+  body.theme-editorial .diary-title-text {
+    font-family: 'Oswald', sans-serif !important;
+    text-transform: uppercase;
+    color: var(--pink-dark) !important;
+    background: var(--pink-primary) !important;
+    display: inline-block;
+    padding: 2px 6px;
+    transform: rotate(-1deg);
+    border-radius: 4px;
+  }
+
+  /* Lời chào */
+  body.theme-editorial .greeting {
+    font-family: 'Caveat', cursive !important;
+    font-size: 32px !important;
+    background: var(--pink-light) !important;
+    padding: 0 10px;
+    border-radius: 8px;
+  }
+
+  /* 4. Nút bấm & FAB */
+  body.theme-editorial .save-btn {
+    background: var(--pink-light) !important;
+    color: #000 !important;
+    border: 1.5px solid #000 !important;
+    border-radius: 999px !important; 
+    font-family: 'Oswald', sans-serif !important;
+    box-shadow: 3px 3px 0px #000 !important;
+  }
+  
+  body.theme-editorial .fab {
+    background: var(--pink-primary) !important; 
+    border: 2px solid #000 !important;
+    border-radius: 50% !important;
+    box-shadow: 4px 4px 0px #000 !important;
+  }
+  body.theme-editorial .fab svg { stroke: #000 !important; }
+
+  body.theme-editorial .bottom-nav {
+    background: var(--pink-surface);
+    border: 1.5px solid #000;
+    border-radius: 999px;
+    box-shadow: 4px 4px 0px #000;
+  }
+  body.theme-editorial .nav-item.active { color: #d946ef !important; }
+  body.theme-editorial .nav-item.active svg { stroke: #d946ef !important; }
+
+  /* ==========================================
+     CÁC PHẦN SỬA LỖI (Giữ nguyên)
+     ========================================== */
+  body.theme-editorial .swipe-item {
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    background: transparent !important;
+  }
+  body.theme-editorial .swipe-item .diary-compact-card,
+  body.theme-editorial .swipe-item .note-list-card {
+    margin: 0 !important;
+    width: 100% !important;
+    border-radius: 20px !important;
+    border: 1.5px solid #000 !important;
+  }
 </style>
 </head>
 <body>
@@ -3244,6 +3396,7 @@
         <div class="setting-options">
           <button class="theme-btn" data-theme="default">Đơn giản</button>
           <button class="theme-btn" data-theme="vintage">Vintage Scrapbook</button>
+          <button class="theme-btn" data-theme="editorial">Editorial Pop</button>
           <button class="theme-btn" data-theme="crayon">🖍️ Bút sáp</button>
           <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>           <button class="theme-btn" data-theme="winter">❄️ Cozy Winter</button>
         </div>
@@ -4366,6 +4519,7 @@
   function applySettings() {
     document.body.className = '';
     if (settings.theme === 'vintage') document.body.classList.add('theme-vintage');
+    if (settings.theme === 'editorial') document.body.classList.add('theme-editorial');
     if (settings.theme === 'nightsky') document.body.classList.add('theme-nightsky');
     if (settings.theme === 'crayon') document.body.classList.add('theme-crayon');
     if (settings.theme === 'notion') document.body.classList.add('theme-notion');     if (settings.theme === 'winter') document.body.classList.add('theme-winter');
