@@ -4651,29 +4651,66 @@
     const box = document.getElementById('homeTodayTasks');
     if (!box) return;
 
-    // Lấy 3 việc chưa làm
-    const pendingTasks = notes.filter(n => n.type === 'task' && !n.isCompleted).slice(0, 3);
-
+    const pendingTasks = notes.filter(n => n.type === 'task' && !n.isCompleted);
+    
     if (pendingTasks.length === 0) {
-      box.innerHTML = `
-        <div class="compact-card" style="margin-bottom: 12px;">
-          <div class="compact-card-title" style="margin-bottom: 8px;">
-            <svg class="hand-icon"><use href="#icon-list"/></svg> Việc hôm nay
-          </div>
-          <div style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 10px 0;">
-            Tuyệt vời! Không có việc nào cần làm. 🎉
-          </div>
-        </div>
-      `;
+      box.innerHTML = `<div class="compact-card" style="margin-bottom: 12px;"><div class="compact-card-title" style="margin-bottom: 8px;"><svg class="hand-icon"><use href="#icon-list"/></svg> Việc hôm nay</div><div style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 10px 0;">Tuyệt vời! Không có việc nào cần làm. 🎉</div></div>`;
       return;
     }
 
-    const taskHtml = pendingTasks.map(t => `
-      <div style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--border);">
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    const scoredTasks = pendingTasks.map(t => {
+      let score = 0;
+      
+      // 1. Điểm Deadline (Đã nâng cấp để tính chính xác số ngày)
+      if (t.date) {
+        const dDate = new Date(t.date);
+        dDate.setHours(0,0,0,0);
+        // Số ngày còn lại (âm là trễ, dương là còn thời gian)
+        const diffDays = Math.ceil((dDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+        
+        if (diffDays < 0) {
+          // Trễ hạn: Trễ càng nhiều ngày, điểm càng cao (VD: trễ 5 ngày = 105 điểm)
+          score += 100 + Math.abs(diffDays); 
+        } 
+        else if (diffDays === 0) score += 80; // Hôm nay
+        else if (diffDays === 1) score += 50; // Ngày mai
+        else if (diffDays <= 3) score += 30; // Trong 3 ngày tới
+        else if (diffDays <= 7) score += 10; // Trong tuần
+        else {
+          // Còn quá xa (VD: còn 100 ngày): Điểm sẽ bị âm để tự động chìm xuống dưới cùng
+          score += (7 - diffDays); 
+        }
+      }
+
+      // 2. Điểm Từ khoá "Gấp"
+      const titleLower = (t.title || '').toLowerCase();
+      if (titleLower.includes('[gấp]') || titleLower.includes('#gap') || titleLower.includes('gấp')) {
+        score += 40;
+      }
+
+      return { ...t, score };
+    });
+
+    // Sắp xếp giảm dần theo điểm
+    scoredTasks.sort((a, b) => b.score - a.score);
+
+    // Lấy Top 5
+    const top5Tasks = scoredTasks.slice(0, 5);
+
+    // Render giao diện
+    const taskHtml = top5Tasks.map(t => `
+      <div style="display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--border);">
         <div onclick="toggleHomeTask('${t.id}')" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
           <svg class="hand-icon" style="width: 12px; height: 12px; stroke: white; opacity: 0;"><use href="#icon-check-circle"/></svg>
         </div>
-        <div style="flex: 1; font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${esc(t.title)}</div>
+        <div style="flex: 1; font-size: 13.5px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          ${esc(t.title)}
+        </div>
+        <!-- Chỉ hiện tag điểm nếu điểm > 0 để giao diện đỡ rối -->
+        ${t.score > 0 ? `<span class="tag" style="background:#fee2e2; color:#dc2626; font-weight:bold; font-size:10px;">🔥 ${Math.round(t.score)}</span>` : ''}
       </div>
     `).join('');
 
@@ -4691,7 +4728,6 @@
       </div>
     `;
   }
-
   // Hàm tick hoàn thành việc từ trang chủ
   window.toggleHomeTask = function(id) {
     const task = notes.find(n => n.id === id);
