@@ -2307,6 +2307,183 @@
     border: 2px solid #2b2d42 !important;
     box-shadow: 3px 3px 0px rgba(43,45,66,0.3) !important;
   }
+  /* ============================================================
+     THEME COZY WINTER (LÁ THƯ MÙA ĐÔNG - BẢN HOÀN THIỆN)
+     ============================================================ */
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@500;700&display=swap');
+
+  body.theme-winter {
+    --pink-bg: #f3efe6;
+    --pink-surface: #fffcf5;
+    --pink-primary: #a32a36; /* Đỏ rượu */
+    --pink-light: #cfd8dc;
+    --pink-dark: #2a4365; /* Xanh đá */
+    --text: #3b2b2b;
+    --text-muted: #7a6b6b;
+    --border: #a32a36;
+    
+    --bg-gradient: #f3efe6;
+    --font-family: 'Quicksand', sans-serif;
+    
+    --want-bg: #fce4e8; --want-text: #a32a36;
+    --done-bg: #e8f4f8; --done-text: #2a4365;
+  }
+
+  /* 1. Nền giấy thô ráp hơn + Hoa tuyết 6 cánh thật */
+  body.theme-winter {
+    background-color: #f3efe6;
+    background-image: 
+      /* Tăng độ nhiễu giấy thô ráp */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"),
+      /* Hoa tuyết 6 cánh mờ */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 24 24' stroke='%232a4365' stroke-width='1.5' fill='none' opacity='0.15'%3E%3Cpath d='M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93'/%3E%3Cpath d='M12 6l-2-2m2 2l2-2M12 18l-2 2m2-2l2 2M6 12l-2-2m2 2l-2 2M18 12l2-2m-2 2l2 2'/%3E%3C/svg%3E");
+    background-size: 200px 200px, 350px 350px;
+    background-attachment: fixed;
+  }
+
+  /* Dải viền răng cưa trên cùng */
+  body.theme-winter::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; height: 20px;
+    background: radial-gradient(circle, #2a4365 8px, transparent 9px);
+    background-size: 24px 24px;
+    background-position: center top;
+    z-index: 999;
+    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));
+  }
+
+  /* Thẻ bài viền nét đứt đỏ rượu */
+  body.theme-winter .card,
+  body.theme-winter .goal-widget,
+  body.theme-winter .dash-chart-widget,
+  body.theme-winter .suggest-card,
+  body.theme-winter .compact-card,
+  body.theme-winter .salary-card,
+  body.theme-winter .bucket-list-container,
+  body.theme-winter .event-card,
+  body.theme-winter .timeline-card,
+  body.theme-winter .braces-timeline-card,
+  body.theme-winter .diary-compact-card,
+  body.theme-winter .note-list-card,
+  body.theme-winter .search-box,
+  body.theme-winter .filter-btn,
+  body.theme-winter .calendar-grid,
+  body.theme-winter .settings-group,
+  body.theme-winter .finance-dashboard,
+  body.theme-winter .place-card-item {
+    background-color: var(--pink-surface) !important;
+    border: 2px dashed var(--border) !important; 
+    border-radius: 12px !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.06) !important;
+    filter: none !important; 
+    transform: none !important;
+  }
+
+  /* Font chữ viết tay như ban đầu */
+  body.theme-winter .greeting,
+  body.theme-winter .compact-card-title,
+  body.theme-winter .goal-title,
+  body.theme-winter .bucket-title,
+  body.theme-winter .event-title {
+    font-family: 'Caveat', cursive !important;
+    font-size: 24px !important;
+    color: var(--pink-primary) !important;
+    font-weight: 700;
+  }
+
+  /* Điều hướng & Nút bấm */
+  body.theme-winter .nav-item { color: #7a6b6b; }
+  body.theme-winter .nav-item.active { color: var(--pink-primary) !important; }
+  body.theme-winter .nav-item.active svg { stroke: var(--pink-primary) !important; fill: none; }
+  
+  body.theme-winter .bottom-nav {
+    background: var(--pink-surface);
+    border: 2px dashed var(--border);
+    border-radius: 24px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  
+  body.theme-winter .fab {
+    background: var(--pink-primary);
+    box-shadow: 0 4px 10px rgba(163, 42, 54, 0.4);
+    border: 2px solid #fff;
+  }
+  body.theme-winter .save-btn {
+    background: var(--pink-primary);
+    box-shadow: 0 4px 10px rgba(163, 42, 54, 0.3);
+    border: 1px dashed #fff;
+  }
+
+  /* Icon Box */
+  body.theme-winter .note-icon-box,
+  body.theme-winter .diary-icon-box,
+  body.theme-winter .other-card-icon {
+    background: var(--pink-light) !important;
+    border: 1.5px dashed var(--border) !important;
+    border-radius: 50%;
+  }
+  body.theme-winter .note-icon-box svg,
+  body.theme-winter .diary-icon-box svg,
+  body.theme-winter .other-card-icon svg {
+    stroke: var(--pink-primary) !important;
+  }
+
+  /* Fix Tổng tài sản và Niềng răng */
+  body.theme-winter .finance-dashboard {
+    background: #2a4365 !important;
+    border: 2px dashed #cfd8dc !important;
+  }
+  body.theme-winter .finance-balance,
+  body.theme-winter .finance-balance-label,
+  body.theme-winter .finance-box-label {
+    color: #f3efe6 !important;
+  }
+  body.theme-winter .finance-box-val { color: #ffd54f !important; }
+  body.theme-winter .finance-box {
+    background: rgba(255,255,255,0.1) !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+  }
+  body.theme-winter .braces-dashboard-card {
+    background: var(--pink-surface) !important;
+    border: 2px dashed var(--border) !important;
+  }
+  body.theme-winter .braces-dashboard-card .stat-val {
+    color: var(--pink-primary) !important;
+  }
+
+  /* ===== 2. DỌN DẸP LỖI SÓT MÀU XANH DƯƠNG & NÚT X ===== */
+  
+  /* Nút X của Thẻ Bài */
+  body.theme-winter .place-close-btn {
+    background: var(--pink-primary) !important;
+    border-color: var(--border) !important;
+    color: #fff !important;
+    box-shadow: 2px 2px 0px var(--border) !important;
+  }
+
+  /* Ép tất cả các Tag, Ngày tháng, Chấm tròn về màu Đỏ rượu/Xám */
+  body.theme-winter .tag,
+  body.theme-winter .status-badge {
+    background: var(--pink-light) !important;
+    color: var(--pink-dark) !important;
+    border-color: var(--border) !important;
+  }
+  body.theme-winter .timeline-date,
+  body.theme-winter .diary-date-text,
+  body.theme-winter .braces-timeline-date,
+  body.theme-winter .event-desc.normal,
+  body.theme-winter .event-desc.urgent {
+    color: var(--pink-primary) !important;
+  }
+  body.theme-winter .timeline-dot,
+  body.theme-winter .braces-timeline-dot {
+    border-color: var(--pink-primary) !important;
+  }
+  body.theme-winter .timeline-wrap::before,
+  body.theme-winter .braces-timeline-wrap::before {
+    background: var(--pink-primary) !important;
+  }
 </style>
 </head>
 <body>
@@ -2517,7 +2694,7 @@
           <button class="theme-btn" data-theme="default">Đơn giản</button>
           <button class="theme-btn" data-theme="neobrutalism">Neobrutalism</button>
           <button class="theme-btn" data-theme="crayon">🖍️ Bút sáp</button>
-          <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>
+          <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>           <button class="theme-btn" data-theme="winter">❄️ Cozy Winter</button>
         </div>
       </div>
       
@@ -3607,7 +3784,7 @@
     if (settings.theme === 'neobrutalism') document.body.classList.add('theme-neobrutalism');
     if (settings.theme === 'nightsky') document.body.classList.add('theme-nightsky');
     if (settings.theme === 'crayon') document.body.classList.add('theme-crayon');
-    if (settings.theme === 'notion') document.body.classList.add('theme-notion');
+    if (settings.theme === 'notion') document.body.classList.add('theme-notion');     if (settings.theme === 'winter') document.body.classList.add('theme-winter');
     
     if (settings.font === 'nunito') document.body.classList.add('font-nunito');
     else if (settings.font === 'inter') document.body.classList.add('font-inter');
