@@ -3843,6 +3843,14 @@
     <div class="field">
       <label>Ngày tạo</label>
       <input type="date" id="noteDate">
+        <div class="field" id="taskPriorityField" style="display: none;">
+      <label>Mức độ ưu tiên</label>
+      <div class="picker" id="taskPriorityPicker">
+        <div class="opt" data-p="1">Thấp</div>
+        <div class="opt active" data-p="2">Bình thường</div>
+        <div class="opt" data-p="3">Cao</div>
+      </div>
+    </div>
     </div>
 
     <div class="field">
@@ -4203,6 +4211,7 @@
   let filterNoteType = 'all';
   let filterNoteHashtag = '';
   let formNoteType = 'note';
+  let formTaskPriority = 2; // 1: Thấp, 2: Bình thường, 3: Cao
   let sortNotesMode = 'newest';
   let searchNotes = '';
 
@@ -4664,6 +4673,13 @@
     const scoredTasks = pendingTasks.map(t => {
       let score = 0;
       
+      // Điểm Ưu tiên (Thấp: 10, Bình thường: 30, Cao: 60)
+      const prio = t.priority || 2;
+      if (prio === 1) score += 10;
+      else if (prio === 2) score += 30;
+      else if (prio === 3) score += 60;
+
+      // (Các phần tính điểm Deadline và Từ khóa Gấp ở dưới giữ nguyên)
       // 1. Điểm Deadline (Đã nâng cấp để tính chính xác số ngày)
       if (t.date) {
         const dDate = new Date(t.date);
@@ -6259,6 +6275,16 @@
         goalSelect.value = '';
       }
     }
+    // Tải mức ưu tiên cũ (nếu đang sửa)
+    if (id) {
+      const n = notes.find(x => x.id === id);
+      formTaskPriority = n.priority || 2;
+    } else {
+      formTaskPriority = 2;
+    }
+    document.querySelectorAll('#taskPriorityPicker .opt').forEach(o => {
+      o.classList.toggle('active', Number(o.dataset.p) === formTaskPriority);
+    });
     $('noteOverlay').classList.add('show');
     setTimeout(() => $('noteTitle').focus(), 300);
   }
@@ -6271,6 +6297,12 @@
     const goalField = $('noteGoalLinkField');
     if (goalField) {
       goalField.style.display = (type === 'task') ? 'block' : 'none';
+    }
+
+    // Hiện ô chọn Mức độ ưu tiên nếu là Việc làm
+    const prioField = $('taskPriorityField');
+    if (prioField) {
+      prioField.style.display = (type === 'task') ? 'block' : 'none';
     }
   }
 
@@ -6567,7 +6599,8 @@
       title, date: $('noteDate').value, 
       hashtags: [...new Set(rawTags.map(t=>t.replace(/^#/, '')))],
       content: $('noteContent').value.trim(), type: formNoteType,
-      goalId: $('noteLinkedGoalId') ? $('noteLinkedGoalId').value : '' // <-- Thêm dòng này
+      goalId: $('noteLinkedGoalId') ? $('noteLinkedGoalId').value : '',
+      priority: formTaskPriority // <-- Thêm dòng này
     };
     if (editNoteId) {
       const n = notes.find(x => x.id === editNoteId);
@@ -6838,6 +6871,14 @@ window.openPlaceCardPopup = function(id) {
       toast('✅ Đã cập nhật mục tiêu');
     }
   };
+  // Sự kiện click chọn Mức độ ưu tiên
+  document.querySelectorAll('#taskPriorityPicker .opt').forEach(o => {
+    o.addEventListener('click', () => {
+      formTaskPriority = Number(o.dataset.p);
+      document.querySelectorAll('#taskPriorityPicker .opt').forEach(x => x.classList.remove('active'));
+      o.classList.add('active');
+    });
+  });
   /* INIT */
   loadData();
   switchTab('finance');
