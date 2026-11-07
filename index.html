@@ -43,34 +43,6 @@
     --font-family: 'Quicksand', sans-serif;
     --bg-gradient: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
   }
-  body.theme-neobrutalism .filter-btn { background: #a78bfa; }
-  body.theme-neobrutalism .filter-btn svg { stroke: #000; }
-  body.theme-neobrutalism .search-box { background: #ffffff; }
-  body.theme-neobrutalism .card { padding: 12px; }
-  body.theme-neobrutalism .fab { 
-    background: #ff90e8; border: 3px solid #000; border-radius: 12px; box-shadow: 4px 4px 0px #000;
-    color: #000;
-  }
-  body.theme-neobrutalism .fab svg { stroke: #000; }
-  body.theme-neobrutalism .stat-badge { border: 2px solid #000; border-radius: 6px; }
-  body.theme-neobrutalism .picker .opt { border: 2px solid #000; border-radius: 8px; }
-  body.theme-neobrutalism .picker .opt.active { background: #ff90e8; box-shadow: 2px 2px 0px #000; transform: none;}
-  body.theme-neobrutalism .save-btn { 
-    border: 3px solid #000; border-radius: 12px; box-shadow: 4px 4px 0px #000; 
-    background: #ff90e8; color: #000; font-weight: 700;
-  }
-  body.theme-neobrutalism .chip { border: 2px solid #000; border-radius: 8px; }
-  body.theme-neobrutalism .chip.active { background: #ff90e8; box-shadow: 2px 2px 0px #000; }
-  body.theme-neobrutalism .bucket-item-check { border-radius: 4px; border: 2px solid #000; }
-  body.theme-neobrutalism .bucket-add-row { border: 2px solid #000; border-radius: 8px; }
-  body.theme-neobrutalism .bucket-add-btn { border-radius: 6px; border: 2px solid #000; background: #a7f3d0; color: #000; }
-  body.theme-neobrutalism .card-emoji { border: 2px solid #000; border-radius: 8px; background: var(--pink-bg); font-size: 24px; display: flex; align-items: center; justify-content: center;}
-  body.theme-neobrutalism .card-emoji svg { width: 24px; height: 24px; stroke: #000; }
-  body.theme-neobrutalism .modal { border: 4px solid #000; border-radius: 16px; }
-  body.theme-neobrutalism .donut-container { border: 2px solid #000; border-radius: 50%; padding: 4px; background: #fff;}
-  body.theme-neobrutalism .modal-handle { background: #000; }
-  body.theme-neobrutalism .event-date-box { border: 2px solid #000; border-radius: 8px; }
-
   /* Fonts */
   body.font-nunito { --font-family: 'Nunito', sans-serif; }
   body.font-inter { --font-family: 'Inter', sans-serif; }
@@ -568,7 +540,119 @@
   }
 
   /* ================= TAB KHÁC (GRID) ================= */
-  .other-grid {
+  /* ===== ICON KIẾN THỨC ===== */
+  .other-card-icon.knowledge { background: #ecfeff; }
+  .other-card-icon.knowledge svg { stroke: #0891b2; }
+  .note-icon-box.knowledge { background: #ecfeff; color: #0891b2; }
+  .tag.knowledge { background: #ecfeff; color: #0891b2; }
+  
+  /* ===== GIAO DIỆN SÁCH CHO KIẾN THỨC ===== */
+  #listNotes.knowledge-bookshelf {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding: 0 16px;
+  }
+  
+  .book-card {
+    position: relative;
+    background: var(--pink-surface);
+    border-radius: 6px 14px 14px 6px;
+    padding: 16px 14px 16px 26px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    height: 160px; /* Cố định chiều cao để bằng nhau */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+    overflow: hidden; /* Cắt phần thừa nếu chữ quá dài */
+  }
+  .book-card:active { transform: scale(0.96) rotate(-1deg); }
+  
+  /* Gáy sách - Dùng biến màu chung để đổi theo Theme */
+  .book-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 14px;
+    background: var(--pink-primary);
+    border-radius: 6px 0 0 6px;
+  }
+  /* Các đường chỉ khâu trên gáy */
+  .book-card::after {
+    content: '';
+    position: absolute;
+    left: 4px; top: 12px; bottom: 12px;
+    width: 2px;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.6) 0px,
+      rgba(255,255,255,0.6) 4px,
+      transparent 4px,
+      transparent 10px
+    );
+  }
+  
+  .book-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--pink-dark);
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Tối đa 3 dòng, dài quá sẽ có dấu ... */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3;
+  }
+  .book-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: auto; padding-top: 8px; }
+  .book-date { font-size: 10px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
+  
+  /* Tinh chỉnh cho các Theme đặc biệt */
+  body.theme-crayon .book-card::before {
+    background: repeating-linear-gradient(45deg, #e63946, #e63946 4px, #f77f00 4px, #f77f00 8px);
+    border-right: 2px solid #2b2d42;
+  }
+  body.theme-crayon .book-card {
+    border: 2.5px solid #2b2d42;
+    box-shadow: 4px 4px 0px rgba(43,45,66,0.4);
+  }
+  
+  body.theme-notion .book-card {
+    border: 2.5px solid #d4b895;
+    box-shadow: 4px 4px 0px #d4b895;
+  }
+  
+  body.theme-vintage .book-card {
+    border: 1.5px solid #6b4c3a;
+  }
+  body.theme-vintage .book-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+  }
+  
+  body.theme-winter .book-card::before {
+    background: repeating-linear-gradient(180deg, #a32a36, #a32a36 6px, #2a4365, #2a4365 12px);
+  }
+  
+  /* Hiệu ứng mở sách */
+  @keyframes openBook {
+    0% { transform: perspective(1200px) rotateY(-90deg); opacity: 0; }
+    100% { transform: perspective(1200px) rotateY(0deg); opacity: 1; }
+  }
+  /* ===== BIẾN MODAL NOTE THÀNH TRANG GIẤY ===== */
+  #noteOverlay .modal {
+    background: #fefcf5 !important;
+  }
+  #noteOverlay .modal h2 {
+    color: var(--pink-dark) !important;
+    font-family: 'Caveat', 'Quicksand', sans-serif !important;
+    font-size: 22px !important;
+  }
+  
+  /* ===== THÊM CHIP LỌC KIẾN THỨC ===== */
+  /* (không cần vì chip đã có sẵn trong filter) */
+   .other-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px; margin-bottom: 24px;
   }
   .other-card {
@@ -1813,46 +1897,6 @@
     stroke: var(--pink-dark);
     stroke-width: 2;
   }
-
-  /* ===== FIX LỖI VIỀN LÒI RA Ở CÁC THẺ SWIPE (Địa điểm, Nhật ký...) ===== */
-  
-  /* 1. Thẻ cha bao bọc (Swipe-item) - Xóa viền đen, bo góc cho khớp */
-  body.theme-notion .swipe-item {
-    border-radius: 24px !important;
-    border: none !important;
-    box-shadow: none !important;
-    overflow: hidden !important;
-    background: transparent !important;
-  }
-
-  /* 2. Ép thẻ con (Địa điểm, Nhật ký) phải nằm gọn bên trong, không xài bóng đổ lòi ra ngoài */
-  body.theme-notion .swipe-item .diary-compact-card,
-  body.theme-notion .swipe-item .note-list-card {
-    border-radius: 24px !important;
-    border: 2.5px solid var(--border) !important;
-    box-shadow: 4px 4px 0px var(--border) !important;
-    /* Xóa các hiệu ứng viền cũ (nét đứt, viền xanh) */
-    border-left: 2.5px solid var(--border) !important;
-    border-style: solid !important;
-    filter: none !important;
-    transform: none !important;
-    /* Đảm bảo không lòi ra khỏi thẻ cha */
-    margin: 0 !important; 
-    width: 100% !important;
-  }
-
-  /* 3. Xóa cái viền màu xanh dương của thẻ Niềng răng */
-  body.theme-notion .diary-compact-card.braces-card {
-    border-left: 2.5px solid var(--border) !important;
-  }
-
-  /* 4. Xóa cái nền xanh/tím của các nút Sửa/Xóa (Swipe Actions) khi nó bị lộ ra */
-  body.theme-notion .swipe-actions .action.edit {
-    background: var(--pink-light) !important;
-  }
-  body.theme-notion .swipe-actions .action.delete {
-    background: #e8b4b4 !important;
-  }
   /* ===== FIX MÀU TỔNG TÀI SẢN & NIỀNG RĂNG CHO THEME NOTION ===== */
 
   /* 1. Tổng tài sản (Finance Dashboard) -> Đổi sang tone Be đậm/Nâu */
@@ -2128,32 +2172,6 @@
     color: #000 !important;
     border: 3px solid #000 !important;
     box-shadow: 4px 4px 0px #000 !important;
-  }
-  /* Nút X cho theme Bút sáp */
-  body.theme-crayon #placeCardPopupOverlay button {
-    background: #ffb703 !important;
-    border: 2.5px solid #2b2d42 !important;
-    color: #2b2d42 !important;
-    border-radius: 50%;
-    box-shadow: 3px 3px 0px #2b2d42 !important;
-  }
-  
-  /* Nút X cho theme Neobrutalism */
-  body.theme-neobrutalism #placeCardPopupOverlay button {
-    background: #ff90e8 !important;
-    border: 3px solid #000 !important;
-    color: #000 !important;
-    border-radius: 50%;
-    box-shadow: 4px 4px 0px #000 !important;
-  }
-  
-  /* Nút X cho theme Notion */
-  body.theme-notion #placeCardPopupOverlay button {
-    background: #d4b895 !important;
-    border: 2px solid #8c7662 !important;
-    color: #fffcf8 !important;
-    border-radius: 50%;
-    box-shadow: 3px 3px 0px #8c7662 !important;
   }
   /* ===== FIX VỊ TRÍ NÚT X VÀ KHUNG POP-UP ===== */
   
@@ -3502,10 +3520,10 @@
         <div class="other-card-title">Địa điểm</div>
         <div class="other-card-count" id="countPlaceCard">0 mục</div>
       </div>
-      <div class="other-card" data-type="note">
-        <div class="other-card-icon note"><svg class="hand-icon"><use href="#icon-notebook"/></svg></div>
-        <div class="other-card-title">Ghi chú</div>
-        <div class="other-card-count" id="countNoteCard">0 mục</div>
+      <div class="other-card" data-type="knowledge">
+        <div class="other-card-icon knowledge"><svg class="hand-icon"><use href="#icon-book"/></svg></div>
+        <div class="other-card-title">Kiến thức</div>
+        <div class="other-card-count" id="countKnowledgeCard">0 mục</div>
       </div>
       <div class="other-card" data-type="task">
         <div class="other-card-icon task"><svg class="hand-icon"><use href="#icon-list"/></svg></div>
@@ -3870,7 +3888,7 @@
       <label>Loại ghi chú</label>
       <div class="chip-group" id="filterNoteTypeGroup">
         <div class="chip" data-type="all">Tất cả</div>
-        <div class="chip" data-type="note">Ghi chú</div>
+        <div class="chip" data-type="knowledge">📖 Kiến thức</div>
         <div class="chip" data-type="task">Việc cần làm</div>
         <div class="chip" data-type="tip">Tips hay</div>
       </div>
@@ -3887,6 +3905,43 @@
 </div>
 
 <!-- Chi tiết Địa điểm / Ghi chú -->
+<!-- KHUNG XEM CHI TIẾT THẺ BÀI KIẾN THỨC -->
+<div class="overlay" id="bookViewerOverlay" style="align-items: center; justify-content: center; padding: 20px;">
+  <div class="place-popup-modal" style="position: relative; width: 100%; max-width: 340px;">
+    
+    <!-- Nút X (Đã được đưa ra ngoài, đúng góc) -->
+    <button class="place-close-btn" id="closeBookViewer" style="top: -12px; right: -12px;">
+      ✕
+    </button>
+    
+    <!-- Thẻ bài (Gắn class place-card-item để đồng bộ góc cạnh với Địa điểm) -->
+    <div id="bookCardView" class="place-card-item" style="width: 100%; margin: 0; padding: 12px; animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);">
+      
+      <div class="place-card-image" style="height: 120px;">
+        <svg class="hand-icon" style="width: 60px; height: 60px;"><use href="#icon-book"/></svg>
+      </div>
+      
+      <div class="place-card-title-bar" style="padding: 10px;">
+        <span id="bookCardTitle" style="font-size: 16px; font-weight: 700; text-align: center; width: 100%; white-space: normal; line-height: 1.3;"></span>
+      </div>
+      
+      <div class="place-card-desc" style="font-size: 14px; padding: 16px; text-align: left; min-height: 120px; max-height: 40vh; overflow-y: auto; -webkit-line-clamp: unset; display: block;">
+        <div id="bookCardContent"></div>
+      </div>
+      
+      <div class="place-card-footer" style="font-size: 12px; display: flex; flex-direction: column; gap: 6px; padding-top: 8px;">
+        <div id="bookCardMeta"></div>
+      </div>
+      
+    </div>
+    
+    <!-- Nút Sửa (Nằm ngay dưới thẻ) -->
+    <button class="save-btn" id="btnEditFromBook" style="width: 100%; margin-top: 16px; background: #8b5cf6; border-radius: 12px; box-shadow: 3px 3px 0px rgba(0,0,0,0.2);">
+      <svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa nội dung
+    </button>
+
+  </div>
+</div>
 <!-- Pop-up hiển thị toàn bộ Thẻ bài Địa điểm -->
 <div class="overlay" id="placeCardPopupOverlay">
   <div class="modal place-popup-modal">
@@ -3998,9 +4053,10 @@
     <div class="field">
       <label>Loại ghi chú</label>
       <div class="picker" id="noteTypePicker">
-        <div class="opt active" data-type="note">Ghi chú</div>
+        <div class="opt" data-type="note">Ghi chú</div>
         <div class="opt" data-type="task">Việc làm</div>
         <div class="opt" data-type="tip">Tips</div>
+        <div class="opt active" data-type="knowledge">📖 Kiến thức</div>
       </div>
     </div>
 
@@ -4036,7 +4092,22 @@
 
     <div class="field">
       <label>Nội dung chi tiết</label>
-      <textarea id="noteContent" placeholder="Nhập nội dung..." style="min-height: 120px;"></textarea>
+      
+      <!-- Thanh công cụ định dạng -->
+      <div id="noteToolbar" style="display:flex; gap:6px; background:var(--pink-bg); padding:8px; border-radius:12px 12px 0 0; border:1.5px solid var(--border); border-bottom:none; flex-wrap:wrap;">
+        <button type="button" onclick="formatDoc('bold')" style="width:32px; height:32px; border:none; background:var(--pink-surface); border-radius:6px; cursor:pointer; font-weight:900; color:var(--pink-primary);">B</button>
+        <button type="button" onclick="formatDoc('italic')" style="width:32px; height:32px; border:none; background:var(--pink-surface); border-radius:6px; cursor:pointer; font-style:italic; font-family:serif; color:var(--pink-primary);">I</button>
+        <button type="button" onclick="formatDoc('underline')" style="width:32px; height:32px; border:none; background:var(--pink-surface); border-radius:6px; cursor:pointer; text-decoration:underline; color:var(--pink-primary);">U</button>
+        <div style="width:1px; height:20px; background:var(--border); margin:auto 4px;"></div>
+        <button type="button" onclick="formatDoc('justifyLeft')" style="padding:0 10px; height:32px; border:none; background:var(--pink-surface); border-radius:6px; cursor:pointer; color:var(--pink-primary); font-size:12px;">Trái</button>
+        <button type="button" onclick="formatDoc('justifyCenter')" style="padding:0 10px; height:32px; border:none; background:var(--pink-surface); border-radius:6px; cursor:pointer; color:var(--pink-primary); font-size:12px;">Giữa</button>
+        <button type="button" onclick="formatDoc('justifyRight')" style="padding:0 10px; height:32px; border:none; background:var(--pink-surface); border-radius:6px; cursor:pointer; color:var(--pink-primary); font-size:12px;">Phải</button>
+        <div style="width:1px; height:20px; background:var(--border); margin:auto 4px;"></div>
+        <button type="button" onclick="formatDoc('insertUnorderedList')" style="padding:0 10px; height:32px; border:none; background:var(--pink-surface); border-radius:6px; cursor:pointer; color:var(--pink-primary); font-size:12px;">• List</button>
+      </div>
+
+      <!-- Khung giấy nhập liệu -->
+      <div id="noteContent" contenteditable="true" placeholder="Nhập nội dung..." style="min-height: 180px; background-color: #fdfdfd !important; background-image: linear-gradient(90deg, transparent 39px, #ffb3b3 39px, #ffb3b3 41px, transparent 41px), repeating-linear-gradient(transparent, transparent 27px, #dbeafe 27px, #dbeafe 28px); background-attachment: local; line-height: 28px !important; padding: 10px 15px 10px 50px !important; border: 1.5px solid var(--border) !important; border-radius: 0 0 4px 4px !important; outline: none; font-family: inherit; color: var(--text) !important; overflow-y: auto; white-space: pre-wrap;"></div>
     </div>
 
     <button class="save-btn" id="saveNoteBtn">
@@ -4292,7 +4363,9 @@
     { id: 'p_1', name: 'Cà phê Ngõ Nhỏ', type: 'cafe', status: 'want', rating: 5, city: 'Hà Nội', address: '12 Nguyễn Huệ', date: '2023-10-25', hashtags: ['viewdep', 'chill'], note: 'Không gian yên tĩnh, nước uống ổn.', createdAt: Date.now() - 10000000 }
   ];
   const SAMPLE_NOTES = [
-    { id: 'n_1', title: 'Mua sạc dự phòng', type: 'task', content: 'Sạc 20.000mAh', date: '2023-11-05', hashtags: ['muasam'], createdAt: Date.now(), isCompleted: false }
+    { id: 'n_1', title: 'Mua sạc dự phòng', type: 'task', content: 'Sạc 20.000mAh', date: '2023-11-05', hashtags: ['muasam'], createdAt: Date.now(), isCompleted: false },
+    { id: 'n_2', title: 'Cách dùng React Hooks', type: 'knowledge', content: 'useMemo dùng để memoize giá trị.\nuseCallback dùng để memoize function.\nuseEffect dùng để side effect.', date: '2023-11-10', hashtags: ['react', 'hooks'], createdAt: Date.now() - 50000 },
+    { id: 'n_3', title: '5 mẹo học tiếng Anh hiệu quả', type: 'knowledge', content: '1. Học mỗi ngày 15 phút\n2. Xem phim có phụ đề\n3. Ghi âm giọng mình\n4. Dùng flashcard\n5. Nói chuyện với người bản xứ', date: '2023-11-12', hashtags: ['tienganh', 'meohay'], createdAt: Date.now() - 40000 }
   ];
   const SAMPLE_DIARIES = [
     { id: 'd_1', date: '2023-11-10', title: 'Một ngày dạo phố', content: 'Hôm nay đi cà phê với hội bạn thân, trời đẹp và mát mẻ. Rất vui!', mood: '😊 Vui vẻ', createdAt: Date.now() - 50000 }
@@ -4576,6 +4649,7 @@
     note:   { label:'Ghi chú', icon:'#icon-notebook', cls:'note' },
     task:   { label:'Việc làm', icon:'#icon-list', cls:'task' },
     tip:    { label:'Tips', icon:'#icon-bulb', cls:'tip' },
+    knowledge: { label:'Kiến thức', icon:'#icon-book', cls:'knowledge' },
     bank:   { label:'Ngân hàng', icon:'#icon-card' },
     loan_out:{ label:'Cho vay', icon:'#icon-trending-up' },
     loan_in:{ label:'Đi vay', icon:'#icon-trending-down' },
@@ -5468,19 +5542,18 @@
   /* ==================== TAB 3: KHÁC ==================== */
   function renderOthers() {
     const countPlaces = places.length;
-    const countNotes = notes.filter(n => n.type === 'note').length;
+    const countNotes = notes.filter(n => n.type === 'knowledge').length;
     const countTasks = notes.filter(n => n.type === 'task').length;
     const countTips = notes.filter(n => n.type === 'tip').length;
     const countGoals = goals.length;
     const countEvents = events.length;
     
     $('countPlaceCard').textContent = `${countPlaces} mục`;
-    $('countNoteCard').textContent = `${countNotes} mục`;
+    $('countKnowledgeCard').textContent = `${countNotes} mục`;
     $('countTaskCard').textContent = `${countTasks} mục`;
     $('countTipCard').textContent = `${countTips} mục`;
     $('countGoalCard').textContent = `${countGoals} mục`;
     $('countEventCard').textContent = `${countEvents} mục`;
-
     $('othersMainView').style.display = 'none';
     $('placeDetailView').style.display = 'none';
     $('othersDetailView').style.display = 'none';
@@ -5571,6 +5644,8 @@
     const list = $('listNotes');
     const arr = getFilteredNotes();
 
+    const isKnowledgeView = (currentOtherCategory === 'knowledge');
+
     $('countNotes').textContent = `${arr.length} kết quả`;
     updateNoteFilterBadge();
 
@@ -5578,11 +5653,41 @@
     $('sortNotesLabel').textContent = sortLabels[sortNotesMode];
 
     if (arr.length === 0) {
-      list.innerHTML = `<div class="empty" style="grid-column: span 2;"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-search"/></svg></div><h3>Không tìm thấy</h3><p>Thử đổi bộ lọc hoặc từ khóa khác nhé.</p></div>`;
+      list.classList.remove('knowledge-bookshelf');
+      list.innerHTML = `<div class="empty" style="grid-column: span 2;"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-book"/></svg></div><h3>Chưa có kiến thức nào</h3><p>Bấm nút <b>+</b> để viết cuốn sổ đầu tiên.</p></div>`;
       return;
     }
 
-    // Note List Format với Swipe
+    if (isKnowledgeView) {
+      // === GIAO DIỆN SÁCH ===
+      list.classList.add('knowledge-bookshelf');
+      list.innerHTML = arr.map(n => `
+        <div class="swipe-item" data-id="${n.id}" data-type="note">
+          <div class="book-card" data-id="${n.id}" data-type="note">
+            <div class="book-date">${n.date ? fmtDate(n.date) : ''}</div>
+            <div class="book-title">${esc(n.title)}</div>
+            ${n.hashtags && n.hashtags.length > 0 ? `
+              <div class="book-tags">
+                ${n.hashtags.slice(0,2).map(t => `<span class="tag hashtag">#${esc(t)}</span>`).join('')}
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `).join('');
+      // Gắn sự kiện click Mở Sách (Xem chi tiết)
+      list.querySelectorAll('.book-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          openBookViewer(card.dataset.id);
+        });
+      });
+      
+      bindSwipe(list);
+      return;
+    }
+
+    // === Giao diện list cũ ===
+    list.classList.remove('knowledge-bookshelf');
     list.innerHTML = arr.map(n => {
       const info = INFO[n.type] || INFO.note;
 
@@ -5592,7 +5697,7 @@
             <div class="action edit" data-action="edit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa</div>
             <div class="action delete" data-action="delete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa</div>
           </div>
-          <div class="note-list-card" onclick="handleCardClick(event, '${n.id}', 'note')">
+          <div class="note-list-card" onclick="openNoteModal('${n.id}')">
             <div class="note-icon-box ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg></div>
             <div class="note-content-box">
               <div class="note-title-text">${esc(n.title)}</div>
@@ -5616,6 +5721,50 @@
     bindSwipe(list);
   }
 
+// Hàm hiển thị thẻ bài Kiến thức
+  window.openBookViewer = function(id) {
+    const n = notes.find(x => x.id === id);
+    if (!n) return;
+
+    // Đổ dữ liệu vào Thẻ bài
+    $('bookCardTitle').textContent = n.title || 'Không có tiêu đề';
+    $('bookCardContent').innerHTML = n.content || '(Chưa có nội dung)';
+    
+    // Hiển thị Ngày tháng & Tags
+    let metaHtml = '';
+    if (n.date) metaHtml += `<span style="margin-right: 8px;">📅 ${fmtDate(n.date)}</span>`;
+    if (n.hashtags && n.hashtags.length > 0) {
+      metaHtml += n.hashtags.map(tag => `<span style="color:var(--pink-primary); margin-right: 4px;">#${esc(tag)}</span>`).join('');
+    }
+    $('bookCardMeta').innerHTML = metaHtml;
+
+    // Hiệu ứng popup
+    const card = $('bookCardView');
+    card.style.animation = 'none';
+    card.offsetHeight; // trigger reflow
+    card.style.animation = 'popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards';
+
+    // Gắn ID vào nút Sửa
+    $('btnEditFromBook').dataset.id = id;
+
+    // Hiện khung
+    $('bookViewerOverlay').classList.add('show');
+  };
+
+  // Sự kiện đóng sách
+  $('closeBookViewer').addEventListener('click', () => {
+    $('bookViewerOverlay').classList.remove('show');
+  });
+  $('bookViewerOverlay').addEventListener('click', (e) => {
+    if(e.target === $('bookViewerOverlay')) $('bookViewerOverlay').classList.remove('show');
+  });
+
+  // Sự kiện bấm nút Sửa trong Sách
+  $('btnEditFromBook').addEventListener('click', () => {
+    const id = $('btnEditFromBook').dataset.id;
+    $('bookViewerOverlay').classList.remove('show'); // Đóng sách
+    openNoteModal(id); // Mở form sửa
+  });
   window.openDetailModal = function(type, id) {
     currentDetailType = type;
     let item = null;
@@ -5661,7 +5810,7 @@
       if (item.note) content += `<div>${esc(item.note)}</div>`;
       else content += `<div style="color:var(--text-muted); font-style:italic;">Không có ghi chú.</div>`;
     } else {
-      content = item.content ? esc(item.content) : `<div style="color:var(--text-muted); font-style:italic;">Không có nội dung.</div>`;
+      content = item.content ? item.content : `<div style="color:var(--text-muted); font-style:italic;">Không có nội dung.</div>`;
     }
     $('detailContent').innerHTML = content;
 
@@ -6336,21 +6485,6 @@
 
       card.addEventListener('touchend', endDrag);
       card.addEventListener('touchcancel', endDrag);
-
-      item.querySelector('[data-action="edit"]').addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeAllSwipes();
-        if (itemType === 'place') openPlaceModal(id);
-        else if (itemType === 'note') openNoteModal(id);
-        else if (itemType === 'diary') openDiaryModal(id);
-        else if (itemType === 'braces') openBracesModal(id);
-      });
-      
-      item.querySelector('[data-action="delete"]').addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeAllSwipes();
-        askDelete(id, itemType);
-      });
     });
     
     document.addEventListener('touchstart', e => { 
@@ -6366,7 +6500,7 @@
     });
   }
 
-  window.handleCardClick = function(e, id, type) {
+  window.handleCardClick = function(e, id, type) {     if(type === 'place') openDetailModal('place', id);     else if(type === 'note') openNoteModal(id); // Đã chuyển sang mở Form Sửa luôn     else if(type === 'diary') openDiaryModal(id);     else if(type === 'braces') openBracesModal(id);   };
     const card = e.currentTarget;
     if (card.style.transform && card.style.transform !== 'translateX(0px)' && card.style.transform !== '') {
       closeAllSwipes(); return;
@@ -6418,15 +6552,15 @@
       $('noteTitle').value = n.title || '';
       $('noteDate').value = n.date || new Date().toISOString().split('T')[0];
       $('noteHashtags').value = (n.hashtags || []).join(', ');
-      $('noteContent').value = n.content || '';
+      $('noteContent').innerHTML = n.content || ''; // 
       setFormNoteType(n.type || 'note');
     } else {
       $('noteModalTitle').textContent = 'Thêm ghi chú';
       $('noteTitle').value = ''; 
       $('noteDate').value = new Date().toISOString().split('T')[0]; 
       $('noteHashtags').value = ''; 
-      $('noteContent').value = '';
-      setFormNoteType(currentOtherCategory || 'note');
+      $('noteContent').innerHTML = '';
+      setFormNoteType(currentOtherCategory === 'knowledge' ? 'knowledge' : (currentOtherCategory || 'note'));
     }
     // Tải danh sách Bucket list vào ô Select
     const goalSelect = $('noteLinkedGoalId');
@@ -6757,7 +6891,11 @@
     }
     saveData(); renderPlaces(); closePlaceModal(); toast('✅ Đã lưu');
   });
-
+// Hàm xử lý định dạng văn bản
+  window.formatDoc = function(command) {
+    document.execCommand(command, false, null);
+    $('noteContent').focus();
+  };
   $('saveNoteBtn').addEventListener('click', () => {
     const title = $('noteTitle').value.trim();
     if (!title) { $('noteTitle').focus(); return toast('Nhập tiêu đề ghi chú'); }
@@ -6765,7 +6903,7 @@
     const data = {
       title, date: $('noteDate').value, 
       hashtags: [...new Set(rawTags.map(t=>t.replace(/^#/, '')))],
-      content: $('noteContent').value.trim(), type: formNoteType,
+      content: $('noteContent').innerHTML.trim(), type: formNoteType,
       goalId: $('noteLinkedGoalId') ? $('noteLinkedGoalId').value : '',
       priority: formTaskPriority // <-- Thêm dòng này
     };
