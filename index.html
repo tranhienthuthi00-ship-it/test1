@@ -3059,12 +3059,6 @@
     display: none !important;
   }
   
-  /* Xóa khoảng trống thừa của khung chứa */
-  #noteOverlay .field:has(#noteTypePicker) {
-    display: none !important;
-  }
-  /* Ép màu nhãn đếm mục tiêu và thanh nền tiến trình theo theme */
-  
   /* 1. Cái nhãn "2/6 mục tiêu" */
   .bucket-progress {
     background: var(--pink-light) !important; /* Nền màu Be */
@@ -4088,7 +4082,17 @@
   <div class="modal">
     <div class="modal-handle"></div>
     <h2><span id="noteModalTitle">Thêm ghi chú</span> <button id="closeNoteModal"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
-
+<div class="field">
+  <label>Icon hiển thị</label>
+  <div class="picker" id="noteIconPicker">
+    <div class="opt active" data-icon="notebook"><svg class="hand-icon"><use href="#icon-notebook"/></svg></div>
+    <div class="opt" data-icon="bulb"><svg class="hand-icon"><use href="#icon-bulb"/></svg></div>
+    <div class="opt" data-icon="book"><svg class="hand-icon"><use href="#icon-book"/></svg></div>
+    <div class="opt" data-icon="list"><svg class="hand-icon"><use href="#icon-list"/></svg></div>
+    <div class="opt" data-icon="star"><svg class="hand-icon"><use href="#icon-star"/></svg></div>
+    <div class="opt" data-icon="heart"><svg class="hand-icon"><use href="#icon-heart"/></svg></div>
+  </div>
+</div>
     <div class="field">
       <label>Loại ghi chú</label>
       <div class="picker" id="noteTypePicker">
@@ -4491,6 +4495,7 @@
   let filterNoteType = 'all';
   let filterNoteHashtag = '';
   let formNoteType = 'note';
+  let formNoteIcon = 'notebook';
   let formTaskPriority = 2; // 1: Thấp, 2: Bình thường, 3: Cao
   let sortNotesMode = 'newest';
   let searchNotes = '';
@@ -5890,18 +5895,18 @@
             <div class="action edit" data-action="edit"><svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa</div>
             <div class="action delete" data-action="delete"><svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa</div>
           </div>
-          <div class="note-list-card" onclick="openNoteModal('${n.id}')">
-            <div class="note-icon-box ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg></div>
+          <div class="note-list-card" onclick="openDetailModal('note', '${n.id}')">
+            <div class="note-icon-box ${info.cls}"><svg class="hand-icon"><use href="#icon-${n.icon || info.icon.replace('#icon-','')}"/></svg></div>
             <div class="note-content-box">
               <div class="note-title-text">${esc(n.title)}</div>
               
-              <div class="note-meta-row">
-                <span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>
-                ${n.date ? `<span class="note-date-text"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(n.date)}</span>` : ''}
-              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:8px;">
+  <div style="flex:1; min-width:0;"></div>
+  ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap;">${fmtDate(n.date)}</span>` : ''}
+</div>
               
               <div class="note-meta-row">
-                ${n.hashtags && n.hashtags.length > 0 ? n.hashtags.map(tag => `<span class="tag hashtag">#${esc(tag)}</span>`).join('') : ''}
+                ${n.hashtags && n.hashtags.length > 0 ? n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600; margin-right:4px;">#${esc(tag)}</span>`).join('') : ''}
               </div>
 
               ${n.content ? `<div class="note-desc-text">${esc(n.content)}</div>` : ''}
@@ -6827,16 +6832,18 @@
     });
   }
 
-  window.handleCardClick = function(e, id, type) {     if(type === 'place') openDetailModal('place', id);     else if(type === 'note') openNoteModal(id); // Đã chuyển sang mở Form Sửa luôn     else if(type === 'diary') openDiaryModal(id);     else if(type === 'braces') openBracesModal(id);   };
-    const card = e.currentTarget;
-    if (card.style.transform && card.style.transform !== 'translateX(0px)' && card.style.transform !== '') {
-      closeAllSwipes(); return;
-    }
-    if(type === 'place') openDetailModal('place', id);
-    else if(type === 'note') openDetailModal('note', id);
-    else if(type === 'diary') openDiaryModal(id);
-    else if(type === 'braces') openBracesModal(id);
-  };
+  window.handleCardClick = function(e, id, type) {
+  const card = e.currentTarget;
+  // Nếu card đang mở swipe (bị kéo) thì đóng lại, không mở modal
+  if (card.style.transform && card.style.transform !== 'translateX(0px)' && card.style.transform !== '') {
+    closeAllSwipes();
+    return;
+  }
+  if (type === 'place') openDetailModal('place', id);
+  else if (type === 'note') openDetailModal('note', id);
+  else if (type === 'diary') openDiaryModal(id);
+  else if (type === 'braces') openBracesModal(id);
+};
 
   /* ==================== FORMS ==================== */
   function openPlaceModal(id) {
@@ -6881,6 +6888,7 @@
       $('noteHashtags').value = (n.hashtags || []).join(', ');
       $('noteContent').innerHTML = n.content || ''; // 
       setFormNoteType(n.type || 'note');
+      setFormNoteIcon(n.icon || 'notebook');
     } else {
       $('noteModalTitle').textContent = 'Thêm ghi chú';
       $('noteTitle').value = ''; 
@@ -6888,6 +6896,7 @@
       $('noteHashtags').value = ''; 
       $('noteContent').innerHTML = '';
       setFormNoteType(currentOtherCategory === 'knowledge' ? 'knowledge' : (currentOtherCategory || 'note'));
+      setFormNoteIcon('notebook');
     }
     // Tải danh sách Bucket list vào ô Select
     const goalSelect = $('noteLinkedGoalId');
@@ -6932,6 +6941,13 @@
     if (prioField) {
       prioField.style.display = (type === 'task') ? 'block' : 'none';
     }
+  }
+  
+  function setFormNoteIcon(icon) {
+    formNoteIcon = icon;
+    document.querySelectorAll('#noteIconPicker .opt').forEach(o => {
+      o.classList.toggle('active', o.dataset.icon === icon);
+    });
   }
 
   function openDiaryModal(id) {
@@ -7196,6 +7212,7 @@
   document.querySelectorAll('#statusPicker .opt').forEach(o => o.addEventListener('click', () => setFormStatus(o.dataset.status)));
   document.querySelectorAll('#ratingPicker .star-btn').forEach(s => s.addEventListener('click', () => setFormRating(Number(s.dataset.v))));
   document.querySelectorAll('#noteTypePicker .opt').forEach(o => o.addEventListener('click', () => setFormNoteType(o.dataset.type)));
+  document.querySelectorAll('#noteIconPicker .opt').forEach(o => o.addEventListener('click', () => setFormNoteIcon(o.dataset.icon)));
   document.querySelectorAll('#moodPicker .opt').forEach(o => o.addEventListener('click', () => setDiaryMood(o.dataset.mood)));
   document.querySelectorAll('#assetTypePicker .opt').forEach(o => o.addEventListener('click', () => setFormAssetType(o.dataset.type)));
   document.querySelectorAll('#eventIconPicker .opt').forEach(o => o.addEventListener('click', () => setEventIcon(o.dataset.icon)));
@@ -7226,11 +7243,11 @@
   $('saveNoteBtn').addEventListener('click', () => {
     const title = $('noteTitle').value.trim();
     if (!title) { $('noteTitle').focus(); return toast('Nhập tiêu đề ghi chú'); }
-    const rawTags = $('noteHashtags').value.split(/[, ]+/).filter(t => t.trim());
+    const rawTags = $('noteHashtags').value.split(',').filter(t => t.trim());
     const data = {
       title, date: $('noteDate').value, 
       hashtags: [...new Set(rawTags.map(t=>t.replace(/^#/, '')))],
-      content: $('noteContent').innerHTML.trim(), type: formNoteType,
+      content: $('noteContent').innerHTML.trim(), type: formNoteType, icon: formNoteIcon,
       goalId: $('noteLinkedGoalId') ? $('noteLinkedGoalId').value : '',
       priority: formTaskPriority // <-- Thêm dòng này
     };
