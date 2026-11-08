@@ -3382,8 +3382,11 @@
         <!-- Render bằng JS -->
       </div>
     </div>
-
-      <!-- Việc hôm nay (nằm dưới Suggest) -->
+  <!-- THANH NHẮC NHỞ VIẾT NHẬT KÝ -->
+      <div id="homeDiaryPrompt" style="margin-bottom: 20px;">
+        <!-- Nội dung sẽ được JS đổ vào đây -->
+      </div>
+    <!-- Việc hôm nay (nằm dưới Suggest) -->
       <div id="homeTodayTasks" style="margin-top: 24px; margin-bottom: 20px;"></div>
 
   </div>
@@ -4892,10 +4895,98 @@
         <div class="suggest-address">Hãy thêm địa điểm mới nhé.</div>
       `;
     }
-
+  renderHomeDiaryPrompt();
     renderHomeTasks();
   }
+// Hàm hiển thị thanh nhắc nhở viết nhật ký
+  function renderHomeDiaryPrompt() {
+    const box = document.getElementById('homeDiaryPrompt');
+    if (!box) return;
 
+    const todayStr = new Date().toISOString().split('T')[0];
+    
+    // Tìm xem hôm nay đã có nhật ký chưa
+    const todayDiaries = diaries.filter(d => d.date === todayStr);
+    
+    if (todayDiaries.length > 0) {
+      // Đã viết -> Hiển thị trạng thái hoàn thành
+      const d = todayDiaries[todayDiaries.length - 1];
+      box.innerHTML = `
+        <div class="compact-card" style="background: var(--pink-bg) !important; border: 1px solid var(--border) !important; display: flex; align-items: center; gap: 12px; padding: 14px; cursor: pointer;" onclick="openDiaryModal('${d.id}')">
+          <div class="diary-icon-box" style="background: var(--pink-surface); color: var(--pink-primary); border: 1px solid var(--border);">
+            <svg class="hand-icon"><use href="#icon-check-circle"/></svg>
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--pink-primary); margin-bottom: 2px;">Today's diary is done! ˗ˏˋ ★ ˎˊ˗</div>
+            <div style="font-size: 13px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              "${esc(d.title || d.content)}"
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      // Chưa viết -> Hiển thị thanh nhắc nhở và ô nhập nhanh
+      box.innerHTML = `
+        <div class="compact-card" style="border: 1px solid var(--border) !important; padding: 14px;">
+          <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <svg class="hand-icon" style="width: 16px; height: 16px; stroke: var(--pink-primary);"><use href="#icon-pencil-square"/></svg>
+            Hôm nay chưa viết nhật ký đấy nhé ( •̀_•́ )
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="quickDiaryInput" placeholder="Ghi lại một khoảnh khắc..." style="flex: 1; padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--pink-bg); color: var(--text); outline: none; font-family: inherit; font-size: 14px;">
+            <button id="quickDiarySaveBtn" style="width: 42px; height: 42px; border-radius: 12px; border: none; background: var(--pink-primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
+              <svg class="hand-icon" style="width: 20px; height: 20px; stroke: white;"><use href="#icon-save"/></svg>
+            </button>
+          </div>
+        </div>
+      `;
+      
+      // Gắn sự kiện cho nút Lưu
+      const btn = document.getElementById('quickDiarySaveBtn');
+      const input = document.getElementById('quickDiaryInput');
+      
+      if (btn && input) {
+        // Bấm nút Lưu
+        btn.addEventListener('click', () => {
+          saveQuickDiary(input.value);
+        });
+        
+        // Nhấn Enter cũng Lưu
+        input.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            saveQuickDiary(input.value);
+          }
+        });
+      }
+    }
+  }
+
+  // Hàm xử lý lưu nhật ký nhanh
+  function saveQuickDiary(content) {
+    const text = content.trim();
+    if (!text) return;
+
+    // Tự động tạo tiêu đề từ 30 ký tự đầu
+    const title = text.length > 30 ? text.substring(0, 30) + '...' : text;
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    // Tạo object nhật ký mới
+    const newDiary = {
+      id: 'd_' + Date.now(),
+      date: todayStr,
+      title: title,
+      content: text,
+      mood: '😌 Bình yên', // Cảm xúc mặc định
+      createdAt: Date.now()
+    };
+
+    diaries.push(newDiary);
+    saveData();
+    
+    // Cập nhật lại giao diện thanh nhắc nhở
+    renderHomeDiaryPrompt();
+    toast('✅ Đã lưu nhật ký nhanh!');
+  }
   // Hàm render widget Việc hôm nay
   function renderHomeTasks() {
     const box = document.getElementById('homeTodayTasks');
