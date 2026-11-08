@@ -6112,7 +6112,43 @@
       $('detailLink').style.display = 'none';
     }
 
+    // NÚT SỬA CHO ĐỊA ĐIỂM
+    let editBtnHtml = '';
+    if (type === 'place') {
+      editBtnHtml = `
+        <button class="save-btn" onclick="editPlaceFromDetail('${id}')" style="margin-top:16px; background:var(--pink-primary);">
+          <svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa địa điểm
+        </button>
+      `;
+    } else if (type === 'note') {
+      editBtnHtml = `
+        <button class="save-btn" onclick="editNoteFromDetail('${id}')" style="margin-top:16px; background:var(--pink-primary);">
+          <svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa ghi chú
+        </button>
+      `;
+    }
+
+    // Tạo hoặc cập nhật nút sửa trong detail modal
+    let editBtnContainer = document.getElementById('detailEditBtnContainer');
+    if (!editBtnContainer) {
+      editBtnContainer = document.createElement('div');
+      editBtnContainer.id = 'detailEditBtnContainer';
+      $('detailContent').parentNode.appendChild(editBtnContainer);
+    }
+    editBtnContainer.innerHTML = editBtnHtml;
+
     $('detailModalOverlay').classList.add('show');
+  };
+
+  // Hàm mở form sửa từ modal chi tiết
+  window.editPlaceFromDetail = function(id) {
+    $('detailModalOverlay').classList.remove('show');
+    setTimeout(() => openPlaceModal(id), 200);
+  };
+
+  window.editNoteFromDetail = function(id) {
+    $('detailModalOverlay').classList.remove('show');
+    setTimeout(() => openNoteModal(id), 200);
   };
 
   $('closeDetailModalBtn').addEventListener('click', () => $('detailModalOverlay').classList.remove('show'));
@@ -7401,10 +7437,21 @@ window.openPlaceCardPopup = function(id) {
           ${p.hashtags && p.hashtags.length > 0 ? `<span style="color:var(--pink-primary);">#${p.hashtags.join(' #')}</span>` : ''}
         </div>
       </div>
+      
+      <!-- NÚT SỬA MỚI THÊM -->
+      <button class="save-btn" onclick="editPlaceFromCard('${id}')" style="width:100%; margin-top:16px; background: var(--pink-primary); border-radius: 12px;">
+        <svg class="hand-icon"><use href="#icon-edit"/></svg> Sửa địa điểm
+      </button>
     `;
 
     document.getElementById('placeCardPopupContent').innerHTML = cardHtml;
     document.getElementById('placeCardPopupOverlay').classList.add('show');
+  };
+
+  // Hàm mở form sửa từ popup thẻ bài
+  window.editPlaceFromCard = function(id) {
+    document.getElementById('placeCardPopupOverlay').classList.remove('show');
+    setTimeout(() => openPlaceModal(id), 200);
   };
   window.toggleSubTask = function(taskId) {
     const task = notes.find(n => n.id === taskId);
