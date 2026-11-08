@@ -4431,7 +4431,7 @@
   let salaryData = { income: 0, expenses: [] };
   let goals = [];
   
-  let currentTab = 'finance'; 
+  let currentTab = 'home'; 
   let currentFinPage = 0;
   let currentDiaryPage = 0; 
   let currentOtherCategory = null; 
@@ -4967,7 +4967,7 @@
           ${esc(t.title)}
         </div>
         <!-- Chỉ hiện tag điểm nếu điểm > 0 để giao diện đỡ rối -->
-        ${t.score > 0 ? `<span class="tag" style="background:#fee2e2; color:#dc2626; font-weight:bold; font-size:10px;">🔥 ${Math.round(t.score)}</span>` : ''}
+        ${t.score > 0 ? `<span style="background:#fee2e2; color:#dc2626; font-weight:bold; font-size:10px; padding: 2px 6px; border-radius: 4px;">🔥 ${Math.round(t.score)}</span>` : ''}
       </div>
     `).join('');
 
