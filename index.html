@@ -164,6 +164,17 @@
     animation: float 3s ease-in-out infinite;
   }
   @keyframes rotate { 100% { transform: rotate(360deg); } }
+  /* Hiệu ứng rung lắc khi rút thẻ */
+  @keyframes shakeCard {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px) rotate(-2deg); }
+    40% { transform: translateX(6px) rotate(2deg); }
+    60% { transform: translateX(-4px) rotate(-1deg); }
+    80% { transform: translateX(4px) rotate(1deg); }
+  }
+  .card-shaking {
+    animation: shakeCard 0.5s ease-in-out !important;
+  }
   @keyframes float { 0%, 100% { transform: translateY(0) rotate(15deg); } 50% { transform: translateY(-10px) rotate(20deg); } }
   
   .suggest-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; margin-bottom: 8px; display: block;}
@@ -3378,7 +3389,7 @@
       </div>
 
    <!-- Thẻ Gợi ý (Đã chuyển lên đây) -->
-      <div class="suggest-card" id="homeSuggest" style="margin-bottom: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 16px;" onclick="document.querySelector('.nav-item[data-tab=others]').click(); setTimeout(()=>{currentOtherCategory='place'; renderOthers();}, 100);">
+      <div class="suggest-card" id="homeSuggest" style="margin-bottom: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 16px;">
         <!-- Render bằng JS -->
       </div>
     </div>
@@ -3907,7 +3918,32 @@
   </div>
 </div>
 
-<!-- Chi tiết Địa điểm / Ghi chú -->
+<!-- KHUNG RÚT THẺ GACHA ĐỊA ĐIỂM -->
+<div class="overlay" id="gachaOverlay" style="align-items: center; justify-content: center; padding: 20px;">
+  <div class="place-popup-modal" style="position: relative; width: 100%; max-width: 340px;">
+    
+    <!-- Nút Chọn lại (Góc trái) -->
+    <button id="gachaResetBtn" style="position: absolute; top: -12px; left: -12px; z-index: 999; width: 36px; height: 36px; border-radius: 50%; background: var(--pink-surface); border: 2.5px solid var(--pink-dark); color: var(--pink-dark); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 2px 2px 0px rgba(0,0,0,0.2); font-size: 20px; font-weight: bold; padding-bottom: 2px;">
+      ↻
+    </button>
+
+    <!-- Nút Đóng (Góc phải) -->
+    <button class="place-close-btn" id="gachaCloseBtn" style="top: -12px; right: -12px;">
+      ✕
+    </button>
+
+    <!-- Nội dung Thẻ bài (Sẽ được đổ bằng JS) -->
+    <div id="gachaCardContainer" style="width: 100%;">
+      <!-- Thẻ sẽ hiện ở đây -->
+    </div>
+
+    <!-- Nút Đánh dấu đã đi (Chỉ hiện khi quán chưa đi) -->
+    <button class="save-btn" id="gachaMarkDoneBtn" style="width: 100%; margin-top: 16px; background: #10b981; border-radius: 12px; display: none;">
+      <svg class="hand-icon"><use href="#icon-check-circle"/></svg> Đã đi rồi!
+    </button>
+
+  </div>
+</div>
 <!-- KHUNG XEM CHI TIẾT THẺ BÀI KIẾN THỨC -->
 <div class="overlay" id="bookViewerOverlay" style="align-items: center; justify-content: center; padding: 20px;">
   <div class="place-popup-modal" style="position: relative; width: 100%; max-width: 340px;">
@@ -4328,7 +4364,6 @@
     </div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -4887,6 +4922,7 @@
         <span class="suggest-tag">✨ Gợi ý hôm nay</span>
         <div class="suggest-title">${esc(randomP.name)}</div>
         <div class="suggest-address"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(randomP.address || randomP.city || 'Chưa rõ địa chỉ')}</div>
+        <div style="font-size: 10px; opacity: 0.7; margin-top: 10px; font-style: italic;">(Double tap để rút thẻ)</div>
       `;
     } else {
       homeSuggest.innerHTML = `
@@ -4895,6 +4931,35 @@
         <div class="suggest-address">Hãy thêm địa điểm mới nhé.</div>
       `;
     }
+    // Xử lý sự kiện chạm 1 lần / 2 lần cho Thẻ Gợi ý
+    let suggestTapTimer = null;
+    homeSuggest.onclick = null; // Xóa sự kiện cũ (nếu có)
+    
+    homeSuggest.addEventListener('click', function(e) {
+      if (suggestTapTimer === null) {
+        // Lần chạm thứ 1: Đợi 300ms xem có chạm lần 2 không
+        suggestTapTimer = setTimeout(() => {
+          suggestTapTimer = null;
+          // Nếu không chạm lần 2 -> Chuyển sang tab Địa điểm như cũ
+          document.querySelector('.nav-item[data-tab=others]').click();
+          setTimeout(()=>{ currentOtherCategory = 'place'; renderOthers(); }, 100);
+        }, 300);
+      } else {
+        // Lần chạm thứ 2: Hủy bộ đếm thời gian và Kích hoạt Rút Thẻ
+        clearTimeout(suggestTapTimer);
+        suggestTapTimer = null;
+        
+        // Hiệu ứng rung lắc
+        homeSuggest.classList.add('card-shaking');
+        setTimeout(() => {
+          homeSuggest.classList.remove('card-shaking');
+        }, 500);
+        
+        // Phát âm thanh (sẽ gọi hàm ở Bước 4)
+        if (typeof playGachaSound === 'function') playGachaSound();
+        if (typeof triggerGacha === 'function') triggerGacha();
+      }
+    });
   renderHomeDiaryPrompt();
     renderHomeTasks();
   }
@@ -5850,6 +5915,104 @@
   }
 
 // Hàm hiển thị thẻ bài Kiến thức
+// Biến lưu ID địa điểm đang hiện trên thẻ Gacha
+  let currentGachaPlaceId = null;
+
+  // Hàm phát âm thanh
+  window.playGachaSound = function() {
+    const audio = document.getElementById('gachaSound');
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play().catch(e => console.log('Chưa thể phát âm thanh:', e));
+    }
+  };
+
+  // Hàm mở Thẻ bài Gacha
+  window.triggerGacha = function() {
+    // Lấy ngẫu nhiên 1 địa điểm đã đi
+    const donePlaces = places.filter(p => p.status === 'done');
+    
+    // Nếu không có quán nào đã đi, thử lấy quán chưa đi
+    const pool = donePlaces.length > 0 ? donePlaces : places;
+    
+    if (pool.length === 0) {
+      toast('Chưa có địa điểm nào trong sổ tay!');
+      return;
+    }
+
+    const randomP = pool[Math.floor(Math.random() * pool.length)];
+    currentGachaPlaceId = randomP.id;
+    
+    // Render Thẻ bài (Giống hệt thiết kế bạn đã làm)
+    const info = INFO[randomP.type] || INFO.cafe;
+    let starsHtml = '';
+    for(let i=1; i<=5; i++) {
+      starsHtml += `<svg class="hand-icon" viewBox="0 0 24 24" style="${i <= (randomP.rating||0) ? 'fill:white; stroke:white;' : 'fill:none; stroke:white; opacity:0.4;'}"><use href="#icon-star"/></svg>`;
+    }
+
+    $('gachaCardContainer').innerHTML = `
+      <div class="place-card-item" style="margin: 0; padding: 12px; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);">
+        <div class="place-card-image" style="height: 120px;">
+          <svg class="hand-icon" style="width: 60px; height: 60px;"><use href="${info.icon}"/></svg>
+          ${randomP.status === 'done' ? `<div style="position:absolute; top:-6px; right:-6px; background:#10b981; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid white;"><svg class="hand-icon" style="width:12px; height:12px; stroke:white;"><use href="#icon-check-circle"/></svg></div>` : ''}
+        </div>
+        
+        <div class="place-card-title-bar" style="padding: 10px;">
+          <span style="font-size: 16px; font-weight: 700;">${esc(randomP.name)}</span>
+          <div class="stars" style="margin-top:4px;">${starsHtml}</div>
+        </div>
+        
+        <div class="place-card-desc" style="font-size: 14px; padding: 16px; min-height: 100px; -webkit-line-clamp: unset; display: block;">
+          ${randomP.note ? esc(randomP.note) : '<i>(Chưa có ghi chú)</i>'}
+        </div>
+        
+        <div class="place-card-footer" style="font-size: 12px; flex-direction: column; gap: 6px;">
+          ${randomP.city ? `<span>📍 ${esc(randomP.city)}</span>` : ''}
+          ${randomP.hashtags && randomP.hashtags.length > 0 ? `<span style="color:var(--pink-primary);">#${randomP.hashtags.join(' #')}</span>` : ''}
+        </div>
+      </div>
+    `;
+
+    // Hiện nút "Đã đi rồi" nếu quán này chưa được đánh dấu
+    if (randomP.status !== 'done') {
+      $('gachaMarkDoneBtn').style.display = 'flex';
+    } else {
+      $('gachaMarkDoneBtn').style.display = 'none';
+    }
+
+    // Hiển thị Popup
+    $('gachaOverlay').classList.add('show');
+  };
+
+  // Các nút điều khiển
+  $('gachaCloseBtn').addEventListener('click', () => {
+    $('gachaOverlay').classList.remove('show');
+  });
+  
+  $('gachaResetBtn').addEventListener('click', () => {
+    // Hiệu ứng rung cho thẻ hiện tại trước khi đổi
+    const card = $('gachaCardContainer').firstElementChild;
+    if(card) {
+      card.style.animation = 'shakeCard 0.4s ease-in-out';
+      playGachaSound();
+      setTimeout(() => {
+        triggerGacha(); // Đổi thẻ mới
+      }, 400);
+    }
+  });
+
+  $('gachaMarkDoneBtn').addEventListener('click', () => {
+    if (currentGachaPlaceId) {
+      const p = places.find(x => x.id === currentGachaPlaceId);
+      if (p) {
+        p.status = 'done';
+        saveData();
+        toast('✅ Đã đánh dấu đi rồi!');
+        $('gachaOverlay').classList.remove('show');
+        renderHome(); // Cập nhật lại trang chủ
+      }
+    }
+  });
   window.openBookViewer = function(id) {
     const n = notes.find(x => x.id === id);
     if (!n) return;
