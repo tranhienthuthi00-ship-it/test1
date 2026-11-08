@@ -5047,6 +5047,9 @@
 
     // Lấy Top 5
     const top5Tasks = scoredTasks.slice(0, 5);
+    // Tính ngày hôm nay để check deadline
+    const todayCheck = new Date();
+    todayCheck.setHours(0,0,0,0);
 
     // Render giao diện
     const taskHtml = top5Tasks.map(t => `
@@ -5058,7 +5061,27 @@
           ${esc(t.title)}
         </div>
         <!-- Chỉ hiện tag điểm nếu điểm > 0 để giao diện đỡ rối -->
-        ${t.score > 0 ? `<span style="background:#fee2e2; color:#dc2626; font-weight:bold; font-size:10px; padding: 2px 6px; border-radius: 4px;">🔥 ${Math.round(t.score)}</span>` : ''}
+        ${t.date ? (() => {
+          const dDate = new Date(t.date);
+          dDate.setHours(0,0,0,0);
+          const diff = Math.ceil((dDate - todayCheck) / (1000 * 60 * 60 * 24));
+          
+          let text = fmtDate(t.date);
+          let color = 'var(--text-muted)'; // Ngày thường: xám nhạt
+          
+          if (diff === 0) {
+            text = 'Today';
+            color = 'var(--pink-primary)'; // Hôm nay: Màu nhấn của theme
+          } else if (diff === 1) {
+            text = 'Tomorrow';
+            color = 'var(--pink-dark)'; // Ngày mai: Màu đậm của theme
+          } else if (diff < 0) {
+            text = 'Quá hạn';
+            color = '#dc2626'; // Quá hạn: Giữ màu đỏ (vì đỏ là màu cảnh báo chung)
+          }
+          
+          return `<span style="font-size: 12px; font-weight: 700; color: ${color};">${text}</span>`;
+        })() : ''}
       </div>
     `).join('');
 
