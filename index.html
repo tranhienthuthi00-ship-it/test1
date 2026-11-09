@@ -3319,6 +3319,393 @@
     color: #dc2626;
     margin-bottom: 4px;
   }
+  /* =======================================================
+     TAB HỌC TIẾNG ANH - FLASHCARD SR
+     ======================================================= */
+
+  /* Container chính */
+  .study-container {
+    padding: 0 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Header thống kê */
+  .study-header {
+    background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
+    color: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+  .study-header-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .study-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .study-stat-box {
+    background: rgba(255,255,255,0.15);
+    padding: 12px;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    text-align: center;
+  }
+  .study-stat-val {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .study-stat-lbl {
+    font-size: 10.5px;
+    font-weight: 600;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  /* Nút lớn */
+  .study-main-btn {
+    width: 100%;
+    padding: 18px;
+    border-radius: 18px;
+    border: none;
+    background: var(--pink-primary);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    font-family: inherit;
+    transition: transform 0.15s;
+  }
+  .study-main-btn:active { transform: scale(0.97); }
+  .study-main-btn:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .study-main-btn svg { width: 22px; height: 22px; }
+
+  .study-secondary-row {
+    display: flex;
+    gap: 10px;
+  }
+  .study-secondary-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1.5px dashed var(--pink-light);
+    background: var(--pink-surface);
+    color: var(--pink-primary);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .study-secondary-btn:active {
+    transform: scale(0.97);
+    background: var(--pink-bg);
+  }
+  .study-secondary-btn svg { width: 16px; height: 16px; }
+
+  /* Study screen */
+  .study-screen {
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: calc(100vh - var(--nav-bottom) - 40px);
+  }
+  .study-progress-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+  .study-progress-bar .progress-count {
+    color: var(--pink-primary);
+  }
+
+  .study-card {
+    background: var(--pink-surface);
+    border-radius: 20px;
+    padding: 24px 20px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+  }
+  .study-card-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+  .study-card-question {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--pink-dark);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+  .study-card-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--pink-bg);
+    color: var(--pink-primary);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-top: 8px;
+  }
+
+  /* Input trả lời */
+  .study-answer-input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 2px solid var(--border);
+    background: var(--pink-bg);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    outline: none;
+    resize: none;
+    min-height: 90px;
+    transition: all 0.2s;
+  }
+  .study-answer-input:focus {
+    border-color: var(--pink-primary);
+    background: var(--pink-surface);
+    box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
+  }
+
+  /* Result panel */
+  .study-result {
+    background: var(--pink-surface);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+  }
+  .study-result-accuracy {
+    text-align: center;
+    padding: 16px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+  .study-result-accuracy .acc-value {
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .study-result-accuracy .acc-label {
+    font-size: 13px;
+  }
+  .acc-excellent { background: #ecfdf5; color: #059669; }
+  .acc-good { background: #eff6ff; color: #2563eb; }
+  .acc-meh { background: #fffbeb; color: #d97706; }
+  .acc-bad { background: #fef2f2; color: #dc2626; }
+
+  .study-answer-block {
+    background: var(--pink-bg);
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+  }
+  .study-answer-block-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .study-answer-block-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .study-answer-correct .study-answer-block-text {
+    color: #059669;
+  }
+  .study-speak-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--pink-primary);
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .study-speak-btn svg { width: 16px; height: 16px; stroke: white; }
+
+  /* Rating buttons */
+  .study-rating-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .study-rating-btn {
+    padding: 14px 8px;
+    border-radius: 14px;
+    border: none;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-family: inherit;
+    transition: transform 0.15s;
+  }
+  .study-rating-btn:active { transform: scale(0.95); }
+  .study-rating-btn .rating-emoji { font-size: 22px; }
+  .study-rating-btn .rating-label { font-size: 12px; }
+  .study-rating-btn.again { background: #fef2f2; color: #dc2626; }
+  .study-rating-btn.hard { background: #fffbeb; color: #d97706; }
+  .study-rating-btn.good { background: #ecfdf5; color: #059669; }
+
+  /* List thẻ - quản lý */
+  .fc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 16px;
+  }
+  .fc-card {
+    background: var(--pink-surface);
+    border-radius: 14px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: transform 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .fc-card:active { transform: scale(0.98); }
+  .fc-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .fc-card-vi {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    flex: 1;
+  }
+  .fc-card-status {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .fc-card-status.new { background: #f3f4f6; color: #6b7280; }
+  .fc-card-status.learning { background: #fef3c7; color: #d97706; }
+  .fc-card-status.mastered { background: #ecfdf5; color: #059669; }
+  .fc-card-en {
+    font-size: 13px;
+    color: var(--pink-primary);
+    font-weight: 600;
+    font-style: italic;
+  }
+  .fc-card-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* Empty state nhỏ */
+  .study-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+  }
+  .study-empty h3 {
+    font-size: 16px;
+    color: var(--pink-dark);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .study-empty p {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  /* Sub-view header (dùng chung) */
+  .study-sub-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px 16px;
+  }
+
+  /* Filter chip cho list */
+  .study-filter-chips {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .study-filter-chips::-webkit-scrollbar { display: none; }
+  .study-filter-chip {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--pink-surface);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .study-filter-chip.active {
+    background: var(--pink-primary);
+    color: white;
+    border-color: var(--pink-primary);
+  }
 </style>
 </head>
 <body>
@@ -3919,7 +4306,168 @@
 
   </div>
 </div>
+<!-- ================= TAB 6: HỌC TIẾNG ANH ================= -->
+<div class="tab-content" id="tab-study">
+  
+  <!-- Màn hình chính -->
+  <div id="studyMainView">
+    <div class="study-container">
+      <div class="study-header">
+        <div class="study-header-title">
+          <svg class="hand-icon" style="width:22px; height:22px; stroke:white;"><use href="#icon-book"/></svg>
+          Học tiếng Anh
+        </div>
+        <div class="study-stats-grid">
+          <div class="study-stat-box">
+            <div class="study-stat-val" id="stDueCount">0</div>
+            <div class="study-stat-lbl">Cần ôn hôm nay</div>
+          </div>
+          <div class="study-stat-box">
+            <div class="study-stat-val" id="stTotalCount">0</div>
+            <div class="study-stat-lbl">Tổng thẻ</div>
+          </div>
+          <div class="study-stat-box">
+            <div class="study-stat-val" id="stMasteredCount">0</div>
+            <div class="study-stat-lbl">Đã thuộc</div>
+          </div>
+          <div class="study-stat-box">
+            <div class="study-stat-val" id="stAccuracy">0%</div>
+            <div class="study-stat-lbl">Tỉ lệ đúng</div>
+          </div>
+        </div>
+      </div>
 
+      <button class="study-main-btn" id="btnStartStudy">
+        <svg class="hand-icon"><use href="#icon-star"/></svg>
+        <span id="btnStartStudyText">Bắt đầu học</span>
+      </button>
+
+      <div class="study-secondary-row">
+  <button class="study-secondary-btn" id="btnManageCards">
+    <svg class="hand-icon"><use href="#icon-list"/></svg>
+    Quản lý thẻ
+  </button>
+  <button class="study-secondary-btn" id="btnImportCards">
+    <svg class="hand-icon"><use href="#icon-upload"/></svg>
+    Import
+  </button>
+  <button class="study-secondary-btn" id="btnExportCards">
+    <svg class="hand-icon"><use href="#icon-download"/></svg>
+    Export
+  </button>
+</div>
+
+<button class="study-main-btn" id="btnBulkAdd" style="background:var(--pink-dark); margin-top:-4px;">
+  <svg class="hand-icon"><use href="#icon-plus"/></svg>
+  Thêm hàng loạt
+</button>
+      <input type="file" id="fcImportFile" accept=".json" style="display:none">
+
+      <!-- Danh sách thẻ gần đây -->
+      <div class="compact-card">
+        <div class="compact-card-header">
+          <div class="compact-card-title">
+            <svg class="hand-icon"><use href="#icon-list"/></svg> Thẻ gần đây
+          </div>
+          <div id="btnSeeAllCards" style="font-size:12px; font-weight:700; color:var(--pink-primary); cursor:pointer;">Xem tất cả</div>
+        </div>
+        <div id="stRecentCardsList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Màn hình học -->
+  <div id="studySessionView" style="display:none;">
+    <div class="study-screen">
+      <div class="study-progress-bar">
+        <div onclick="exitStudySession()" style="cursor:pointer; display:flex; align-items:center; gap:6px; color:var(--text-muted);">
+          <svg class="hand-icon" style="width:16px;height:16px;"><use href="#icon-arrow-left"/></svg> Thoát
+        </div>
+        <div><span class="progress-count" id="stProgressCurrent">0</span> / <span id="stProgressTotal">0</span></div>
+      </div>
+
+      <div id="stSessionContent"></div>
+    </div>
+  </div>
+
+  <!-- Màn hình quản lý thẻ -->
+  <div id="studyManageView" style="display:none;">
+    <div class="sub-view-header">
+      <button class="back-btn" onclick="backToStudyMain()"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
+      <div class="sub-view-title">Quản lý thẻ</div>
+    </div>
+
+    <div class="study-filter-chips">
+      <div class="study-filter-chip active" data-filter="all">Tất cả</div>
+      <div class="study-filter-chip" data-filter="new">Chưa học</div>
+      <div class="study-filter-chip" data-filter="learning">Đang học</div>
+      <div class="study-filter-chip" data-filter="mastered">Đã thuộc</div>
+    </div>
+
+    <div class="fc-list" id="fcManageList"></div>
+  </div>
+
+</div>
+
+<!-- Modal Thêm/Sửa Thẻ Flashcard -->
+<div class="overlay" id="fcModalOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2><span id="fcModalTitle">Thêm thẻ</span> <button id="closeFcModal"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+
+    <div class="field">
+      <label>Câu tiếng Việt *</label>
+      <textarea id="fcViInput" placeholder="VD: Tôi đã đi Hà Nội năm ngoái" style="min-height: 70px;"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Đáp án tiếng Anh *</label>
+      <textarea id="fcEnInput" placeholder="VD: I went to Hanoi last year" style="min-height: 70px;"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Ghi chú (tuỳ chọn)</label>
+      <input type="text" id="fcNoteInput" placeholder="VD: Thì quá khứ đơn">
+    </div>
+
+    <div class="field">
+      <label>Tag / Chủ đề (tuỳ chọn)</label>
+      <input type="text" id="fcTagInput" placeholder="VD: Thì quá khứ, Giao tiếp">
+    </div>
+
+    <button class="save-btn" id="fcSaveBtn">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu thẻ
+    </button>
+  </div>
+</div>
+<!-- Modal Thêm hàng loạt -->
+<div class="overlay" id="fcBulkModalOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>Thêm hàng loạt <button id="closeFcBulkModal"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+
+    <div style="font-size:12.5px; color:var(--text-muted); background:var(--pink-bg); padding:12px; border-radius:12px; margin-bottom:16px; line-height:1.7;">
+  <b>Định dạng:</b> Mỗi dòng = 1 thẻ, các trường cách nhau bởi dấu phẩy<br>
+  <code style="background:var(--pink-surface); padding:3px 8px; border-radius:4px; font-size:12px; display:block; margin:6px 0;">câu Việt, câu Anh, ghi chú, tag</code>
+  <span style="font-size:11.5px;">
+    • Tối thiểu <b>2 trường</b> (câu Việt, câu Anh)<br>
+    • Có thể nhập <b>2, 3 hoặc 4 trường</b> — trường thiếu để trống<br>
+    • <b>Ghi chú</b> và <b>tag</b> là tuỳ chọn
+  </span>
+</div>
+
+    <div class="field">
+      <label>Dán nội dung</label>
+      <textarea id="fcBulkInput" placeholder="Tôi đã đi Hà Nội năm ngoái, I went to Hanoi last year&#10;Hôm nay trời đẹp, The weather is nice today, Thì hiện tại, Giao tiếp&#10;Tôi thích phở, I like pho, , Đồ ăn" style="min-height: 240px; font-family: monospace; font-size: 13px; line-height: 1.6;"></textarea>
+    </div>
+
+    <div id="fcBulkPreview" style="font-size:12px; color:var(--text-muted); margin-bottom:12px;"></div>
+
+    <button class="save-btn" id="fcBulkSaveBtn">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Thêm tất cả
+    </button>
+  </div>
+</div>
 <!-- NÚT FAB -->
 <button class="fab" id="fab">
   <svg class="hand-icon"><use href="#icon-plus"/></svg>
@@ -3934,6 +4482,10 @@
   <div class="nav-item" data-tab="diary">
     <svg class="hand-icon"><use href="#icon-book"/></svg>
     <span>Nhật ký</span>
+  </div>
+  <div class="nav-item" data-tab="study">
+    <svg class="hand-icon"><use href="#icon-bulb"/></svg>
+    <span>Học</span>
   </div>
   <div class="nav-item" data-tab="others">
     <svg class="hand-icon"><use href="#icon-grid"/></svg>
@@ -7262,8 +7814,16 @@ list.innerHTML = arr.map(n => {
       else if (currentFinPage === 1) window.openCreditModal(null);
       else if (currentFinPage === 2) window.openCreditModal(null);
     }
-    else if (currentTab === 'home') openCreditModal(null); 
-  });
+    else if (currentTab === 'study') {
+      // Luôn cho phép thêm thẻ, bất kể đang ở màn hình nào
+      if ($('studySessionView').style.display !== 'none') {
+        toast('Đang trong phiên học, hãy thoát trước');
+        return;
+      }
+      openFcModal(null);
+    }
+  else if (currentTab === 'home') openCreditModal(null); 
+});
 
   $('btnAddAsset').addEventListener('click', () => window.openAssetModal(null));
   $('btnAddCredit').addEventListener('click', () => window.openCreditModal(null));
@@ -7628,8 +8188,671 @@ window.openPlaceCardPopup = function(id) {
     if (currentTab === 'home') renderHome();
   }
 };
+/* =======================================================
+   FLASHCARD STUDY - SPACED REPETITION
+   ======================================================= */
+
+const FC_KEY = 'flashcards_v1';
+let flashcards = [];
+let editFcId = null;
+let fcFilterMode = 'all';
+let studySession = {
+  queue: [],
+  currentIndex: 0,
+  currentCard: null,
+  answered: false
+};
+
+function loadFlashcards() {
+  try {
+    const raw = localStorage.getItem(FC_KEY);
+    flashcards = raw ? JSON.parse(raw) : [];
+  } catch(e) { flashcards = []; }
+}
+
+function saveFlashcards() {
+  try {
+    localStorage.setItem(FC_KEY, JSON.stringify(flashcards));
+  } catch(e) { toast('⚠️ Lỗi lưu thẻ'); }
+}
+
+// Chuẩn hoá text
+function fcNormalize(str) {
+  return String(str || '')
+    .toLowerCase()
+    .replace(/[.,!?;:'"()\-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Levenshtein
+function levenshtein(a, b) {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  const matrix = [];
+  for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      if (b.charAt(i-1) === a.charAt(j-1)) {
+        matrix[i][j] = matrix[i-1][j-1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i-1][j-1] + 1,
+          matrix[i][j-1] + 1,
+          matrix[i-1][j] + 1
+        );
+      }
+    }
+  }
+  return matrix[b.length][a.length];
+}
+
+// So sánh câu trả lời
+function compareAnswer(userAns, correctAns) {
+  const ua = fcNormalize(userAns);
+  const ca = fcNormalize(correctAns);
+  if (!ua && !ca) return 100;
+  if (!ua || !ca) return 0;
+
+  // Điểm ký tự (Levenshtein)
+  const dist = levenshtein(ua, ca);
+  const charScore = 1 - (dist / Math.max(ua.length, ca.length));
+
+  // Điểm từ (Jaccard)
+  const uaTokens = new Set(ua.split(' ').filter(Boolean));
+  const caTokens = new Set(ca.split(' ').filter(Boolean));
+  const intersection = new Set([...uaTokens].filter(x => caTokens.has(x)));
+  const union = new Set([...uaTokens, ...caTokens]);
+  const tokenScore = union.size === 0 ? 0 : intersection.size / union.size;
+
+  const final = (charScore * 0.5 + tokenScore * 0.5) * 100;
+  return Math.round(final);
+}
+
+// Đếm thẻ cần ôn
+function getDueCards() {
+  const now = Date.now();
+  return flashcards.filter(c => !c.sr || c.sr.due <= now);
+}
+
+// Render màn hình chính
+function renderStudyMain() {
+  const total = flashcards.length;
+  const due = getDueCards().length;
+  const mastered = flashcards.filter(c => c.sr && c.sr.interval >= 21).length;
+  
+  // Tỉ lệ đúng
+  let totalAnswers = 0, correctAnswers = 0;
+  flashcards.forEach(c => {
+    if (c.sr && c.sr.history) {
+      c.sr.history.forEach(h => {
+        totalAnswers++;
+        if (h.accuracy >= 70 || h.rating === 'good') correctAnswers++;
+      });
+    }
+  });
+  const accuracy = totalAnswers === 0 ? 0 : Math.round((correctAnswers / totalAnswers) * 100);
+
+  $('stDueCount').textContent = due;
+  $('stTotalCount').textContent = total;
+  $('stMasteredCount').textContent = mastered;
+  $('stAccuracy').textContent = accuracy + '%';
+
+  const btn = $('btnStartStudy');
+  if (due === 0) {
+    btn.disabled = true;
+    $('btnStartStudyText').textContent = total === 0 ? 'Chưa có thẻ nào' : 'Đã ôn hết hôm nay!';
+  } else {
+    btn.disabled = false;
+    $('btnStartStudyText').textContent = `Bắt đầu học (${due} thẻ)`;
+  }
+
+  // Render 5 thẻ gần đây
+  const recent = flashcards.slice().sort((a,b) => (b.createdAt||0) - (a.createdAt||0)).slice(0, 5);
+  const recentBox = $('stRecentCardsList');
+  if (recent.length === 0) {
+    recentBox.innerHTML = `<div style="text-align:center; padding:16px; color:var(--text-muted); font-size:13px;">Chưa có thẻ nào. Bấm + để thêm.</div>`;
+  } else {
+    recentBox.innerHTML = recent.map(c => {
+      const status = getCardStatus(c);
+      return `
+        <div style="padding:10px 0; border-bottom:1px dashed var(--border); cursor:pointer;" onclick="openFcModal('${c.id}')">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+            <div style="flex:1; font-size:13.5px; font-weight:700; color:var(--text);">${esc(c.vi)}</div>
+            <span class="fc-card-status ${status.cls}">${status.label}</span>
+          </div>
+          <div style="font-size:12px; color:var(--pink-primary); font-style:italic; margin-top:2px;">→ ${esc(c.en)}</div>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+function getCardStatus(c) {
+  if (!c.sr || c.sr.reps === 0) return { cls: 'new', label: 'Chưa học' };
+  if (c.sr.interval >= 21) return { cls: 'mastered', label: 'Đã thuộc' };
+  return { cls: 'learning', label: 'Đang học' };
+}
+
+// Bắt đầu session học
+function startStudySession() {
+  const due = getDueCards();
+  if (due.length === 0) {
+    toast('✅ Đã ôn hết hôm nay!');
+    return;
+  }
+
+  // Xáo trộn
+  studySession.queue = due.slice().sort(() => Math.random() - 0.5);
+  studySession.currentIndex = 0;
+  studySession.currentCard = null;
+  studySession.answered = false;
+
+  $('studyMainView').style.display = 'none';
+  $('studyManageView').style.display = 'none';
+  $('studySessionView').style.display = 'block';
+
+  renderStudyCard();
+}
+
+function renderStudyCard() {
+  if (studySession.currentIndex >= studySession.queue.length) {
+    $('stSessionContent').innerHTML = `
+      <div class="study-card" style="text-align:center; padding:40px 20px;">
+        <div style="font-size:48px; margin-bottom:16px;">🎉</div>
+        <div style="font-size:18px; font-weight:700; color:var(--pink-dark); margin-bottom:8px;">Hoàn thành phiên học!</div>
+        <div style="font-size:14px; color:var(--text-muted); margin-bottom:24px;">Bạn đã ôn xong ${studySession.queue.length} thẻ.</div>
+        <button class="study-main-btn" onclick="exitStudySession()">Quay lại</button>
+      </div>
+    `;
+    return;
+  }
+
+  const card = studySession.queue[studySession.currentIndex];
+  studySession.currentCard = card;
+  studySession.answered = false;
+  studySession.lastAccuracy = null;
+
+  $('stProgressCurrent').textContent = studySession.currentIndex + 1;
+  $('stProgressTotal').textContent = studySession.queue.length;
+
+  // 1 khung duy nhất: study-card chứa câu hỏi + input + nút nghe + nút kiểm tra
+  $('stSessionContent').innerHTML = `
+    <div class="study-card">
+  <div class="study-card-label">Tiếng Việt</div>
+  <div class="study-card-question">${esc(card.vi)}</div>
+
+  <!-- Nút loa: chỉ icon, nằm dưới câu hỏi -->
+  <div style="margin-top:14px; display:flex; justify-content:center;">
+    <button type="button" id="btnPlayHint" style="width:42px; height:42px; border-radius:50%; background:var(--pink-primary); border:none; color:white; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm);">
+      <svg class="hand-icon" style="width:20px; height:20px; stroke:white;"><use href="#icon-bell"/></svg>
+    </button>
+  </div>
+
+  <div style="margin-top:20px;">
+    <div class="study-card-label">Dịch sang tiếng Anh</div>
+    <textarea class="study-answer-input" id="stUserAnswer" placeholder="Nhập câu trả lời của bạn..."></textarea>
+  </div>
+
+  <button class="study-main-btn" style="margin-top:16px;" id="btnCheckAnswer">
+    <svg class="hand-icon"><use href="#icon-check-circle"/></svg>
+    Kiểm tra
+  </button>
+</div>
+  `;
+
+  $('btnCheckAnswer').addEventListener('click', checkAnswer);
+  $('btnPlayHint').addEventListener('click', () => speakEnglish(card.en));
+
+  setTimeout(() => $('stUserAnswer').focus(), 200);
+}
+
+function checkAnswer() {
+  if (studySession.answered) return;
+  const userAns = $('stUserAnswer').value.trim();
+  if (!userAns) {
+    toast('Hãy nhập câu trả lời');
+    $('stUserAnswer').focus();
+    return;
+  }
+
+  const card = studySession.currentCard;
+  const accuracy = compareAnswer(userAns, card.en);
+  studySession.answered = true;
+  studySession.lastAccuracy = accuracy;
+
+  let accClass, accLabel, accEmoji;
+  if (accuracy >= 90) { accClass = 'acc-excellent'; accLabel = 'Rất chính xác!'; accEmoji = '🎯'; }
+  else if (accuracy >= 70) { accClass = 'acc-good'; accLabel = 'Gần đúng'; accEmoji = '👍'; }
+  else if (accuracy >= 40) { accClass = 'acc-meh'; accLabel = 'Cần xem lại'; accEmoji = '🤔'; }
+  else { accClass = 'acc-bad'; accLabel = 'Chưa đúng'; accEmoji = '❌'; }
+
+  // Tất cả trong 1 khung study-card duy nhất
+  $('stSessionContent').innerHTML = `
+    <div class="study-card">
+  <div class="study-card-label">Tiếng Việt</div>
+  <div class="study-card-question">${esc(card.vi)}</div>
+
+  <!-- Nút loa: chỉ icon, nằm dưới câu hỏi -->
+  <div style="margin-top:14px; display:flex; justify-content:center;">
+    <button type="button" onclick="speakEnglish(${JSON.stringify(card.en).replace(/"/g, '&quot;')})" style="width:42px; height:42px; border-radius:50%; background:var(--pink-primary); border:none; color:white; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm);">
+      <svg class="hand-icon" style="width:20px; height:20px; stroke:white;"><use href="#icon-bell"/></svg>
+    </button>
+  </div>
+
+  <!-- Kết quả % -->
+      <div style="margin-top:16px; padding:14px; border-radius:12px; ${accClass}; text-align:center;">
+        <div style="font-size:28px; line-height:1; margin-bottom:4px;">${accEmoji} ${accuracy}%</div>
+        <div style="font-size:12px; font-weight:700;">${accLabel}</div>
+      </div>
+
+      <div class="study-answer-block" style="margin-top:14px;">
+        <div class="study-answer-block-label">Câu trả lời của bạn</div>
+        <div class="study-answer-block-text" style="color:${accuracy >= 70 ? '#059669' : '#dc2626'};">${esc(userAns)}</div>
+      </div>
+
+      <div class="study-answer-block study-answer-correct" style="margin-top:10px;">
+        <div class="study-answer-block-label">Đáp án đúng</div>
+        <div class="study-answer-block-text">${esc(card.en)}</div>
+      </div>
+
+      ${card.note ? `<div style="font-size:12.5px; color:var(--text-muted); background:var(--pink-bg); padding:10px 12px; border-radius:10px; margin-top:10px;"><b>Ghi chú:</b> ${esc(card.note)}</div>` : ''}
+
+      <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-top:18px; margin-bottom:8px; text-align:center;">Bạn thấy thế nào?</div>
+      <div class="study-rating-row">
+        <button class="study-rating-btn again" onclick="rateCard('again')">
+          <span class="rating-emoji">❌</span>
+          <span class="rating-label">Again</span>
+          <span style="font-size:10px; opacity:0.7;">1 phút</span>
+        </button>
+        <button class="study-rating-btn hard" onclick="rateCard('hard')">
+          <span class="rating-emoji">🤔</span>
+          <span class="rating-label">Hard</span>
+          <span style="font-size:10px; opacity:0.7;">1 ngày</span>
+        </button>
+        <button class="study-rating-btn good" onclick="rateCard('good')">
+          <span class="rating-emoji">✅</span>
+          <span class="rating-label">Good</span>
+          <span style="font-size:10px; opacity:0.7;">3 ngày</span>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+window.rateCard = function(rating) {
+  const card = studySession.currentCard;
+  const accuracy = studySession.lastAccuracy || 0;
+
+  if (!card.sr) {
+    card.sr = { interval: 0, ease: 2.5, due: Date.now(), reps: 0, lapses: 0, history: [] };
+  }
+
+  const DAY = 86400000;
+  const MINUTE = 60000;
+  const now = Date.now();
+
+  if (rating === 'again') {
+    card.sr.interval = 0;
+    card.sr.reps = 0;
+    card.sr.lapses = (card.sr.lapses || 0) + 1;
+    card.sr.due = now + MINUTE;
+  } else if (rating === 'hard') {
+    if (card.sr.reps === 0) card.sr.interval = 1;
+    else card.sr.interval = Math.max(1, Math.round(card.sr.interval * 1.2));
+    card.sr.reps += 1;
+    card.sr.due = now + card.sr.interval * DAY;
+  } else if (rating === 'good') {
+    if (card.sr.reps === 0) card.sr.interval = 3;
+    else card.sr.interval = Math.round(card.sr.interval * 2.5);
+    card.sr.reps += 1;
+    card.sr.due = now + card.sr.interval * DAY;
+  }
+
+  if (!card.sr.history) card.sr.history = [];
+  card.sr.history.push({ date: now, rating, accuracy });
+
+  saveFlashcards();
+
+  studySession.currentIndex++;
+  studySession.lastAccuracy = null;
+  renderStudyCard();
+};
+
+window.exitStudySession = function() {
+  $('studySessionView').style.display = 'none';
+  $('studyMainView').style.display = 'block';
+  renderStudyMain();
+};
+
+// Mở modal thêm/sửa
+window.openFcModal = function(id) {
+  editFcId = id || null;
+  if (id) {
+    const c = flashcards.find(x => x.id === id);
+    if (!c) return;
+    $('fcModalTitle').textContent = 'Sửa thẻ';
+    $('fcViInput').value = c.vi || '';
+    $('fcEnInput').value = c.en || '';
+    $('fcNoteInput').value = c.note || '';
+    $('fcTagInput').value = c.tag || '';
+  } else {
+    $('fcModalTitle').textContent = 'Thêm thẻ';
+    $('fcViInput').value = '';
+    $('fcEnInput').value = '';
+    $('fcNoteInput').value = '';
+    $('fcTagInput').value = '';
+  }
+  $('fcModalOverlay').classList.add('show');
+  setTimeout(() => $('fcViInput').focus(), 300);
+};
+
+$('closeFcModal').addEventListener('click', () => {
+  $('fcModalOverlay').classList.remove('show');
+  editFcId = null;
+});
+// Parse 1 dòng: tách thành 4 trường {vi, en, note, tag}
+function parseBulkLine(line) {
+  if (!line || !line.trim()) return null;
+  
+  // Split bằng dấu phẩy, giới hạn tối đa 4 phần
+  // Nhưng cần xử lý trường hợp note/tag có dấu phẩy
+  // Chiến lược: nếu đúng 4 phần → OK
+  // Nếu ít hơn → thiếu trường cuối
+  // Nếu nhiều hơn 4 → gộp phần dư vào tag (giả định tag ít quan trọng)
+  
+  const parts = line.split(',').map(p => p.trim());
+  
+  if (parts.length < 2) return null; // Không đủ 2 trường tối thiểu
+  
+  const vi = parts[0] || '';
+  const en = parts[1] || '';
+  
+  // Xử lý phần còn lại (note + tag)
+  let note = '';
+  let tag = '';
+  
+  if (parts.length === 3) {
+    // 3 trường: vi, en, note
+    note = parts[2] || '';
+  } else if (parts.length === 4) {
+    // 4 trường: vi, en, note, tag
+    note = parts[2] || '';
+    tag = parts[3] || '';
+  } else if (parts.length > 4) {
+    // Nhiều hơn 4 → gộp phần giữa vào note, phần cuối làm tag
+    note = parts.slice(2, -1).join(', ');
+    tag = parts[parts.length - 1] || '';
+  }
+  
+  return { vi, en, note, tag };
+}
+// ===== THÊM HÀNG LOẠT =====
+$('btnBulkAdd').addEventListener('click', () => {
+  $('fcBulkInput').value = '';
+  $('fcBulkPreview').innerHTML = '';
+  $('fcBulkModalOverlay').classList.add('show');
+  setTimeout(() => $('fcBulkInput').focus(), 300);
+});
+
+$('closeFcBulkModal').addEventListener('click', () => {
+  $('fcBulkModalOverlay').classList.remove('show');
+});
+
+// Preview số thẻ khi gõ
+$('fcBulkInput').addEventListener('input', () => {
+  const lines = $('fcBulkInput').value.split('\n').filter(l => l.trim());
+  let valid = 0;
+  let invalid = 0;
+
+  lines.forEach(l => {
+    const parts = parseBulkLine(l);
+    if (parts && parts.vi && parts.en) valid++;
+    else invalid++;
+  });
+
+  if (lines.length === 0) {
+    $('fcBulkPreview').innerHTML = '';
+  } else {
+    let html = `📋 Sẽ thêm <b style="color:var(--pink-primary);">${valid}</b> thẻ hợp lệ`;
+    if (invalid > 0) {
+      html += ` <span style="color:#dc2626;">(bỏ qua ${invalid} dòng lỗi)</span>`;
+    }
+    $('fcBulkPreview').innerHTML = html;
+  }
+});
+
+$('fcBulkSaveBtn').addEventListener('click', () => {
+  const raw = $('fcBulkInput').value;
+  const lines = raw.split('\n').filter(l => l.trim());
+  
+  if (lines.length === 0) {
+    return toast('Chưa có nội dung');
+  }
+
+  let added = 0;
+  let skipped = 0;
+  const now = Date.now();
+
+  lines.forEach((line, idx) => {
+    const parsed = parseBulkLine(line);
+    if (!parsed || !parsed.vi || !parsed.en) {
+      skipped++;
+      return;
+    }
+
+    flashcards.push({
+      id: 'fc_' + now + '_' + idx,
+      vi: parsed.vi,
+      en: parsed.en,
+      note: parsed.note,
+      tag: parsed.tag,
+      createdAt: now + idx,
+      sr: { interval: 0, ease: 2.5, due: Date.now(), reps: 0, lapses: 0, history: [] }
+    });
+    added++;
+  });
+
+  if (added === 0) {
+    return toast('⚠️ Không có dòng nào hợp lệ');
+  }
+
+  saveFlashcards();
+  $('fcBulkModalOverlay').classList.remove('show');
+  
+  toast(`✅ Đã thêm ${added} thẻ${skipped > 0 ? ` (bỏ qua ${skipped})` : ''}`);
+  renderStudyMain();
+  if (currentStudyView === 'manage') renderFcManageList();
+});
+
+$('fcSaveBtn').addEventListener('click', () => {
+  const vi = $('fcViInput').value.trim();
+  const en = $('fcEnInput').value.trim();
+  if (!vi) { $('fcViInput').focus(); return toast('Nhập câu tiếng Việt'); }
+  if (!en) { $('fcEnInput').focus(); return toast('Nhập đáp án tiếng Anh'); }
+
+  const data = {
+    vi,
+    en,
+    note: $('fcNoteInput').value.trim(),
+    tag: $('fcTagInput').value.trim()
+  };
+
+  if (editFcId) {
+    const c = flashcards.find(x => x.id === editFcId);
+    if (c) Object.assign(c, data);
+    toast('✅ Đã cập nhật');
+  } else {
+    flashcards.push({
+      id: 'fc_' + Date.now(),
+      ...data,
+      createdAt: Date.now(),
+      sr: { interval: 0, ease: 2.5, due: Date.now(), reps: 0, lapses: 0, history: [] }
+    });
+    toast('✅ Đã thêm thẻ');
+  }
+  saveFlashcards();
+  $('fcModalOverlay').classList.remove('show');
+  editFcId = null;
+  renderStudyMain();
+  if (currentStudyView === 'manage') renderFcManageList();
+});
+
+// Quản lý thẻ
+let currentStudyView = 'main';
+
+function openManageView() {
+  currentStudyView = 'manage';
+  $('studyMainView').style.display = 'none';
+  $('studySessionView').style.display = 'none';
+  $('studyManageView').style.display = 'block';
+  renderFcManageList();
+}
+
+function backToStudyMain() {
+  currentStudyView = 'main';
+  $('studyManageView').style.display = 'none';
+  $('studyMainView').style.display = 'block';
+  renderStudyMain();
+}
+
+function renderFcManageList() {
+  const list = $('fcManageList');
+  let arr = flashcards.slice();
+
+  if (fcFilterMode === 'new') arr = arr.filter(c => !c.sr || c.sr.reps === 0);
+  else if (fcFilterMode === 'learning') arr = arr.filter(c => c.sr && c.sr.reps > 0 && c.sr.interval < 21);
+  else if (fcFilterMode === 'mastered') arr = arr.filter(c => c.sr && c.sr.interval >= 21);
+
+  if (arr.length === 0) {
+    list.innerHTML = `<div class="study-empty"><h3>Chưa có thẻ nào</h3><p>Bấm nút + để thêm thẻ đầu tiên.</p></div>`;
+    return;
+  }
+
+  arr.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+
+  list.innerHTML = arr.map(c => {
+    const status = getCardStatus(c);
+    const interval = c.sr && c.sr.interval > 0 ? `${c.sr.interval} ngày` : 'Chưa ôn';
+    return `
+      <div class="fc-card" onclick="openFcModal('${c.id}')">
+        <div class="fc-card-top">
+          <div class="fc-card-vi">${esc(c.vi)}</div>
+          <span class="fc-card-status ${status.cls}">${status.label}</span>
+        </div>
+        <div class="fc-card-en">→ ${esc(c.en)}</div>
+        <div class="fc-card-meta">
+          <span>📅 ${interval}</span>
+          ${c.tag ? `<span>#${esc(c.tag)}</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Filter chips
+document.querySelectorAll('.study-filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.study-filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    fcFilterMode = chip.dataset.filter;
+    renderFcManageList();
+  });
+});
+
+// Âm thanh
+window.speakEnglish = function(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    utter.rate = 0.9;
+    window.speechSynthesis.speak(utter);
+  } else {
+    toast('⚠️ Trình duyệt không hỗ trợ đọc');
+  }
+};
+
+// Export
+$('btnExportCards').addEventListener('click', () => {
+  if (flashcards.length === 0) return toast('Chưa có thẻ để xuất');
+  const backup = {
+    version: 'v1',
+    exportedAt: new Date().toISOString(),
+    cards: flashcards
+  };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `flashcards-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('✅ Đã xuất file');
+});
+
+// Import
+$('btnImportCards').addEventListener('click', () => $('fcImportFile').click());
+
+$('fcImportFile').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      const cards = data.cards || data;
+      if (!Array.isArray(cards)) return toast('⚠️ File không đúng định dạng');
+      
+      if (!confirm(`Import ${cards.length} thẻ? Dữ liệu hiện tại sẽ bị ghi đè.`)) return;
+      
+      flashcards = cards.map((c, i) => ({
+        id: c.id || 'fc_' + Date.now() + '_' + i,
+        vi: c.vi || '',
+        en: c.en || '',
+        note: c.note || '',
+        tag: c.tag || '',
+        createdAt: c.createdAt || Date.now(),
+        sr: c.sr || { interval: 0, ease: 2.5, due: Date.now(), reps: 0, lapses: 0, history: [] }
+      }));
+      saveFlashcards();
+      toast('✅ Đã import ' + flashcards.length + ' thẻ');
+      renderStudyMain();
+      if (currentStudyView === 'manage') renderFcManageList();
+    } catch(err) {
+      toast('⚠️ Lỗi đọc file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// Events
+$('btnStartStudy').addEventListener('click', startStudySession);
+$('btnManageCards').addEventListener('click', openManageView);
+$('btnSeeAllCards').addEventListener('click', openManageView);
+
+// Override switchTab để xử lý tab study
+const originalSwitchTab = switchTab;
+switchTab = function(tabId) {
+  originalSwitchTab(tabId);
+  if (tabId === 'study') {
+    // Reset về main view
+    currentStudyView = 'main';
+    $('studySessionView').style.display = 'none';
+    $('studyManageView').style.display = 'none';
+    $('studyMainView').style.display = 'block';
+    renderStudyMain();
+  }
+};
+
+// Load khi khởi động
+loadFlashcards();
+  /* INIT */
   /* INIT */
   loadData();
+  loadFlashcards();
   switchTab('home');
 })();
 </script>
