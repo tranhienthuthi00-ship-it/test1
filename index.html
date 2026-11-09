@@ -3857,10 +3857,10 @@
       <!-- Tổng quan Donut Charts -->
       <div class="dash-chart-widget">
         <div class="donut-container">
-          <!-- Vòng ngoài: Tài sản -->
+          <!-- Vòng ngoài: Học tiếng Anh -->
           <svg class="donut-svg donut-outer" viewBox="0 0 100 100">
             <circle class="donut-circle-bg" cx="50" cy="50" r="40"></circle>
-            <circle class="donut-circle-fill" id="donutAsset" cx="50" cy="50" r="40" stroke="var(--pink-primary)" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+            <circle class="donut-circle-fill" id="donutStudy" cx="50" cy="50" r="40" stroke="var(--pink-primary)" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
           </svg>
           <!-- Vòng trong: Mục tiêu -->
           <svg class="donut-svg donut-inner" viewBox="0 0 100 100">
@@ -3869,7 +3869,7 @@
           </svg>
           
           <div class="donut-text-wrap">
-            <div class="donut-pct" id="donutAssetPct">0%</div>
+            <div class="donut-pct" id="donutStudyPct">0%</div>
             <div class="donut-sub-pct" id="donutGoalPct">0%</div>
           </div>
         </div>
@@ -3878,7 +3878,7 @@
         <div class="chart-label-val" id="dashAssetVal">0 đ</div>
         <div class="chart-legend">
           <div class="legend-item">
-            <div class="legend-color" style="background: var(--pink-primary);"></div> Tài sản
+            <div class="legend-color" style="background: var(--pink-primary);"></div> Tiếng Anh
           </div>
           <div class="legend-item">
             <div class="legend-color" style="background: #6366f1;"></div> Mục tiêu
@@ -5619,17 +5619,26 @@ const NOTE_STATUS = {
     const doneGoals = goals.filter(g => g.isDone).length;
     const goalPct = totalGoals === 0 ? 0 : Math.round((doneGoals / totalGoals) * 100);
     
-    const targetAsset = 100000000;
-    const assetPct = Math.min(100, Math.round((fin.totalAsset / targetAsset) * 100));
-
     $('dashAssetVal').textContent = fmtMoney(fin.totalAsset);
     
     const circumference = 2 * Math.PI * 40; 
     
-    const assetOffset = circumference - (assetPct / 100) * circumference;
-    $('donutAsset').style.strokeDashoffset = assetOffset;
-    $('donutAssetPct').textContent = `${assetPct}%`;
+    // === TÍNH % HỌC TIẾNG ANH ===
+    // (Tính số thẻ đã thuộc / Tổng số thẻ)
+    let studyPct = 0;
+    if (typeof flashcards !== 'undefined' && flashcards.length > 0) {
+      const masteredCards = flashcards.filter(c => c.sr && c.sr.interval >= 21).length;
+      studyPct = Math.round((masteredCards / flashcards.length) * 100);
+    }
 
+    // Vẽ vòng ngoài (Học tiếng Anh)
+    const studyOffset = circumference - (studyPct / 100) * circumference;
+    if ($('donutStudy')) {
+      $('donutStudy').style.strokeDashoffset = studyOffset;
+      $('donutStudyPct').textContent = `${studyPct}%`;
+    }
+
+    // Vẽ vòng trong (Mục tiêu)
     const goalOffset = circumference - (goalPct / 100) * circumference;
     $('donutGoal').style.strokeDashoffset = goalOffset;
     $('donutGoalPct').textContent = `${goalPct}%`;
