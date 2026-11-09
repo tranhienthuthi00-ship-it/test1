@@ -1,4 +1,4 @@
-Kiểm tra <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -3201,6 +3201,124 @@ Kiểm tra <!DOCTYPE html>
     border-radius: 20px !important;
     border: 1.5px solid #000 !important;
   }
+/* =======================================================
+     TIMELINE CHO NHẬT KÝ & NIỀNG RĂNG
+     ======================================================= */
+
+  /* Container chính của timeline */
+  #timelineWrap, #bracesTimelineWrap {
+    position: relative;
+    padding: 0 16px 20px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Đường thẳng dọc */
+  #timelineWrap::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 22px;
+    width: 2px;
+    background: var(--pink-light);
+    border-radius: 2px;
+    z-index: 0;
+  }
+  #bracesTimelineWrap::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 22px;
+    width: 2px;
+    background: #bfdbfe;
+    border-radius: 2px;
+    z-index: 0;
+  }
+
+  /* Item trong timeline (mỗi ngày) */
+  .tl-item {
+    position: relative;
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Chấm tròn mốc ngày trên đường thẳng */
+  .tl-dot {
+    position: absolute;
+    left: -30px;
+    top: 18px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--pink-surface);
+    border: 3px solid var(--pink-primary);
+    box-shadow: 0 0 0 3px var(--pink-bg);
+    z-index: 1;
+  }
+  #bracesTimelineWrap .tl-dot {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px #eff6ff;
+  }
+
+  /* Ngày tháng - đơn giản, canh trái */
+  .tl-date {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--pink-primary);
+    margin-bottom: 2px;
+  }
+  #bracesTimelineWrap .tl-date {
+    color: #2563eb;
+  }
+
+  /* Thẻ nội dung bên dưới ngày */
+  .tl-card {
+    background: var(--pink-surface);
+    border-radius: 14px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .tl-card:active { transform: scale(0.98); }
+
+  .tl-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .tl-mood {
+    display: inline-block;
+    font-size: 11px;
+    background: var(--pink-bg);
+    color: var(--pink-dark);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .tl-content {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tl-amount {
+    font-size: 13px;
+    font-weight: 700;
+    color: #dc2626;
+    margin-bottom: 4px;
+  }
 </style>
 </head>
 <body>
@@ -5528,19 +5646,16 @@ const NOTE_STATUS = {
           });
 
           wrap.innerHTML = sorted.map(d => `
-              <div class="diary-compact-card" onclick="handleCardClick(event, '${d.id}', 'diary')">
-                <div class="diary-icon-box"><svg class="hand-icon"><use href="#icon-book"/></svg></div>
-                <div class="diary-content-box">
-                  <div class="diary-date-row">
-                    <div class="diary-date-text">${fmtDate(d.date)}</div>
-                    ${d.mood ? `<div class="diary-mood-text">${esc(d.mood)}</div>` : ''}
-                  </div>
-                  <div class="diary-title-text">${esc(d.title) || 'Không có tiêu đề'}</div>
-                  <div class="diary-desc-text">${esc(d.content)}</div>
-                </div>
-              </div>
-            </div>
-          `).join('');
+  <div class="tl-item">
+    <div class="tl-dot"></div>
+    <div class="tl-date">${fmtDate(d.date)}</div>
+    <div class="tl-card" onclick="handleCardClick(event, '${d.id}', 'diary')">
+      <div class="tl-title">${esc(d.title) || 'Không có tiêu đề'}</div>
+      ${d.mood ? `<div class="tl-mood">${esc(d.mood)}</div>` : ''}
+      <div class="tl-content">${esc(d.content)}</div>
+    </div>
+  </div>
+`).join('');
         }
       } else {
         $('diaryTimelineView').style.display = 'none';
@@ -5593,19 +5708,16 @@ const NOTE_STATUS = {
       });
 
       wrap.innerHTML = sorted.map(b => `
-          <div class="diary-compact-card braces-card" onclick="handleCardClick(event, '${b.id}', 'braces')">
-            <div class="diary-icon-box"><svg class="hand-icon"><use href="#icon-tooth"/></svg></div>
-            <div class="diary-content-box">
-              <div class="diary-date-row">
-                <div class="diary-date-text">${fmtDate(b.date)}</div>
-              </div>
-              <div class="diary-title-text">${esc(b.title) || 'Tái khám'}</div>
-              <div class="diary-amount-text">${fmtMoney(b.amount)}</div>
-              <div class="diary-desc-text">${esc(b.content)}</div>
-            </div>
-          </div>
-        </div>
-      `).join('');
+  <div class="tl-item">
+    <div class="tl-dot"></div>
+    <div class="tl-date">${fmtDate(b.date)}</div>
+    <div class="tl-card" onclick="handleCardClick(event, '${b.id}', 'braces')">
+      <div class="tl-title">${esc(b.title) || 'Tái khám'}</div>
+      <div class="tl-amount">${fmtMoney(b.amount)}</div>
+      <div class="tl-content">${esc(b.content)}</div>
+    </div>
+  </div>
+`).join('');
       
     }
   }
