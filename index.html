@@ -924,6 +924,20 @@
   .asset-list-header {
     display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
   }
+
+  /* Thêm CSS bo góc cho nút + Thêm */
+  .btn-small {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: none;
+    background: var(--pink-primary);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: var(--shadow-sm);
+  }
   .asset-group {
     background: var(--pink-bg); border-radius: 12px; padding: 0; margin-bottom: 8px; border: 1px solid var(--border); overflow: hidden;
   }
@@ -4255,6 +4269,15 @@
 
     <!-- PAGE 3: Bảng kê tiền mới, Thẻ tín dụng & Tài sản khác -->
     <div class="finance-page" data-page="2">
+      
+      <!-- Tài sản & Khoản nợ khác -> Chuyển sang dạng Toggle -->
+      <div class="compact-card">
+        <div class="asset-list-header">
+          <div class="section-title">Tài sản & Khoản nợ khác</div>
+          <button class="btn-small" id="btnAddAsset">+ Thêm</button>
+        </div>
+        <div class="asset-list" id="assetListContainer"></div>
+      </div>
       <!-- Bảng kê tiền mới -->
       <div class="compact-card">
         <div class="compact-card-header">
@@ -4272,7 +4295,6 @@
           </label>
         </div>
       </div>
-
       <!-- Bảng kê chi tiêu thẻ tín dụng -->
       <div class="compact-card">
         <div class="compact-card-header">
@@ -4281,15 +4303,6 @@
         </div>
         <div class="credit-list" id="creditListContainer"></div>
         <button class="credit-add-btn" id="btnAddCredit">+ Thêm khoản chi</button>
-      </div>
-
-      <!-- Tài sản & Khoản nợ khác -> Chuyển sang dạng Toggle -->
-      <div class="compact-card">
-        <div class="asset-list-header">
-          <div class="section-title">Tài sản & Khoản nợ khác</div>
-          <button class="btn-small" id="btnAddAsset">+ Thêm</button>
-        </div>
-        <div class="asset-list" id="assetListContainer"></div>
       </div>
 
       <!-- Nút Sao lưu / Khôi phục -->
