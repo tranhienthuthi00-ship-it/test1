@@ -3727,9 +3727,9 @@
 <!-- KHO ICON DOODLE VẼ TAY -->
 <svg style="display:none;">
   <!-- Style cho nét vẽ tay nguệch ngoạc -->
-  <style>
+ <style>
     .doodle-stroke {
-      fill: none;
+      fill: var(--doodle-fill, none); /* Lấy biến từ JS, nếu không có thì rỗng */
       stroke: currentColor;
       stroke-width: 1.5;
       stroke-linecap: round;
@@ -5430,12 +5430,14 @@ const NOTE_STATUS = {
   }
 
   function renderStars(rating) {
-    let html = '';
-    for(let i=1; i<=5; i++) {
-      html += `<svg class="hand-icon ${i<=rating?'on':'off'}" viewBox="0 0 24 24"><use href="#icon-star"/></svg>`;
-    }
-    return html;
+  let html = '';
+  for(let i=1; i<=5; i++) {
+    // Dùng inline style đè trực tiếp lên thẻ SVG để ăn chắc
+    const isOn = i <= rating;
+    html += `<svg class="hand-icon" viewBox="0 0 24 24" style="fill:${isOn ? '#f59e0b' : 'none'}; stroke:${isOn ? '#f59e0b' : '#d1d5db'};"><use href="#icon-star"/></svg>`;
   }
+  return html;
+}
 
   /* ==================== TÍNH TOÁN TÀI CHÍNH ==================== */
   function calcFinance() {
@@ -7516,7 +7518,29 @@ list.innerHTML = arr.map(n => {
   function closePlaceModal() { $('placeOverlay').classList.remove('show'); editPlaceId = null; }
   function setFormType(type) { formPlaceType = type; document.querySelectorAll('#typePicker .opt').forEach(o => o.classList.toggle('active', o.dataset.type === type)); }
   function setFormStatus(status) { formPlaceStatus = status; document.querySelectorAll('#statusPicker .opt').forEach(o => o.classList.toggle('active', o.dataset.status === status)); }
-  function setFormRating(v) { formPlaceRating = v; document.querySelectorAll('#ratingPicker .star-btn').forEach(s => s.classList.toggle('on', Number(s.dataset.v) <= v)); }
+  function setFormRating(v) { 
+  formPlaceRating = v; 
+  document.querySelectorAll('#ratingPicker .star-btn').forEach(s => {
+    const starValue = Number(s.dataset.v);
+    const svg = s.querySelector('svg');
+    const useTag = svg.querySelector('use');
+    
+    if (starValue <= v) {
+      // Nếu được chọn: Đổi màu cam/vàng và tô đặc
+      s.classList.add('on');
+      svg.style.fill = '#f59e0b';
+      svg.style.stroke = '#f59e0b';
+      // Can thiệp sâu vào thẻ path bên trong symbol
+      svg.style.setProperty('--doodle-fill', '#f59e0b');
+    } else {
+      // Nếu không chọn: Xám và rỗng
+      s.classList.remove('on');
+      svg.style.fill = 'none';
+      svg.style.stroke = '#d1d5db';
+      svg.style.setProperty('--doodle-fill', 'none');
+    }
+  });
+}
 
   function openNoteModal(id) {
     editNoteId = id || null;
