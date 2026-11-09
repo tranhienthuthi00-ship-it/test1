@@ -5157,17 +5157,15 @@ const NOTE_STATUS = {
     const text = content.trim();
     if (!text) return;
 
-    // Tự động tạo tiêu đề từ 30 ký tự đầu
-    const title = text.length > 30 ? text.substring(0, 30) + '...' : text;
     const todayStr = new Date().toISOString().split('T')[0];
 
     // Tạo object nhật ký mới
     const newDiary = {
       id: 'd_' + Date.now(),
       date: todayStr,
-      title: title,
+      title: 'Chưa có tiêu đề',   // ← Đổi từ 30 ký tự đầu thành cố định
       content: text,
-      mood: '😌 Bình yên', // Cảm xúc mặc định
+      mood: '😌 Bình yên',
       createdAt: Date.now()
     };
 
@@ -5355,6 +5353,25 @@ const NOTE_STATUS = {
         `;
       });
     }
+    const matchedBraces = braces.filter(b => 
+      (b.title||'').toLowerCase().includes(q) || 
+      (b.content||'').toLowerCase().includes(q)
+    ).slice(0, 3);
+
+    if (matchedBraces.length > 0) {
+      html += `<div class="search-res-category">Niềng răng</div>`;
+      matchedBraces.forEach(b => {
+        html += `
+          <div class="search-res-item" onclick="searchGoTo('braces', '${b.id}')">
+            <svg class="hand-icon" style="width:16px;height:16px; stroke:#2563eb;"><use href="#icon-tooth"/></svg>
+            <div style="flex:1; min-width:0;">
+              <div class="search-res-title">${esc(b.title) || 'Niềng răng'}</div>
+              <div class="search-res-desc">${fmtDate(b.date)}</div>
+            </div>
+          </div>
+        `;
+      });
+    }
 
     const matchedNotes = notes.filter(n => 
       (n.title||'').toLowerCase().includes(q) || 
@@ -5444,6 +5461,11 @@ const NOTE_STATUS = {
       diaryViewMode = 'timeline';
       renderDiaries();
       setTimeout(() => openDiaryModal(id), 300);
+    } else if (type === 'braces') {
+      switchTab('diary');
+      currentDiaryPage = 1;
+      renderDiaries();
+      setTimeout(() => openBracesModal(id), 300);
     } else if (type === 'note') {
       switchTab('others');
       currentOtherCategory = 'note';
