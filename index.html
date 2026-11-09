@@ -5401,12 +5401,22 @@
 
 // THÊM ĐOẠN NÀY
 const NOTE_STATUS = {
-  idea:   { label: 'Ý tưởng',       color: '#8b5cf6', bg: '#f3e8ff' },
-  review: { label: 'Xem xét',       color: '#f59e0b', bg: '#fffbeb' },
-  doing:  { label: 'Đang thực hiện', color: '#3b82f6', bg: '#eff6ff' },
-  done:   { label: 'Xong',          color: '#10b981', bg: '#ecfdf5' },
-  cancel: { label: 'Hủy',           color: '#ef4444', bg: '#fef2f2' }
-};
+    idea:   { label: 'Ý tưởng',       color: '#8b5cf6', bg: '#f3e8ff' },
+    review: { label: 'Xem xét',       color: '#f59e0b', bg: '#fffbeb' },
+    doing:  { label: 'Đang thực hiện', color: '#3b82f6', bg: '#eff6ff' },
+    done:   { label: 'Xong',          color: '#10b981', bg: '#ecfdf5' },
+    cancel: { label: 'Hủy',           color: '#ef4444', bg: '#fef2f2' }
+  };
+
+  // THÊM MỚI: Danh mục cho Việc làm
+  const TASK_CATEGORIES = {
+    work:     { label: '💼 Công việc', color: '#3b82f6', bg: '#eff6ff' },
+    personal: { label: '👤 Cá nhân',   color: '#8b5cf6', bg: '#f3e8ff' },
+    study:    { label: '📚 Học hành',  color: '#f59e0b', bg: '#fffbeb' },
+    hobby:    { label: '🎨 Sở thích',  color: '#ec4899', bg: '#fdf2f8' },
+    family:   { label: '🏠 Gia đình',  color: '#10b981', bg: '#ecfdf5' },
+    other:    { label: '📦 Khác',      color: '#6b7280', bg: '#f3f4f6' }
+  };
 
   function fmtMoney(amount) {
     return amount.toLocaleString('vi-VN') + ' đ';
@@ -5875,10 +5885,14 @@ const NOTE_STATUS = {
   window.toggleHomeTask = function(id) {
     const task = notes.find(n => n.id === id);
     if (task) {
-      task.isCompleted = true;
+      task.isCompleted = !task.isCompleted; // Đổi thành toggle (bấm lại để bỏ)
       saveData();
-      renderHomeTasks(); // Cập nhật lại widget
-      toast('✅ Đã xong: ' + task.title);
+      renderHomeTasks();
+      // Cập nhật luôn tab Việc làm nếu đang hiển thị
+      if (currentTab === 'others' && currentOtherCategory === 'task') {
+        renderNotes();
+      }
+      toast(task.isCompleted ? '✅ Đã xong: ' + task.title : '🔄 Đã bỏ hoàn thành');
     }
   };
 
@@ -6591,50 +6605,110 @@ const NOTE_STATUS = {
     }
 
     // === Giao diện list cũ ===
-list.classList.remove('knowledge-bookshelf');
-list.innerHTML = arr.map(n => {
-  const info = INFO[n.type] || INFO.note;
-  const currentStatus = n.status || 'idea';
-  const statusInfo = NOTE_STATUS[currentStatus];
+    list.classList.remove('knowledge-bookshelf');
+    list.innerHTML = arr.map(n => {
+      const info = INFO[n.type] || INFO.note;
+      const isTask = n.type === 'task';
 
-  return `
-      <div class="note-list-card" onclick="openDetailModal('note', '${n.id}')">
-        <div class="note-icon-box ${info.cls}"><svg class="hand-icon"><use href="#icon-${n.icon || info.icon.replace('#icon-','')}"/></svg></div>
-        <div class="note-content-box">
-          <!-- HÀNG 1: Tiêu đề (trái) + Ngày tháng (phải) -->
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%; gap:8px;">
-            <div class="note-title-text" style="flex:1; min-width:0;">${esc(n.title)}</div>
-            ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap; flex-shrink:0; margin-top:2px;">${fmtDate(n.date)}</span>` : ''}
-          </div>
+      // ===== PHẦN LOGIC CHO VIỆC LÀM =====
+      if (isTask) {
+        const catKey = n.category || 'personal';
+        const catInfo = TASK_CATEGORIES[catKey] || TASK_CATEGORIES.personal;
+        const isDone = n.isCompleted;
+        const titleStyle = isDone ? 'text-decoration: line-through; color: var(--text-muted);' : '';
 
-          <!-- HÀNG 2: Dropdown trạng thái (style như tag, ẩn mũi tên) -->
-          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
-            <select class="note-status-select" 
-        onclick="event.stopPropagation()" 
-        onchange="updateNoteStatus('${n.id}', this.value); event.stopPropagation();"
-        data-status="${currentStatus}"
-        style="font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; border:1px ${statusInfo.color}; background:${statusInfo.bg}; color:${statusInfo.color}; cursor:pointer; outline:none; font-family:inherit; -webkit-appearance:none; -moz-appearance:none; appearance:none; text-align:center; text-align-last:center;">
-  <option value="idea" ${currentStatus === 'idea' ? 'selected' : ''}>Ý tưởng</option>
-  <option value="review" ${currentStatus === 'review' ? 'selected' : ''}>Xem xét</option>
-  <option value="doing" ${currentStatus === 'doing' ? 'selected' : ''}>Đang thực hiện</option>
-  <option value="done" ${currentStatus === 'done' ? 'selected' : ''}>Xong</option>
-  <option value="cancel" ${currentStatus === 'cancel' ? 'selected' : ''}>Hủy</option>
-</select>
-          </div>
+        // SỬA LẠI STYLE: Dùng viền đứt nét (dashed) giống Tips, xóa bỏ viền đặc
+        const selectStyle = `font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; border:1px ${catInfo.color}; background:${catInfo.bg}; color:${catInfo.color}; cursor:pointer; outline:none; font-family:inherit; -webkit-appearance:none; -moz-appearance:none; appearance:none; text-align:center; text-align-last:center;`;
 
-          ${n.content ? `<div class="note-desc-text" style="margin-top:4px;">${esc(n.content)}</div>` : ''}
-
-          <!-- HÀNG 3: Hashtag (dưới nội dung) -->
-          ${n.hashtags && n.hashtags.length > 0 ? `
-            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
-              ${n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600;">#${esc(tag)}</span>`).join('')}
+        return `
+          <div class="note-list-card" onclick="openDetailModal('note', '${n.id}')">
+            <!-- Ô TRÒN TODO -->
+            <div onclick="event.stopPropagation(); toggleTaskFromList('${n.id}')" style="
+              width: 22px; height: 22px; border-radius: 50%;
+              border: 2px solid ${isDone ? 'var(--pink-primary)' : 'var(--text-muted)'};
+              background: ${isDone ? 'var(--pink-primary)' : 'transparent'};
+              display: flex; align-items: center; justify-content: center;
+              flex-shrink: 0; cursor: pointer; transition: all 0.2s;
+              margin-top: 2px;
+            ">
+              <svg class="hand-icon" style="width: 12px; height: 12px; stroke: white; opacity: ${isDone ? '1' : '0'};"><use href="#icon-check-circle"/></svg>
             </div>
-          ` : ''}
+            <div class="note-content-box">
+              <!-- HÀNG 1: Tiêu đề + Ngày -->
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%; gap:8px;">
+                <div class="note-title-text" style="flex:1; min-width:0; ${titleStyle}">${esc(n.title)}</div>
+                ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap; flex-shrink:0; margin-top:2px;">${fmtDate(n.date)}</span>` : ''}
+              </div>
+
+              <!-- HÀNG 2: Dropdown DANH MỤC -->
+              <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
+                <select class="note-category-select" 
+                  onclick="event.stopPropagation()" 
+                  onchange="updateTaskCategory('${n.id}', this.value); event.stopPropagation();"
+                  style="${selectStyle}">
+                  <option value="work" ${catKey === 'work' ? 'selected' : ''}>💼 Công việc</option>
+                  <option value="personal" ${catKey === 'personal' ? 'selected' : ''}>👤 Cá nhân</option>
+                  <option value="study" ${catKey === 'study' ? 'selected' : ''}>📚 Học hành</option>
+                  <option value="hobby" ${catKey === 'hobby' ? 'selected' : ''}>🎨 Sở thích</option>
+                  <option value="family" ${catKey === 'family' ? 'selected' : ''}>🏠 Gia đình</option>
+                  <option value="other" ${catKey === 'other' ? 'selected' : ''}>📦 Khác</option>
+                </select>
+              </div>
+
+              ${n.content ? `<div class="note-desc-text" style="margin-top:4px; ${isDone ? 'opacity:0.6;' : ''}">${esc(n.content)}</div>` : ''}
+
+              ${n.hashtags && n.hashtags.length > 0 ? `
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
+                  ${n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600;">#${esc(tag)}</span>`).join('')}
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }
+
+      // ===== PHẦN CŨ: GIỮ NGUYÊN CHO CÁC LOẠI KHÁC (Tips, Note) =====
+      const currentStatus = n.status || 'idea';
+      const statusInfo = NOTE_STATUS[currentStatus];
+
+      return `
+          <div class="note-list-card" onclick="openDetailModal('note', '${n.id}')">
+            <div class="note-icon-box ${info.cls}"><svg class="hand-icon"><use href="#icon-${n.icon || info.icon.replace('#icon-','')}"/></svg></div>
+            <div class="note-content-box">
+              <!-- HÀNG 1: Tiêu đề (trái) + Ngày tháng (phải) -->
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%; gap:8px;">
+                <div class="note-title-text" style="flex:1; min-width:0;">${esc(n.title)}</div>
+                ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap; flex-shrink:0; margin-top:2px;">${fmtDate(n.date)}</span>` : ''}
+              </div>
+
+              <!-- HÀNG 2: Dropdown trạng thái -->
+              <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
+                <select class="note-status-select" 
+            onclick="event.stopPropagation()" 
+            onchange="updateNoteStatus('${n.id}', this.value); event.stopPropagation();"
+            data-status="${currentStatus}"
+            style="font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; border:1px ${statusInfo.color}; background:${statusInfo.bg}; color:${statusInfo.color}; cursor:pointer; outline:none; font-family:inherit; -webkit-appearance:none; -moz-appearance:none; appearance:none; text-align:center; text-align-last:center;">
+      <option value="idea" ${currentStatus === 'idea' ? 'selected' : ''}>Ý tưởng</option>
+      <option value="review" ${currentStatus === 'review' ? 'selected' : ''}>Xem xét</option>
+      <option value="doing" ${currentStatus === 'doing' ? 'selected' : ''}>Đang thực hiện</option>
+      <option value="done" ${currentStatus === 'done' ? 'selected' : ''}>Xong</option>
+      <option value="cancel" ${currentStatus === 'cancel' ? 'selected' : ''}>Hủy</option>
+    </select>
+              </div>
+
+              ${n.content ? `<div class="note-desc-text" style="margin-top:4px;">${esc(n.content)}</div>` : ''}
+
+              <!-- HÀNG 3: Hashtag -->
+              ${n.hashtags && n.hashtags.length > 0 ? `
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
+                  ${n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600;">#${esc(tag)}</span>`).join('')}
+                </div>
+              ` : ''}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  `;
-}).join('');
+      `;
+    }).join('');
   }
 
 // Hàm hiển thị thẻ bài Kiến thức
@@ -8281,6 +8355,34 @@ window.openPlaceCardPopup = function(id) {
     renderNotes();
     if (currentTab === 'home') renderHome();
   }
+  // ===== HÀM MỚI CHO VIỆC LÀM =====
+  
+  // Cập nhật Danh mục
+  window.updateTaskCategory = function(id, newCat) {
+    const task = notes.find(n => n.id === id);
+    if (task) {
+      task.category = newCat;
+      saveData();
+      renderNotes();
+      toast('✅ Đã đổi danh mục');
+    }
+  };
+
+  // Toggle hoàn thành từ danh sách Việc làm
+  window.toggleTaskFromList = function(id) {
+    const task = notes.find(n => n.id === id);
+    if (task) {
+      task.isCompleted = !task.isCompleted;
+      saveData();
+      renderNotes();
+      
+      // Cập nhật luôn widget Trang chủ nếu có
+      if (typeof renderHomeTasks === 'function') {
+        renderHomeTasks();
+      }
+      toast(task.isCompleted ? '✅ Đã xong: ' + task.title : '🔄 Đã bỏ hoàn thành');
+    }
+  };
 };
 /* =======================================================
    FLASHCARD STUDY - SPACED REPETITION
