@@ -4542,18 +4542,33 @@
 </div>
 
 <!-- Lọc Ghi chú -->
+<!-- Lọc Ghi chú -->
 <div class="overlay" id="noteFilterOverlay">
   <div class="modal">
     <div class="modal-handle"></div>
     <h2>Bộ lọc ghi chú <button id="closeNoteFilterBtn"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
     
-    <div class="field">
+    <!-- Bộ lọc Loại (Dùng cho Kiến thức, Việc làm) -->
+    <div class="field" id="filterNoteTypeField">
       <label>Loại ghi chú</label>
       <div class="chip-group" id="filterNoteTypeGroup">
         <div class="chip" data-type="all">Tất cả</div>
         <div class="chip" data-type="knowledge">📖 Kiến thức</div>
         <div class="chip" data-type="task">Việc cần làm</div>
         <div class="chip" data-type="tip">Tips hay</div>
+      </div>
+    </div>
+
+    <!-- Bộ lọc Trạng thái (Dùng riêng cho Tips) -->
+    <div class="field" id="filterNoteStatusField" style="display: none;">
+      <label>Trạng thái</label>
+      <div class="chip-group" id="filterNoteStatusGroup">
+        <div class="chip active" data-status="all">Tất cả</div>
+        <div class="chip" data-status="idea">Ý tưởng</div>
+        <div class="chip" data-status="review">Xem xét</div>
+        <div class="chip" data-status="doing">Đang làm</div>
+        <div class="chip" data-status="done">Xong</div>
+        <div class="chip" data-status="cancel">Hủy</div>
       </div>
     </div>
 
@@ -5157,6 +5172,7 @@
   // State cho Note
   let editNoteId = null;
   let filterNoteType = 'all';
+  let filterNoteStatus = 'all'; // <-- THÊM DÒNG NÀY
   let filterNoteHashtag = '';
   let formNoteType = 'note';
   let formNoteIcon = 'notebook';
@@ -6454,6 +6470,8 @@ const NOTE_STATUS = {
     card.addEventListener('click', () => {
       currentOtherCategory = card.dataset.type;
       filterNoteType = currentOtherCategory;
+      filterNoteStatus = 'all'; // <-- Thêm dòng này
+      filterNoteHashtag = '';   // <-- Thêm dòng này
       renderOthers();
     });
   });
@@ -6465,6 +6483,7 @@ const NOTE_STATUS = {
   $('backToOthersBtn').addEventListener('click', () => {
     currentOtherCategory = null;
     filterNoteType = 'all';
+    filterNoteStatus = 'all'; // <-- Thêm dòng này
     renderOthers();
   });
   $('backToOthersFromGoalBtn').addEventListener('click', () => {
@@ -6479,17 +6498,15 @@ const NOTE_STATUS = {
   function getFilteredNotes() {
     let arr = notes.slice();
     if (filterNoteType !== 'all') arr = arr.filter(n => n.type === filterNoteType);
+    
+    // THÊM LOGIC LỌC TRẠNG THÁI (Chỉ áp dụng ở tab Tips)
+    if (currentOtherCategory === 'tip' && filterNoteStatus !== 'all') {
+      arr = arr.filter(n => (n.status || 'idea') === filterNoteStatus);
+    }
+
     if (filterNoteHashtag.trim()) {
       const q = filterNoteHashtag.toLowerCase().replace(/^#/, '').trim();
       arr = arr.filter(n => (n.hashtags || []).some(tag => tag.toLowerCase().includes(q)));
-    }
-    if (searchNotes) {
-      const q = searchNotes.toLowerCase();
-      arr = arr.filter(n =>
-        (n.title||'').toLowerCase().includes(q) ||
-        (n.content||'').toLowerCase().includes(q) ||
-        (n.hashtags||[]).join(' ').toLowerCase().includes(q)
-      );
     }
     arr.sort((a,b) => {
       if (sortNotesMode === 'newest') return b.createdAt - a.createdAt;
@@ -6502,7 +6519,13 @@ const NOTE_STATUS = {
 
   function updateNoteFilterBadge() {
     let count = 0;
-    if (filterNoteType !== 'all') count++;
+    
+    if (currentOtherCategory === 'tip') {
+      if (filterNoteStatus !== 'all') count++;
+    } else {
+      if (filterNoteType !== 'all') count++;
+    }
+    
     if (filterNoteHashtag.trim()) count++;
     const badge = $('noteFilterBadge');
     if (count > 0) { badge.textContent = count; badge.classList.add('show'); } 
@@ -7773,27 +7796,61 @@ list.innerHTML = arr.map(n => {
   });
 
   $('openNoteFilterBtn').addEventListener('click', () => {
-    document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.type === filterNoteType));
+    if (currentOtherCategory === 'tip') {
+      $('filterNoteTypeField').style.display = 'none';
+      $('filterNoteStatusField').style.display = 'block';
+      document.querySelectorAll('#filterNoteStatusGroup .chip').forEach(c => {
+        c.classList.toggle('active', c.dataset.status === filterNoteStatus);
+      });
+    } else {
+      $('filterNoteTypeField').style.display = 'block';
+      $('filterNoteStatusField').style.display = 'none';
+      document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(c => {
+        c.classList.toggle('active', c.dataset.type === filterNoteType);
+      });
+    }
     $('filterNoteHashtagInput').value = filterNoteHashtag;
     $('noteFilterOverlay').classList.add('show');
   });
+
   $('closeNoteFilterBtn').addEventListener('click', () => $('noteFilterOverlay').classList.remove('show'));
+
   document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(c => {
     c.addEventListener('click', () => {
       document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(x => x.classList.remove('active'));
       c.classList.add('active');
     });
   });
-  $('applyNoteFilterBtn').addEventListener('click', () => {
-    filterNoteType = document.querySelector('#filterNoteTypeGroup .chip.active').dataset.type;
-    filterNoteHashtag = $('filterNoteHashtagInput').value.trim();
-    renderNotes(); $('noteFilterOverlay').classList.remove('show');
+
+  document.querySelectorAll('#filterNoteStatusGroup .chip').forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll('#filterNoteStatusGroup .chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+    });
   });
+
+  $('applyNoteFilterBtn').addEventListener('click', () => {
+    if (currentOtherCategory === 'tip') {
+      filterNoteStatus = document.querySelector('#filterNoteStatusGroup .chip.active').dataset.status;
+    } else {
+      filterNoteType = document.querySelector('#filterNoteTypeGroup .chip.active').dataset.type;
+    }
+    filterNoteHashtag = $('filterNoteHashtagInput').value.trim();
+    renderNotes(); 
+    $('noteFilterOverlay').classList.remove('show');
+  });
+
   $('resetNoteFilterBtn').addEventListener('click', () => {
-    filterNoteType = 'all'; filterNoteHashtag = '';
+    filterNoteType = 'all'; 
+    filterNoteStatus = 'all'; 
+    filterNoteHashtag = '';
     $('filterNoteHashtagInput').value = '';
+    
     document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.type === 'all'));
-    renderNotes(); $('noteFilterOverlay').classList.remove('show');
+    document.querySelectorAll('#filterNoteStatusGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.status === 'all'));
+    
+    renderNotes(); 
+    $('noteFilterOverlay').classList.remove('show');
   });
 
   /* ==================== SỰ KIỆN LƯU ==================== */
