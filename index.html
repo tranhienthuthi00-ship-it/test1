@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Kiểm tra <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -3201,105 +3201,6 @@
     border-radius: 20px !important;
     border: 1.5px solid #000 !important;
   }
-  /* ===== TIMELINE VỚI ĐƯỜNG DỌC BÊN TRÁI ===== */
-#timelineWrap, #bracesTimelineWrap {
-  position: relative;
-  padding-left: 28px;
-  margin-top: 10px;
-}
-
-/* Đường dọc xuyên suốt */
-#timelineWrap::before,
-#bracesTimelineWrap::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  bottom: 20px;
-  left: 10px;
-  width: 2px;
-  background: var(--pink-light);
-  border-radius: 2px;
-  z-index: 0;
-}
-#bracesTimelineWrap::before {
-  background: #bfdbfe;
-}
-
-/* Marker ngày: chấm + text, canh trái */
-.timeline-date-marker {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 20px 0 12px -28px;
-  padding-left: 28px;
-  z-index: 1;
-}
-.timeline-date-marker:first-child { margin-top: 0; }
-
-.timeline-date-marker .marker-dot {
-  position: absolute;
-  left: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--pink-primary);
-  border: 3px solid var(--pink-surface);
-  box-shadow: 0 0 0 2px var(--pink-primary);
-  z-index: 2;
-}
-
-.timeline-date-marker .marker-label {
-  font-size: 12.5px;
-  font-weight: 800;
-  color: var(--pink-primary);
-  white-space: nowrap;
-  letter-spacing: 0.3px;
-  padding-left: 2px;
-}
-
-.timeline-date-marker.is-today .marker-label {
-  color: var(--pink-primary);
-}
-.timeline-date-marker.is-today .marker-dot {
-  background: var(--pink-primary);
-  box-shadow: 0 0 0 4px rgba(236,72,153,0.25);
-  animation: pulseDot 2s ease-in-out infinite;
-}
-
-@keyframes pulseDot {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(236,72,153,0.25); }
-  50% { box-shadow: 0 0 0 8px rgba(236,72,153,0.1); }
-}
-
-/* Biến thể Niềng răng - màu xanh */
-.braces-date-marker .marker-dot {
-  background: #3b82f6;
-  box-shadow: 0 0 0 2px #3b82f6;
-}
-.braces-date-marker .marker-label {
-  color: #2563eb;
-}
-.braces-date-marker.is-today .marker-dot {
-  background: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(59,130,246,0.25);
-  animation: pulseDotBlue 2s ease-in-out infinite;
-}
-@keyframes pulseDotBlue {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(59,130,246,0.25); }
-  50% { box-shadow: 0 0 0 8px rgba(59,130,246,0.1); }
-}
-
-/* Nhóm item trong cùng ngày - căn với đường dọc */
-.timeline-date-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-left: 0;
-  margin-bottom: 8px;
-}
 </style>
 </head>
 <body>
@@ -3908,7 +3809,7 @@
 
 <!-- ================= BOTTOM NAVIGATION ================= -->
 <div class="bottom-nav">
-  <div class="nav-item" data-tab="home">
+  <div class="nav-item active" data-tab="home">
     <svg class="hand-icon"><use href="#icon-home"/></svg>
     <span>Trang chủ</span>
   </div>
@@ -3920,7 +3821,7 @@
     <svg class="hand-icon"><use href="#icon-grid"/></svg>
     <span>Khác</span>
   </div>
-  <div class="nav-item active" data-tab="finance">
+  <div class="nav-item" data-tab="finance">
     <svg class="hand-icon"><use href="#icon-wallet"/></svg>
     <span>Tài chính</span>
   </div>
@@ -4186,7 +4087,16 @@
         <div class="opt active" data-type="knowledge">📖 Kiến thức</div>
       </div>
     </div>
-
+    <div class="field">
+  <label>Trạng thái</label>
+  <select id="noteStatusSelect" class="settings-input" style="padding: 12px 16px; font-weight:600;">
+    <option value="idea">Ý tưởng</option>
+    <option value="review">Xem xét</option>
+    <option value="doing">Đang thực hiện</option>
+    <option value="done">Xong</option>
+    <option value="cancel">Hủy</option>
+  </select>
+</div>
     <div class="field">
       <label>Tiêu đề *</label>
       <input type="text" id="noteTitle" placeholder="VD: Mẹo chụp ảnh đẹp">
@@ -4786,9 +4696,18 @@
     event:  { label:'Sự kiện', icon:'#icon-gift', cls:'event' }
   };
   const STATUS = {
-    want: { label:'Chưa đi', icon:'#icon-circle', cls:'want' },
-    done: { label:'Đã đi',   icon:'#icon-check-circle', cls:'done' }
-  };
+  want: { label:'Chưa đi', icon:'#icon-circle', cls:'want' },
+  done: { label:'Đã đi',   icon:'#icon-check-circle', cls:'done' }
+};
+
+// THÊM ĐOẠN NÀY
+const NOTE_STATUS = {
+  idea:   { label: 'Ý tưởng',       color: '#8b5cf6', bg: '#f3e8ff' },
+  review: { label: 'Xem xét',       color: '#f59e0b', bg: '#fffbeb' },
+  doing:  { label: 'Đang thực hiện', color: '#3b82f6', bg: '#eff6ff' },
+  done:   { label: 'Xong',          color: '#10b981', bg: '#ecfdf5' },
+  cancel: { label: 'Hủy',           color: '#ef4444', bg: '#fef2f2' }
+};
 
   function fmtMoney(amount) {
     return amount.toLocaleString('vi-VN') + ' đ';
@@ -5006,20 +4925,20 @@
     const wantPlaces = places.filter(p => p.status === 'want');
     const homeSuggest = $('homeSuggest');
     if (wantPlaces.length > 0) {
-      const randomP = wantPlaces[Math.floor(Math.random() * wantPlaces.length)];
-      homeSuggest.innerHTML = `
-        <span class="suggest-tag">✨ Gợi ý hôm nay</span>
-        <div class="suggest-title">${esc(randomP.name)}</div>
-        <div class="suggest-address"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(randomP.address || randomP.city || 'Chưa rõ địa chỉ')}</div>
-        <div style="font-size: 10px; opacity: 0.7; margin-top: 10px; font-style: italic;">(Double tap để rút thẻ)</div>
-      `;
-    } else {
-      homeSuggest.innerHTML = `
-        <span class="suggest-tag">✨ Gợi ý hôm nay</span>
-        <div class="suggest-title" style="font-size:16px;">Đã đi hết địa điểm rồi!</div>
-        <div class="suggest-address">Hãy thêm địa điểm mới nhé.</div>
-      `;
-    }
+  const randomP = wantPlaces[Math.floor(Math.random() * wantPlaces.length)];
+  homeSuggest.innerHTML = `
+    <span class="suggest-tag">✨ Gợi ý hôm nay</span>
+    <div class="suggest-title">${esc(randomP.name)}</div>
+    <div class="suggest-address"><svg class="hand-icon"><use href="#icon-pin"/></svg> ${esc(randomP.address || randomP.city || 'Chưa rõ địa chỉ')}</div>
+    <div style="font-size: 10px; opacity: 0.7; margin-top: auto; padding-top: 16px; font-style: italic; text-align: center; width: 100%;">(Double tap để rút thẻ)</div>
+  `;
+} else {
+  homeSuggest.innerHTML = `
+    <span class="suggest-tag">✨ Gợi ý hôm nay</span>
+    <div class="suggest-title" style="font-size:16px;">Đã đi hết địa điểm rồi!</div>
+    <div class="suggest-address">Hãy thêm địa điểm mới nhé.</div>
+  `;
+}
     // Xử lý sự kiện chạm 1 lần / 2 lần cho Thẻ Gợi ý
     let suggestTapTimer = null;
     homeSuggest.onclick = null; // Xóa sự kiện cũ (nếu có)
@@ -5604,43 +5523,24 @@
           wrap.innerHTML = `<div class="empty"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-book"/></svg></div><h3>Chưa có bài viết nào</h3><p>Nhấn nút <b>+</b> để viết lại những kỷ niệm đáng nhớ nhé!</p></div>`;
         } else {
           const sorted = diaries.slice().sort((a,b) => {
-  if (a.date !== b.date) return b.date.localeCompare(a.date);
-  return b.createdAt - a.createdAt;
-});
+            if (a.date !== b.date) return b.date.localeCompare(a.date);
+            return b.createdAt - a.createdAt;
+          });
 
-// Nhóm theo ngày
-const groupedD = {};
-sorted.forEach(d => {
-  const key = d.date || 'unknown';
-  if (!groupedD[key]) groupedD[key] = [];
-  groupedD[key].push(d);
-});
-
-const todayKey = new Date().toISOString().split('T')[0];
-let htmlD = '';
-Object.keys(groupedD).forEach(dateKey => {
-  const isToday = dateKey === todayKey;
-  const label = isToday ? 'Hôm nay' : ' ' + (dateKey === 'unknown' ? 'Không rõ ngày' : fmtDate(dateKey));
-  htmlD += `
-    <div class="timeline-date-marker ${isToday ? 'is-today' : ''}">
-      <div class="marker-dot"></div>
-      <div class="marker-label">${label}</div>
-    </div>
-    <div class="timeline-date-group">
-      ${groupedD[dateKey].map(d => `
-        <div class="diary-compact-card" onclick="handleCardClick(event, '${d.id}', 'diary')">
-          <div class="diary-icon-box"><svg class="hand-icon"><use href="#icon-book"/></svg></div>
-          <div class="diary-content-box">
-            ${d.mood ? `<div class="diary-date-row"><div></div><div class="diary-mood-text">${esc(d.mood)}</div></div>` : ''}
-            <div class="diary-title-text">${esc(d.title) || 'Không có tiêu đề'}</div>
-            <div class="diary-desc-text">${esc(d.content)}</div>
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-});
-wrap.innerHTML = htmlD;
+          wrap.innerHTML = sorted.map(d => `
+              <div class="diary-compact-card" onclick="handleCardClick(event, '${d.id}', 'diary')">
+                <div class="diary-icon-box"><svg class="hand-icon"><use href="#icon-book"/></svg></div>
+                <div class="diary-content-box">
+                  <div class="diary-date-row">
+                    <div class="diary-date-text">${fmtDate(d.date)}</div>
+                    ${d.mood ? `<div class="diary-mood-text">${esc(d.mood)}</div>` : ''}
+                  </div>
+                  <div class="diary-title-text">${esc(d.title) || 'Không có tiêu đề'}</div>
+                  <div class="diary-desc-text">${esc(d.content)}</div>
+                </div>
+              </div>
+            </div>
+          `).join('');
         }
       } else {
         $('diaryTimelineView').style.display = 'none';
@@ -5688,42 +5588,24 @@ wrap.innerHTML = htmlD;
       }
 
       const sorted = braces.slice().sort((a,b) => {
-  if (a.date !== b.date) return b.date.localeCompare(a.date);
-  return b.createdAt - a.createdAt;
-});
+        if (a.date !== b.date) return b.date.localeCompare(a.date);
+        return b.createdAt - a.createdAt;
+      });
 
-const groupedB = {};
-sorted.forEach(b => {
-  const key = b.date || 'unknown';
-  if (!groupedB[key]) groupedB[key] = [];
-  groupedB[key].push(b);
-});
-
-const todayKey2 = new Date().toISOString().split('T')[0];
-let htmlB = '';
-Object.keys(groupedB).forEach(dateKey => {
-  const isToday = dateKey === todayKey2;
-  const label = isToday ? '🦷 Hôm nay' : '🦷 ' + (dateKey === 'unknown' ? 'Không rõ ngày' : fmtDate(dateKey));
-  htmlB += `
-    <div class="timeline-date-marker braces-date-marker ${isToday ? 'is-today' : ''}">
-      <div class="marker-dot"></div>
-      <div class="marker-label">${label}</div>
-    </div>
-    <div class="timeline-date-group">
-      ${groupedB[dateKey].map(b => `
-        <div class="diary-compact-card braces-card" onclick="handleCardClick(event, '${b.id}', 'braces')">
-          <div class="diary-icon-box"><svg class="hand-icon"><use href="#icon-tooth"/></svg></div>
-          <div class="diary-content-box">
-            <div class="diary-title-text">${esc(b.title) || 'Tái khám'}</div>
-            <div class="diary-amount-text">${fmtMoney(b.amount)}</div>
-            <div class="diary-desc-text">${esc(b.content)}</div>
+      wrap.innerHTML = sorted.map(b => `
+          <div class="diary-compact-card braces-card" onclick="handleCardClick(event, '${b.id}', 'braces')">
+            <div class="diary-icon-box"><svg class="hand-icon"><use href="#icon-tooth"/></svg></div>
+            <div class="diary-content-box">
+              <div class="diary-date-row">
+                <div class="diary-date-text">${fmtDate(b.date)}</div>
+              </div>
+              <div class="diary-title-text">${esc(b.title) || 'Tái khám'}</div>
+              <div class="diary-amount-text">${fmtMoney(b.amount)}</div>
+              <div class="diary-desc-text">${esc(b.content)}</div>
+            </div>
           </div>
         </div>
-      `).join('')}
-    </div>
-  `;
-});
-wrap.innerHTML = htmlB;
+      `).join('');
       
     }
   }
@@ -5985,31 +5867,50 @@ wrap.innerHTML = htmlB;
     }
 
     // === Giao diện list cũ ===
-    list.classList.remove('knowledge-bookshelf');
-    list.innerHTML = arr.map(n => {
-      const info = INFO[n.type] || INFO.note;
+list.classList.remove('knowledge-bookshelf');
+list.innerHTML = arr.map(n => {
+  const info = INFO[n.type] || INFO.note;
+  const currentStatus = n.status || 'idea';
+  const statusInfo = NOTE_STATUS[currentStatus];
 
-      return `
-          <div class="note-list-card" onclick="openDetailModal('note', '${n.id}')">
-            <div class="note-icon-box ${info.cls}"><svg class="hand-icon"><use href="#icon-${n.icon || info.icon.replace('#icon-','')}"/></svg></div>
-            <div class="note-content-box">
-              <div class="note-title-text">${esc(n.title)}</div>
-              
-              <div style="display:flex; justify-content:space-between; align-items:center; width:100%; gap:8px;">
-  <div style="flex:1; min-width:0;"></div>
-  ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap;">${fmtDate(n.date)}</span>` : ''}
-</div>
-              
-              <div class="note-meta-row">
-                ${n.hashtags && n.hashtags.length > 0 ? n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600; margin-right:4px;">#${esc(tag)}</span>`).join('') : ''}
-              </div>
-
-              ${n.content ? `<div class="note-desc-text">${esc(n.content)}</div>` : ''}
-            </div>
+  return `
+      <div class="note-list-card" onclick="openDetailModal('note', '${n.id}')">
+        <div class="note-icon-box ${info.cls}"><svg class="hand-icon"><use href="#icon-${n.icon || info.icon.replace('#icon-','')}"/></svg></div>
+        <div class="note-content-box">
+          <!-- HÀNG 1: Tiêu đề (trái) + Ngày tháng (phải) -->
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%; gap:8px;">
+            <div class="note-title-text" style="flex:1; min-width:0;">${esc(n.title)}</div>
+            ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap; flex-shrink:0; margin-top:2px;">${fmtDate(n.date)}</span>` : ''}
           </div>
+
+          <!-- HÀNG 2: Dropdown trạng thái (style như tag, ẩn mũi tên) -->
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
+            <select class="note-status-select" 
+        onclick="event.stopPropagation()" 
+        onchange="updateNoteStatus('${n.id}', this.value); event.stopPropagation();"
+        data-status="${currentStatus}"
+        style="font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; border:1px ${statusInfo.color}; background:${statusInfo.bg}; color:${statusInfo.color}; cursor:pointer; outline:none; font-family:inherit; -webkit-appearance:none; -moz-appearance:none; appearance:none; text-align:center; text-align-last:center;">
+  <option value="idea" ${currentStatus === 'idea' ? 'selected' : ''}>Ý tưởng</option>
+  <option value="review" ${currentStatus === 'review' ? 'selected' : ''}>Xem xét</option>
+  <option value="doing" ${currentStatus === 'doing' ? 'selected' : ''}>Đang thực hiện</option>
+  <option value="done" ${currentStatus === 'done' ? 'selected' : ''}>Xong</option>
+  <option value="cancel" ${currentStatus === 'cancel' ? 'selected' : ''}>Hủy</option>
+</select>
+          </div>
+
+          ${n.content ? `<div class="note-desc-text" style="margin-top:4px;">${esc(n.content)}</div>` : ''}
+
+          <!-- HÀNG 3: Hashtag (dưới nội dung) -->
+          ${n.hashtags && n.hashtags.length > 0 ? `
+            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
+              ${n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600;">#${esc(tag)}</span>`).join('')}
+            </div>
+          ` : ''}
         </div>
-      `;
-    }).join('');
+      </div>
+    </div>
+  `;
+}).join('');
   }
 
 // Hàm hiển thị thẻ bài Kiến thức
@@ -6121,7 +6022,7 @@ wrap.innerHTML = htmlB;
     
     // Hiển thị Ngày tháng & Tags
     let metaHtml = '';
-    if (n.date) metaHtml += `<span style="margin-right: 8px;"> ${fmtDate(n.date)}</span>`;
+    if (n.date) metaHtml += `<span style="margin-right: 8px;">📅 ${fmtDate(n.date)}</span>`;
     if (n.hashtags && n.hashtags.length > 0) {
       metaHtml += n.hashtags.map(tag => `<span style="color:var(--pink-primary); margin-right: 4px;">#${esc(tag)}</span>`).join('');
     }
@@ -6182,9 +6083,15 @@ wrap.innerHTML = htmlB;
       if (item.date) metaHtml += `<span class="tag date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(item.date)}</span>`;
       if (item.rating > 0) metaHtml += `<span class="card-rating" style="margin-top:0; margin-left:4px;">${renderStars(item.rating)}</span>`;
     } else {
-      metaHtml += `<span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>`;
-      if (item.date) metaHtml += `<span class="tag date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(item.date)}</span>`;
-    }
+  metaHtml += `<span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>`;
+  if (item.date) metaHtml += `<span class="tag date"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(item.date)}</span>`;
+  
+  // THÊM: Badge trạng thái
+  const st = NOTE_STATUS[item.status || 'idea'];
+  if (st) {
+    metaHtml += `<span class="tag" style="background:${st.bg}; color:${st.color}; border:1px dashed ${st.color};">${st.label}</span>`;
+  }
+}
     
     if (item.hashtags && item.hashtags.length > 0) {
       item.hashtags.forEach(tag => {
@@ -6905,24 +6812,26 @@ wrap.innerHTML = htmlB;
   function openNoteModal(id) {
     editNoteId = id || null;
     if (id) {
-      const n = notes.find(x => x.id === id);
-      if (!n) return;
-      $('noteModalTitle').textContent = 'Sửa ghi chú';
-      $('noteTitle').value = n.title || '';
-      $('noteDate').value = n.date || new Date().toISOString().split('T')[0];
-      $('noteHashtags').value = (n.hashtags || []).join(', ');
-      $('noteContent').innerHTML = n.content || ''; // 
-      setFormNoteType(n.type || 'note');
-      setFormNoteIcon(n.icon || 'notebook');
-    } else {
-      $('noteModalTitle').textContent = 'Thêm ghi chú';
-      $('noteTitle').value = ''; 
-      $('noteDate').value = new Date().toISOString().split('T')[0]; 
-      $('noteHashtags').value = ''; 
-      $('noteContent').innerHTML = '';
-      setFormNoteType(currentOtherCategory === 'knowledge' ? 'knowledge' : (currentOtherCategory || 'note'));
-      setFormNoteIcon('notebook');
-    }
+  const n = notes.find(x => x.id === id);
+  if (!n) return;
+  $('noteModalTitle').textContent = 'Sửa ghi chú';
+  $('noteTitle').value = n.title || '';
+  $('noteDate').value = n.date || new Date().toISOString().split('T')[0];
+  $('noteHashtags').value = (n.hashtags || []).join(', ');
+  $('noteContent').innerHTML = n.content || '';
+  $('noteStatusSelect').value = n.status || 'idea'; // THÊM DÒNG NÀY
+  setFormNoteType(n.type || 'note');
+  setFormNoteIcon(n.icon || 'notebook');
+} else {
+  $('noteModalTitle').textContent = 'Thêm ghi chú';
+  $('noteTitle').value = ''; 
+  $('noteDate').value = new Date().toISOString().split('T')[0]; 
+  $('noteHashtags').value = ''; 
+  $('noteContent').innerHTML = '';
+  $('noteStatusSelect').value = 'idea'; // THÊM DÒNG NÀY
+  setFormNoteType(currentOtherCategory === 'knowledge' ? 'knowledge' : (currentOtherCategory || 'note'));
+  setFormNoteIcon('notebook');
+}
     // Tải danh sách Bucket list vào ô Select
     const goalSelect = $('noteLinkedGoalId');
     if (goalSelect) {
@@ -7266,16 +7175,17 @@ wrap.innerHTML = htmlB;
     $('noteContent').focus();
   };
   $('saveNoteBtn').addEventListener('click', () => {
-    const title = $('noteTitle').value.trim();
-    if (!title) { $('noteTitle').focus(); return toast('Nhập tiêu đề ghi chú'); }
-    const rawTags = $('noteHashtags').value.split(',').filter(t => t.trim());
-    const data = {
-      title, date: $('noteDate').value, 
-      hashtags: [...new Set(rawTags.map(t=>t.replace(/^#/, '')))],
-      content: $('noteContent').innerHTML.trim(), type: formNoteType, icon: formNoteIcon,
-      goalId: $('noteLinkedGoalId') ? $('noteLinkedGoalId').value : '',
-      priority: formTaskPriority // <-- Thêm dòng này
-    };
+  const title = $('noteTitle').value.trim();
+  if (!title) { $('noteTitle').focus(); return toast('Nhập tiêu đề ghi chú'); }
+  const rawTags = $('noteHashtags').value.split(',').filter(t => t.trim());
+  const data = {
+    title, date: $('noteDate').value, 
+    hashtags: [...new Set(rawTags.map(t=>t.replace(/^#/, '')))],
+    content: $('noteContent').innerHTML.trim(), type: formNoteType, icon: formNoteIcon,
+    goalId: $('noteLinkedGoalId') ? $('noteLinkedGoalId').value : '',
+    priority: formTaskPriority,
+    status: $('noteStatusSelect').value  // THÊM DÒNG NÀY
+  };
     if (editNoteId) {
       const n = notes.find(x => x.id === editNoteId);
       if (n) Object.assign(n, data);
@@ -7564,9 +7474,29 @@ window.openPlaceCardPopup = function(id) {
       o.classList.add('active');
     });
   });
+  window.updateNoteStatus = function(id, newStatus) {
+  const note = notes.find(n => n.id === id);
+  if (note) {
+    note.status = newStatus;
+    saveData();
+    toast('✅ Đã cập nhật trạng thái');
+    
+    // Cập nhật lại màu của dropdown ngay lập tức
+    const select = document.querySelector(`.note-status-select[data-status]`);
+    document.querySelectorAll('.note-status-select').forEach(sel => {
+      const parent = sel.closest('.note-content-box');
+      const titleEl = parent ? parent.querySelector('.note-title-text') : null;
+      // Tìm đúng select đang thay đổi thông qua id note trong onclick - đơn giản chỉ re-render
+    });
+    
+    // Re-render để cập nhật màu sắc
+    renderNotes();
+    if (currentTab === 'home') renderHome();
+  }
+};
   /* INIT */
   loadData();
-  switchTab('finance');
+  switchTab('home');
 })();
 </script>
 </body>
