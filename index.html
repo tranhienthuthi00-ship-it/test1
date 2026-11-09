@@ -5438,7 +5438,13 @@ const NOTE_STATUS = {
   }
   
   function parseCurrency(str) {
-    return Number(String(str).replace(/[^0-9]/g, '')) || 0;
+    return Number(String(str).replace(/[^0-9-]/g, '')) || 0;
+  }
+
+  // THÊM HÀM MỚI NÀY ĐỂ FORMAT TIỀN ÂM/DƯƠNG (VD: -200000 -> -200.000)
+  function fmtMoneyInput(val) {
+    if (!val || val === 0) return '';
+    return val.toLocaleString('vi-VN');
   }
 
   function toast(msg) {
@@ -7309,7 +7315,7 @@ const NOTE_STATUS = {
             ${dateInputHtml}
           </div>
           <div class="rev-col-amount">
-            <input type="text" class="rev-input-amount currency-input" value="${amount > 0 ? amount.toLocaleString('vi-VN') : ''}" placeholder="0" onchange="updateRevenueAmount('${dateStr}', this.value)">
+            <input type="text" class="rev-input-amount currency-input" data-date="${dateStr}" value="${amount !== 0 ? amount.toLocaleString('vi-VN') : ''}" placeholder="0" onchange="updateRevenueAmount('${dateStr}', this.value)">
           </div>
         </div>
       `;
@@ -7393,14 +7399,27 @@ const NOTE_STATUS = {
   // Hàm xử lý khi đổi số tiền
   window.updateRevenueAmount = function(dateStr, val) {
     const amount = parseCurrency(val);
-    if (amount === 0) delete revenues.records[dateStr];
-    else revenues.records[dateStr] = amount;
+    
+    // Lưu dữ liệu
+    if (amount === 0) {
+      delete revenues.records[dateStr];
+    } else {
+      revenues.records[dateStr] = amount;
+    }
     saveData();
     
+    // Format lại số vừa nhập trên giao diện (thêm dấu chấm)
+    const inputEl = document.querySelector(`.rev-input-amount[data-date="${dateStr}"]`);
+    if (inputEl) {
+      inputEl.value = amount !== 0 ? amount.toLocaleString('vi-VN') : '';
+    }
+
+    // Cập nhật lại tổng doanh thu
     let newTotal = 0;
     Object.values(revenues.records).forEach(val => { newTotal += val; });
     $('revTotalVal').textContent = fmtMoney(newTotal);
     
+    // Cập nhật tổng tài sản
     const f = calcFinance();
     $('finLoanIn').textContent = fmtMoney(f.loanInTotal);
     $('finTotalAsset').textContent = fmtMoney(f.totalAsset);
