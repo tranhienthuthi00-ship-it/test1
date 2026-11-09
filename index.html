@@ -8425,7 +8425,11 @@ function saveFlashcards() {
 function fcNormalize(str) {
   return String(str || '')
     .toLowerCase()
-    .replace(/[.,!?;:'"()\-]/g, ' ')
+    // 1. Thay thế tất cả các loại dấu nháy (thẳng, cong, nháy kép) thành khoảng trắng
+    .replace(/['’`"“”]/g, ' ') 
+    // 2. Xóa các dấu câu khác
+    .replace(/[.,!?;:()\-]/g, '')
+    // 3. Gộp các khoảng trắng thừa
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -8457,6 +8461,10 @@ function levenshtein(a, b) {
 function compareAnswer(userAns, correctAns) {
   const ua = fcNormalize(userAns);
   const ca = fcNormalize(correctAns);
+  
+  // Nếu giống hệt nhau sau khi xóa dấu câu -> Cho 100% luôn
+  if (ua === ca) return 100;
+  
   if (!ua && !ca) return 100;
   if (!ua || !ca) return 0;
 
@@ -8464,7 +8472,7 @@ function compareAnswer(userAns, correctAns) {
   const dist = levenshtein(ua, ca);
   const charScore = 1 - (dist / Math.max(ua.length, ca.length));
 
-  // Điểm từ (Jaccard)
+  // Điểm từ (Jaccard) - Lúc này token đã sạch dấu câu nhờ hàm fcNormalize ở trên
   const uaTokens = new Set(ua.split(' ').filter(Boolean));
   const caTokens = new Set(ca.split(' ').filter(Boolean));
   const intersection = new Set([...uaTokens].filter(x => caTokens.has(x)));
