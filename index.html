@@ -523,6 +523,31 @@
   .cal-day.other-month:hover { background: transparent; }
   .cal-day.today { background: var(--pink-primary); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
   .cal-day.today .cal-dot { background: white !important; }
+  /* Badge trà sữa — nằm chính giữa ô ngày */
+  .cal-milktea-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 14px;
+    margin: 1px 0;
+    color: var(--pink-primary);
+    filter: none; /* Tắt hiệu ứng rung của theme bút sáp để icon sắc nét */
+  }
+  .cal-milktea-badge svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+  }
+  .cal-day.today .cal-milktea-badge { 
+    color: #ffffff; /* Đổi sang màu trắng nếu là ngày hôm nay (nền đậm) */
+  }
+  
+  /* Đảm bảo ô ngày đủ không gian chứa icon và dấu chấm */
+  .cal-day {
+    min-height: 44px; /* Thêm dòng này để ô không bị bóp méo */
+  }
   .cal-day-num { margin-bottom: 2px; }
   .cal-day-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 2px; }
   .cal-dot { width: 4px; height: 4px; border-radius: 50%; }
@@ -3857,6 +3882,18 @@
   <symbol id="icon-notebook" viewBox="0 0 24 24"><path class="doodle-stroke" d="M4 4h16v16H4z"/><path class="doodle-stroke" d="M8 4v16"/><path class="doodle-stroke" d="M12 8h4M12 12h4M12 16h4"/><path class="doodle-stroke" d="M4 8h4M4 12h4M4 16h4"/></symbol>
   <symbol id="icon-list" viewBox="0 0 24 24"><path class="doodle-stroke" d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
   <symbol id="icon-bulb" viewBox="0 0 24 24"><path class="doodle-stroke" d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.4 1 1.1 1 1.9v.4h6v-.4c0-.8.4-1.5 1-1.9A7 7 0 0012 2z"/></symbol>
+  <!-- Trà sữa: ly + ống hút + trân châu -->
+  <symbol id="icon-milktea" viewBox="0 0 24 24">
+    <path class="doodle-stroke" d="M6.5 5 L8 20 L16 20 L17.5 5" />
+    <path class="doodle-stroke" d="M5.5 5 L18.5 5" />
+    <path class="doodle-stroke" d="M14 5 L15.5 1.5" />
+    <path class="doodle-stroke" d="M7 9.5 L17 9.5" />
+    <circle class="doodle-stroke" cx="9.5" cy="17" r="0.9" />
+    <circle class="doodle-stroke" cx="12" cy="17.5" r="0.9" />
+    <circle class="doodle-stroke" cx="14.5" cy="17" r="0.9" />
+    <circle class="doodle-stroke" cx="10.8" cy="15.3" r="0.9" />
+    <circle class="doodle-stroke" cx="13.2" cy="15.3" r="0.9" />
+  </symbol>
   <symbol id="icon-tooth" viewBox="0 0 24 24"><path class="doodle-stroke" d="M12 2C8 2 5 4 5 9c0 5 2 9 3 13h8c1-4 3-8 3-13 0-5-3-7-7-7z"/><path class="doodle-stroke" d="M9 22v-4h6v4"/></symbol>
   <symbol id="icon-wallet" viewBox="0 0 24 24"><path class="doodle-stroke" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 01-2-2z"/><path class="doodle-stroke" d="M3 7a2 2 0 012-2h13a1 1 0 011 1v2"/><path class="doodle-stroke" d="M16 13a2 2 0 100-4 2 2 0 000 4z"/></symbol>
   <symbol id="icon-chart" viewBox="0 0 24 24"><path class="doodle-stroke" d="M3 3v18h18"/><path class="doodle-stroke" d="M18 17V9M13 17V5M8 17v-3"/></symbol>
@@ -4949,7 +4986,23 @@
         <div class="opt" data-mood="😢 Buồn">😢 Buồn</div>
       </div>
     </div>
+    <div class="field">
+      <div class="toggle-row" style="padding: 12px 14px; background: var(--pink-bg); border-radius: 12px; border: 1px solid var(--border);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg class="hand-icon" style="width: 20px; height: 20px; stroke: var(--pink-primary);"><use href="#icon-milktea"/></svg>
+          <div class="toggle-label" style="font-size: 14px;">Uống trà sữa hôm nay</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="diaryMilkteaToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
 
+    <div class="field" id="milkteaNoteField" style="display: none;">
+      <label>Ghi chú trà sữa</label>
+      <input type="text" id="diaryMilkteaNote" placeholder="VD: Phúc Long, ít đường, 45k...">
+    </div>
     <div class="field">
       <label>Tiêu đề</label>
       <input type="text" id="diaryTitle" placeholder="VD: Ngày cuối tuần thư giãn">
@@ -5904,10 +5957,12 @@ const NOTE_STATUS = {
     const newDiary = {
       id: 'd_' + Date.now(),
       date: todayStr,
-      title: 'Chưa có tiêu đề',   // ← Đổi từ 30 ký tự đầu thành cố định
+      title: 'Chưa có tiêu đề',
       content: text,
       mood: '😌 Bình yên',
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      hasMilktea: false,    // ← MỚI
+      milkteaNote: ''       // ← MỚI
     };
 
     diaries.push(newDiary);
@@ -6531,19 +6586,25 @@ const NOTE_STATUS = {
     const prevMonthDays = new Date(year, month, 0).getDate();
     
     let html = '';
-    const todayStr = new Date().toISOString().split('T')[0];
+    // SỬA LỖI TIMEZONE: Lấy ngày hôm nay theo giờ VN
+    const todayStr = new Date().toLocaleDateString('sv').split(' ')[0];
 
+    // Vẽ các ngày tháng trước
     for (let i = startDay - 1; i >= 0; i--) {
       const day = prevMonthDays - i;
       html += `<div class="cal-day other-month"><span class="cal-day-num">${day}</span></div>`;
     }
 
+    // Vẽ các ngày trong tháng hiện tại
     for (let i = 1; i <= daysInMonth; i++) {
       const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
       const isToday = dateStr === todayStr;
       
+      // Tìm nhật ký của ngày này
       const dayDiaries = diaries.filter(d => d.date === dateStr);
+      const hasMilktea = dayDiaries.some(d => d.hasMilktea);
       
+      // Tạo các chấm tròn
       let dotsHtml = '';
       if (dayDiaries.length > 0) {
         const colors = ['#ec4899', '#3b82f6', '#f59e0b', '#10b981', '#8b5cf6'];
@@ -6552,14 +6613,17 @@ const NOTE_STATUS = {
         });
       }
 
+      // Cấu trúc HTML của 1 ô ngày (Icon nằm giữa Số và Dấu chấm)
       html += `
         <div class="cal-day ${isToday ? 'today' : ''}" data-date="${dateStr}">
           <span class="cal-day-num">${i}</span>
+          ${hasMilktea ? `<div class="cal-milktea-badge"><svg class="hand-icon" viewBox="0 0 24 24"><use href="#icon-milktea"/></svg></div>` : ''}
           <div class="cal-day-dots">${dotsHtml}</div>
         </div>
       `;
     }
 
+    // Vẽ các ngày tháng sau
     const totalSlots = Math.ceil((startDay + daysInMonth) / 7) * 7;
     const nextMonthDays = totalSlots - (startDay + daysInMonth);
     for (let i = 1; i <= nextMonthDays; i++) {
@@ -6569,8 +6633,10 @@ const NOTE_STATUS = {
     const calDaysContainer = $('calDays');
     calDaysContainer.innerHTML = html;
     
+    // Reset danh sách bên dưới
     $('calDayList').innerHTML = '';
 
+    // Gắn sự kiện click
     calDaysContainer.querySelectorAll('.cal-day:not(.other-month)').forEach(el => {
       el.addEventListener('click', () => {
         const dateStr = el.dataset.date;
@@ -7938,12 +8004,18 @@ const NOTE_STATUS = {
       $('diaryTitle').value = d.title || '';
       $('diaryContent').value = d.content || '';
       setDiaryMood(d.mood || '');
+      $('diaryMilkteaToggle').checked = !!d.hasMilktea;
+      $('diaryMilkteaNote').value = d.milkteaNote || '';
+      $('milkteaNoteField').style.display = d.hasMilktea ? 'block' : 'none';
     } else {
       $('diaryModalTitle').textContent = 'Viết nhật ký';
       $('diaryDateInput').value = new Date().toISOString().split('T')[0];
       $('diaryTitle').value = '';
       $('diaryContent').value = '';
       setDiaryMood('');
+      $('diaryMilkteaToggle').checked = false;
+      $('diaryMilkteaNote').value = '';
+      $('milkteaNoteField').style.display = 'none';
     }
     $('diaryOverlay').classList.add('show');
     setTimeout(() => $('diaryTitle').focus(), 300);
@@ -8242,6 +8314,10 @@ const NOTE_STATUS = {
   $('closePlaceModal').addEventListener('click', closePlaceModal);
   $('closeNoteModal').addEventListener('click', closeNoteModal);
   $('closeDiaryModal').addEventListener('click', closeDiaryModal);
+  $('diaryMilkteaToggle').addEventListener('change', (e) => {
+    $('milkteaNoteField').style.display = e.target.checked ? 'block' : 'none';
+    if (e.target.checked) setTimeout(() => $('diaryMilkteaNote').focus(), 100);
+  });
   $('closeBracesModal').addEventListener('click', closeBracesModal);
   $('closeAssetModal').addEventListener('click', closeAssetModal);
   $('closeCreditModal').addEventListener('click', closeCreditModal);
@@ -8323,7 +8399,14 @@ const NOTE_STATUS = {
     const title = $('diaryTitle').value.trim();
     const content = $('diaryContent').value.trim();
     if (!title && !content) return toast('Nhập nội dung');
-    const data = { date: $('diaryDateInput').value, title, content, mood: formDiaryMood };
+    const data = { 
+      date: $('diaryDateInput').value, 
+      title, 
+      content, 
+      mood: formDiaryMood,
+      hasMilktea: $('diaryMilkteaToggle').checked,
+      milkteaNote: $('diaryMilkteaNote').value.trim()
+    };
     if (editDiaryId) {
       const d = diaries.find(x => x.id === editDiaryId);
       if (d) Object.assign(d, data);
