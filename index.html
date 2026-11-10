@@ -9363,7 +9363,21 @@ loadFlashcards();
     renderFinance(); // Render lại toàn bộ tài chính để cập nhật số tổng
     toast(checked ? '✅ Đã thanh toán' : '🔄 Đã bỏ thanh toán');
   };
-
+// Xử lý nút mở rộng/thu gọn cho Dự tính lương
+  const salaryHeader = $('salaryHeader');
+  if (salaryHeader) {
+    salaryHeader.addEventListener('click', () => {
+      const body = $('salaryBody');
+      const chevron = $('salaryChevron');
+      const isOpen = body.style.display !== 'none';
+      
+      // Đổi trạng thái hiển thị
+      body.style.display = isOpen ? 'none' : 'block';
+      
+      // Xoay mũi tên
+      chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+    });
+  }
   window.openBillModal = function(id) {
     editBillId = id || null;
     const deleteBtn = $('deleteBillBtn');
