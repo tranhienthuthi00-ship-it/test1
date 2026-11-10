@@ -3720,6 +3720,37 @@
     color: white;
     border-color: var(--pink-primary);
   }
+  /* ===== KHOẢN PHẢI TRẢ SẮP TỚI ===== */
+  .bill-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .bill-row:last-child { border-bottom: none; }
+  .bill-row.paid { opacity: 0.55; }
+  .bill-row.paid .bill-name { text-decoration: line-through; color: var(--text-muted); }
+
+  .bill-info { flex: 1; min-width: 0; }
+  .bill-name-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .bill-name { font-size: 14px; font-weight: 700; color: var(--text); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bill-meta { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-top: 3px; }
+  .bill-amount { color: var(--pink-primary); font-weight: 700; }
+
+  .bill-tag {
+    font-size: 10.5px; font-weight: 700; padding: 3px 8px;
+    border-radius: 999px; white-space: nowrap; flex-shrink: 0;
+  }
+  .bill-tag.overdue  { background: #fef2f2; color: #dc2626; }
+  .bill-tag.upcoming { background: #fff7ed; color: #ea580c; }
+  .bill-tag.soon     { background: #fefce8; color: #ca8a04; }
+  .bill-tag.normal   { background: #f3f4f6; color: #6b7280; }
+  .bill-tag.paid     { background: #ecfdf5; color: #059669; }
+
+  .bill-toggle-wrap { flex-shrink: 0; margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -4219,29 +4250,46 @@
         </div>
       </div>
 
-      <!-- Dự tính lương -->
-      <div class="salary-card">
-        <div class="compact-card-title" style="margin-bottom: 16px;"><svg class="hand-icon"><use href="#icon-wallet"/></svg> Dự tính lương</div>
-        
-        <!-- Lương dự kiến -->
-        <div class="salary-row" style="padding-bottom: 12px; border-bottom: 1px dashed var(--border); margin-bottom: 16px;">
-          <div class="salary-label" style="font-weight: 700; color: var(--pink-dark);">Lương dự kiến</div>
-          <div class="salary-input-wrap">
-            <input type="text" class="currency-input" id="salaryIncome" placeholder="0">
-            <span style="font-weight:700; color:var(--pink-primary);">đ</span>
+      <!-- Dự tính lương (Accordion) -->
+      <div class="salary-card" id="salaryCard">
+        <div class="compact-card-header" id="salaryHeader" style="cursor:pointer; margin-bottom:0;">
+          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-wallet"/></svg> Dự tính lương</div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span id="salaryCollapsedResult" style="font-size:13px; font-weight:700; color:var(--pink-primary);">Còn lại: 0 đ</span>
+            <svg class="hand-icon" id="salaryChevron" style="width:18px; height:18px; stroke:var(--text-muted); transition:transform 0.25s;"><use href="#icon-chevron-down"/></svg>
           </div>
         </div>
 
-        <!-- Chi tiêu dự kiến -->
-        <div class="salary-section-title">Chi tiêu dự kiến</div>
-        <div id="expenseRowsContainer">
-          <!-- Rendered by JS -->
+        <div id="salaryBody" style="display:none; padding-top:16px;">
+          <!-- Lương dự kiến -->
+          <div class="salary-row" style="padding-bottom: 12px; border-bottom: 1px dashed var(--border); margin-bottom: 16px;">
+            <div class="salary-label" style="font-weight: 700; color: var(--pink-dark);">Lương dự kiến</div>
+            <div class="salary-input-wrap">
+              <input type="text" class="currency-input" id="salaryIncome" placeholder="0">
+              <span style="font-weight:700; color:var(--pink-primary);">đ</span>
+            </div>
+          </div>
+
+          <!-- Chi tiêu dự kiến -->
+          <div class="salary-section-title">Chi tiêu dự kiến</div>
+          <div id="expenseRowsContainer">
+            <!-- Rendered by JS -->
+          </div>
+          <button class="salary-add-btn" id="btnAddExpenseRow">+ Thêm khoản chi</button>
+          
+          <div class="salary-result" id="salaryResult">
+            Còn lại: 0 đ
+          </div>
         </div>
-        <button class="salary-add-btn" id="btnAddExpenseRow">+ Thêm khoản chi</button>
-        
-        <div class="salary-result" id="salaryResult">
-          Còn lại: 0 đ
+      </div>
+
+      <!-- Khoản phải trả sắp tới -->
+      <div class="compact-card" id="billsCard">
+        <div class="compact-card-header">
+          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-calendar"/></svg> Khoản phải trả sắp tới</div>
+          <button class="btn-small" id="btnAddBill">+ Thêm</button>
         </div>
+        <div id="billsListContainer"></div>
       </div>
     </div>
 
@@ -5048,6 +5096,51 @@
     </button>
   </div>
 </div>
+<!-- Thêm/Sửa Khoản phải trả -->
+<div class="overlay" id="billOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2><span id="billModalTitle">Thêm khoản phải trả</span> <button id="closeBillModal"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+
+    <div class="field">
+      <label>Tên khoản *</label>
+      <input type="text" id="billName" placeholder="VD: Tiền nhà, Internet, Bảo hiểm...">
+    </div>
+
+    <div class="field">
+      <label>Số tiền (VNĐ) *</label>
+      <input type="text" class="currency-input" id="billAmount" placeholder="0">
+    </div>
+
+    <div class="field">
+      <label>Ngày đến hạn *</label>
+      <input type="date" id="billDueDate">
+    </div>
+
+    <div class="field">
+      <label>Lặp lại</label>
+      <div class="picker" id="billRepeatPicker">
+        <div class="opt active" data-repeat="none">Không</div>
+        <div class="opt" data-repeat="daily">Ngày</div>
+        <div class="opt" data-repeat="weekly">Tuần</div>
+        <div class="opt" data-repeat="monthly">Tháng</div>
+        <div class="opt" data-repeat="yearly">Năm</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Ghi chú (tùy chọn)</label>
+      <input type="text" id="billNote" placeholder="VD: Chuyển khoản Vietcombank...">
+    </div>
+
+    <button class="save-btn" id="saveBillBtn">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu khoản
+    </button>
+    <button class="save-btn" id="deleteBillBtn" style="background:#fef2f2;color:#dc2626;box-shadow:none;margin-top:10px;display:none;">
+      <svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa khoản này
+    </button>
+  </div>
+</div>
 <!-- Xóa Confirm -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
@@ -5090,6 +5183,7 @@
   const SALARY_KEY = 'salary_v2';
   const GOAL_KEY = 'goal_v2';
   const EVENT_KEY = 'event_v1';
+  const BILL_KEY = 'bills_v1';
 
   const DENOMINATIONS = [500000, 200000, 100000, 50000, 20000, 10000, 5000, 2000, 1000];
 
@@ -5164,6 +5258,7 @@
   let settings = { ...SAMPLE_SETTINGS };
   let salaryData = { income: 0, expenses: [] };
   let goals = [];
+  let bills = [];
   
   let currentTab = 'home'; 
   let currentFinPage = 0;
@@ -5305,6 +5400,10 @@
       const rawEv = localStorage.getItem(EVENT_KEY);
       events = rawEv ? JSON.parse(rawEv) : [...SAMPLE_EVENTS];
     } catch(e) { events = [...SAMPLE_EVENTS]; }
+    try {
+      const rawBill = localStorage.getItem(BILL_KEY);
+      bills = rawBill ? JSON.parse(rawBill) : [];
+    } catch(e) { bills = []; }
 
     applySettings();
     saveData();
@@ -5322,6 +5421,7 @@
       localStorage.setItem(SALARY_KEY, JSON.stringify(salaryData));
       localStorage.setItem(GOAL_KEY, JSON.stringify(goals));
       localStorage.setItem(EVENT_KEY, JSON.stringify(events));
+      localStorage.setItem(BILL_KEY, JSON.stringify(bills));
     } catch(e) { toast('⚠️ Lỗi lưu dữ liệu'); }
   }
 
@@ -7385,6 +7485,8 @@ const NOTE_STATUS = {
       });
       assetList.innerHTML = html;
     }
+
+    renderBills();
   }
 
   // Hàm xử lý khi đổi ngày ở dòng đầu
@@ -7444,8 +7546,9 @@ const NOTE_STATUS = {
     
     const remaining = income - totalExpense;
     $('salaryResult').textContent = `Còn lại: ${fmtMoney(remaining)}`;
+    const col = $('salaryCollapsedResult');
+    if (col) col.textContent = `Còn lại: ${fmtMoney(remaining)}`;
   }
-
   $('salaryIncome').addEventListener('input', () => {
     updateSalaryResult();
   });
@@ -7510,7 +7613,7 @@ const NOTE_STATUS = {
 
   /* ==================== EXPORT / IMPORT ==================== */
   $('btnExportData').addEventListener('click', () => {
-    const backup = { places, diaries, braces, notes, finances, revenues, settings, salaryData, goals, events, exportedAt: new Date().toISOString(), version: 'v33' };
+    const backup = { places, diaries, braces, notes, finances, revenues, settings, salaryData, goals, events, bills, exportedAt: new Date().toISOString(), version: 'v34' };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -7584,6 +7687,7 @@ const NOTE_STATUS = {
         }
         if (Array.isArray(data.goals)) goals = data.goals;
         if (Array.isArray(data.events)) events = data.events;
+        if (Array.isArray(data.bills)) bills = data.bills;
         
         applySettings();
         saveData();
@@ -9086,6 +9190,211 @@ loadFlashcards();
   loadData();
   loadFlashcards();
   switchTab('home');
+
+  /* ============================================================
+     KHOẢN PHẢI TRẢ SẮP TỚI (BILLS)
+     ============================================================ */
+  let editBillId = null;
+  let formBillRepeat = 'none';
+  // Hàm chuyển Date object sang chuỗi YYYY-MM-DD theo giờ địa phương (không bị lùi ngày)
+  function toLocalDateStr(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  function getNextDueDate(bill) {
+    const today = new Date(); today.setHours(0,0,0,0);
+    let d = new Date(bill.dueDate); d.setHours(0,0,0,0);
+    if (bill.repeat === 'none') return bill.dueDate;
+    let guard = 0;
+    while (d < today && guard < 2000) {
+      if (bill.repeat === 'daily') d.setDate(d.getDate() + 1);
+      else if (bill.repeat === 'weekly') d.setDate(d.getDate() + 7);
+      else if (bill.repeat === 'monthly') d.setMonth(d.getMonth() + 1);
+      else if (bill.repeat === 'yearly') d.setFullYear(d.getFullYear() + 1);
+      guard++;
+    }
+    return toLocalDateStr(d); // <-- Đã sửa dòng này
+  }
+
+  function daysUntil(dateStr) {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const target = new Date(dateStr); target.setHours(0,0,0,0);
+    return Math.round((target - today) / 86400000);
+  }
+
+  function getBillStatus(bill) {
+    const nextDue = getNextDueDate(bill);
+    const isPaid = bill.paidForDueDate === nextDue;
+    if (isPaid) return { cls:'paid', label:'✓ Đã trả', nextDue, isPaid };
+
+    const diff = daysUntil(nextDue);
+    if (diff < 0) return { cls:'overdue', label:`Quá hạn ${Math.abs(diff)} ngày`, nextDue, isPaid };
+    if (diff === 0) return { cls:'upcoming', label:'Hôm nay', nextDue, isPaid };
+    if (diff <= 3) return { cls:'upcoming', label:`Còn ${diff} ngày`, nextDue, isPaid };
+    if (diff <= 7) return { cls:'soon', label:`Còn ${diff} ngày`, nextDue, isPaid };
+    return { cls:'normal', label:`Còn ${diff} ngày`, nextDue, isPaid };
+  }
+
+  const REPEAT_LABEL = { none:'Không lặp', daily:'Hàng ngày', weekly:'Hàng tuần', monthly:'Hàng tháng', yearly:'Hàng năm' };
+
+  function renderBills() {
+    const container = $('billsListContainer');
+    if (!container) return;
+
+    if (bills.length === 0) {
+      container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:13px; font-style:italic;">Chưa có khoản nào. Bấm "+ Thêm" để tạo nhắc nhở.</div>`;
+      return;
+    }
+
+    const sorted = bills.slice().sort((a,b) => {
+      const sa = getBillStatus(a), sb = getBillStatus(b);
+      const da = daysUntil(sa.nextDue), db = daysUntil(sb.nextDue);
+      if (sa.isPaid !== sb.isPaid) return sa.isPaid ? 1 : -1;
+      if (da !== db) return da - db;
+      return (b.amount || 0) - (a.amount || 0);
+    });
+
+    container.innerHTML = sorted.map(b => {
+      const st = getBillStatus(b);
+      return `
+        <div class="bill-row ${st.isPaid ? 'paid' : ''}" onclick="openBillModal('${b.id}')">
+          <div class="bill-info">
+            <div class="bill-name-row">
+              <div class="bill-name">${esc(b.name)}</div>
+              <span class="bill-tag ${st.cls}">${st.label}</span>
+            </div>
+            <div class="bill-meta">
+              <span class="bill-amount">${fmtMoney(b.amount)}</span>
+              · ${REPEAT_LABEL[b.repeat] || 'Không lặp'}
+              · ${fmtDate(st.nextDue)}
+            </div>
+          </div>
+          <div class="bill-toggle-wrap" onclick="event.stopPropagation()">
+            <label class="switch">
+              <input type="checkbox" ${st.isPaid ? 'checked' : ''} onchange="toggleBillPaid('${b.id}', this.checked)">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  window.toggleBillPaid = function(id, checked) {
+    const b = bills.find(x => x.id === id);
+    if (!b) return;
+    const nextDue = getNextDueDate(b);
+    b.paidForDueDate = checked ? nextDue : null;
+    saveData();
+    renderBills();
+    toast(checked ? '✅ Đã đánh dấu đã trả kỳ này' : '🔄 Đã bỏ đánh dấu');
+  };
+
+  const salaryHeader = $('salaryHeader');
+  if (salaryHeader) {
+    salaryHeader.addEventListener('click', () => {
+      const body = $('salaryBody');
+      const chevron = $('salaryChevron');
+      const isOpen = body.style.display !== 'none';
+      body.style.display = isOpen ? 'none' : 'block';
+      chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+    });
+  }
+
+  window.openBillModal = function(id) {
+    editBillId = id || null;
+    const deleteBtn = $('deleteBillBtn');
+    if (id) {
+      const b = bills.find(x => x.id === id);
+      if (!b) return;
+      $('billModalTitle').textContent = 'Sửa khoản phải trả';
+      $('billName').value = b.name || '';
+      $('billAmount').value = b.amount ? b.amount.toLocaleString('vi-VN') : '';
+      $('billDueDate').value = b.dueDate || '';
+      $('billNote').value = b.note || '';
+      setBillRepeat(b.repeat || 'none');
+      deleteBtn.style.display = 'flex';
+    } else {
+      $('billModalTitle').textContent = 'Thêm khoản phải trả';
+      $('billName').value = '';
+      $('billAmount').value = '';
+      $('billDueDate').value = toLocalDateStr(new Date());
+      $('billNote').value = '';
+      setBillRepeat('none');
+      deleteBtn.style.display = 'none';
+    }
+    $('billOverlay').classList.add('show');
+    setTimeout(() => $('billName').focus(), 300);
+  };
+
+  window.setBillRepeat = function(val) {
+    formBillRepeat = val;
+    document.querySelectorAll('#billRepeatPicker .opt').forEach(o => {
+      o.classList.toggle('active', o.dataset.repeat === val);
+    });
+  };
+
+  const btnAddBill = $('btnAddBill');
+  if (btnAddBill) btnAddBill.addEventListener('click', () => openBillModal(null));
+  const closeBillBtn = $('closeBillModal');
+  if (closeBillBtn) closeBillBtn.addEventListener('click', () => {
+    $('billOverlay').classList.remove('show');
+    editBillId = null;
+  });
+
+  document.querySelectorAll('#billRepeatPicker .opt').forEach(o => {
+    o.addEventListener('click', () => setBillRepeat(o.dataset.repeat));
+  });
+
+  const billAmountEl = $('billAmount');
+  if (billAmountEl) {
+    billAmountEl.addEventListener('input', (e) => {
+      const raw = parseCurrency(e.target.value);
+      e.target.value = raw ? raw.toLocaleString('vi-VN') : '';
+    });
+  }
+
+  const saveBillBtn = $('saveBillBtn');
+  if (saveBillBtn) saveBillBtn.addEventListener('click', () => {
+    const name = $('billName').value.trim();
+    const amount = parseCurrency($('billAmount').value);
+    const dueDate = $('billDueDate').value;
+    if (!name) { $('billName').focus(); return toast('Nhập tên khoản'); }
+    if (!amount || amount <= 0) { $('billAmount').focus(); return toast('Nhập số tiền hợp lệ'); }
+    if (!dueDate) { $('billDueDate').focus(); return toast('Chọn ngày đến hạn'); }
+
+    const data = { name, amount, dueDate, repeat: formBillRepeat, note: $('billNote').value.trim() };
+
+    if (editBillId) {
+      const b = bills.find(x => x.id === editBillId);
+      if (b) {
+        Object.assign(b, data);
+        if (b.paidForDueDate && b.paidForDueDate !== getNextDueDate(b)) b.paidForDueDate = null;
+      }
+    } else {
+      bills.push({ id: 'bill_' + Date.now(), ...data, paidForDueDate: null, createdAt: Date.now() });
+    }
+    saveData();
+    renderBills();
+    $('billOverlay').classList.remove('show');
+    editBillId = null;
+    toast('✅ Đã lưu khoản phải trả');
+  });
+
+  const deleteBillBtn = $('deleteBillBtn');
+  if (deleteBillBtn) deleteBillBtn.addEventListener('click', () => {
+    if (!editBillId) return;
+    if (!confirm('Xóa khoản này?')) return;
+    bills = bills.filter(b => b.id !== editBillId);
+    saveData();
+    renderBills();
+    $('billOverlay').classList.remove('show');
+    editBillId = null;
+    toast('🗑️ Đã xóa khoản');
+  });
 })();
 </script>
 </body>
