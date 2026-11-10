@@ -4635,7 +4635,19 @@
         <div class="chip" data-status="cancel">Hủy</div>
       </div>
     </div>
-
+    <!-- Bộ lọc Danh mục (Chỉ dùng riêng cho Việc làm) -->
+    <div class="field" id="filterTaskCategoryField" style="display: none;">
+      <label>Danh mục công việc</label>
+      <div class="chip-group" id="filterTaskCategoryGroup">
+        <div class="chip active" data-category="all">Tất cả</div>
+        <div class="chip" data-category="work">💼 Công việc</div>
+        <div class="chip" data-category="personal">👤 Cá nhân</div>
+        <div class="chip" data-category="study">📚 Học hành</div>
+        <div class="chip" data-category="hobby">🎨 Sở thích</div>
+        <div class="chip" data-category="family">🏠 Gia đình</div>
+        <div class="chip" data-category="other">📦 Khác</div>
+      </div>
+    </div>
     <div class="field">
       <label>Hashtag</label>
       <input type="text" id="filterNoteHashtagInput" placeholder="VD: meoHay...">
@@ -5291,6 +5303,7 @@
   let editNoteId = null;
   let filterNoteType = 'all';
   let filterNoteStatus = 'all'; // <-- THÊM DÒNG NÀY
+  let filterTaskCategory = 'all';
   let filterNoteHashtag = '';
   let formNoteType = 'note';
   let formNoteIcon = 'notebook';
@@ -6651,17 +6664,29 @@ const NOTE_STATUS = {
 
   function getFilteredNotes() {
     let arr = notes.slice();
-    if (filterNoteType !== 'all') arr = arr.filter(n => n.type === filterNoteType);
     
-    // THÊM LOGIC LỌC TRẠNG THÁI (Chỉ áp dụng ở tab Tips)
+    // 1. KHÓA CỨNG LOẠI
+    if (currentOtherCategory && currentOtherCategory !== 'all') {
+      arr = arr.filter(n => n.type === currentOtherCategory);
+    }
+
+    // 2. Lọc Danh mục (Chỉ áp dụng ở tab Việc làm)
+    if (currentOtherCategory === 'task' && filterTaskCategory !== 'all') {
+      arr = arr.filter(n => (n.category || 'personal') === filterTaskCategory);
+    }
+
+    // 3. Lọc trạng thái (Chỉ áp dụng cho Tips)
     if (currentOtherCategory === 'tip' && filterNoteStatus !== 'all') {
       arr = arr.filter(n => (n.status || 'idea') === filterNoteStatus);
     }
 
+    // 4. Lọc theo Hashtag
     if (filterNoteHashtag.trim()) {
       const q = filterNoteHashtag.toLowerCase().replace(/^#/, '').trim();
       arr = arr.filter(n => (n.hashtags || []).some(tag => tag.toLowerCase().includes(q)));
     }
+
+    // 5. Sắp xếp
     arr.sort((a,b) => {
       if (sortNotesMode === 'newest') return b.createdAt - a.createdAt;
       if (sortNotesMode === 'oldest') return a.createdAt - b.createdAt;
@@ -6673,9 +6698,10 @@ const NOTE_STATUS = {
 
   function updateNoteFilterBadge() {
     let count = 0;
-    
     if (currentOtherCategory === 'tip') {
       if (filterNoteStatus !== 'all') count++;
+    } else if (currentOtherCategory === 'task') {
+      if (filterTaskCategory !== 'all') count++;
     } else {
       if (filterNoteType !== 'all') count++;
     }
@@ -6685,7 +6711,6 @@ const NOTE_STATUS = {
     if (count > 0) { badge.textContent = count; badge.classList.add('show'); } 
     else { badge.classList.remove('show'); }
   }
-
   function renderNotes() {
     const list = $('listNotes');
     const arr = getFilteredNotes();
@@ -8058,19 +8083,29 @@ const NOTE_STATUS = {
   });
 
   $('openNoteFilterBtn').addEventListener('click', () => {
+    // Ẩn tất cả các nhóm bộ lọc trước
+    $('filterNoteTypeField').style.display = 'none';
+    $('filterNoteStatusField').style.display = 'none';
+    $('filterTaskCategoryField').style.display = 'none';
+
     if (currentOtherCategory === 'tip') {
-      $('filterNoteTypeField').style.display = 'none';
       $('filterNoteStatusField').style.display = 'block';
       document.querySelectorAll('#filterNoteStatusGroup .chip').forEach(c => {
         c.classList.toggle('active', c.dataset.status === filterNoteStatus);
       });
+    } else if (currentOtherCategory === 'task') {
+      $('filterTaskCategoryField').style.display = 'block';
+      document.querySelectorAll('#filterTaskCategoryGroup .chip').forEach(c => {
+        c.classList.toggle('active', c.dataset.category === filterTaskCategory);
+      });
     } else {
+      // Dành cho Kiến thức và Ghi chú
       $('filterNoteTypeField').style.display = 'block';
-      $('filterNoteStatusField').style.display = 'none';
       document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(c => {
         c.classList.toggle('active', c.dataset.type === filterNoteType);
       });
     }
+    
     $('filterNoteHashtagInput').value = filterNoteHashtag;
     $('noteFilterOverlay').classList.add('show');
   });
@@ -8090,10 +8125,17 @@ const NOTE_STATUS = {
       c.classList.add('active');
     });
   });
-
+  document.querySelectorAll('#filterTaskCategoryGroup .chip').forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll('#filterTaskCategoryGroup .chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+    });
+  });
   $('applyNoteFilterBtn').addEventListener('click', () => {
     if (currentOtherCategory === 'tip') {
       filterNoteStatus = document.querySelector('#filterNoteStatusGroup .chip.active').dataset.status;
+    } else if (currentOtherCategory === 'task') {
+      filterTaskCategory = document.querySelector('#filterTaskCategoryGroup .chip.active').dataset.category;
     } else {
       filterNoteType = document.querySelector('#filterNoteTypeGroup .chip.active').dataset.type;
     }
@@ -8105,11 +8147,13 @@ const NOTE_STATUS = {
   $('resetNoteFilterBtn').addEventListener('click', () => {
     filterNoteType = 'all'; 
     filterNoteStatus = 'all'; 
+    filterTaskCategory = 'all';
     filterNoteHashtag = '';
     $('filterNoteHashtagInput').value = '';
     
     document.querySelectorAll('#filterNoteTypeGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.type === 'all'));
     document.querySelectorAll('#filterNoteStatusGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.status === 'all'));
+    document.querySelectorAll('#filterTaskCategoryGroup .chip').forEach(c => c.classList.toggle('active', c.dataset.category === 'all'));
     
     renderNotes(); 
     $('noteFilterOverlay').classList.remove('show');
