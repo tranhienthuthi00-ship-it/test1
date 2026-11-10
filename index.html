@@ -4285,14 +4285,11 @@
 
       <!-- Khoản phải trả sắp tới -->
       <div class="compact-card" id="billsCard">
-        <div class="compact-card-header" style="margin-bottom: 12px;">
-          <div>
-            <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-calendar"/></svg> Khoản phải trả sắp tới</div>
-            <div id="billsTotalLabel" class="btn-small" style="display: inline-flex; align-items: center; padding: 6px 14px; font-size: 13px; margin-top: 8px; border-radius: 999px; box-shadow: var(--shadow-sm);">Tổng: 0 đ</div>
-          </div>
+        <div class="compact-card-header">
+          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-calendar"/></svg> Khoản phải trả sắp tới</div>
+          <button class="btn-small" id="btnAddBill">+ Thêm</button>
         </div>
         <div id="billsListContainer"></div>
-        <button class="salary-add-btn" id="btnAddBill" style="margin-top: 12px; margin-bottom: 0;">+ Thêm khoản phải trả</button>
       </div>
     </div>
 
@@ -9247,27 +9244,60 @@ loadFlashcards();
     const container = $('billsListContainer');
     if (!container) return;
 
-    // Tính tổng tiền các khoản CHƯA thanh toán (chưa bật toggle)
+    // 1. Tính tổng tiền thẻ tín dụng
+    const fin = calcFinance();
+    const creditTotal = fin.creditTotal;
+
+    // 2. Tạo danh sách ảo: Bao gồm các khoản nợ thủ công + khoản nợ thẻ tín dụng (nếu có phát sinh)
+    let displayBills = bills.slice();
+    
+    if (creditTotal > 0) {
+      // Tìm xem đã có khoản nợ ảo nào cho thẻ tín dụng chưa (để giữ lại trạng thái Đã trả và Ngày đến hạn)
+      let ccBill = bills.find(b => b.id === 'bill_credit_card');
+      
+      if (!ccBill) {
+        // Nếu chưa có, tạo dữ liệu ảo mặc định (Ngày 15 hàng tháng)
+        ccBill = {
+          id: 'bill_credit_card',
+          name: '💳 Thanh toán Thẻ tín dụng',
+          amount: creditTotal,
+          dueDate: new Date().toISOString().split('T')[0], // Sẽ được ghi đè bên dưới nếu cần
+          repeat: 'monthly',
+          isVirtual: true // Đánh dấu đây là khoản nợ tự động
+        };
+      } else {
+        // Nếu đã có, cập nhật lại số tiền mới nhất (bằng tổng thẻ tín dụng)
+        ccBill.amount = creditTotal;
+      }
+      
+      // Đảm bảo nó nằm trong mảng hiển thị
+      const existingIdx = displayBills.findIndex(b => b.id === 'bill_credit_card');
+      if (existingIdx >= 0) {
+        displayBills[existingIdx] = ccBill;
+      } else {
+        displayBills.push(ccBill);
+      }
+    }
+
+    // 3. Tính tổng tiền các khoản CHƯA thanh toán
     let totalUnpaid = 0;
-    bills.forEach(b => {
+    displayBills.forEach(b => {
       const st = getBillStatus(b);
       if (!st.isPaid) {
         totalUnpaid += (b.amount || 0);
       }
     });
     
-    // Cập nhật số tổng lên Header
     const totalEl = $('billsTotalLabel');
-    if (totalEl) {
-      totalEl.textContent = `Tổng: ${fmtMoney(totalUnpaid)}`;
-    }
+    if (totalEl) totalEl.textContent = `Tổng: ${fmtMoney(totalUnpaid)}`;
 
-    if (bills.length === 0) {
+    if (displayBills.length === 0) {
       container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:13px; font-style:italic;">Chưa có khoản nào. Bấm "+ Thêm" để tạo nhắc nhở.</div>`;
       return;
     }
 
-    const sorted = bills.slice().sort((a,b) => {
+    // 4. Sắp xếp
+    const sorted = displayBills.sort((a,b) => {
       const sa = getBillStatus(a), sb = getBillStatus(b);
       const da = daysUntil(sa.nextDue), db = daysUntil(sb.nextDue);
       if (sa.isPaid !== sb.isPaid) return sa.isPaid ? 1 : -1;
@@ -9275,6 +9305,7 @@ loadFlashcards();
       return (b.amount || 0) - (a.amount || 0);
     });
 
+    // 5. Render HTML
     container.innerHTML = sorted.map(b => {
       const st = getBillStatus(b);
       return `
@@ -9302,52 +9333,86 @@ loadFlashcards();
   }
 
   window.toggleBillPaid = function(id, checked) {
-    const b = bills.find(x => x.id === id);
-    if (!b) return;
-    const nextDue = getNextDueDate(b);
-    b.paidForDueDate = checked ? nextDue : null;
+    // Xử lý riêng cho khoản thẻ tín dụng (nếu chưa có trong mảng bills thì phải tạo mới để lưu trạng thái)
+    if (id === 'bill_credit_card') {
+      let b = bills.find(x => x.id === id);
+      if (!b) {
+        const fin = calcFinance();
+        b = {
+          id: 'bill_credit_card',
+          name: '💳 Thanh toán Thẻ tín dụng',
+          amount: fin.creditTotal,
+          dueDate: new Date().toISOString().split('T')[0],
+          repeat: 'monthly',
+          isVirtual: true
+        };
+        bills.push(b);
+      }
+      const nextDue = getNextDueDate(b);
+      b.paidForDueDate = checked ? nextDue : null;
+    } else {
+      // Các khoản thường
+      const b = bills.find(x => x.id === id);
+      if (!b) return;
+      const nextDue = getNextDueDate(b);
+      b.paidForDueDate = checked ? nextDue : null;
+    }
+    
     saveData();
-    renderBills();
-    toast(checked ? '✅ Đã đánh dấu đã trả kỳ này' : '🔄 Đã bỏ đánh dấu');
+    renderFinance(); // Render lại toàn bộ tài chính để cập nhật số tổng
+    toast(checked ? '✅ Đã thanh toán' : '🔄 Đã bỏ thanh toán');
   };
-
-  const salaryHeader = $('salaryHeader');
-  if (salaryHeader) {
-    salaryHeader.addEventListener('click', () => {
-      const body = $('salaryBody');
-      const chevron = $('salaryChevron');
-      const isOpen = body.style.display !== 'none';
-      body.style.display = isOpen ? 'none' : 'block';
-      chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
-    });
-  }
 
   window.openBillModal = function(id) {
     editBillId = id || null;
     const deleteBtn = $('deleteBillBtn');
+    
+    // Kiểm tra xem có phải khoản nợ Thẻ tín dụng không
+    const isCreditCardBill = (id === 'bill_credit_card');
+    
     if (id) {
-      const b = bills.find(x => x.id === id);
+      // Nếu là khoản thẻ tín dụng, lấy dữ liệu từ mảng ảo
+      let b;
+      if (isCreditCardBill) {
+        const fin = calcFinance();
+        b = bills.find(x => x.id === id) || { dueDate: new Date().toISOString().split('T')[0], repeat: 'monthly', note: '' };
+        b.amount = fin.creditTotal;
+      } else {
+        b = bills.find(x => x.id === id);
+      }
+      
       if (!b) return;
-      $('billModalTitle').textContent = 'Sửa khoản phải trả';
-      $('billName').value = b.name || '';
+      $('billModalTitle').textContent = isCreditCardBill ? 'Thanh toán Thẻ tín dụng' : 'Sửa khoản phải trả';
+      $('billName').value = b.name || (isCreditCardBill ? '💳 Thanh toán Thẻ tín dụng' : '');
       $('billAmount').value = b.amount ? b.amount.toLocaleString('vi-VN') : '';
       $('billDueDate').value = b.dueDate || '';
       $('billNote').value = b.note || '';
       setBillRepeat(b.repeat || 'none');
-      deleteBtn.style.display = 'flex';
+      
+      // Khóa trường Tên và Số tiền nếu là thẻ tín dụng
+      $('billName').disabled = isCreditCardBill;
+      $('billAmount').disabled = isCreditCardBill;
+      
+      // Ẩn nút Xóa nếu là thẻ tín dụng
+      deleteBtn.style.display = isCreditCardBill ? 'none' : 'flex';
+      
     } else {
+      // Thêm mới bình thường
       $('billModalTitle').textContent = 'Thêm khoản phải trả';
       $('billName').value = '';
       $('billAmount').value = '';
-      $('billDueDate').value = toLocalDateStr(new Date());
+      $('billDueDate').value = new Date().toISOString().split('T')[0];
       $('billNote').value = '';
       setBillRepeat('none');
+      
+      // Mở khóa các trường
+      $('billName').disabled = false;
+      $('billAmount').disabled = false;
       deleteBtn.style.display = 'none';
     }
     $('billOverlay').classList.add('show');
-    setTimeout(() => $('billName').focus(), 300);
+    if (!isCreditCardBill) setTimeout(() => $('billName').focus(), 300);
   };
-
   window.setBillRepeat = function(val) {
     formBillRepeat = val;
     document.querySelectorAll('#billRepeatPicker .opt').forEach(o => {
@@ -9387,16 +9452,31 @@ loadFlashcards();
     const data = { name, amount, dueDate, repeat: formBillRepeat, note: $('billNote').value.trim() };
 
     if (editBillId) {
-      const b = bills.find(x => x.id === editBillId);
-      if (b) {
-        Object.assign(b, data);
-        if (b.paidForDueDate && b.paidForDueDate !== getNextDueDate(b)) b.paidForDueDate = null;
+      let b = bills.find(x => x.id === editBillId);
+      
+      if (editBillId === 'bill_credit_card') {
+        // Nếu sửa khoản thẻ tín dụng: Chỉ cho phép đổi Ngày, Lặp lại và Ghi chú
+        if (b) {
+          b.dueDate = dueDate;
+          b.repeat = formBillRepeat;
+          b.note = $('billNote').value.trim();
+        } else {
+          bills.push({ id: 'bill_credit_card', ...data, isVirtual: true, paidForDueDate: null, createdAt: Date.now() });
+        }
+      } else {
+        // Sửa khoản thường
+        if (b) {
+          Object.assign(b, data);
+          if (b.paidForDueDate && b.paidForDueDate !== getNextDueDate(b)) b.paidForDueDate = null;
+        }
       }
     } else {
+      // Thêm mới khoản thường
       bills.push({ id: 'bill_' + Date.now(), ...data, paidForDueDate: null, createdAt: Date.now() });
     }
+    
     saveData();
-    renderBills();
+    renderFinance(); // Dùng renderFinance thay vì renderBills để cập nhật cả bảng bên cạnh
     $('billOverlay').classList.remove('show');
     editBillId = null;
     toast('✅ Đã lưu khoản phải trả');
@@ -9404,11 +9484,11 @@ loadFlashcards();
 
   const deleteBillBtn = $('deleteBillBtn');
   if (deleteBillBtn) deleteBillBtn.addEventListener('click', () => {
-    if (!editBillId) return;
+    if (!editBillId || editBillId === 'bill_credit_card') return; // Chặn xóa thẻ tín dụng
     if (!confirm('Xóa khoản này?')) return;
     bills = bills.filter(b => b.id !== editBillId);
     saveData();
-    renderBills();
+    renderFinance();
     $('billOverlay').classList.remove('show');
     editBillId = null;
     toast('🗑️ Đã xóa khoản');
