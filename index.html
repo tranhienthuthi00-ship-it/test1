@@ -4874,6 +4874,15 @@
         <div class="opt" data-p="3">Cao</div>
       </div>
     </div>
+    <div class="field" id="taskRepeatField" style="display: none;">
+      <label>Lặp lại</label>
+      <div class="picker" id="taskRepeatPicker">
+        <div class="opt active" data-repeat="none">Không</div>
+        <div class="opt" data-repeat="weekly">Hàng tuần</div>
+        <div class="opt" data-repeat="monthly">Hàng tháng</div>
+        <div class="opt" data-repeat="yearly">Hàng năm</div>
+      </div>
+    </div>
     </div>
 
     <div class="field">
@@ -5308,6 +5317,7 @@
   let formNoteType = 'note';
   let formNoteIcon = 'notebook';
   let formTaskPriority = 2; // 1: Thấp, 2: Bình thường, 3: Cao
+  let formTaskRepeat = 'none';
   let sortNotesMode = 'newest';
   let searchNotes = '';
 
@@ -6023,14 +6033,42 @@ const NOTE_STATUS = {
   window.toggleHomeTask = function(id) {
     const task = notes.find(n => n.id === id);
     if (task) {
-      task.isCompleted = !task.isCompleted; // Đổi thành toggle (bấm lại để bỏ)
+      task.isCompleted = !task.isCompleted;
+      
+      // NẾU LÀ VIỆC LÀM ĐÃ XONG VÀ CÓ CÀI ĐẶT LẶP LẠI
+      if (task.isCompleted && task.repeat && task.repeat !== 'none' && task.date) {
+        const oldDate = new Date(task.date);
+        
+        // Tính toán ngày tiếp theo
+        if (task.repeat === 'weekly') oldDate.setDate(oldDate.getDate() + 7);
+        if (task.repeat === 'monthly') oldDate.setMonth(oldDate.getMonth() + 1);
+        if (task.repeat === 'yearly') oldDate.setFullYear(oldDate.getFullYear() + 1);
+        
+        const newDateStr = toLocalDateStr(oldDate);
+        
+        // Tạo bản sao cho kỳ tiếp theo
+        const newTask = {
+          ...task,
+          id: 'n_' + Date.now(),
+          isCompleted: false,
+          date: newDateStr,
+          createdAt: Date.now(),
+          repeat: task.repeat
+        };
+        
+        task.repeat = 'none'; // Xóa chế độ lặp ở task cũ
+        notes.push(newTask);
+        toast('🔁 Đã tạo kỳ tiếp theo: ' + fmtDate(newDateStr));
+      } else {
+        toast(task.isCompleted ? '✅ Đã xong: ' + task.title : '🔄 Đã bỏ hoàn thành');
+      }
+
       saveData();
       renderHomeTasks();
-      // Cập nhật luôn tab Việc làm nếu đang hiển thị
+      
       if (currentTab === 'others' && currentOtherCategory === 'task') {
         renderNotes();
       }
-      toast(task.isCompleted ? '✅ Đã xong: ' + task.title : '🔄 Đã bỏ hoàn thành');
     }
   };
 
@@ -6766,13 +6804,17 @@ const NOTE_STATUS = {
         const catInfo = TASK_CATEGORIES[catKey] || TASK_CATEGORIES.personal;
         const isDone = n.isCompleted;
         const titleStyle = isDone ? 'text-decoration: line-through; color: var(--text-muted);' : '';
-
-        // SỬA LẠI STYLE: Dùng viền đứt nét (dashed) giống Tips, xóa bỏ viền đặc
         const selectStyle = `font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; border:1px ${catInfo.color}; background:${catInfo.bg}; color:${catInfo.color}; cursor:pointer; outline:none; font-family:inherit; -webkit-appearance:none; -moz-appearance:none; appearance:none; text-align:center; text-align-last:center;`;
+
+        // Thêm nhãn hiển thị Lặp lại
+        let repeatLabel = '';
+        if (n.repeat === 'weekly') repeatLabel = ' · 🔁 Hàng tuần';
+        if (n.repeat === 'monthly') repeatLabel = ' · 🔁 Hàng tháng';
+        if (n.repeat === 'yearly') repeatLabel = ' · 🔁 Hàng năm';
 
         return `
           <div class="note-list-card" onclick="openDetailModal('note', '${n.id}')">
-            <!-- Ô TRÒN TODO -->
+            <!-- Ô TRÒN TODO (Đã sửa lỗi bấm) -->
             <div onclick="event.stopPropagation(); toggleTaskFromList('${n.id}')" style="
               width: 22px; height: 22px; border-radius: 50%;
               border: 2px solid ${isDone ? 'var(--pink-primary)' : 'var(--text-muted)'};
@@ -6787,14 +6829,14 @@ const NOTE_STATUS = {
               <!-- HÀNG 1: Tiêu đề + Ngày -->
               <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%; gap:8px;">
                 <div class="note-title-text" style="flex:1; min-width:0; ${titleStyle}">${esc(n.title)}</div>
-                ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap; flex-shrink:0; margin-top:2px;">${fmtDate(n.date)}</span>` : ''}
+                ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap; flex-shrink:0; margin-top:2px;">${fmtDate(n.date)}${repeatLabel}</span>` : ''}
               </div>
 
-              <!-- HÀNG 2: Dropdown DANH MỤC -->
+              <!-- HÀNG 2: Dropdown DANH MỤC (Bỏ onchange inline để tránh lỗi click) -->
               <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
                 <select class="note-category-select" 
                   onclick="event.stopPropagation()" 
-                  onchange="updateTaskCategory('${n.id}', this.value); event.stopPropagation();"
+                  data-id="${n.id}"
                   style="${selectStyle}">
                   <option value="work" ${catKey === 'work' ? 'selected' : ''}>💼 Công việc</option>
                   <option value="personal" ${catKey === 'personal' ? 'selected' : ''}>👤 Cá nhân</option>
@@ -7844,8 +7886,12 @@ const NOTE_STATUS = {
     if (id) {
       const n = notes.find(x => x.id === id);
       formTaskPriority = n.priority || 2;
+      formTaskRepeat = n.repeat || 'none';
+      document.querySelectorAll('#taskRepeatPicker .opt').forEach(o => {
+        o.classList.toggle('active', o.dataset.repeat === formTaskRepeat);
+      });
     } else {
-      formTaskPriority = 2;
+      formTaskPriority = 2;       formTaskRepeat = 'none';       document.querySelectorAll('#taskRepeatPicker .opt').forEach(o => {         o.classList.toggle('active', o.dataset.repeat === 'none');       });
     }
     
     document.querySelectorAll('#taskPriorityPicker .opt').forEach(o => {
@@ -7871,6 +7917,8 @@ const NOTE_STATUS = {
     if (prioField) {
       prioField.style.display = (type === 'task') ? 'block' : 'none';
     }
+    const repeatField = $('taskRepeatField');
+    if (repeatField) repeatField.style.display = (type === 'task') ? 'block' : 'none';
   }
   
   function setFormNoteIcon(icon) {
@@ -8251,13 +8299,16 @@ const NOTE_STATUS = {
   const title = $('noteTitle').value.trim();
   if (!title) { $('noteTitle').focus(); return toast('Nhập tiêu đề ghi chú'); }
   const rawTags = $('noteHashtags').value.split(',').filter(t => t.trim());
+  const existingTask = editNoteId ? notes.find(x => x.id === editNoteId) : null;
   const data = {
     title, date: $('noteDate').value, 
     hashtags: [...new Set(rawTags.map(t=>t.replace(/^#/, '')))],
     content: $('noteContent').innerHTML.trim(), type: formNoteType, icon: formNoteIcon,
     goalId: $('noteLinkedGoalId') ? $('noteLinkedGoalId').value : '',
     priority: formTaskPriority,
-    status: $('noteStatusSelect').value  // THÊM DÒNG NÀY
+    status: $('noteStatusSelect').value,
+    repeat: formTaskRepeat, 
+    category: existingTask ? (existingTask.category || 'personal') : 'personal' 
   };
     if (editNoteId) {
       const n = notes.find(x => x.id === editNoteId);
@@ -8547,27 +8598,24 @@ window.openPlaceCardPopup = function(id) {
       o.classList.add('active');
     });
   });
-  window.updateNoteStatus = function(id, newStatus) {
-  const note = notes.find(n => n.id === id);
-  if (note) {
-    note.status = newStatus;
-    saveData();
-    toast('✅ Đã cập nhật trạng thái');
-    
-    // Cập nhật lại màu của dropdown ngay lập tức
-    const select = document.querySelector(`.note-status-select[data-status]`);
-    document.querySelectorAll('.note-status-select').forEach(sel => {
-      const parent = sel.closest('.note-content-box');
-      const titleEl = parent ? parent.querySelector('.note-title-text') : null;
-      // Tìm đúng select đang thay đổi thông qua id note trong onclick - đơn giản chỉ re-render
+  document.querySelectorAll('#taskRepeatPicker .opt').forEach(o => {
+    o.addEventListener('click', () => {
+      formTaskRepeat = o.dataset.repeat;
+      document.querySelectorAll('#taskRepeatPicker .opt').forEach(x => x.classList.remove('active'));
+      o.classList.add('active');
     });
-    
-    // Re-render để cập nhật màu sắc
-    renderNotes();
-    if (currentTab === 'home') renderHome();
-  }
-  // ===== HÀM MỚI CHO VIỆC LÀM =====
-  
+  });
+  window.updateNoteStatus = function(id, newStatus) {
+    const note = notes.find(n => n.id === id);
+    if (note) {
+      note.status = newStatus;
+      saveData();
+      toast('✅ Đã cập nhật trạng thái');
+      renderNotes();
+      if (currentTab === 'home') renderHome();
+    }
+  }; // <--- Đã thêm dấu } và ; bị thiếu ở đây
+
   // Cập nhật Danh mục
   window.updateTaskCategory = function(id, newCat) {
     const task = notes.find(n => n.id === id);
@@ -8584,17 +8632,43 @@ window.openPlaceCardPopup = function(id) {
     const task = notes.find(n => n.id === id);
     if (task) {
       task.isCompleted = !task.isCompleted;
+      
+      // NẾU LÀ VIỆC LÀM ĐÃ XONG VÀ CÓ CÀI ĐẶT LẶP LẠI
+      if (task.isCompleted && task.repeat && task.repeat !== 'none' && task.date) {
+        const oldDate = new Date(task.date);
+        
+        // Tính toán ngày tiếp theo
+        if (task.repeat === 'weekly') oldDate.setDate(oldDate.getDate() + 7);
+        if (task.repeat === 'monthly') oldDate.setMonth(oldDate.getMonth() + 1);
+        if (task.repeat === 'yearly') oldDate.setFullYear(oldDate.getFullYear() + 1);
+        
+        const newDateStr = toLocalDateStr(oldDate);
+        
+        // Tạo bản sao cho kỳ tiếp theo
+        const newTask = {
+          ...task,
+          id: 'n_' + Date.now(),
+          isCompleted: false, 
+          date: newDateStr,   
+          createdAt: Date.now(),
+          repeat: task.repeat 
+        };
+        
+        task.repeat = 'none'; // Xóa chế độ lặp ở task cũ
+        notes.push(newTask);
+        toast('🔁 Đã tạo kỳ tiếp theo: ' + fmtDate(newDateStr));
+      } else {
+        toast(task.isCompleted ? '✅ Đã xong' : '🔄 Đã bỏ hoàn thành');
+      }
+
       saveData();
       renderNotes();
       
-      // Cập nhật luôn widget Trang chủ nếu có
       if (typeof renderHomeTasks === 'function') {
         renderHomeTasks();
       }
-      toast(task.isCompleted ? '✅ Đã xong: ' + task.title : '🔄 Đã bỏ hoàn thành');
     }
   };
-};
 /* =======================================================
    FLASHCARD STUDY - SPACED REPETITION
    ======================================================= */
@@ -9336,7 +9410,7 @@ loadFlashcards();
       if (!ccBill) {
         ccBill = {
           id: 'bill_credit_card',
-          name: '💳 Thanh toán Thẻ tín dụng',
+          name: 'Thẻ tín dụng',
           amount: creditTotal,
           dueDate: toLocalDateStr(new Date()), // Lấy ngày hôm nay
           repeat: 'monthly',
@@ -9407,6 +9481,14 @@ loadFlashcards();
         </div>
       `;
     }).join('');
+
+    // Gắn sự kiện đổi danh mục
+    list.querySelectorAll('.note-category-select').forEach(sel => {
+      sel.addEventListener('change', function(e) {
+        e.stopPropagation();
+        updateTaskCategory(this.getAttribute('data-id'), this.value);
+      });
+    });
   }
 
   window.toggleBillPaid = function(id, checked) {
@@ -9417,7 +9499,7 @@ loadFlashcards();
         const fin = calcFinance();
         b = {
           id: 'bill_credit_card',
-          name: '💳 Thanh toán Thẻ tín dụng',
+          name: 'Thẻ tín dụng',
           amount: fin.creditTotal,
           dueDate: new Date().toISOString().split('T')[0],
           repeat: 'monthly',
@@ -9471,7 +9553,7 @@ loadFlashcards();
       
       if (!b) return;
       $('billModalTitle').textContent = isCreditCardBill ? 'Thanh toán Thẻ tín dụng' : 'Sửa khoản phải trả';
-      $('billName').value = b.name || (isCreditCardBill ? '💳 Thanh toán Thẻ tín dụng' : '');
+      $('billName').value = b.name || (isCreditCardBill ? 'Thẻ tín dụng' : '');
       $('billAmount').value = b.amount ? b.amount.toLocaleString('vi-VN') : '';
       $('billDueDate').value = b.dueDate || '';
       $('billNote').value = b.note || '';
