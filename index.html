@@ -4896,9 +4896,16 @@
       <div id="noteContent" contenteditable="true" placeholder="Nhập nội dung..." style="min-height: 180px; background-color: #fdfdfd !important; background-image: linear-gradient(90deg, transparent 39px, #ffb3b3 39px, #ffb3b3 41px, transparent 41px), repeating-linear-gradient(transparent, transparent 27px, #dbeafe 27px, #dbeafe 28px); background-attachment: local; line-height: 28px !important; padding: 10px 15px 10px 50px !important; border: 1.5px solid var(--border) !important; border-radius: 0 0 4px 4px !important; outline: none; font-family: inherit; color: var(--text) !important; overflow-y: auto; white-space: pre-wrap;"></div>
     </div>
 
-    <button class="save-btn" id="saveNoteBtn">
-      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu ghi chú
-    </button>
+    <div style="display: flex; gap: 10px; margin-top: 12px;">
+      <button class="save-btn" id="saveNoteBtn" style="margin-top: 0; flex: 1;">
+        <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu
+      </button>
+      
+      <!-- Nút Xóa (Chỉ hiện khi Sửa) -->
+      <button class="save-btn" id="deleteNoteBtn" style="background:#fef2f2;color:#dc2626;box-shadow:none;margin-top: 0; display:none; border: 1px solid #fecaca; flex: 1;">
+        <svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa
+      </button>
+    </div>
   </div>
 </div>
 
@@ -7766,34 +7773,40 @@ const NOTE_STATUS = {
 
   function openNoteModal(id) {
     editNoteId = id || null;
+    const deleteBtn = $('deleteNoteBtn');
+
     if (id) {
-  const n = notes.find(x => x.id === id);
-  if (!n) return;
-  $('noteModalTitle').textContent = 'Sửa ghi chú';
-  $('noteTitle').value = n.title || '';
-  $('noteDate').value = n.date || new Date().toISOString().split('T')[0];
-  $('noteHashtags').value = (n.hashtags || []).join(', ');
-  $('noteContent').innerHTML = n.content || '';
-  $('noteStatusSelect').value = n.status || 'idea'; // THÊM DÒNG NÀY
-  setFormNoteType(n.type || 'note');
-  setFormNoteIcon(n.icon || 'notebook');
-} else {
-  $('noteModalTitle').textContent = 'Thêm ghi chú';
-  $('noteTitle').value = ''; 
-  $('noteDate').value = new Date().toISOString().split('T')[0]; 
-  $('noteHashtags').value = ''; 
-  $('noteContent').innerHTML = '';
-  $('noteStatusSelect').value = 'idea'; // THÊM DÒNG NÀY
-  setFormNoteType(currentOtherCategory === 'knowledge' ? 'knowledge' : (currentOtherCategory || 'note'));
-  setFormNoteIcon('notebook');
-}
+      if (deleteBtn) deleteBtn.style.display = 'flex'; // Hiện nút Xóa khi Sửa
+      
+      const n = notes.find(x => x.id === id);
+      if (!n) return;
+      $('noteModalTitle').textContent = 'Sửa ghi chú';
+      $('noteTitle').value = n.title || '';
+      $('noteDate').value = n.date || new Date().toISOString().split('T')[0];
+      $('noteHashtags').value = (n.hashtags || []).join(', ');
+      $('noteContent').innerHTML = n.content || '';
+      $('noteStatusSelect').value = n.status || 'idea';
+      setFormNoteType(n.type || 'note');
+      setFormNoteIcon(n.icon || 'notebook');
+    } else {
+      if (deleteBtn) deleteBtn.style.display = 'none'; // Ẩn nút Xóa khi Thêm mới
+      
+      $('noteModalTitle').textContent = 'Thêm ghi chú';
+      $('noteTitle').value = ''; 
+      $('noteDate').value = new Date().toISOString().split('T')[0]; 
+      $('noteHashtags').value = ''; 
+      $('noteContent').innerHTML = '';
+      $('noteStatusSelect').value = 'idea';
+      setFormNoteType(currentOtherCategory === 'knowledge' ? 'knowledge' : (currentOtherCategory || 'note'));
+      setFormNoteIcon('notebook');
+    }
+    
     // Tải danh sách Bucket list vào ô Select
     const goalSelect = $('noteLinkedGoalId');
     if (goalSelect) {
       goalSelect.innerHTML = '<option value="">-- Không thuộc mục tiêu nào --</option>' + 
         goals.map(g => `<option value="${g.id}">${esc(g.text)}</option>`).join('');
       
-      // Nếu đang sửa, chọn sẵn mục tiêu cũ
       if (id) {
         const n = notes.find(x => x.id === id);
         goalSelect.value = n.goalId || '';
@@ -7801,6 +7814,7 @@ const NOTE_STATUS = {
         goalSelect.value = '';
       }
     }
+    
     // Tải mức ưu tiên cũ (nếu đang sửa)
     if (id) {
       const n = notes.find(x => x.id === id);
@@ -7808,9 +7822,11 @@ const NOTE_STATUS = {
     } else {
       formTaskPriority = 2;
     }
+    
     document.querySelectorAll('#taskPriorityPicker .opt').forEach(o => {
       o.classList.toggle('active', Number(o.dataset.p) === formTaskPriority);
     });
+    
     $('noteOverlay').classList.add('show');
     setTimeout(() => $('noteTitle').focus(), 300);
   }
@@ -8171,6 +8187,22 @@ const NOTE_STATUS = {
     document.execCommand(command, false, null);
     $('noteContent').focus();
   };
+  // Xử lý nút Xóa trong Form Ghi chú / Việc làm
+  const deleteNoteBtn = $('deleteNoteBtn');
+  if (deleteNoteBtn) {
+    deleteNoteBtn.addEventListener('click', () => {
+      if (!editNoteId) return;
+      
+      // 1. Đóng form Sửa lại
+      $('noteOverlay').classList.remove('show');
+      
+      // 2. Gọi hàm hiện bảng xác nhận xóa (hàm có sẵn của bạn)
+      // Chờ 1 nhịp 0.2s để form đóng mượt rồi mới hiện bảng xác nhận
+      setTimeout(() => {
+        askDelete(editNoteId, 'note');
+      }, 200);
+    });
+  }
   $('saveNoteBtn').addEventListener('click', () => {
   const title = $('noteTitle').value.trim();
   if (!title) { $('noteTitle').focus(); return toast('Nhập tiêu đề ghi chú'); }
