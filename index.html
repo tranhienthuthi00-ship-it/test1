@@ -4285,11 +4285,14 @@
 
       <!-- Khoản phải trả sắp tới -->
       <div class="compact-card" id="billsCard">
-        <div class="compact-card-header">
-          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-calendar"/></svg> Khoản phải trả sắp tới</div>
-          <button class="btn-small" id="btnAddBill">+ Thêm</button>
+        <div class="compact-card-header" style="margin-bottom: 12px;">
+          <div>
+            <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-calendar"/></svg> Khoản phải trả sắp tới</div>
+            <div id="billsTotalLabel" class="btn-small" style="display: inline-flex; align-items: center; padding: 6px 14px; font-size: 13px; margin-top: 8px; border-radius: 999px; box-shadow: var(--shadow-sm);">Tổng: 0 đ</div>
+          </div>
         </div>
         <div id="billsListContainer"></div>
+        <button class="salary-add-btn" id="btnAddBill" style="margin-top: 12px; margin-bottom: 0;">+ Thêm khoản phải trả</button>
       </div>
     </div>
 
@@ -9243,6 +9246,21 @@ loadFlashcards();
   function renderBills() {
     const container = $('billsListContainer');
     if (!container) return;
+
+    // Tính tổng tiền các khoản CHƯA thanh toán (chưa bật toggle)
+    let totalUnpaid = 0;
+    bills.forEach(b => {
+      const st = getBillStatus(b);
+      if (!st.isPaid) {
+        totalUnpaid += (b.amount || 0);
+      }
+    });
+    
+    // Cập nhật số tổng lên Header
+    const totalEl = $('billsTotalLabel');
+    if (totalEl) {
+      totalEl.textContent = `Tổng: ${fmtMoney(totalUnpaid)}`;
+    }
 
     if (bills.length === 0) {
       container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:13px; font-style:italic;">Chưa có khoản nào. Bấm "+ Thêm" để tạo nhắc nhở.</div>`;
