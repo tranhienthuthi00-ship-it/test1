@@ -5237,6 +5237,20 @@
     </div>
   </div>
 </div>
+<!-- Popup Nhắc nhở học tiếng Anh -->
+<div class="confirm-overlay" id="studyReminderOverlay">
+  <div class="confirm-box">
+    <div class="ico" style="color: var(--pink-primary);">
+      <svg class="hand-icon"><use href="#icon-bell"/></svg>
+    </div>
+    <h4>Đến giờ ôn bài rồi!</h4>
+    <p>Hôm nay bạn có <b id="reminderDueCount" style="color: var(--pink-primary); font-size: 18px;">0</b> từ tiếng Anh đang chờ bạn ôn tập. Học một chút nhé?</p>
+    <div class="confirm-actions">
+      <button class="cancel" id="btnRemindLater">Để sau</button>
+      <button class="confirm" id="btnRemindNow">Học ngay</button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -5815,12 +5829,20 @@ const NOTE_STATUS = {
     
     const circumference = 2 * Math.PI * 40; 
     
-    // === TÍNH % HỌC TIẾNG ANH ===
-    // (Tính số thẻ đã thuộc / Tổng số thẻ)
+    // === TÍNH % HỌC TIẾNG ANH (TỈ LỆ ĐÚNG) ===
     let studyPct = 0;
     if (typeof flashcards !== 'undefined' && flashcards.length > 0) {
-      const masteredCards = flashcards.filter(c => c.sr && c.sr.interval >= 21).length;
-      studyPct = Math.round((masteredCards / flashcards.length) * 100);
+      let totalAnswers = 0, correctAnswers = 0;
+      flashcards.forEach(c => {
+        if (c.sr && c.sr.history) {
+          c.sr.history.forEach(h => {
+            totalAnswers++;
+            // Điều kiện tính là đúng: độ chính xác >= 70% hoặc người dùng tự đánh giá Good
+            if (h.accuracy >= 70 || h.rating === 'good') correctAnswers++;
+          });
+        }
+      });
+      studyPct = totalAnswers === 0 ? 0 : Math.round((correctAnswers / totalAnswers) * 100);
     }
 
     // Vẽ vòng ngoài (Học tiếng Anh)
@@ -9422,10 +9444,49 @@ switchTab = function(tabId) {
 // Load khi khởi động
 loadFlashcards();
   /* INIT */
-  /* INIT */
   loadData();
   loadFlashcards();
   switchTab('home');
+
+  // --- BẮT ĐẦU CODE NHẮC NHỞ HỌC TỪ VỰNG ---
+  function checkStudyReminder() {
+    // Đảm bảo hàm getDueCards đã tồn tại
+    if (typeof getDueCards === 'function') {
+      const due = getDueCards();
+      if (due.length > 0) {
+        $('reminderDueCount').textContent = due.length;
+        
+        // Đợi 1 giây để app load xong giao diện mượt mà rồi mới bật popup
+        setTimeout(() => {
+          $('studyReminderOverlay').classList.add('show');
+        }, 1000); 
+      }
+    }
+  }
+
+  // Nút "Để sau" -> Tắt popup
+  $('btnRemindLater').addEventListener('click', () => {
+    $('studyReminderOverlay').classList.remove('show');
+  });
+
+  // Nút "Học ngay" -> Chuyển sang tab Học và bắt đầu học luôn
+  $('btnRemindNow').addEventListener('click', () => {
+    $('studyReminderOverlay').classList.remove('show');
+    
+    // Chuyển sang tab Study
+    document.querySelector('.nav-item[data-tab="study"]').click();
+    
+    // Đợi 1 nhịp ngắn để tab hiển thị xong rồi bắt đầu phiên học
+    setTimeout(() => {
+      if (typeof startStudySession === 'function') {
+        startStudySession();
+      }
+    }, 300);
+  });
+
+  // Gọi hàm kiểm tra ngay khi mở app
+  checkStudyReminder();
+  // --- KẾT THÚC CODE NHẮC NHỞ ---
 
   /* ============================================================
      KHOẢN PHẢI TRẢ SẮP TỚI (BILLS)
