@@ -8,7 +8,7 @@
 <title>📍 Sổ Tay Cá Nhân</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;700&family=Comfortaa:wght@400;500;600;700&family=MuseoModerno:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;900&family=Comfortaa:wght@400;500;600;700&family=MuseoModerno:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   :root {
@@ -45,7 +45,7 @@
   }
   /* Fonts */
 body.font-nunito { --font-family: 'Nunito', sans-serif; }
-body.font-inter { --font-family: 'Inter', sans-serif; }
+ 
 body.font-comfortaa { --font-family: 'Comfortaa', cursive; }
 body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
 
@@ -646,13 +646,6 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     box-shadow: 4px 4px 0px #d4b895;
   }
   
-  body.theme-vintage .book-card {
-    border: 1.5px solid #6b4c3a;
-  }
-  body.theme-vintage .book-title {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-  }
   
   body.theme-winter .book-card::before {
     background: repeating-linear-gradient(180deg, #a32a36, #a32a36 6px, #2a4365, #2a4365 12px);
@@ -1224,7 +1217,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     --shadow-sm: 2px 2px 0px rgba(43,45,66,0.35);
     --shadow-md: 3px 3px 0px rgba(43,45,66,0.4);
     --shadow-lg: 4px 4px 0px rgba(43,45,66,0.45);
-    --font-family: 'Quicksand', sans-serif;
+     
 
     /* Màu crayon đa sắc */
     --crayon-red: #e63946;
@@ -1809,7 +1802,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     --shadow-sm: 3px 3px 0px #d4b895; /* Bóng cứng lệch */
     --shadow-md: 4px 4px 0px #d4b895;
     --shadow-lg: 6px 6px 0px #d4b895;
-    --font-family: 'Quicksand', sans-serif;
+     
     
     --want-bg: #fef0f0; --want-text: #c98a8a;
     --done-bg: #f0f4ef; --done-text: #8da290;
@@ -2333,7 +2326,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     --border: #a32a36;
     
     --bg-gradient: #f3efe6;
-    --font-family: 'Quicksand', sans-serif;
+     
     
     --want-bg: #fce4e8; --want-text: #a32a36;
     --done-bg: #e8f4f8; --done-text: #2a4365;
@@ -2623,382 +2616,6 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     z-index: 0;
   }
   /* ============================================================
-     THEME VINTAGE SCRAPBOOK (ĐỒNG BỘ MÀU SẮC TOÀN DIỆN)
-     ============================================================ */
-  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
-
-  body.theme-vintage {
-    --pink-bg: #f9f6f0; /* Nền kem */
-    --pink-surface: #ffffff; /* Thẻ giấy */
-    --pink-primary: #6b4c3a; /* Nâu đậm */
-    --pink-light: #e8dec9; /* Be nhạt */
-    --pink-dark: #3b2a22; /* Nâu đen chữ */
-    --text: #3b2a22;
-    --text-muted: #8a7b72;
-    --border: #e0d6c8;
-    
-    --bg-gradient: #f9f6f0;
-    --font-family: 'Playfair Display', serif; 
-    
-    /* Đồng bộ màu cho các tag/trạng thái */
-    --want-bg: #fcefb4; --want-text: #8c6a00;
-    --done-bg: #d8e2dc; --done-text: #3b5e45;
-  }
-
-  /* 1. NỀN HỌA TIẾT MÁY BAY & NGÔI SAO */
-  body.theme-vintage {
-    background-color: #f9f6f0;
-    background-image: url("data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d1c1b1' fill-opacity='0.4' font-family='sans-serif'%3E%3Ctext x='35' y='45' font-size='26' transform='rotate(-15 35 45)'%3E%E1%AF%93%E2%98%85%3C/text%3E%3Ctext x='105' y='35' font-size='18' transform='rotate(25 105 35)'%3E%E1%AF%93%E2%98%85%3C/text%3E%3Ctext x='60' y='100' font-size='32' transform='rotate(10 60 100)'%3E%E1%AF%93%E2%98%85%3C/text%3E%3Ctext x='120' y='125' font-size='22' transform='rotate(-30 120 125)'%3E%E1%AF%93%E2%98%85%3C/text%3E%3C/g%3E%3C/svg%3E");
-    background-size: 140px 140px;
-    background-attachment: fixed;
-  }
-
-  /* 2. THẺ GIẤY (Card) & Ô NHẬP LIỆU */
-  body.theme-vintage .card,
-  body.theme-vintage .goal-widget,
-  body.theme-vintage .dash-chart-widget,
-  body.theme-vintage .suggest-card,
-  body.theme-vintage .compact-card,
-  body.theme-vintage .salary-card,
-  body.theme-vintage .bucket-list-container,
-  body.theme-vintage .event-card,
-  body.theme-vintage .timeline-card,
-  body.theme-vintage .braces-timeline-card,
-  body.theme-vintage .diary-compact-card,
-  body.theme-vintage .note-list-card,
-  body.theme-vintage .search-box,
-  body.theme-vintage .filter-btn,
-  body.theme-vintage .calendar-grid,
-  body.theme-vintage .settings-group,
-  body.theme-vintage .place-card-item,
-  body.theme-vintage .field input,
-  body.theme-vintage .field textarea,
-  body.theme-vintage .field select {
-    background-color: var(--pink-surface) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 6px !important; 
-    box-shadow: 3px 5px 15px rgba(107, 76, 58, 0.08) !important;
-    filter: none !important; 
-    transform: none !important;
-    color: var(--text) !important;
-  }
-
-  /* 3. TIÊU ĐỀ HIGHLIGHT (Dạ quang vàng) */
-  body.theme-vintage .compact-card-title,
-  body.theme-vintage .goal-title,
-  body.theme-vintage .bucket-title,
-  body.theme-vintage .note-title-text,
-  body.theme-vintage .event-title,
-  body.theme-vintage .finance-balance {
-    font-family: 'Playfair Display', serif !important;
-    font-style: italic;
-    font-weight: 700;
-    color: var(--pink-dark) !important;
-    display: inline-block;
-    background: linear-gradient(transparent 50%, #fcefb4 50%) !important; 
-    padding: 0 4px;
-  }
-
-  /* 4. LỜI CHÀO VIẾT TAY */
-  body.theme-vintage .greeting {
-    font-family: 'Caveat', cursive !important;
-    font-size: 34px !important;
-    color: var(--pink-primary) !important;
-  }
-
-  /* 5. CÁC LOẠI NÚT BẤM (Lưu, FAB, Nút nhỏ) */
-  body.theme-vintage .save-btn {
-    background: #d8e2dc !important; /* Xanh mint nhạt */
-    color: var(--pink-dark) !important;
-    border-radius: 6px !important;
-    border: 1px solid #a3b1a8 !important;
-    font-family: 'Playfair Display', serif !important;
-    font-style: italic;
-    font-weight: 700;
-  }
-  
-  body.theme-vintage .fab {
-    background: #e8b4b8 !important; /* Hồng đất */
-    color: #2b1f1a !important;
-    border: 1.5px solid #d498a4 !important;
-  }
-  body.theme-vintage .fab svg { stroke: #2b1f1a !important; }
-
-  body.theme-vintage .sort-btn,
-  body.theme-vintage .backup-btn {
-    background: var(--pink-surface) !important;
-    color: var(--pink-primary) !important;
-    border-color: var(--border) !important;
-  }
-  body.theme-vintage .sort-btn svg,
-  body.theme-vintage .backup-btn svg { stroke: var(--pink-primary) !important; }
-
-  /* 6. THANH ĐIỀU HƯỚNG DƯỚI */
-  body.theme-vintage .bottom-nav {
-    background: var(--pink-surface);
-    border-top: 1px solid var(--border);
-    box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
-  }
-  body.theme-vintage .nav-item { color: var(--text-muted); }
-  body.theme-vintage .nav-item.active { color: #d17a8a !important; }
-  body.theme-vintage .nav-item.active svg { stroke: #d17a8a !important; }
-
-  /* 7. ĐỒNG BỘ TAG, NHÃN DÁN VÀ ICON */
-  body.theme-vintage .tag,
-  body.theme-vintage .status-badge {
-    background: transparent !important;
-    border: 1px dashed #b56576 !important;
-    border-radius: 4px !important;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    color: #b56576 !important;
-  }
-
-  body.theme-vintage .note-icon-box,
-  body.theme-vintage .diary-icon-box,
-  body.theme-vintage .other-card-icon {
-    background: var(--pink-light) !important;
-    border: 1px solid var(--border) !important;
-    color: var(--pink-primary) !important;
-  }
-  body.theme-vintage .note-icon-box svg,
-  body.theme-vintage .diary-icon-box svg,
-  body.theme-vintage .other-card-icon svg {
-    stroke: var(--pink-primary) !important;
-  }
-
-  /* 8. THANH TRƯỢT (Range Slider) & BẢNG TÀI CHÍNH */
-  body.theme-vintage .range-wrap input[type="range"] {
-    background: var(--pink-light) !important;
-  }
-  body.theme-vintage .range-wrap input[type="range"]::-webkit-slider-thumb {
-    background: var(--pink-primary) !important;
-  }
-  body.theme-vintage .finance-dashboard {
-    background: var(--pink-light) !important;
-  }
-  body.theme-vintage .finance-balance,
-  body.theme-vintage .finance-balance-label,
-  body.theme-vintage .finance-box-val,
-  body.theme-vintage .finance-box-label {
-    color: var(--pink-dark) !important;
-  }
-  body.theme-vintage .finance-box {
-    background: rgba(255,255,255,0.6) !important;
-    border: 1px solid var(--border) !important;
-  }
-  /* ===== ĐỒNG BỘ NỐT CÁC CHỖ CÒN SÓT MÀU XANH LÁ / MẶC ĐỊNH ===== */
-
-  /* 1. Thanh tiến trình (màu xanh lá) trong mục tiêu */
-  body.theme-vintage .bucket-progress-fill.low,
-  body.theme-vintage .bucket-progress-fill.mid,
-  body.theme-vintage .bucket-progress-fill.high {
-    background: var(--pink-primary) !important; /* Ép về màu Nâu đậm */
-  }
-  body.theme-vintage .bucket-progress-bg {
-    background: var(--pink-light) !important; /* Nền thanh trượt màu Be */
-  }
-
-  /* 2. Nút Sửa (cây bút) trong mục tiêu */
-  body.theme-vintage .bucket-card-item svg[style*="width: 16px"] {
-    stroke: var(--pink-primary) !important;
-  }
-
-  /* 3. Nút "+ Thêm" trong Bucket List (màu xanh lá cây) */
-  body.theme-vintage .btn-small,
-  body.theme-vintage .bucket-add-btn {
-    background: var(--pink-primary) !important;
-    color: #fff !important;
-    border-radius: 6px !important;
-    font-family: 'Playfair Display', serif !important;
-  }
-  body.theme-vintage .bucket-add-row {
-    border: 1px solid var(--border) !important;
-    background: var(--pink-surface) !important;
-  }
-
-  /* 4. Các nút phân trang (Page dots) */
-  body.theme-vintage .page-dot.active,
-  body.theme-vintage .d-page-dot.active {
-    background: var(--pink-primary) !important;
-  }
-
-  /* 5. Màu xanh lá cây của nút "Ghim" hoặc "Đã nhớ" (nếu có) */
-  body.theme-vintage .tag.hashtag {
-    background: var(--pink-light) !important;
-    color: var(--pink-primary) !important;
-    border: 1px dashed var(--pink-primary) !important;
-  }
-
-  /* 6. Nút thêm ảnh/ảnh đính kèm trong thẻ bài */
-  body.theme-vintage .place-card-title-bar {
-    background: var(--pink-primary) !important;
-  }
-  /* ============================================================
-     QUÉT SẠCH MÀU XANH DƯƠNG/XANH LÁ CHO THEME VINTAGE
-     ============================================================ */
-
-  /* 1. Các thẻ tag (nhãn dán) - Ép về màu Nâu/Be */
-  body.theme-vintage .tag,
-  body.theme-vintage .status-badge,
-  body.theme-vintage .tag.hashtag {
-    background: var(--pink-light) !important;
-    color: var(--pink-dark) !important;
-    border: 1px dashed var(--pink-primary) !important;
-  }
-
-  /* 2. Thanh tiến trình (của Bucket list, Niềng răng...) - Ép về màu Nâu */
-  body.theme-vintage .bucket-progress-fill,
-  body.theme-vintage .bucket-progress-fill.low,
-  body.theme-vintage .bucket-progress-fill.mid,
-  body.theme-vintage .bucket-progress-fill.high {
-    background: var(--pink-primary) !important; 
-  }
-  body.theme-vintage .bucket-progress-bg {
-    background: var(--pink-light) !important; 
-  }
-
-  /* 3. Tổng tài sản (Finance Dashboard) - Giữ màu Nâu đậm, chữ trắng/vàng */
-  body.theme-vintage .finance-dashboard {
-    background: var(--pink-primary) !important; 
-    color: #fff !important;
-  }
-  body.theme-vintage .finance-balance, 
-  body.theme-vintage .finance-balance-label,
-  body.theme-vintage .finance-box-label {
-    color: #fff !important;
-  }
-  body.theme-vintage .finance-box-val {
-    color: var(--pink-light) !important;
-  }
-
-  /* 4. Bảng tổng quan Niềng răng - Xóa nền xanh, đổi sang màu Be */
-  body.theme-vintage .braces-dashboard-card {
-    background: var(--pink-light) !important;
-    border-color: var(--border) !important;
-    box-shadow: 2px 4px 10px rgba(107, 76, 58, 0.1) !important;
-  }
-  body.theme-vintage .braces-dashboard-card .stat-val {
-    color: var(--pink-primary) !important;
-  }
-  body.theme-vintage .braces-dashboard-card .stat-lbl {
-    color: var(--pink-dark) !important;
-  }
-  body.theme-vintage .diary-compact-card.braces-card {
-    border-left: 4px solid var(--pink-primary) !important;
-  }
-  body.theme-vintage .diary-compact-card.braces-card .diary-icon-box {
-    background: var(--pink-light) !important;
-    color: var(--pink-primary) !important;
-  }
-  body.theme-vintage .diary-compact-card.braces-card .diary-date-text {
-    color: var(--pink-primary) !important;
-  }
-
-  /* 5. Các nút bấm (Thêm, Sửa, Xóa, Nút nhỏ) */
-  body.theme-vintage .btn-small,
-  body.theme-vintage .bucket-add-btn {
-    background: var(--pink-primary) !important;
-    color: #fff !important;
-  }
-  body.theme-vintage .swipe-actions .action.edit {
-    background: var(--pink-primary) !important; /* Nút Sửa màu Nâu */
-  }
-  body.theme-vintage .swipe-actions .action.delete {
-    background: #b56576 !important; /* Nút Xóa màu Đỏ đất */
-  }
-
-  /* 6. Icon và các chấm tròn (Timeline) */
-  body.theme-vintage .timeline-dot {
-    border-color: var(--pink-primary) !important;
-    box-shadow: 0 0 0 3px var(--pink-light) !important;
-  }
-  body.theme-vintage .timeline-date {
-    color: var(--pink-primary) !important;
-  }
-  body.theme-vintage .page-dot.active,
-  body.theme-vintage .d-page-dot.active {
-    background: var(--pink-primary) !important;
-  }
-
-  /* 7. Ô nhập liệu và viền */
-  body.theme-vintage .search-box,
-  body.theme-vintage .filter-btn,
-  body.theme-vintage .sort-btn {
-    background: var(--pink-surface) !important;
-    border: 1px solid var(--border) !important;
-    color: var(--pink-dark) !important;
-  }
-  body.theme-vintage .search-box svg,
-  body.theme-vintage .filter-btn svg,
-  body.theme-vintage .sort-btn svg {
-    stroke: var(--pink-primary) !important;
-  }
-
-  /* 8. Lịch (Calendar) */
-  body.theme-vintage .cal-day.today {
-    background: var(--pink-primary) !important;
-    color: #fff !important;
-  }
-  body.theme-vintage .calendar-month-year span {
-    color: var(--pink-primary) !important;
-  }
-  /* ===== ĐỒNG BỘ BO GÓC MỀM MẠI CHO THEME VINTAGE ===== */
-  
-  /* Bo góc cho tất cả các loại thẻ (Card) */
-  body.theme-vintage .card,
-  body.theme-vintage .goal-widget,
-  body.theme-vintage .dash-chart-widget,
-  body.theme-vintage .suggest-card,
-  body.theme-vintage .compact-card,
-  body.theme-vintage .salary-card,
-  body.theme-vintage .bucket-list-container,
-  body.theme-vintage .event-card,
-  body.theme-vintage .timeline-card,
-  body.theme-vintage .braces-timeline-card,
-  body.theme-vintage .diary-compact-card,
-  body.theme-vintage .note-list-card,
-  body.theme-vintage .search-box,
-  body.theme-vintage .filter-btn,
-  body.theme-vintage .calendar-grid,
-  body.theme-vintage .settings-group,
-  body.theme-vintage .place-card-item,
-  body.theme-vintage .finance-box,
-  body.theme-vintage .braces-dashboard-card,
-  body.theme-vintage .bucket-card-item {
-    border-radius: 16px !important; /* Bo góc 16px cho mềm mại */
-  }
-
-  /* Bo góc cho các ô nhập liệu, nút bấm nhỏ */
-  body.theme-vintage .field input,
-  body.theme-vintage .field textarea,
-  body.theme-vintage .field select,
-  body.theme-vintage .sort-btn,
-  body.theme-vintage .backup-btn,
-  body.theme-vintage .bucket-add-row,
-  body.theme-vintage .btn-small {
-    border-radius: 10px !important;
-  }
-
-  /* Bo góc cho nút Lưu và các khối to */
-  body.theme-vintage .save-btn {
-    border-radius: 12px !important;
-  }
-
-  /* Đảm bảo các nút Xóa/Sửa khi vuốt cũng bo góc khớp với thẻ */
-  body.theme-vintage .swipe-item,
-  body.theme-vintage .swipe-actions {
-    border-radius: 16px !important;
-  }
-  body.theme-vintage .swipe-actions .action.edit {
-    border-top-left-radius: 16px !important;
-    border-bottom-left-radius: 16px !important;
-  }
-  body.theme-vintage .swipe-actions .action.delete {
-    border-top-right-radius: 16px !important;
-    border-bottom-right-radius: 16px !important;
-  }
-  /* ============================================================
      ĐỒNG BỘ MÀU SẮC TOÀN DIỆN CHO MỌI THEME (TỐI THƯỢNG)
      ============================================================ */
 
@@ -3104,9 +2721,8 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     --text: #000000;
     --text-muted: #555555;
     --border: #000000; 
-    
     --bg-gradient: #C1D7FF;
-    --font-family: 'Quicksand', sans-serif; 
+      
   }
 
   body.theme-editorial {
@@ -3778,276 +3394,6 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   .bill-tag.paid     { background: #ecfdf5; color: #059669; }
 
   .bill-toggle-wrap { flex-shrink: 0; margin-top: 2px; }
-/* ============================================================
-   THEME MINIMALIST (Retro Bingo / Be - Nâu - Vàng)
-   ============================================================ */
-body.theme-minimalist {
-  /* Bảng màu lấy từ ảnh */
-  --pink-bg: #f4eee1;         /* Nền kem nhạt */
-  --pink-surface: #fcfaf5;    /* Nền thẻ sáng hơn chút */
-  --pink-primary: #5c3a21;    /* Nâu đậm (Text chính, viền) */
-  --pink-light: #e8dac1;      /* Be đậm (Nền phụ) */
-  --pink-dark: #3b2311;       /* Nâu đen (Tiêu đề) */
-  --text: #4a2e15;            /* Nâu trầm */
-  --text-muted: #8c735b;      /* Nâu xám */
-  --border: #5c3a21;          /* Viền nâu đậm giống kẻ bảng */
-  
-  --bg-gradient: #f4eee1;
-  --font-family: 'Inter', 'Quicksand', sans-serif;
-  
-  /* Màu cho các Tag */
-  --want-bg: #e8dac1; --want-text: #5c3a21;
-  --done-bg: #f4eee1; --done-text: #8c735b;
-  --cafe-bg: #f4eee1; --cafe-text: #5c3a21;
-  --food-bg: #f4eee1; --food-text: #b37d4c;
-  --travel-bg: #e8dac1; --travel-text: #5c3a21;
-  --note-bg: #f4eee1; --note-text: #8c735b;
-  --task-bg: #e8dac1; --task-text: #3b2311;
-  --tip-bg: #f4eee1; --tip-text: #d97706;
-
-  /* Ép phẳng toàn bộ (Bỏ đổ bóng) */
-  --shadow-sm: none;
-  --shadow-md: none;
-  --shadow-lg: none;
-}
-
-/* 1. Viền mỏng bao quanh các thẻ giống kẻ bảng Bingo */
-body.theme-minimalist .card,
-body.theme-minimalist .goal-widget,
-body.theme-minimalist .dash-chart-widget,
-body.theme-minimalist .suggest-card,
-body.theme-minimalist .compact-card,
-body.theme-minimalist .salary-card,
-body.theme-minimalist .bucket-list-container,
-body.theme-minimalist .event-card,
-body.theme-minimalist .timeline-card,
-body.theme-minimalist .braces-timeline-card,
-body.theme-minimalist .diary-compact-card,
-body.theme-minimalist .note-list-card,
-body.theme-minimalist .search-box,
-body.theme-minimalist .filter-btn,
-body.theme-minimalist .calendar-grid,
-body.theme-minimalist .settings-group,
-body.theme-minimalist .place-card-item,
-body.theme-minimalist .finance-dashboard {
-  border: 1.5px solid var(--border) !important;
-  border-radius: 4px !important; /* Vuông vức hơn một chút giống thẻ giấy */
-  background: var(--pink-surface) !important;
-  box-shadow: none !important;
-}
-
-/* 2. Nút FAB (Nút thêm) màu Vàng giống Ngôi sao trong ảnh */
-body.theme-minimalist .fab {
-  background: #f5c518 !important; /* Vàng sao */
-  color: #3b2311 !important;
-  border: 2px solid var(--border) !important;
-  box-shadow: 2px 2px 0px var(--border) !important;
-  border-radius: 50% !important;
-}
-body.theme-minimalist .fab svg {
-  stroke: #3b2311 !important;
-}
-
-/* 3. Nút Save và các thành phần active */
-body.theme-minimalist .save-btn,
-body.theme-minimalist .bucket-add-btn {
-  background: var(--pink-primary) !important;
-  color: white !important;
-  border: 1.5px solid var(--border) !important;
-  border-radius: 4px !important;
-  box-shadow: none !important;
-}
-
-/* 4. Thanh Bottom Nav */
-body.theme-minimalist .bottom-nav {
-  background: var(--pink-surface) !important;
-  border: 1.5px solid var(--border) !important;
-  border-radius: 12px !important;
-  box-shadow: none !important;
-}
-body.theme-minimalist .nav-item.active {
-  color: var(--pink-dark) !important;
-}
-body.theme-minimalist .nav-item.active svg {
-  stroke: var(--pink-dark) !important;
-}
-
-/* 5. Sửa lại Suggest Card (Thẻ gợi ý) */
-body.theme-minimalist .suggest-card {
-  background: #f5c518 !important; /* Nền vàng */
-  color: #3b2311 !important;
-  border: 1.5px solid var(--border) !important;
-}
-body.theme-minimalist .suggest-card .suggest-title,
-body.theme-minimalist .suggest-card .suggest-address,
-body.theme-minimalist .suggest-card .suggest-tag {
-  color: #3b2311 !important;
-}
-
-/* 6. Finance Dashboard (Tổng tài sản) */
-body.theme-minimalist .finance-dashboard {
-  background: var(--pink-primary) !important;
-  color: #fcfaf5 !important;
-  border-radius: 4px !important;
-}
-body.theme-minimalist .finance-box {
-  background: transparent !important;
-  border: 1px solid rgba(252, 250, 245, 0.3) !important;
-  border-radius: 4px !important;
-}
-body.theme-minimalist .finance-box-label,
-body.theme-minimalist .finance-box-val {
-  color: #fcfaf5 !important;
-}
-
-/* 7. Lịch (Calendar) */
-body.theme-minimalist .cal-day.today {
-  background: var(--pink-primary) !important;
-  color: white !important;
-  border-radius: 4px !important;
-}
-/* 9. Các chip lọc (Filter/Category) */
-body.theme-minimalist .chip, 
-body.theme-minimalist .theme-btn,
-body.theme-minimalist .font-btn {
-  background: #ffffff !important;
-  border: 1.5px solid var(--border) !important;
-  border-radius: 4px !important;
-  color: var(--text) !important;
-  box-shadow: none !important;
-}
-body.theme-minimalist .chip.active,
-body.theme-minimalist .theme-btn.active,
-body.theme-minimalist .font-btn.active {
-  background: var(--pink-primary) !important;
-  color: white !important;
-}
-
-/* 10. Icon Box (Đổi sang nền be, viền nâu) */
-body.theme-minimalist .note-icon-box,
-body.theme-minimalist .diary-icon-box,
-body.theme-minimalist .other-card-icon,
-body.theme-minimalist .event-date-box {
-  background: var(--pink-light) !important;
-  border: 1.5px solid var(--border) !important;
-  border-radius: 4px !important;
-  color: var(--pink-dark) !important;
-}
-body.theme-minimalist .note-icon-box svg,
-body.theme-minimalist .diary-icon-box svg,
-body.theme-minimalist .other-card-icon svg,
-body.theme-minimalist .event-date-box svg {
-  stroke: var(--pink-dark) !important;
-  stroke-width: 2 !important;
-}
-
-/* 11. Thẻ bài Địa điểm (Bỏ gradient, dùng nền phẳng) */
-body.theme-minimalist .place-card-title-bar {
-  background: var(--pink-primary) !important;
-  color: white !important;
-  border-radius: 4px !important;
-}
-body.theme-minimalist .place-card-desc {
-  background: var(--pink-bg) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 4px !important;
-}
-
-/* 12. Viền các Nút Xóa / X */
-body.theme-minimalist .place-close-btn {
-  background: var(--pink-surface) !important;
-  border: 1.5px solid var(--border) !important;
-  color: var(--pink-dark) !important;
-  box-shadow: none !important;
-}
-/* ============================================================
-   FIX LỖI GIAO DIỆN CHO THEME MINIMALIST
-   ============================================================ */
-
-/* 1. Sửa lỗi Thanh tìm kiếm (Search Box) bị viền lồng viền */
-body.theme-minimalist .search-box {
-  border: 1.5px solid var(--border) !important;
-  border-radius: 8px !important;
-  background: var(--pink-surface) !important;
-}
-body.theme-minimalist .search-box input {
-  border: none !important;        /* Xóa viền đen bên trong */
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  border-radius: 0 !important;
-}
-body.theme-minimalist .filter-btn {
-  border: 1.5px solid var(--border) !important;
-  border-radius: 8px !important;
-  background: var(--pink-surface) !important;
-}
-
-/* 2. Sửa lỗi Nút "Thêm mục tiêu" bị vuông vức chèn lên khung tròn */
-body.theme-minimalist .bucket-add-row {
-  border: 1.5px solid var(--border) !important;
-  border-radius: 999px !important; /* Bo tròn hoàn toàn */
-  background: var(--pink-surface) !important;
-  padding: 4px 4px 4px 16px !important;
-}
-body.theme-minimalist .bucket-add-btn {
-  border: 1.5px solid var(--border) !important;
-  border-radius: 999px !important; /* Nút cũng phải bo tròn theo */
-  background: var(--pink-primary) !important;
-  color: white !important;
-  margin: 0 !important;
-}
-
-/* 3. Sửa lỗi viền lồng ở các ô nhập tiền tệ (Bảng kê, Thẻ tín dụng) */
-body.theme-minimalist .credit-row,
-body.theme-minimalist .cash-row,
-body.theme-minimalist .rev-row input,
-body.theme-minimalist .rev-date-display {
-  border: 1.5px solid var(--border) !important;
-  border-radius: 6px !important;
-  background: var(--pink-surface) !important;
-}
-body.theme-minimalist .credit-row input,
-body.theme-minimalist .cash-row-input,
-body.theme-minimalist .salary-input-wrap input {
-  border: none !important; /* Xóa viền bên trong */
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-/* 4. Sửa lại Form Modal (Tránh viền quá dày) */
-body.theme-minimalist .field input,
-body.theme-minimalist .field textarea,
-body.theme-minimalist .field select,
-body.theme-minimalist .settings-input {
-  border: 1.5px solid var(--border) !important;
-  border-radius: 6px !important;
-  background: var(--pink-surface) !important;
-  box-shadow: none !important;
-  color: var(--text) !important;
-}
-body.theme-minimalist .field input:focus,
-body.theme-minimalist .field textarea:focus {
-  border-color: var(--pink-dark) !important;
-}
-
-/* 5. Các nút bo tròn khác (Sắp xếp, Sao lưu, Nút X) */
-body.theme-minimalist .sort-btn,
-body.theme-minimalist .backup-btn {
-  border: 1.5px solid var(--border) !important;
-  border-radius: 999px !important;
-  background: var(--pink-surface) !important;
-  color: var(--pink-dark) !important;
-  box-shadow: none !important;
-}
-body.theme-minimalist .place-close-btn,
-body.theme-minimalist .back-btn {
-  border: 1.5px solid var(--border) !important;
-  background: var(--pink-surface) !important;
-  box-shadow: none !important;
-  border-radius: 50% !important;
-}
 /* ===== STREAK TRACKER (Bản sửa lỗi toán học cuối cùng) ===== */
 .streak-tracker-card {
   background: var(--pink-surface);
@@ -4181,6 +3527,7 @@ body.theme-minimalist .back-btn {
 .streak-connector.active {
   opacity: 1;
 }
+
 </style>
 </head>
 <body>
@@ -4398,10 +3745,10 @@ body.theme-minimalist .back-btn {
         <div class="setting-label">Kiểu giao diện</div>
         <div class="setting-options">
           <button class="theme-btn" data-theme="default">Đơn giản</button>
-          <button class="theme-btn" data-theme="vintage">Vintage Scrapbook</button>
+           
           <button class="theme-btn" data-theme="editorial">Editorial Pop</button>
           <button class="theme-btn" data-theme="crayon">🖍️ Bút sáp</button>
-          <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>           <button class="theme-btn" data-theme="winter">❄️ Cozy Winter</button> <button class="theme-btn" data-theme="minimalist">🌿 Minimalist</button>
+          <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>           <button class="theme-btn" data-theme="winter">❄️ Cozy Winter</button>  
         </div>
       </div>
       
@@ -4419,7 +3766,6 @@ body.theme-minimalist .back-btn {
   <div class="setting-options">
     <button class="font-btn active" data-font="quicksand">Quicksand</button>
     <button class="font-btn" data-font="nunito">Nunito</button>
-    <button class="font-btn" data-font="inter">Inter</button>
     <button class="font-btn" data-font="comfortaa">Comfortaa</button>
     <button class="font-btn" data-font="museomoderno">MuseoModerno</button>
   </div>
@@ -5957,16 +5303,16 @@ body.theme-minimalist .back-btn {
 
   function applySettings() {
     document.body.className = '';
-    if (settings.theme === 'vintage') document.body.classList.add('theme-vintage');
+     
     if (settings.theme === 'editorial') document.body.classList.add('theme-editorial');
     if (settings.theme === 'nightsky') document.body.classList.add('theme-nightsky');
     if (settings.theme === 'crayon') document.body.classList.add('theme-crayon');
     if (settings.theme === 'notion') document.body.classList.add('theme-notion');
 if (settings.theme === 'winter') document.body.classList.add('theme-winter');
-if (settings.theme === 'minimalist') document.body.classList.add('theme-minimalist');
+ 
     
     if (settings.font === 'nunito') document.body.classList.add('font-nunito');
-else if (settings.font === 'inter') document.body.classList.add('font-inter');
+ 
 else if (settings.font === 'comfortaa') document.body.classList.add('font-comfortaa');
 else if (settings.font === 'museomoderno') document.body.classList.add('font-museomoderno');
 
