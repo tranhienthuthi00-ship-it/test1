@@ -8,7 +8,7 @@
 <title>📍 Sổ Tay Cá Nhân</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;700&family=Comfortaa:wght@400;500;600;700&family=MuseoModerno:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   :root {
@@ -44,8 +44,10 @@
     --bg-gradient: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
   }
   /* Fonts */
-  body.font-nunito { --font-family: 'Nunito', sans-serif; }
-  body.font-inter { --font-family: 'Inter', sans-serif; }
+body.font-nunito { --font-family: 'Nunito', sans-serif; }
+body.font-inter { --font-family: 'Inter', sans-serif; }
+body.font-comfortaa { --font-family: 'Comfortaa', cursive; }
+body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
 
   body {
     font-family: var(--font-family);
@@ -4010,13 +4012,15 @@
       </div>
 
       <div class="setting-item">
-        <div class="setting-label">Font chữ</div>
-        <div class="setting-options">
-          <button class="font-btn active" data-font="quicksand">Quicksand</button>
-          <button class="font-btn" data-font="nunito">Nunito</button>
-          <button class="font-btn" data-font="inter">Inter</button>
-        </div>
-      </div>
+  <div class="setting-label">Font chữ</div>
+  <div class="setting-options">
+    <button class="font-btn active" data-font="quicksand">Quicksand</button>
+    <button class="font-btn" data-font="nunito">Nunito</button>
+    <button class="font-btn" data-font="inter">Inter</button>
+    <button class="font-btn" data-font="comfortaa">Comfortaa</button>
+    <button class="font-btn" data-font="museomoderno">MuseoModerno</button>
+  </div>
+</div>
     </div>
     
     <button class="save-btn" id="saveSettingsBtn">Lưu thay đổi</button>
@@ -5534,7 +5538,9 @@
     if (settings.theme === 'notion') document.body.classList.add('theme-notion');     if (settings.theme === 'winter') document.body.classList.add('theme-winter');
     
     if (settings.font === 'nunito') document.body.classList.add('font-nunito');
-    else if (settings.font === 'inter') document.body.classList.add('font-inter');
+else if (settings.font === 'inter') document.body.classList.add('font-inter');
+else if (settings.font === 'comfortaa') document.body.classList.add('font-comfortaa');
+else if (settings.font === 'museomoderno') document.body.classList.add('font-museomoderno');
 
     // Apply Custom Color dynamically
     if (settings.primaryColor) {
