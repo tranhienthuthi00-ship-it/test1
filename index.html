@@ -9444,33 +9444,69 @@ function renderStudyCard() {
   $('stProgressCurrent').textContent = studySession.currentIndex + 1;
   $('stProgressTotal').textContent = studySession.queue.length;
 
+  // Tạo HTML cho phần Gợi ý (nếu có ghi chú)
+  let hintHtml = '';
+  if (card.note) {
+    hintHtml = `
+      <button type="button" id="btnShowNote" style="margin-top:12px; background:var(--pink-bg); border:1px solid var(--border); color:var(--text-muted); font-size:12px; font-weight:600; padding:6px 14px; border-radius:999px; cursor:pointer; display:flex; align-items:center; gap:6px; transition:all 0.2s; font-family:inherit;">
+        <svg class="hand-icon" style="width:14px; height:14px; stroke:var(--pink-primary);"><use href="#icon-bulb"/></svg> Xem gợi ý
+      </button>
+      <div id="hintNoteContainer" style="display:none; margin-top:10px; background:var(--pink-bg); padding:12px; border-radius:10px; border:1px solid var(--border); font-size:13.5px; color:var(--text); line-height:1.5; text-align:left; width:100%; animation: fadeIn 0.2s ease;">
+        <b style="color:var(--pink-primary);">Ghi chú:</b> ${esc(card.note)}
+      </div>
+    `;
+  }
+
   // 1 khung duy nhất: study-card chứa câu hỏi + input + nút nghe + nút kiểm tra
   $('stSessionContent').innerHTML = `
     <div class="study-card">
-  <div class="study-card-label">Tiếng Việt</div>
-  <div class="study-card-question">${esc(card.vi)}</div>
+      <div class="study-card-label">Tiếng Việt</div>
+      <div class="study-card-question">${esc(card.vi)}</div>
 
-  <!-- Nút loa: chỉ icon, nằm dưới câu hỏi -->
-  <div style="margin-top:14px; display:flex; justify-content:center;">
-    <button type="button" id="btnPlayHint" style="width:42px; height:42px; border-radius:50%; background:var(--pink-primary); border:none; color:white; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm);">
-      <svg class="hand-icon" style="width:20px; height:20px; stroke:white;"><use href="#icon-bell"/></svg>
-    </button>
-  </div>
+      <!-- Khu vực chứa Loa và Nút Gợi ý -->
+      <div style="margin-top:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
+        
+        <!-- Nút loa -->
+        <button type="button" id="btnPlayHint" style="width:42px; height:42px; border-radius:50%; background:var(--pink-primary); border:none; color:white; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm);">
+          <svg class="hand-icon" style="width:20px; height:20px; stroke:white;"><use href="#icon-bell"/></svg>
+        </button>
+        
+        ${hintHtml}
+        
+      </div>
 
-  <div style="margin-top:20px;">
-    <div class="study-card-label">Dịch sang tiếng Anh</div>
-    <textarea class="study-answer-input" id="stUserAnswer" placeholder="Nhập câu trả lời của bạn..."></textarea>
-  </div>
+      <div style="margin-top:20px;">
+        <div class="study-card-label">Dịch sang tiếng Anh</div>
+        <textarea class="study-answer-input" id="stUserAnswer" placeholder="Nhập câu trả lời của bạn..."></textarea>
+      </div>
 
-  <button class="study-main-btn" style="margin-top:16px;" id="btnCheckAnswer">
-    <svg class="hand-icon"><use href="#icon-check-circle"/></svg>
-    Kiểm tra
-  </button>
-</div>
+      <button class="study-main-btn" style="margin-top:16px;" id="btnCheckAnswer">
+        <svg class="hand-icon"><use href="#icon-check-circle"/></svg>
+        Kiểm tra
+      </button>
+    </div>
   `;
 
+  // Gắn sự kiện
   $('btnCheckAnswer').addEventListener('click', checkAnswer);
   $('btnPlayHint').addEventListener('click', () => speakEnglish(card.en));
+
+  // Sự kiện Ẩn/Hiện Ghi chú
+  const btnShowNote = $('btnShowNote');
+  if (btnShowNote) {
+    btnShowNote.addEventListener('click', () => {
+      const noteContainer = $('hintNoteContainer');
+      const isHidden = noteContainer.style.display === 'none' || noteContainer.style.display === '';
+      
+      if (isHidden) {
+        noteContainer.style.display = 'block';
+        btnShowNote.innerHTML = `<svg class="hand-icon" style="width:14px; height:14px; stroke:var(--pink-primary);"><use href="#icon-bulb"/></svg> Ẩn gợi ý`;
+      } else {
+        noteContainer.style.display = 'none';
+        btnShowNote.innerHTML = `<svg class="hand-icon" style="width:14px; height:14px; stroke:var(--pink-primary);"><use href="#icon-bulb"/></svg> Xem gợi ý`;
+      }
+    });
+  }
 
   setTimeout(() => $('stUserAnswer').focus(), 200);
 }
