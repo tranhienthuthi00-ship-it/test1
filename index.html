@@ -3778,6 +3778,409 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   .bill-tag.paid     { background: #ecfdf5; color: #059669; }
 
   .bill-toggle-wrap { flex-shrink: 0; margin-top: 2px; }
+/* ============================================================
+   THEME MINIMALIST (Retro Bingo / Be - Nâu - Vàng)
+   ============================================================ */
+body.theme-minimalist {
+  /* Bảng màu lấy từ ảnh */
+  --pink-bg: #f4eee1;         /* Nền kem nhạt */
+  --pink-surface: #fcfaf5;    /* Nền thẻ sáng hơn chút */
+  --pink-primary: #5c3a21;    /* Nâu đậm (Text chính, viền) */
+  --pink-light: #e8dac1;      /* Be đậm (Nền phụ) */
+  --pink-dark: #3b2311;       /* Nâu đen (Tiêu đề) */
+  --text: #4a2e15;            /* Nâu trầm */
+  --text-muted: #8c735b;      /* Nâu xám */
+  --border: #5c3a21;          /* Viền nâu đậm giống kẻ bảng */
+  
+  --bg-gradient: #f4eee1;
+  --font-family: 'Inter', 'Quicksand', sans-serif;
+  
+  /* Màu cho các Tag */
+  --want-bg: #e8dac1; --want-text: #5c3a21;
+  --done-bg: #f4eee1; --done-text: #8c735b;
+  --cafe-bg: #f4eee1; --cafe-text: #5c3a21;
+  --food-bg: #f4eee1; --food-text: #b37d4c;
+  --travel-bg: #e8dac1; --travel-text: #5c3a21;
+  --note-bg: #f4eee1; --note-text: #8c735b;
+  --task-bg: #e8dac1; --task-text: #3b2311;
+  --tip-bg: #f4eee1; --tip-text: #d97706;
+
+  /* Ép phẳng toàn bộ (Bỏ đổ bóng) */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+}
+
+/* 1. Viền mỏng bao quanh các thẻ giống kẻ bảng Bingo */
+body.theme-minimalist .card,
+body.theme-minimalist .goal-widget,
+body.theme-minimalist .dash-chart-widget,
+body.theme-minimalist .suggest-card,
+body.theme-minimalist .compact-card,
+body.theme-minimalist .salary-card,
+body.theme-minimalist .bucket-list-container,
+body.theme-minimalist .event-card,
+body.theme-minimalist .timeline-card,
+body.theme-minimalist .braces-timeline-card,
+body.theme-minimalist .diary-compact-card,
+body.theme-minimalist .note-list-card,
+body.theme-minimalist .search-box,
+body.theme-minimalist .filter-btn,
+body.theme-minimalist .calendar-grid,
+body.theme-minimalist .settings-group,
+body.theme-minimalist .place-card-item,
+body.theme-minimalist .finance-dashboard {
+  border: 1.5px solid var(--border) !important;
+  border-radius: 4px !important; /* Vuông vức hơn một chút giống thẻ giấy */
+  background: var(--pink-surface) !important;
+  box-shadow: none !important;
+}
+
+/* 2. Nút FAB (Nút thêm) màu Vàng giống Ngôi sao trong ảnh */
+body.theme-minimalist .fab {
+  background: #f5c518 !important; /* Vàng sao */
+  color: #3b2311 !important;
+  border: 2px solid var(--border) !important;
+  box-shadow: 2px 2px 0px var(--border) !important;
+  border-radius: 50% !important;
+}
+body.theme-minimalist .fab svg {
+  stroke: #3b2311 !important;
+}
+
+/* 3. Nút Save và các thành phần active */
+body.theme-minimalist .save-btn,
+body.theme-minimalist .bucket-add-btn {
+  background: var(--pink-primary) !important;
+  color: white !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+
+/* 4. Thanh Bottom Nav */
+body.theme-minimalist .bottom-nav {
+  background: var(--pink-surface) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+body.theme-minimalist .nav-item.active {
+  color: var(--pink-dark) !important;
+}
+body.theme-minimalist .nav-item.active svg {
+  stroke: var(--pink-dark) !important;
+}
+
+/* 5. Sửa lại Suggest Card (Thẻ gợi ý) */
+body.theme-minimalist .suggest-card {
+  background: #f5c518 !important; /* Nền vàng */
+  color: #3b2311 !important;
+  border: 1.5px solid var(--border) !important;
+}
+body.theme-minimalist .suggest-card .suggest-title,
+body.theme-minimalist .suggest-card .suggest-address,
+body.theme-minimalist .suggest-card .suggest-tag {
+  color: #3b2311 !important;
+}
+
+/* 6. Finance Dashboard (Tổng tài sản) */
+body.theme-minimalist .finance-dashboard {
+  background: var(--pink-primary) !important;
+  color: #fcfaf5 !important;
+  border-radius: 4px !important;
+}
+body.theme-minimalist .finance-box {
+  background: transparent !important;
+  border: 1px solid rgba(252, 250, 245, 0.3) !important;
+  border-radius: 4px !important;
+}
+body.theme-minimalist .finance-box-label,
+body.theme-minimalist .finance-box-val {
+  color: #fcfaf5 !important;
+}
+
+/* 7. Lịch (Calendar) */
+body.theme-minimalist .cal-day.today {
+  background: var(--pink-primary) !important;
+  color: white !important;
+  border-radius: 4px !important;
+}
+/* 9. Các chip lọc (Filter/Category) */
+body.theme-minimalist .chip, 
+body.theme-minimalist .theme-btn,
+body.theme-minimalist .font-btn {
+  background: #ffffff !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 4px !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+body.theme-minimalist .chip.active,
+body.theme-minimalist .theme-btn.active,
+body.theme-minimalist .font-btn.active {
+  background: var(--pink-primary) !important;
+  color: white !important;
+}
+
+/* 10. Icon Box (Đổi sang nền be, viền nâu) */
+body.theme-minimalist .note-icon-box,
+body.theme-minimalist .diary-icon-box,
+body.theme-minimalist .other-card-icon,
+body.theme-minimalist .event-date-box {
+  background: var(--pink-light) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 4px !important;
+  color: var(--pink-dark) !important;
+}
+body.theme-minimalist .note-icon-box svg,
+body.theme-minimalist .diary-icon-box svg,
+body.theme-minimalist .other-card-icon svg,
+body.theme-minimalist .event-date-box svg {
+  stroke: var(--pink-dark) !important;
+  stroke-width: 2 !important;
+}
+
+/* 11. Thẻ bài Địa điểm (Bỏ gradient, dùng nền phẳng) */
+body.theme-minimalist .place-card-title-bar {
+  background: var(--pink-primary) !important;
+  color: white !important;
+  border-radius: 4px !important;
+}
+body.theme-minimalist .place-card-desc {
+  background: var(--pink-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
+}
+
+/* 12. Viền các Nút Xóa / X */
+body.theme-minimalist .place-close-btn {
+  background: var(--pink-surface) !important;
+  border: 1.5px solid var(--border) !important;
+  color: var(--pink-dark) !important;
+  box-shadow: none !important;
+}
+/* ============================================================
+   FIX LỖI GIAO DIỆN CHO THEME MINIMALIST
+   ============================================================ */
+
+/* 1. Sửa lỗi Thanh tìm kiếm (Search Box) bị viền lồng viền */
+body.theme-minimalist .search-box {
+  border: 1.5px solid var(--border) !important;
+  border-radius: 8px !important;
+  background: var(--pink-surface) !important;
+}
+body.theme-minimalist .search-box input {
+  border: none !important;        /* Xóa viền đen bên trong */
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+}
+body.theme-minimalist .filter-btn {
+  border: 1.5px solid var(--border) !important;
+  border-radius: 8px !important;
+  background: var(--pink-surface) !important;
+}
+
+/* 2. Sửa lỗi Nút "Thêm mục tiêu" bị vuông vức chèn lên khung tròn */
+body.theme-minimalist .bucket-add-row {
+  border: 1.5px solid var(--border) !important;
+  border-radius: 999px !important; /* Bo tròn hoàn toàn */
+  background: var(--pink-surface) !important;
+  padding: 4px 4px 4px 16px !important;
+}
+body.theme-minimalist .bucket-add-btn {
+  border: 1.5px solid var(--border) !important;
+  border-radius: 999px !important; /* Nút cũng phải bo tròn theo */
+  background: var(--pink-primary) !important;
+  color: white !important;
+  margin: 0 !important;
+}
+
+/* 3. Sửa lỗi viền lồng ở các ô nhập tiền tệ (Bảng kê, Thẻ tín dụng) */
+body.theme-minimalist .credit-row,
+body.theme-minimalist .cash-row,
+body.theme-minimalist .rev-row input,
+body.theme-minimalist .rev-date-display {
+  border: 1.5px solid var(--border) !important;
+  border-radius: 6px !important;
+  background: var(--pink-surface) !important;
+}
+body.theme-minimalist .credit-row input,
+body.theme-minimalist .cash-row-input,
+body.theme-minimalist .salary-input-wrap input {
+  border: none !important; /* Xóa viền bên trong */
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* 4. Sửa lại Form Modal (Tránh viền quá dày) */
+body.theme-minimalist .field input,
+body.theme-minimalist .field textarea,
+body.theme-minimalist .field select,
+body.theme-minimalist .settings-input {
+  border: 1.5px solid var(--border) !important;
+  border-radius: 6px !important;
+  background: var(--pink-surface) !important;
+  box-shadow: none !important;
+  color: var(--text) !important;
+}
+body.theme-minimalist .field input:focus,
+body.theme-minimalist .field textarea:focus {
+  border-color: var(--pink-dark) !important;
+}
+
+/* 5. Các nút bo tròn khác (Sắp xếp, Sao lưu, Nút X) */
+body.theme-minimalist .sort-btn,
+body.theme-minimalist .backup-btn {
+  border: 1.5px solid var(--border) !important;
+  border-radius: 999px !important;
+  background: var(--pink-surface) !important;
+  color: var(--pink-dark) !important;
+  box-shadow: none !important;
+}
+body.theme-minimalist .place-close-btn,
+body.theme-minimalist .back-btn {
+  border: 1.5px solid var(--border) !important;
+  background: var(--pink-surface) !important;
+  box-shadow: none !important;
+  border-radius: 50% !important;
+}
+/* ===== STREAK TRACKER (Bản sửa lỗi toán học cuối cùng) ===== */
+.streak-tracker-card {
+  background: var(--pink-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+}
+.streak-tracker-card:active { transform: scale(0.98); }
+
+.streak-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.streak-left { display: flex; align-items: center; gap: 6px; }
+.streak-flame { font-size: 22px; line-height: 1; }
+.streak-num {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ef4444;
+  line-height: 1;
+}
+.streak-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 2px;
+}
+
+/* Dàn ngang: Dùng Flex: 1 để chia đều 7 phần bằng nhau tuyệt đối */
+.streak-week-bar {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  padding: 0 4px;
+  margin-top: 10px;
+}
+
+/* Thanh nền hồng nhạt */
+.streak-week-bar::before {
+  content: '';
+  position: absolute;
+  bottom: 12px; 
+  left: 14px; 
+  right: 14px; 
+  height: 8px;
+  background: var(--pink-light);
+  border-radius: 4px;
+  transform: translateY(50%);
+  z-index: 0;
+}
+
+/* Từng ngày: flex: 1 là chìa khóa để chia đều khoảng cách */
+.streak-day {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  z-index: 2; 
+}
+
+.streak-day-lbl {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+/* Vòng tròn: Dùng box-shadow thay vì border để không bao giờ có khe hở */
+.streak-day-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--pink-surface);
+  box-shadow: inset 0 0 0 2px var(--pink-light); /* Thay thế border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.streak-day-circle svg {
+  width: 12px;
+  height: 12px;
+  stroke: white;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s ease;
+}
+
+/* Khi đã hoàn thành: Đổi màu, dùng box-shadow đậm */
+/* 1. Sửa vòng tròn đã hoàn thành: Bỏ viền đậm */
+.streak-day.done .streak-day-circle {
+  background: var(--pink-primary); 
+  box-shadow: none; /* Xóa viền đậm */
+}
+.streak-day.done .streak-day-circle svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Thanh nối: Nằm dưới vòng tròn, kéo dài đến tâm ngày tiếp theo */
+/* 2. Sửa thanh nối: Bỏ viền trên/dưới */
+.streak-connector {
+  position: absolute;
+  bottom: 12px; 
+  left: 50%;
+  width: calc(100% + 1px);
+  height: 24px; 
+  transform: translateY(50%); 
+  background: var(--pink-primary);
+  border: none; /* Xóa viền trên/dưới */
+  box-sizing: border-box;
+  z-index: 1; 
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.streak-connector.active {
+  opacity: 1;
+}
 </style>
 </head>
 <body>
@@ -3998,7 +4401,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
           <button class="theme-btn" data-theme="vintage">Vintage Scrapbook</button>
           <button class="theme-btn" data-theme="editorial">Editorial Pop</button>
           <button class="theme-btn" data-theme="crayon">🖍️ Bút sáp</button>
-          <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>           <button class="theme-btn" data-theme="winter">❄️ Cozy Winter</button>
+          <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>           <button class="theme-btn" data-theme="winter">❄️ Cozy Winter</button> <button class="theme-btn" data-theme="minimalist">🌿 Minimalist</button>
         </div>
       </div>
       
@@ -5260,6 +5663,24 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     </div>
   </div>
 </div>
+<!-- Popup Nhắc nhở thanh toán -->
+<div class="confirm-overlay" id="paymentReminderOverlay">
+  <div class="confirm-box" style="max-width: 340px; text-align: left;">
+    <div class="ico" style="color: var(--pink-primary); justify-content: center; margin-bottom: 12px;">
+      <svg class="hand-icon"><use href="#icon-bell"/></svg>
+    </div>
+    <h4 style="text-align: center; margin-bottom: 8px;">Sắp đến hạn thanh toán!</h4>
+    <p style="text-align: center; margin-bottom: 16px;">Bạn có <b id="reminderBillCount" style="color: var(--pink-primary); font-size: 16px;">0</b> khoản cần chú ý:</p>
+    
+    <!-- Danh sách các bill sẽ được JS đổ vào đây -->
+    <div id="reminderBillList" style="background: var(--pink-bg); border-radius: 12px; padding: 10px 14px; margin-bottom: 20px; border: 1px solid var(--border); max-height: 180px; overflow-y: auto;"></div>
+    
+    <div class="confirm-actions">
+      <button class="cancel" id="btnPaymentLater">Để sau</button>
+      <button class="confirm" id="btnPaymentNow">Xem ngay</button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -5540,7 +5961,9 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     if (settings.theme === 'editorial') document.body.classList.add('theme-editorial');
     if (settings.theme === 'nightsky') document.body.classList.add('theme-nightsky');
     if (settings.theme === 'crayon') document.body.classList.add('theme-crayon');
-    if (settings.theme === 'notion') document.body.classList.add('theme-notion');     if (settings.theme === 'winter') document.body.classList.add('theme-winter');
+    if (settings.theme === 'notion') document.body.classList.add('theme-notion');
+if (settings.theme === 'winter') document.body.classList.add('theme-winter');
+if (settings.theme === 'minimalist') document.body.classList.add('theme-minimalist');
     
     if (settings.font === 'nunito') document.body.classList.add('font-nunito');
 else if (settings.font === 'inter') document.body.classList.add('font-inter');
@@ -5921,29 +6344,77 @@ const NOTE_STATUS = {
     const box = document.getElementById('homeDiaryPrompt');
     if (!box) return;
 
-    const todayStr = new Date().toISOString().split('T')[0];
-    
-    // Tìm xem hôm nay đã có nhật ký chưa
-    const todayDiaries = diaries.filter(d => d.date === todayStr);
+    const todayStr = new Date().toLocaleDateString('sv').split(' ')[0];
+    const todayDiaries = diaries.filter(d => d.date === todayStr && !d.deletedAt);
     
     if (todayDiaries.length > 0) {
-      // Đã viết -> Hiển thị trạng thái hoàn thành
-      const d = todayDiaries[todayDiaries.length - 1];
-      box.innerHTML = `
-        <div class="compact-card" style="background: var(--pink-bg) !important; border: 1px solid var(--border) !important; display: flex; align-items: center; gap: 12px; padding: 14px; cursor: pointer;" onclick="openDiaryModal('${d.id}')">
-          <div class="diary-icon-box" style="background: var(--pink-surface); color: var(--pink-primary); border: 1px solid var(--border);">
-            <svg class="hand-icon"><use href="#icon-check-circle"/></svg>
-          </div>
-          <div style="flex: 1; min-width: 0;">
-            <div style="font-size: 13px; font-weight: 700; color: var(--pink-primary); margin-bottom: 2px;">Today's diary is done! ˗ˏˋ ★ ˎˊ˗</div>
-            <div style="font-size: 13px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-              "${esc(d.title || d.content)}"
+      const active = diaries.filter(d => !d.deletedAt);
+      const dateSet = new Set(active.map(d => d.date));
+      let current = 0;
+      let check = new Date();
+      check.setHours(0,0,0,0);
+      
+      if (!dateSet.has(todayStr)) check.setDate(check.getDate() - 1);
+      
+      while (true) {
+        const s = check.toLocaleDateString('sv').split(' ')[0];
+        if (dateSet.has(s)) { current++; check.setDate(check.getDate() - 1); } 
+        else break;
+      }
+      
+      const today = new Date(); 
+      today.setHours(0,0,0,0);
+      const dayOfWeek = today.getDay();
+      const diffToMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+      const monday = new Date(today);
+      monday.setDate(diffToMonday);
+      
+      const weekNames = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+      let weekData = [];
+      
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        const dStr = d.toLocaleDateString('sv').split(' ')[0];
+        weekData.push(dateSet.has(dStr));
+      }
+
+      let weekHtml = '';
+      for (let i = 0; i < 7; i++) {
+        const isDone = weekData[i];
+        const nextIsDone = i < 6 ? weekData[i + 1] : false;
+        
+        // Thanh nối active nếu CẢ ngày hôm nay VÀ ngày mai đều done
+        const isConnectorActive = isDone && nextIsDone;
+
+        weekHtml += `
+          <div class="streak-day ${isDone ? 'done' : ''}">
+            <div class="streak-day-lbl">${weekNames[i]}</div>
+            <div class="streak-day-circle">
+              <svg class="hand-icon"><use href="#icon-check-circle"/></svg>
             </div>
+            ${i < 6 ? `<div class="streak-connector ${isConnectorActive ? 'active' : ''}"></div>` : ''}
+          </div>
+        `;
+      }
+
+      box.innerHTML = `
+        <div class="streak-tracker-card" onclick="openDiaryModal('${todayDiaries[todayDiaries.length - 1].id}')">
+          <div class="streak-header-row">
+            <div class="streak-left">
+              <div class="streak-flame">🔥</div>
+              <div class="streak-num">${current}</div>
+              <div class="streak-text">day streak</div>
+            </div>
+            <div style="font-size:11px; color:var(--text-muted); font-weight:600;">Xem lại ></div>
+          </div>
+          
+          <div class="streak-week-bar">
+            ${weekHtml}
           </div>
         </div>
       `;
     } else {
-      // Chưa viết -> Hiển thị thanh nhắc nhở và ô nhập nhanh
       box.innerHTML = `
         <div class="compact-card" style="border: 1px solid var(--border) !important; padding: 14px;">
           <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
@@ -5959,25 +6430,16 @@ const NOTE_STATUS = {
         </div>
       `;
       
-      // Gắn sự kiện cho nút Lưu
       const btn = document.getElementById('quickDiarySaveBtn');
       const input = document.getElementById('quickDiaryInput');
-      
       if (btn && input) {
-        // Bấm nút Lưu
-        btn.addEventListener('click', () => {
-          saveQuickDiary(input.value);
-        });
-        
-        // Nhấn Enter cũng Lưu
+        btn.addEventListener('click', () => saveQuickDiary(input.value));
         input.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') {
-            saveQuickDiary(input.value);
-          }
+          if (e.key === 'Enter') saveQuickDiary(input.value);
         });
       }
     }
-  }
+}
 
   // Hàm xử lý lưu nhật ký nhanh
   function saveQuickDiary(content) {
@@ -9459,43 +9921,123 @@ loadFlashcards();
   loadFlashcards();
   switchTab('home');
 
-  // --- BẮT ĐẦU CODE NHẮC NHỞ HỌC TỪ VỰNG ---
+  //// --- BẮT ĐẦU CODE NHẮC NHỞ (HỌC TẬP & THANH TOÁN) ---
+  
+  // 1. Hàm kiểm tra và hiển thị nhắc nhở thanh toán
+  // 1. Hàm kiểm tra và hiển thị nhắc nhở thanh toán
+  function showPaymentReminder() {
+    let displayBills = bills.filter(b => !b.deletedAt);
+    
+    // Lấy thêm bill thẻ tín dụng ảo (nếu có)
+    const fin = calcFinance();
+    if (fin.creditTotal > 0) {
+      let ccBill = bills.find(b => b.id === 'bill_credit_card');
+      if (!ccBill) {
+        ccBill = { id: 'bill_credit_card', name: 'Thẻ tín dụng', amount: fin.creditTotal, dueDate: toLocalDateStr(new Date()), repeat: 'monthly', isVirtual: true };
+      } else {
+        ccBill.amount = fin.creditTotal;
+      }
+      const idx = displayBills.findIndex(b => b.id === 'bill_credit_card');
+      if (idx >= 0) displayBills[idx] = ccBill;
+      else displayBills.push(ccBill);
+    }
+
+    // Lọc các bill sắp đến hạn (<= 3 ngày) hoặc quá hạn và chưa thanh toán
+    const urgentBills = displayBills.filter(b => {
+      const st = getBillStatus(b);
+      if (st.isPaid) return false;
+      return daysUntil(st.nextDue) <= 3;
+    }).sort((a, b) => {
+      // Ưu tiên bill quá hạn / gần ngày nhất lên đầu
+      return daysUntil(getBillStatus(a).nextDue) - daysUntil(getBillStatus(b).nextDue);
+    });
+
+    if (urgentBills.length > 0) {
+      $('reminderBillCount').textContent = urgentBills.length;
+      
+      // Render danh sách bill
+      const listHtml = urgentBills.map(b => {
+        const st = getBillStatus(b);
+        const diff = daysUntil(st.nextDue);
+        
+        let statusText = '';
+        let statusColor = 'var(--pink-dark)'; // Màu chữ mặc định theo theme
+        
+        if (diff < 0) {
+          statusText = `Quá hạn ${Math.abs(diff)} ngày`;
+          statusColor = '#dc2626'; // Đỏ báo động (chỉ dùng cho chữ cảnh báo)
+        } else if (diff === 0) {
+          statusText = `Hạn chót HÔM NAY`;
+          statusColor = '#dc2626';
+        } else {
+          statusText = `Còn ${diff} ngày`;
+          statusColor = '#d97706'; // Cam
+        }
+
+        return `
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border); padding: 8px 0; last:border-none;">
+            <div style="flex: 1; min-width: 0; padding-right: 8px;">
+              <div style="font-size: 13.5px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${esc(b.name)}</div>
+              <div style="font-size: 11.5px; font-weight: 600; color: ${statusColor}; margin-top: 2px;">${statusText}</div>
+            </div>
+            <div style="font-size: 13px; font-weight: 700; color: var(--pink-primary); white-space: nowrap;">${fmtMoney(b.amount)}</div>
+          </div>
+        `;
+      }).join('');
+
+      $('reminderBillList').innerHTML = listHtml;
+      
+      setTimeout(() => {
+        $('paymentReminderOverlay').classList.add('show');
+      }, 500);
+    }
+  }
+
+  // 2. Hàm kiểm tra nhắc nhở Học tiếng Anh (sẽ gọi đến Thanh toán nếu không có thẻ)
   function checkStudyReminder() {
-    // Đảm bảo hàm getDueCards đã tồn tại
     if (typeof getDueCards === 'function') {
       const due = getDueCards();
       if (due.length > 0) {
         $('reminderDueCount').textContent = due.length;
-        
-        // Đợi 1 giây để app load xong giao diện mượt mà rồi mới bật popup
         setTimeout(() => {
           $('studyReminderOverlay').classList.add('show');
         }, 1000); 
+        return; // Có thẻ học thì dừng lại, đợi người dùng tương tác
       }
     }
+    // Nếu KHÔNG có thẻ học nào cần ôn -> Chuyển thẳng sang nhắc thanh toán
+    showPaymentReminder();
   }
 
-  // Nút "Để sau" -> Tắt popup
+  // 3. Sự kiện nút Nhắc nhở Học tiếng Anh
   $('btnRemindLater').addEventListener('click', () => {
     $('studyReminderOverlay').classList.remove('show');
+    // Tắt nhắc học -> Hiện nhắc thanh toán
+    setTimeout(showPaymentReminder, 500);
   });
 
-  // Nút "Học ngay" -> Chuyển sang tab Học và bắt đầu học luôn
   $('btnRemindNow').addEventListener('click', () => {
     $('studyReminderOverlay').classList.remove('show');
-    
-    // Chuyển sang tab Study
     document.querySelector('.nav-item[data-tab="study"]').click();
-    
-    // Đợi 1 nhịp ngắn để tab hiển thị xong rồi bắt đầu phiên học
     setTimeout(() => {
-      if (typeof startStudySession === 'function') {
-        startStudySession();
-      }
+      if (typeof startStudySession === 'function') startStudySession();
+      // Vẫn kiểm tra thanh toán sau khi chuyển tab
+      setTimeout(showPaymentReminder, 1000);
     }, 300);
   });
 
-  // Gọi hàm kiểm tra ngay khi mở app
+  // 4. Sự kiện nút Nhắc nhở Thanh toán
+  $('btnPaymentLater').addEventListener('click', () => {
+    $('paymentReminderOverlay').classList.remove('show');
+  });
+
+  $('btnPaymentNow').addEventListener('click', () => {
+    $('paymentReminderOverlay').classList.remove('show');
+    // Chuyển sang tab Tài chính
+    document.querySelector('.nav-item[data-tab="finance"]').click();
+  });
+
+  // 5. Kích hoạt kiểm tra ngay khi mở app
   checkStudyReminder();
   // --- KẾT THÚC CODE NHẮC NHỞ ---
 
@@ -9818,6 +10360,24 @@ if (newCashHeader) {
     editBillId = null;
     toast('🗑️ Đã xóa khoản');
   });
+  function calculateDiaryStreak() {
+  const active = diaries.filter(d => !d.deletedAt);
+  if (active.length === 0) return { current: 0, best: 0 };
+  const dateSet = new Set(active.map(d => d.date));
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const todayStr = today.toLocaleDateString('sv').split(' ')[0];
+  let current = 0;
+  let check = new Date(today);
+  if (!dateSet.has(todayStr)) check.setDate(check.getDate() - 1);
+  while (true) {
+    const s = check.toLocaleDateString('sv').split(' ')[0];
+    if (dateSet.has(s)) { current++; check.setDate(check.getDate() - 1); } 
+    else break;
+  }
+  return { current: current, best: 0 }; 
+  // (Phần best có thể bỏ qua nếu không hiển thị ở đây)
+}
 })();
 </script>
 </body>
