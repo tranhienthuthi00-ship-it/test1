@@ -9328,7 +9328,7 @@ loadFlashcards();
     const urgentBills = displayBills.filter(b => {
       const st = getBillStatus(b);
       if (st.isPaid) return false;
-      return daysUntil(st.nextDue) <= 3;
+      return daysUntil(st.nextDue) <= 7;
     }).sort((a, b) => {
       // Ưu tiên bill quá hạn / gần ngày nhất lên đầu
       return daysUntil(getBillStatus(a).nextDue) - daysUntil(getBillStatus(b).nextDue);
