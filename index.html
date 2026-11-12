@@ -4371,22 +4371,27 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
         <div class="asset-list" id="assetListContainer"></div>
       </div>
       <!-- Bảng kê tiền mới -->
-      <div class="compact-card">
-        <div class="compact-card-header">
-          <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-card"/></svg> Bảng kê tiền mới</div>
-          <div class="compact-card-total" id="newCashTotalLabel">0 đ</div>
-        </div>
-        <div class="cash-list-vertical" id="newCashGridContainer"></div>
-        <div class="toggle-row" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
-          <div>
-            <div class="toggle-label" style="font-size:13px;">Tính vào báo cáo</div>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="newCashInclude" checked>
-            <span class="slider"></span>
-          </label>
-        </div>
+<div class="compact-card">
+  <div class="compact-card-header" id="newCashHeader" style="cursor:pointer; margin-bottom:0;">
+    <div class="compact-card-title"><svg class="hand-icon"><use href="#icon-card"/></svg> Bảng kê tiền mới</div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div class="compact-card-total" id="newCashTotalLabel">0 đ</div>
+      <svg class="hand-icon" id="newCashChevron" style="width:18px; height:18px; stroke:var(--text-muted); transition:transform 0.25s;"><use href="#icon-chevron-down"/></svg>
+    </div>
+  </div>
+  <div id="newCashBody" style="display:none; padding-top:16px;">
+    <div class="cash-list-vertical" id="newCashGridContainer"></div>
+    <div class="toggle-row" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
+      <div>
+        <div class="toggle-label" style="font-size:13px;">Tính vào báo cáo</div>
       </div>
+      <label class="switch">
+        <input type="checkbox" id="newCashInclude" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+</div>
       <!-- Bảng kê chi tiêu thẻ tín dụng -->
       <div class="compact-card">
         <div class="compact-card-header">
@@ -9686,6 +9691,16 @@ loadFlashcards();
       chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
     });
   }
+ const newCashHeader = $('newCashHeader');
+if (newCashHeader) {
+  newCashHeader.addEventListener('click', () => {
+    const body = $('newCashBody');
+    const chevron = $('newCashChevron');
+    const isOpen = body.style.display !== 'none';
+    body.style.display = isOpen ? 'none' : 'block';
+    chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  });
+}
   window.openBillModal = function(id) {
     editBillId = id || null;
     const deleteBtn = $('deleteBillBtn');
