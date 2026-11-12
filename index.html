@@ -2691,17 +2691,6 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   .compact-card-title, .goal-title, .event-title, .note-title-text, .diary-title-text {
     color: var(--pink-dark) !important;
   }
-  /* Ẩn hàng chọn Loại ghi chú trong Form vì đã có nút nhập riêng */
-  #noteTypePicker {
-    display: none !important;
-  }
-  
-  /* Ẩn luôn cái nhãn chữ "LOẠI GHI CHÚ" ở phía trên */
-  #noteTypePicker + label,
-  label[for="noteTypePicker"] {
-    display: none !important;
-  }
-  
   /* 1. Cái nhãn "2/6 mục tiêu" */
   .bucket-progress {
     background: var(--pink-light) !important; /* Nền màu Be */
@@ -4634,15 +4623,6 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     <div class="opt" data-icon="heart"><svg class="hand-icon"><use href="#icon-heart"/></svg></div>
   </div>
 </div>
-    <div class="field">
-      <label>Loại ghi chú</label>
-      <div class="picker" id="noteTypePicker">
-        <div class="opt" data-type="note">Ghi chú</div>
-        <div class="opt" data-type="task">Việc làm</div>
-        <div class="opt" data-type="tip">Tips</div>
-        <div class="opt active" data-type="knowledge">📖 Kiến thức</div>
-      </div>
-    </div>
     <div class="field">
   <label>Trạng thái</label>
   <select id="noteStatusSelect" class="settings-input" style="padding: 12px 16px; font-weight:600;">
