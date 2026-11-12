@@ -4729,6 +4729,10 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     <div class="field">
       <label>Ngày</label>
       <input type="date" id="diaryDateInput">
+        <div class="field">
+  <label>Vị trí</label>
+  <input type="text" id="diaryLocation" placeholder="VD: Hà Nội, Cà phê Ngõ Nhỏ, Đà Lạt...">
+</div>
     </div>
 
     <div class="field">
@@ -5791,15 +5795,16 @@ const NOTE_STATUS = {
 
     // Tạo object nhật ký mới
     const newDiary = {
-      id: 'd_' + Date.now(),
-      date: todayStr,
-      title: 'Chưa có tiêu đề',
-      content: text,
-      mood: '😌 Bình yên',
-      createdAt: Date.now(),
-      hasMilktea: false,    // ← MỚI
-      milkteaNote: ''       // ← MỚI
-    };
+  id: 'd_' + Date.now(),
+  date: todayStr,
+  title: 'Chưa có tiêu đề',
+  content: text,
+  mood: '😌 Bình yên',
+  location: '',            // ✅ MỚI (nhật ký nhanh không có vị trí)
+  createdAt: Date.now(),
+  hasMilktea: false,
+  milkteaNote: ''
+};
 
     diaries.push(newDiary);
     saveData();
@@ -5999,9 +6004,10 @@ const NOTE_STATUS = {
     }
 
     const matchedDiaries = diaries.filter(d => 
-      (d.title||'').toLowerCase().includes(q) || 
-      (d.content||'').toLowerCase().includes(q)
-    ).slice(0, 3);
+  (d.title||'').toLowerCase().includes(q) || 
+  (d.content||'').toLowerCase().includes(q) ||
+  (d.location||'').toLowerCase().includes(q)
+).slice(0, 3);
 
     if (matchedDiaries.length > 0) {
       html += `<div class="search-res-category">Nhật ký</div>`;
@@ -6336,7 +6342,13 @@ const NOTE_STATUS = {
     <div class="tl-dot"></div>
     <div class="tl-date">${fmtDate(d.date)}</div>
     <div class="tl-card" onclick="handleCardClick(event, '${d.id}', 'diary')">
-      <div class="tl-title">${esc(d.title) || 'Không có tiêu đề'}</div>
+      
+      <!-- HÀNG 1: Tiêu đề (trái) + Vị trí (phải) -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 4px;">
+        <div class="tl-title" style="flex: 1; min-width: 0; margin-bottom: 0;">${esc(d.title) || 'Không có tiêu đề'}</div>
+        ${d.location ? `<span style="font-size: 11px; font-weight: 600; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; margin-top: 2px;">📍 ${esc(d.location)}</span>` : ''}
+      </div>
+
       ${d.mood ? `<div class="tl-mood">${esc(d.mood)}</div>` : ''}
       <div class="tl-content">${esc(d.content)}</div>
     </div>
@@ -6480,12 +6492,15 @@ const NOTE_STATUS = {
         
         if (dayDiaries.length > 0) {
           $('calDayList').innerHTML = dayDiaries.map(d => `
-            <div class="cal-day-list-item" onclick="openDiaryModal('${d.id}')">
-              <div class="timeline-title">${esc(d.title) || 'Không có tiêu đề'}</div>
-              ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
-              <div class="timeline-content" style="margin-top:4px; font-size:13px;">${esc(d.content)}</div>
-            </div>
-          `).join('');
+  <div class="cal-day-list-item" onclick="openDiaryModal('${d.id}')">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+      <div class="timeline-title" style="flex: 1; min-width: 0; margin-bottom: 0;">${esc(d.title) || 'Không có tiêu đề'}</div>
+      ${d.location ? `<span style="font-size: 11px; font-weight: 600; color: var(--text-muted); white-space: nowrap; flex-shrink: 0;">📍 ${esc(d.location)}</span>` : ''}
+    </div>
+    ${d.mood ? `<div class="timeline-mood"><svg class="hand-icon"><use href="#icon-mood"/></svg> ${esc(d.mood)}</div>` : ''}
+    <div class="timeline-content" style="margin-top:4px; font-size:13px;">${esc(d.content)}</div>
+  </div>
+`).join('');
         } else {
           openDiaryModal(null);
           $('diaryDateInput').value = dateStr;
@@ -7886,6 +7901,7 @@ const NOTE_STATUS = {
       $('diaryModalTitle').textContent = 'Sửa nhật ký';
       $('diaryDateInput').value = d.date || new Date().toISOString().split('T')[0];
       $('diaryTitle').value = d.title || '';
+      $('diaryLocation').value = d.location || '';
       $('diaryContent').value = d.content || '';
       setDiaryMood(d.mood || '');
       $('diaryMilkteaToggle').checked = !!d.hasMilktea;
@@ -7895,6 +7911,7 @@ const NOTE_STATUS = {
       $('diaryModalTitle').textContent = 'Viết nhật ký';
       $('diaryDateInput').value = new Date().toISOString().split('T')[0];
       $('diaryTitle').value = '';
+      $('diaryLocation').value = '';
       $('diaryContent').value = '';
       setDiaryMood('');
       $('diaryMilkteaToggle').checked = false;
@@ -8288,6 +8305,7 @@ const NOTE_STATUS = {
       title, 
       content, 
       mood: formDiaryMood,
+      location: $('diaryLocation').value.trim(),
       hasMilktea: $('diaryMilkteaToggle').checked,
       milkteaNote: $('diaryMilkteaNote').value.trim()
     };
