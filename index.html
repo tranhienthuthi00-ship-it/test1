@@ -4283,9 +4283,14 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
       <input type="text" id="fcTagInput" placeholder="VD: Thì quá khứ, Giao tiếp">
     </div>
 
-    <button class="save-btn" id="fcSaveBtn">
-      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu thẻ
-    </button>
+    <div style="display: flex; gap: 10px; margin-top: 12px;">
+      <button class="save-btn" id="fcSaveBtn" style="margin-top: 0; flex: 1;">
+        <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu thẻ
+      </button>
+      <button class="save-btn" id="deleteFcBtn" style="background:#fef2f2;color:#dc2626;box-shadow:none;margin-top: 0; display:none; border: 1px solid #fecaca; flex: 1;">
+        <svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa
+      </button>
+    </div>
   </div>
 </div>
 <!-- Modal Thêm hàng loạt -->
@@ -8452,8 +8457,26 @@ const NOTE_STATUS = {
   }
 
   $('confirmCancel').addEventListener('click', () => { pendingDeleteId = null; $('confirmOverlay').classList.remove('show'); });
-  $('confirmOk').addEventListener('click', () => {
+ $('confirmOk').addEventListener('click', () => {
     if (pendingDeleteId) {
+      
+      // ✅ XỬ LÝ RIÊNG CHO FLASHCARD (không dùng switchTab)
+      if (pendingDeleteType === 'flashcard') {
+        flashcards = flashcards.filter(c => c.id !== pendingDeleteId);
+        saveFlashcards();
+        editFcId = null;
+        
+        // Cập nhật lại giao diện tab Học
+        renderStudyMain();
+        if (currentStudyView === 'manage') renderFcManageList();
+        
+        pendingDeleteId = null;
+        $('confirmOverlay').classList.remove('show');
+        toast('🗑️ Đã xóa thẻ');
+        return;   // ← THOÁT SỚM, không chạy saveData/switchTab bên dưới
+      }
+      
+      // CÁC CASE CŨ GIỮ NGUYÊN
       if (pendingDeleteType === 'place') places = places.filter(p => p.id !== pendingDeleteId);
       else if (pendingDeleteType === 'note') notes = notes.filter(n => n.id !== pendingDeleteId);
       else if (pendingDeleteType === 'diary') diaries = diaries.filter(d => d.id !== pendingDeleteId);
@@ -8466,6 +8489,7 @@ const NOTE_STATUS = {
     }
     pendingDeleteId = null; $('confirmOverlay').classList.remove('show');
   });
+  
 window.openPlaceCardPopup = function(id) {
     const p = places.find(x => x.id === id);
     if (!p) return;
@@ -9039,6 +9063,8 @@ window.exitStudySession = function() {
 // Mở modal thêm/sửa
 window.openFcModal = function(id) {
   editFcId = id || null;
+  const deleteBtn = $('deleteFcBtn');   // ✅ THÊM DÒNG NÀY
+  
   if (id) {
     const c = flashcards.find(x => x.id === id);
     if (!c) return;
@@ -9047,12 +9073,16 @@ window.openFcModal = function(id) {
     $('fcEnInput').value = c.en || '';
     $('fcNoteInput').value = c.note || '';
     $('fcTagInput').value = c.tag || '';
+    
+    if (deleteBtn) deleteBtn.style.display = 'flex';   // ✅ HIỆN khi sửa
   } else {
     $('fcModalTitle').textContent = 'Thêm thẻ';
     $('fcViInput').value = '';
     $('fcEnInput').value = '';
     $('fcNoteInput').value = '';
     $('fcTagInput').value = '';
+    
+    if (deleteBtn) deleteBtn.style.display = 'none';   // ✅ ẨN khi thêm
   }
   $('fcModalOverlay').classList.add('show');
   setTimeout(() => $('fcViInput').focus(), 300);
@@ -9062,6 +9092,27 @@ $('closeFcModal').addEventListener('click', () => {
   $('fcModalOverlay').classList.remove('show');
   editFcId = null;
 });
+// ✅ CODE MỚI: Xử lý nút Xóa thẻ flashcard
+const deleteFcBtn = $('deleteFcBtn');
+if (deleteFcBtn) {
+  deleteFcBtn.addEventListener('click', () => {
+    if (!editFcId) return;
+    
+    const card = flashcards.find(c => c.id === editFcId);
+    if (!card) return;
+    
+    // Đóng form sửa trước
+    $('fcModalOverlay').classList.remove('show');
+    
+    // Chờ 0.2s rồi hiện bảng xác nhận xóa
+    setTimeout(() => {
+      $('confirmMsg').textContent = `Xóa thẻ "${card.vi}"?`;
+      pendingDeleteId = editFcId;
+      pendingDeleteType = 'flashcard';
+      $('confirmOverlay').classList.add('show');
+    }, 200);
+  });
+}
 // Parse 1 dòng: tách thành 4 trường {vi, en, note, tag}
 function parseBulkLine(line) {
   if (!line || !line.trim()) return null;
