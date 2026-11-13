@@ -1995,6 +1995,130 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     transition: transform 0.2s;
   }
   .place-card-item:active { transform: scale(0.96); }
+/* ===== STAMP "ĐÃ ĐI" — HÌNH TRÒN CON DẤU ===== */
+@keyframes stampAppear {
+  0%   { transform: rotate(-14deg) scale(0);     opacity: 0; }
+  60%  { transform: rotate(-14deg) scale(1.18);  opacity: 0.95; }
+  100% { transform: rotate(-14deg) scale(1);     opacity: 0.92; }
+}
+
+.visited-stamp {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff8f8;
+  border: 2.5px solid #c02626;
+  color: #c02626;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-14deg);
+  z-index: 5;
+  box-shadow: 
+    inset 0 0 0 2px rgba(192, 38, 38, 0.12),
+    0 0 0 1.5px rgba(255, 255, 255, 0.95),
+    2px 3px 7px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  animation: stampAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0.92;
+  line-height: 1;
+  font-family: inherit;
+  text-align: center;
+}
+
+/* Vòng tròn bên trong tạo hiệu ứng con dấu 2 lớp */
+.visited-stamp::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1.5px solid #c02626;
+  border-radius: 50%;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.visited-stamp .stamp-text {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.1;
+  z-index: 1;
+  padding: 0 4px;
+}
+
+/* Stamp cho giao diện Danh sách — tròn to giống Thẻ bài nhưng nhỏ hơn chút */
+.visited-stamp.in-list {
+  width: 54px;
+  height: 54px;
+  top: 12px;
+  right: 12px;
+}
+
+.visited-stamp.in-list .stamp-text {
+  font-size: 10px;
+  line-height: 1.05;
+}
+/* ===== LÀM XÁM ĐỊA ĐIỂM ĐÃ ĐI ===== */
+
+/* --- Giao diện Danh sách --- */
+.note-list-card.is-done {
+  background: #fafafa !important;
+}
+.note-list-card.is-done .note-title-text {
+  color: #9ca3af !important;
+}
+.note-list-card.is-done .note-icon-box {
+  background: #f3f4f6 !important;
+  color: #9ca3af !important;
+  filter: grayscale(1);
+}
+.note-list-card.is-done .note-icon-box svg {
+  stroke: #9ca3af !important;
+  opacity: 0.7;
+}
+.note-list-card.is-done .tag {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+.note-list-card.is-done .note-desc-text,
+.note-list-card.is-done .note-date-text {
+  color: #9ca3af !important;
+  opacity: 0.85;
+}
+
+/* --- Giao diện Thẻ bài --- */
+.place-card-item.is-done .place-card-image {
+  background: #e5e7eb !important;
+  border-color: #d1d5db !important;
+}
+.place-card-item.is-done .place-card-image svg {
+  stroke: #9ca3af !important;
+  opacity: 0.55;
+}
+.place-card-item.is-done .place-card-title-bar {
+  background: #9ca3af !important;
+  color: #ffffff !important;
+}
+.place-card-item.is-done .place-card-title-bar .stars svg {
+  fill: #d1d5db !important;
+  stroke: #d1d5db !important;
+  opacity: 0.7;
+}
+.place-card-item.is-done .place-card-desc {
+  background: #f3f4f6 !important;
+  color: #9ca3af !important;
+  opacity: 0.9;
+}
+.place-card-item.is-done .place-card-footer {
+  color: #9ca3af !important;
+  opacity: 0.75;
+}
   .place-card-image {
     background: var(--pink-bg);
     border: 2px solid var(--pink-surface);
@@ -4283,14 +4407,9 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
       <input type="text" id="fcTagInput" placeholder="VD: Thì quá khứ, Giao tiếp">
     </div>
 
-    <div style="display: flex; gap: 10px; margin-top: 12px;">
-      <button class="save-btn" id="fcSaveBtn" style="margin-top: 0; flex: 1;">
-        <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu thẻ
-      </button>
-      <button class="save-btn" id="deleteFcBtn" style="background:#fef2f2;color:#dc2626;box-shadow:none;margin-top: 0; display:none; border: 1px solid #fecaca; flex: 1;">
-        <svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa
-      </button>
-    </div>
+    <button class="save-btn" id="fcSaveBtn">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu thẻ
+    </button>
   </div>
 </div>
 <!-- Modal Thêm hàng loạt -->
@@ -6249,10 +6368,11 @@ const NOTE_STATUS = {
         const info = INFO[p.type] || INFO.cafe;
         const st = STATUS[p.status] || STATUS.want;
         return `
-            <div class="note-list-card" onclick="handleCardClick(event, '${p.id}', 'place')" style="display: flex; flex-direction: column; padding: 14px; gap: 6px;">
+            <div class="note-list-card ${p.status === 'done' ? 'is-done' : ''}" onclick="handleCardClick(event, '${p.id}', 'place')" style="display: flex; flex-direction: column; padding: 14px; gap: 6px; position: relative;">
+              ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-text">ĐÃ<br>ĐI</div></div>` : ''}
               
               <!-- HÀNG 1: Tên địa điểm (Trái) - Tỉnh thành (Phải) -->
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; ${p.status === 'done' ? 'padding-right: 64px;' : ''}">
                 <div style="flex: 1; margin-right: 8px; display: flex; flex-direction: column;">   <div class="note-title-text" style="white-space: normal; line-height: 1.3;">${esc(p.name)}</div>   ${p.rating > 0 ? `<div style="font-size: 11.5px; color: #f59e0b; font-weight: 700; margin-top: 2px;">⭐ ${p.rating}/5</div>` : ''} </div>
                 ${p.city ? `<span style="font-size: 11px; font-weight: 600; color: var(--text-muted); white-space: nowrap;">📍 ${esc(p.city)}</span>` : ''}
               </div>
@@ -6260,8 +6380,9 @@ const NOTE_STATUS = {
               <!-- HÀNG 2: Ngày & Trạng thái -->
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                 ${p.date ? `<span class="note-date-text"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(p.date)}</span>` : ''}
-                 
-              </div>
+${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-text">ĐÃ<br>ĐI</div></div>` : ''}
+   
+</div>
 
               <!-- HÀNG 3: Loại địa điểm -->
               <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 2px;">
@@ -6290,10 +6411,10 @@ const NOTE_STATUS = {
           starsHtml += `<svg class="hand-icon" viewBox="0 0 24 24" style="${i <= (p.rating||0) ? 'fill:white; stroke:white;' : 'fill:none; stroke:white; opacity:0.4;'}"><use href="#icon-star"/></svg>`;
         }
         return `
-          <div class="place-card-item" onclick="openPlaceCardPopup('${p.id}')">
+          <div class="place-card-item ${p.status === 'done' ? 'is-done' : ''}" onclick="openPlaceCardPopup('${p.id}')">
             <div class="place-card-image">
               <svg class="hand-icon"><use href="${info.icon}"/></svg>
-              ${p.status === 'done' ? `<div style="position:absolute; top:-6px; right:-6px; background:#10b981; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1.5px solid white;"><svg class="hand-icon" style="width:10px; height:10px; stroke:white;"><use href="#icon-check-circle"/></svg></div>` : ''}
+              ${p.status === 'done' ? `<div class="visited-stamp"><div class="stamp-text">ĐÃ<br>ĐI</div></div>` : ''}
             </div>
             <div class="place-card-title-bar">
               <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${esc(p.name)}</span>
@@ -6908,7 +7029,7 @@ const NOTE_STATUS = {
       <div class="place-card-item" style="margin: 0; padding: 12px; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);">
         <div class="place-card-image" style="height: 120px;">
           <svg class="hand-icon" style="width: 60px; height: 60px;"><use href="${info.icon}"/></svg>
-          ${randomP.status === 'done' ? `<div style="position:absolute; top:-6px; right:-6px; background:#10b981; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid white;"><svg class="hand-icon" style="width:12px; height:12px; stroke:white;"><use href="#icon-check-circle"/></svg></div>` : ''}
+          ${randomP.status === 'done' ? `<div class="visited-stamp"><div class="stamp-text">ĐÃ<br>ĐI</div></div>` : ''}
         </div>
         
         <div class="place-card-title-bar" style="padding: 10px;">
@@ -8457,26 +8578,8 @@ const NOTE_STATUS = {
   }
 
   $('confirmCancel').addEventListener('click', () => { pendingDeleteId = null; $('confirmOverlay').classList.remove('show'); });
- $('confirmOk').addEventListener('click', () => {
+  $('confirmOk').addEventListener('click', () => {
     if (pendingDeleteId) {
-      
-      // ✅ XỬ LÝ RIÊNG CHO FLASHCARD (không dùng switchTab)
-      if (pendingDeleteType === 'flashcard') {
-        flashcards = flashcards.filter(c => c.id !== pendingDeleteId);
-        saveFlashcards();
-        editFcId = null;
-        
-        // Cập nhật lại giao diện tab Học
-        renderStudyMain();
-        if (currentStudyView === 'manage') renderFcManageList();
-        
-        pendingDeleteId = null;
-        $('confirmOverlay').classList.remove('show');
-        toast('🗑️ Đã xóa thẻ');
-        return;   // ← THOÁT SỚM, không chạy saveData/switchTab bên dưới
-      }
-      
-      // CÁC CASE CŨ GIỮ NGUYÊN
       if (pendingDeleteType === 'place') places = places.filter(p => p.id !== pendingDeleteId);
       else if (pendingDeleteType === 'note') notes = notes.filter(n => n.id !== pendingDeleteId);
       else if (pendingDeleteType === 'diary') diaries = diaries.filter(d => d.id !== pendingDeleteId);
@@ -8489,7 +8592,6 @@ const NOTE_STATUS = {
     }
     pendingDeleteId = null; $('confirmOverlay').classList.remove('show');
   });
-  
 window.openPlaceCardPopup = function(id) {
     const p = places.find(x => x.id === id);
     if (!p) return;
@@ -8504,7 +8606,7 @@ window.openPlaceCardPopup = function(id) {
       <div class="place-card-item" style="margin-bottom:0; padding: 20px; border-width: 6px; border-radius: 24px; box-shadow: 8px 8px 0px var(--pink-light);">
         <div class="place-card-image" style="height: 160px; border-radius: 16px;">
           <svg class="hand-icon" style="width:80px; height:80px;"><use href="${info.icon}"/></svg>
-          ${p.status === 'done' ? `<div style="position:absolute; top:-8px; right:-8px; background:#10b981; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid white;"><svg class="hand-icon" style="width:16px; height:16px; stroke:white;"><use href="#icon-check-circle"/></svg></div>` : ''}
+          ${p.status === 'done' ? `<div class="visited-stamp" style="width: 76px; height: 76px; top: 10px; right: 10px;"><div class="stamp-text" style="font-size: 13px;">ĐÃ<br>ĐI</div></div>` : ''}
         </div>
         
         <div class="place-card-title-bar" style="padding: 12px 16px; font-size: 18px; border-radius: 999px;">
@@ -9063,8 +9165,6 @@ window.exitStudySession = function() {
 // Mở modal thêm/sửa
 window.openFcModal = function(id) {
   editFcId = id || null;
-  const deleteBtn = $('deleteFcBtn');   // ✅ THÊM DÒNG NÀY
-  
   if (id) {
     const c = flashcards.find(x => x.id === id);
     if (!c) return;
@@ -9073,16 +9173,12 @@ window.openFcModal = function(id) {
     $('fcEnInput').value = c.en || '';
     $('fcNoteInput').value = c.note || '';
     $('fcTagInput').value = c.tag || '';
-    
-    if (deleteBtn) deleteBtn.style.display = 'flex';   // ✅ HIỆN khi sửa
   } else {
     $('fcModalTitle').textContent = 'Thêm thẻ';
     $('fcViInput').value = '';
     $('fcEnInput').value = '';
     $('fcNoteInput').value = '';
     $('fcTagInput').value = '';
-    
-    if (deleteBtn) deleteBtn.style.display = 'none';   // ✅ ẨN khi thêm
   }
   $('fcModalOverlay').classList.add('show');
   setTimeout(() => $('fcViInput').focus(), 300);
@@ -9092,27 +9188,6 @@ $('closeFcModal').addEventListener('click', () => {
   $('fcModalOverlay').classList.remove('show');
   editFcId = null;
 });
-// ✅ CODE MỚI: Xử lý nút Xóa thẻ flashcard
-const deleteFcBtn = $('deleteFcBtn');
-if (deleteFcBtn) {
-  deleteFcBtn.addEventListener('click', () => {
-    if (!editFcId) return;
-    
-    const card = flashcards.find(c => c.id === editFcId);
-    if (!card) return;
-    
-    // Đóng form sửa trước
-    $('fcModalOverlay').classList.remove('show');
-    
-    // Chờ 0.2s rồi hiện bảng xác nhận xóa
-    setTimeout(() => {
-      $('confirmMsg').textContent = `Xóa thẻ "${card.vi}"?`;
-      pendingDeleteId = editFcId;
-      pendingDeleteType = 'flashcard';
-      $('confirmOverlay').classList.add('show');
-    }, 200);
-  });
-}
 // Parse 1 dòng: tách thành 4 trường {vi, en, note, tag}
 function parseBulkLine(line) {
   if (!line || !line.trim()) return null;
