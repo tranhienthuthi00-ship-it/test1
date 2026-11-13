@@ -318,20 +318,20 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     display: flex; align-items: center; gap: 12px; cursor: pointer;
     transition: transform 0.2s;
   }
-  .diary-compact-card.braces-card { border-left: 4px solid #3b82f6; }
+  .diary-compact-card.braces-card { border-left: 4px solid var(--pink-primary); }
   
   .diary-icon-box {
     width: 40px; height: 40px; border-radius: 12px; background: var(--pink-bg);
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     color: var(--pink-primary);
   }
-  .diary-compact-card.braces-card .diary-icon-box { background: #eff6ff; color: #3b82f6; }
+  .diary-compact-card.braces-card .diary-icon-box { background: var(--pink-bg); color: var(--pink-primary); }
   .diary-icon-box svg { width: 20px; height: 20px; }
   
   .diary-content-box { flex: 1; min-width: 0; }
   .diary-date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
   .diary-date-text { font-size: 11px; font-weight: 700; color: var(--pink-primary); }
-  .diary-compact-card.braces-card .diary-date-text { color: #2563eb; }
+  .diary-compact-card.braces-card .diary-date-text { color: var(--pink-primary); }
   .diary-mood-text { font-size: 11px; background: var(--pink-bg); padding: 2px 6px; border-radius: 4px; color: var(--pink-dark); }
   
   .diary-title-text { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;}
@@ -438,16 +438,16 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
 
   /* Braces Specific */
   .braces-dashboard-card {
-    background: linear-gradient(135deg, #eff6ff, #dbeafe);
-    border-radius: 20px; padding: 16px; margin-bottom: 20px;
-    border: 1px solid #bfdbfe; box-shadow: 0 4px 12px rgba(59,130,246,0.1);
-    display: flex; justify-content: space-between; align-items: center;
-    margin: 0 16px 20px;
-  }
-  .braces-dashboard-card .stat-box { flex: 1; text-align: center; }
-  .braces-dashboard-card .stat-val { font-size: 20px; font-weight: 700; color: #1d4ed8; margin-bottom: 2px; }
-  .braces-dashboard-card .stat-lbl { font-size: 11px; font-weight: 600; color: #3b82f6; text-transform: uppercase; }
-  .braces-dashboard-card .divider { width: 1px; height: 40px; background: #bfdbfe; }
+  background: linear-gradient(135deg, var(--pink-bg), var(--pink-light));
+  border-radius: 20px; padding: 16px; margin-bottom: 20px;
+  border: 1px solid var(--pink-light); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: flex; justify-content: space-between; align-items: center;
+  margin: 0 16px 20px;
+}
+.braces-dashboard-card .stat-box { flex: 1; text-align: center; }
+.braces-dashboard-card .stat-val { font-size: 20px; font-weight: 700; color: var(--pink-dark); margin-bottom: 2px; }
+.braces-dashboard-card .stat-lbl { font-size: 11px; font-weight: 600; color: var(--pink-primary); text-transform: uppercase; }
+.braces-dashboard-card .divider { width: 1px; height: 40px; background: var(--pink-light); }
 
   .braces-timeline-wrap { padding: 0 16px 20px; position: relative; }
   .braces-timeline-wrap::before {
@@ -2997,16 +2997,16 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     z-index: 0;
   }
   #bracesTimelineWrap::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    bottom: 10px;
-    left: 22px;
-    width: 2px;
-    background: #bfdbfe;
-    border-radius: 2px;
-    z-index: 0;
-  }
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 22px;
+  width: 2px;
+  background: var(--pink-light);
+  border-radius: 2px;
+  z-index: 0;
+}
 
   /* Item trong timeline (mỗi ngày) */
   .tl-item {
@@ -3031,9 +3031,9 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     z-index: 1;
   }
   #bracesTimelineWrap .tl-dot {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px #eff6ff;
-  }
+  border-color: var(--pink-primary);
+  box-shadow: 0 0 0 3px var(--pink-bg);
+}
 
   /* Ngày tháng - đơn giản, canh trái */
   .tl-date {
@@ -3043,8 +3043,8 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     margin-bottom: 2px;
   }
   #bracesTimelineWrap .tl-date {
-    color: #2563eb;
-  }
+  color: var(--pink-primary);
+}
 
   /* Thẻ nội dung bên dưới ngày */
   .tl-card {
@@ -4725,9 +4725,14 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
       <input type="url" id="placeLink" placeholder="https://...">
     </div>
 
-    <button class="save-btn" id="savePlaceBtn">
-      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu địa điểm
-    </button>
+    <div style="display: flex; gap: 10px; margin-top: 12px;">
+  <button class="save-btn" id="savePlaceBtn" style="margin-top: 0; flex: 1;">
+    <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu địa điểm
+  </button>
+  <button class="save-btn" id="deletePlaceBtn" style="background:#fef2f2;color:#dc2626;box-shadow:none;margin-top: 0; display:none; border: 1px solid #fecaca; flex: 1;">
+    <svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa
+  </button>
+</div>
   </div>
 </div>
 
@@ -4894,9 +4899,14 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
       <textarea id="diaryContent" placeholder="Hôm nay tôi đã..." style="min-height: 150px;"></textarea>
     </div>
 
-    <button class="save-btn" id="saveDiaryBtn">
-      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu nhật ký
-    </button>
+    <div style="display: flex; gap: 10px; margin-top: 12px;">
+  <button class="save-btn" id="saveDiaryBtn" style="margin-top: 0; flex: 1;">
+    <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu nhật ký
+  </button>
+  <button class="save-btn" id="deleteDiaryBtn" style="background:#fef2f2;color:#dc2626;box-shadow:none;margin-top: 0; display:none; border: 1px solid #fecaca; flex: 1;">
+    <svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa
+  </button>
+</div>
   </div>
 </div>
 
@@ -4930,9 +4940,14 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
       <textarea id="bracesContent" placeholder="Bác sĩ siết răng, thay thun..." style="min-height: 120px;"></textarea>
     </div>
 
-    <button class="save-btn" id="saveBracesBtn">
-      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu nhật ký
-    </button>
+    <div style="display: flex; gap: 10px; margin-top: 12px;">
+  <button class="save-btn" id="saveBracesBtn" style="margin-top: 0; flex: 1;">
+    <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu nhật ký
+  </button>
+  <button class="save-btn" id="deleteBracesBtn" style="background:#fef2f2;color:#dc2626;box-shadow:none;margin-top: 0; display:none; border: 1px solid #fecaca; flex: 1;">
+    <svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa
+  </button>
+</div>
   </div>
 </div>
 
@@ -7873,6 +7888,7 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
   /* ==================== FORMS ==================== */
   function openPlaceModal(id) {
     editPlaceId = id || null;
+    const deleteBtn = $('deletePlaceBtn');
     if (id) {
       const p = places.find(x => x.id === id);
       if (!p) return;
@@ -7887,12 +7903,14 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
       setFormType(p.type || 'cafe');
       setFormStatus(p.status || 'want');
       setFormRating(p.rating || 0);
+      if (deleteBtn) deleteBtn.style.display = 'flex';
     } else {
       $('placeModalTitle').textContent = 'Thêm địa điểm';
       $('placeName').value = ''; $('placeCity').value = ''; $('placeAddress').value = ''; 
       $('placeDate').value = new Date().toISOString().split('T')[0]; $('placeHashtags').value = ''; 
       $('placeNote').value = ''; $('placeLink').value = '';
       setFormType('cafe'); setFormStatus('want'); setFormRating(0);
+      if (deleteBtn) deleteBtn.style.display = 'none';
     }
     $('placeOverlay').classList.add('show');
     setTimeout(() => $('placeName').focus(), 300);
@@ -8020,33 +8038,37 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
   }
 
   function openDiaryModal(id) {
-    editDiaryId = id || null;
-    if (id) {
-      const d = diaries.find(x => x.id === id);
-      if (!d) return;
-      $('diaryModalTitle').textContent = 'Sửa nhật ký';
-      $('diaryDateInput').value = d.date || new Date().toISOString().split('T')[0];
-      $('diaryTitle').value = d.title || '';
-      $('diaryLocation').value = d.location || '';
-      $('diaryContent').value = d.content || '';
-      setDiaryMood(d.mood || '');
-      $('diaryMilkteaToggle').checked = !!d.hasMilktea;
-      $('diaryMilkteaNote').value = d.milkteaNote || '';
-      $('milkteaNoteField').style.display = d.hasMilktea ? 'block' : 'none';
-    } else {
-      $('diaryModalTitle').textContent = 'Viết nhật ký';
-      $('diaryDateInput').value = new Date().toISOString().split('T')[0];
-      $('diaryTitle').value = '';
-      $('diaryLocation').value = '';
-      $('diaryContent').value = '';
-      setDiaryMood('');
-      $('diaryMilkteaToggle').checked = false;
-      $('diaryMilkteaNote').value = '';
-      $('milkteaNoteField').style.display = 'none';
-    }
-    $('diaryOverlay').classList.add('show');
-    setTimeout(() => $('diaryTitle').focus(), 300);
+  editDiaryId = id || null;
+  const deleteBtn = $('deleteDiaryBtn');                          // ✅
+  
+  if (id) {
+    const d = diaries.find(x => x.id === id);
+    if (!d) return;
+    $('diaryModalTitle').textContent = 'Sửa nhật ký';
+    $('diaryDateInput').value = d.date || toLocalDateStr(new Date());
+    $('diaryTitle').value = d.title || '';
+    $('diaryContent').value = d.content || '';
+    setDiaryMood(d.mood || '');
+    $('diaryMilkteaToggle').checked = !!d.hasMilktea;
+    $('diaryMilkteaNote').value = d.milkteaNote || '';
+    $('milkteaNoteField').style.display = d.hasMilktea ? 'block' : 'none';
+    
+    if (deleteBtn) deleteBtn.style.display = 'flex';              // ✅
+  } else {
+    $('diaryModalTitle').textContent = 'Viết nhật ký';
+    $('diaryDateInput').value = toLocalDateStr(new Date());
+    $('diaryTitle').value = '';
+    $('diaryContent').value = '';
+    setDiaryMood('');
+    $('diaryMilkteaToggle').checked = false;
+    $('diaryMilkteaNote').value = '';
+    $('milkteaNoteField').style.display = 'none';
+    
+    if (deleteBtn) deleteBtn.style.display = 'none';              // ✅
   }
+  $('diaryOverlay').classList.add('show');
+  setTimeout(() => $('diaryTitle').focus(), 300);
+}
   function closeDiaryModal() { $('diaryOverlay').classList.remove('show'); editDiaryId = null; }
 
   function setDiaryMood(mood) {
@@ -8059,27 +8081,33 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
   }
 
   function openBracesModal(id) {
-    editBracesId = id || null;
-    if (id) {
-      const b = braces.find(x => x.id === id);
-      if (!b) return;
-      $('bracesModalTitle').textContent = 'Sửa nhật ký Niềng răng';
-      $('bracesDateInput').value = b.date || new Date().toISOString().split('T')[0];
-      $('bracesAmount').value = b.amount ? b.amount.toLocaleString('vi-VN') : '';
-      $('bracesAmountRange').value = b.amount || 0;
-      $('bracesTitle').value = b.title || '';
-      $('bracesContent').value = b.content || '';
-    } else {
-      $('bracesModalTitle').textContent = 'Thêm nhật ký Niềng răng';
-      $('bracesDateInput').value = new Date().toISOString().split('T')[0];
-      $('bracesAmount').value = '';
-      $('bracesAmountRange').value = 0;
-      $('bracesTitle').value = '';
-      $('bracesContent').value = '';
-    }
-    $('bracesOverlay').classList.add('show');
-    setTimeout(() => $('bracesTitle').focus(), 300);
+  editBracesId = id || null;
+  const deleteBtn = $('deleteBracesBtn');                         // ✅
+  
+  if (id) {
+    const b = braces.find(x => x.id === id);
+    if (!b) return;
+    $('bracesModalTitle').textContent = 'Sửa nhật ký Niềng răng';
+    $('bracesDateInput').value = b.date || toLocalDateStr(new Date());
+    $('bracesAmount').value = b.amount ? b.amount.toLocaleString('vi-VN') : '';
+    $('bracesAmountRange').value = b.amount || 0;
+    $('bracesTitle').value = b.title || '';
+    $('bracesContent').value = b.content || '';
+    
+    if (deleteBtn) deleteBtn.style.display = 'flex';              // ✅
+  } else {
+    $('bracesModalTitle').textContent = 'Thêm nhật ký Niềng răng';
+    $('bracesDateInput').value = toLocalDateStr(new Date());
+    $('bracesAmount').value = '';
+    $('bracesAmountRange').value = 0;
+    $('bracesTitle').value = '';
+    $('bracesContent').value = '';
+    
+    if (deleteBtn) deleteBtn.style.display = 'none';              // ✅
   }
+  $('bracesOverlay').classList.add('show');
+  setTimeout(() => $('bracesTitle').focus(), 300);
+}
   function closeBracesModal() { $('bracesOverlay').classList.remove('show'); editBracesId = null; }
 
   $('bracesAmountRange').addEventListener('input', (e) => { $('bracesAmount').value = Number(e.target.value).toLocaleString('vi-VN'); });
@@ -8339,13 +8367,49 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
   $('btnAddCredit').addEventListener('click', () => window.openCreditModal(null));
 
   $('closePlaceModal').addEventListener('click', closePlaceModal);
+  // ✅ Nút Xóa trong form Sửa địa điểm
+const deletePlaceBtn = $('deletePlaceBtn');
+if (deletePlaceBtn) {
+  deletePlaceBtn.addEventListener('click', () => {
+    if (!editPlaceId) return;
+    const id = editPlaceId;
+    $('placeOverlay').classList.remove('show');
+    setTimeout(() => {
+      askDelete(id, 'place');
+    }, 200);
+  });
+}
   $('closeNoteModal').addEventListener('click', closeNoteModal);
   $('closeDiaryModal').addEventListener('click', closeDiaryModal);
+  // ✅ Nút Xóa trong form Sửa nhật ký
+const deleteDiaryBtn = $('deleteDiaryBtn');
+if (deleteDiaryBtn) {
+  deleteDiaryBtn.addEventListener('click', () => {
+    if (!editDiaryId) return;
+    const id = editDiaryId;
+    $('diaryOverlay').classList.remove('show');
+    setTimeout(() => {
+      askDelete(id, 'diary');
+    }, 200);
+  });
+}
   $('diaryMilkteaToggle').addEventListener('change', (e) => {
     $('milkteaNoteField').style.display = e.target.checked ? 'block' : 'none';
     if (e.target.checked) setTimeout(() => $('diaryMilkteaNote').focus(), 100);
   });
   $('closeBracesModal').addEventListener('click', closeBracesModal);
+  // ✅ Nút Xóa trong form Sửa nhật ký niềng răng
+const deleteBracesBtn = $('deleteBracesBtn');
+if (deleteBracesBtn) {
+  deleteBracesBtn.addEventListener('click', () => {
+    if (!editBracesId) return;
+    const id = editBracesId;
+    $('bracesOverlay').classList.remove('show');
+    setTimeout(() => {
+      askDelete(id, 'braces');
+    }, 200);
+  });
+}
   $('closeAssetModal').addEventListener('click', closeAssetModal);
   $('closeCreditModal').addEventListener('click', closeCreditModal);
   $('closeEventModal').addEventListener('click', closeEventModal);
