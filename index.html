@@ -9203,6 +9203,10 @@ function checkAnswer() {
       </div>
     </div>
   `;
+  // Tự động đọc đáp án tiếng Anh sau khi hiện kết quả
+  setTimeout(() => {
+    speakEnglish(card.en);
+  }, 300);
 }
 
 window.rateCard = function(rating) {
@@ -9703,17 +9707,45 @@ document.querySelectorAll('.study-filter-chip').forEach(chip => {
 
 // Âm thanh
 window.speakEnglish = function(text) {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'en-US';
-    utter.rate = 0.9;
-    window.speechSynthesis.speak(utter);
-  } else {
+  if (!('speechSynthesis' in window)) {
     toast('⚠️ Trình duyệt không hỗ trợ đọc');
+    return;
   }
-};
+  
+  window.speechSynthesis.cancel(); // Ngắt âm thanh cũ
+  
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = 0.9;  // Tốc độ tự nhiên
+  utter.pitch = 1.0; 
 
+  const voices = window.speechSynthesis.getVoices();
+  
+  // 1. ƯU TIÊN SỐ 1: Tìm giọng Evan (Dù là Evan thường hay Evan Enhanced)
+  let selectedVoice = voices.find(v => v.name.includes('Evan'));
+
+  // 2. Nếu máy không có Evan, mới tìm các giọng xịn khác
+  if (!selectedVoice) {
+    const premiumVoices = [
+      'Samantha', 'Alex', 'Daniel', 'Karen', // Apple
+      'Google US English', 'Google UK English Female', // Google
+      'Microsoft Aria Online', 'Microsoft Jenny Online' // Microsoft
+    ];
+    for (let name of premiumVoices) {
+      selectedVoice = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
+      if (selectedVoice) break;
+    }
+  }
+
+  // 3. Nếu vẫn không có, lấy đại một giọng tiếng Anh mặc định
+  if (!selectedVoice) {
+    selectedVoice = voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en'));
+  }
+
+  if (selectedVoice) utter.voice = selectedVoice;
+  
+  window.speechSynthesis.speak(utter);
+};
 // Export
 $('btnExportCards').addEventListener('click', () => {
   if (flashcards.length === 0) return toast('Chưa có thẻ để xuất');
