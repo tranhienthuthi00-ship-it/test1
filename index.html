@@ -4393,6 +4393,14 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
       </div>
     </div>
   </div>
+  <!-- Thanh tìm kiếm thẻ -->
+    <div style="padding: 0 16px 10px;">
+      <div class="search-box" style="box-shadow: none; border: 1.5px solid var(--border); padding: 10px 14px;">
+        <svg class="hand-icon"><use href="#icon-search"/></svg>
+        <input type="text" id="searchFcInput" placeholder="Tìm thẻ tiếng Việt hoặc tiếng Anh...">
+        <button class="clear-search" id="clearSearchFc"><svg class="hand-icon" style="width:12px;height:12px"><use href="#icon-x"/></svg></button>
+      </div>
+    </div>
     <div class="study-filter-chips">
       <div class="study-filter-chip active" data-filter="all">Tất cả</div>
       <div class="study-filter-chip" data-filter="new">Chưa học</div>
@@ -4923,9 +4931,14 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
       <textarea id="diaryContent" placeholder="Hôm nay tôi đã..." style="min-height: 150px;"></textarea>
     </div>
 
-    <button class="save-btn" id="saveDiaryBtn">
-      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu nhật ký
-    </button>
+    <div style="display: flex; gap: 10px; margin-top: 12px;">
+      <button class="save-btn" id="saveDiaryBtn" style="margin-top: 0; flex: 1;">
+        <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu
+      </button>
+      <button class="save-btn" id="deleteDiaryBtn" style="background:#fef2f2;color:#dc2626;box-shadow:none;margin-top: 0; display:none; border: 1px solid #fecaca; flex: 1;">
+        <svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa
+      </button>
+    </div>
   </div>
 </div>
 
@@ -8050,6 +8063,8 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
 
   function openDiaryModal(id) {
     editDiaryId = id || null;
+    const deleteBtn = $('deleteDiaryBtn'); // Lấy nút xóa
+
     if (id) {
       const d = diaries.find(x => x.id === id);
       if (!d) return;
@@ -8062,6 +8077,8 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
       $('diaryMilkteaToggle').checked = !!d.hasMilktea;
       $('diaryMilkteaNote').value = d.milkteaNote || '';
       $('milkteaNoteField').style.display = d.hasMilktea ? 'block' : 'none';
+      
+      if (deleteBtn) deleteBtn.style.display = 'flex'; // Hiện nút Xóa
     } else {
       $('diaryModalTitle').textContent = 'Viết nhật ký';
       $('diaryDateInput').value = new Date().toISOString().split('T')[0];
@@ -8072,6 +8089,8 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
       $('diaryMilkteaToggle').checked = false;
       $('diaryMilkteaNote').value = '';
       $('milkteaNoteField').style.display = 'none';
+      
+      if (deleteBtn) deleteBtn.style.display = 'none'; // Ẩn nút Xóa
     }
     $('diaryOverlay').classList.add('show');
     setTimeout(() => $('diaryTitle').focus(), 300);
@@ -8085,6 +8104,18 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
       if(o.dataset.mood !== mood) o.style.borderColor = 'var(--border)', o.style.background = 'var(--pink-bg)', o.style.color = 'var(--text-muted)';
       else o.style.borderColor = 'var(--pink-primary)', o.style.background = 'var(--pink-surface)', o.style.color = 'var(--pink-primary)';
     });
+    // Sự kiện xóa nhật ký
+  $('deleteDiaryBtn').addEventListener('click', () => {
+    if (!editDiaryId) return;
+    
+    // Đóng form lại
+    $('diaryOverlay').classList.remove('show');
+    
+    // Gọi hàm xác nhận xóa
+    setTimeout(() => {
+      askDelete(editDiaryId, 'diary');
+    }, 200);
+  });
   }
 
   function openBracesModal(id) {
@@ -8858,6 +8889,7 @@ function isNewCard(c) {
 }
 let editFcId = null;
 let fcFilterMode = 'all';
+let fcSearchQuery = '';
 let studySession = {
   queue: [],
   currentIndex: 0,
@@ -9665,15 +9697,33 @@ function renderFcManageList() {
   const list = $('fcManageList');
   let arr = flashcards.slice();
 
+  // 1. Lọc theo từ khóa tìm kiếm (Tiếng Việt, Tiếng Anh, Ghi chú, Tag)
+  if (typeof fcSearchQuery !== 'undefined' && fcSearchQuery.trim() !== '') {
+    const q = fcSearchQuery.toLowerCase().trim();
+    arr = arr.filter(c => 
+      (c.vi || '').toLowerCase().includes(q) || 
+      (c.en || '').toLowerCase().includes(q) ||
+      (c.note || '').toLowerCase().includes(q) ||
+      (c.tag || '').toLowerCase().includes(q)
+    );
+  }
+
+  // 2. Lọc theo nút Chip (Chưa học, Đang học, Đã thuộc)
   if (fcFilterMode === 'new') arr = arr.filter(c => !c.sr || c.sr.reps === 0);
   else if (fcFilterMode === 'learning') arr = arr.filter(c => c.sr && c.sr.reps > 0 && c.sr.interval < 21);
   else if (fcFilterMode === 'mastered') arr = arr.filter(c => c.sr && c.sr.interval >= 21);
 
+  // 3. Hiển thị thông báo nếu không có thẻ nào
   if (arr.length === 0) {
-    list.innerHTML = `<div class="study-empty"><h3>Chưa có thẻ nào</h3><p>Bấm nút + để thêm thẻ đầu tiên.</p></div>`;
+    if (fcSearchQuery) {
+      list.innerHTML = `<div class="study-empty"><h3>Không tìm thấy thẻ</h3><p>Không có thẻ nào khớp với từ khóa "${esc(fcSearchQuery)}".</p></div>`;
+    } else {
+      list.innerHTML = `<div class="study-empty"><h3>Chưa có thẻ nào</h3><p>Bấm nút + để thêm thẻ đầu tiên.</p></div>`;
+    }
     return;
   }
 
+  // 4. Sắp xếp và render
   arr.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
 
   list.innerHTML = arr.map(c => {
@@ -9694,7 +9744,21 @@ function renderFcManageList() {
     `;
   }).join('');
 }
+// Sự kiện tìm kiếm thẻ Flashcard
+document.getElementById('searchFcInput').addEventListener('input', (e) => {
+  fcSearchQuery = e.target.value;
+  const clearBtn = document.getElementById('clearSearchFc');
+  if (fcSearchQuery.trim()) clearBtn.classList.add('show');
+  else clearBtn.classList.remove('show');
+  renderFcManageList();
+});
 
+document.getElementById('clearSearchFc').addEventListener('click', () => {
+  document.getElementById('searchFcInput').value = '';
+  document.getElementById('clearSearchFc').classList.remove('show');
+  fcSearchQuery = '';
+  renderFcManageList();
+});
 // Filter chips
 document.querySelectorAll('.study-filter-chip').forEach(chip => {
   chip.addEventListener('click', () => {
