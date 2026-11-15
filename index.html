@@ -5098,6 +5098,11 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
       <input type="text" id="editGoalText" placeholder="VD: ✈️ Đi Đà Lạt...">
     </div>
 
+    <!-- ⭐ THÊM ĐOẠN NÀY VÀO -->
+    <div class="field">
+      <label>Phần thưởng (Tùy chọn)</label>
+      <input type="text" id="editGoalReward" placeholder="VD: Mua iPhone mới, Đi du lịch...">
+    </div>
     <button class="save-btn" onclick="saveGoalEdit()">
       <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu thay đổi
     </button>
@@ -7336,6 +7341,12 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
             <div style="flex: 1;">
               <div style="font-size: 16px; font-weight: 700; color: var(--pink-dark);">${esc(g.text)}</div>
               <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Đã xong: ${doneSub}/${totalSub} việc</div>
+              
+              <!-- ⭐ THÊM DÒNG HIỂN THỊ PHẦN THƯỞNG NÀY -->
+              ${g.reward ? `<div style="font-size: 12.5px; font-weight: 700; color: #d97706; margin-top: 6px; display: flex; align-items: center; gap: 4px;">
+                <svg class="hand-icon" style="width:14px; height:14px; stroke:#d97706;"><use href="#icon-gift"/></svg> 
+                ${esc(g.reward)}
+              </div>` : ''}
             </div>
             <!-- Nút đánh dấu hoàn thành toàn bộ mục tiêu -->
             <div class="bucket-item-check ${g.isDone ? 'done' : ''}" onclick="toggleGoal('${g.id}')" style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid ${g.isDone ? 'var(--pink-primary)' : 'var(--border)'}; background: ${g.isDone ? 'var(--pink-primary)' : 'transparent'}; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;">
@@ -7387,15 +7398,14 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
   };
 
   $('bucketAddBtn').addEventListener('click', () => {
-    const input = $('bucketNewInput');
-    const val = input.value.trim();
-    if (!val) return;
-    
-    goals.push({ id: 'g_' + Date.now(), text: val, isDone: false });
-    input.value = '';
-    saveData();
-    renderBucketList();
-    if (currentTab === 'home') renderHome();
+    $('bucketNewInput').value = ''; // Xóa trắng ô nhập nhanh bên ngoài
+    openAddGoalModal(); // Bật Form thêm mới
+  });
+
+  $('bucketNewInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      $('bucketAddBtn').click();
+    }
   });
 
   $('bucketNewInput').addEventListener('keypress', (e) => {
@@ -8733,49 +8743,53 @@ window.openPlaceCardPopup = function(id) {
     }
   };
   // Hàm mở Modal Sửa
+  // Hàm mở Modal Sửa (hoặc Thêm mới nếu goalId rỗng)
   window.openEditGoalModal = function(goalId) {
     const goal = goals.find(g => g.id === goalId);
     if (!goal) return;
     
     document.getElementById('editGoalId').value = goal.id;
     document.getElementById('editGoalText').value = goal.text;
+    document.getElementById('editGoalReward').value = goal.reward || ''; // ⭐ Điền phần thưởng
     document.getElementById('editGoalOverlay').classList.add('show');
   };
 
-  // Hàm Lưu khi bấm nút
+  // Hàm mở Modal Thêm mới
+  window.openAddGoalModal = function() {
+    document.getElementById('editGoalId').value = '';
+    document.getElementById('editGoalText').value = '';
+    document.getElementById('editGoalReward').value = '';
+    document.getElementById('editGoalOverlay').classList.add('show');
+  };
+  // Hàm Lưu khi bấm nút trong Modal
   window.saveGoalEdit = function() {
     const goalId = document.getElementById('editGoalId').value;
     const newText = document.getElementById('editGoalText').value.trim();
+    const newReward = document.getElementById('editGoalReward').value.trim(); // ⭐ Lấy phần thưởng
     
     if (!newText) {
       toast('Tên mục tiêu không được để trống!');
       return;
     }
 
-    const goal = goals.find(g => g.id === goalId);
-    if (goal) {
-      goal.text = newText;
-      saveData();
-      renderBucketList();
-      document.getElementById('editGoalOverlay').classList.remove('show');
-      toast('✅ Đã cập nhật mục tiêu');
+    if (goalId) {
+      // Sửa mục tiêu cũ
+      const goal = goals.find(g => g.id === goalId);
+      if (goal) {
+        goal.text = newText;
+        goal.reward = newReward;
+      }
+    } else {
+      // Thêm mục tiêu mới
+      goals.push({ id: 'g_' + Date.now(), text: newText, reward: newReward, isDone: false });
     }
+    
+    saveData();
+    renderBucketList();
+    if (currentTab === 'home') renderHome();
+    document.getElementById('editGoalOverlay').classList.remove('show');
+    toast('✅ Đã lưu mục tiêu');
   };
-  // Sự kiện click chọn Mức độ ưu tiên
-  document.querySelectorAll('#taskPriorityPicker .opt').forEach(o => {
-    o.addEventListener('click', () => {
-      formTaskPriority = Number(o.dataset.p);
-      document.querySelectorAll('#taskPriorityPicker .opt').forEach(x => x.classList.remove('active'));
-      o.classList.add('active');
-    });
-  });
-  document.querySelectorAll('#taskRepeatPicker .opt').forEach(o => {
-    o.addEventListener('click', () => {
-      formTaskRepeat = o.dataset.repeat;
-      document.querySelectorAll('#taskRepeatPicker .opt').forEach(x => x.classList.remove('active'));
-      o.classList.add('active');
-    });
-  });
   window.updateNoteStatus = function(id, newStatus) {
     const note = notes.find(n => n.id === id);
     if (note) {
