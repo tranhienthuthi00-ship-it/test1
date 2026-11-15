@@ -318,7 +318,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     display: flex; align-items: center; gap: 12px; cursor: pointer;
     transition: transform 0.2s;
   }
-  .diary-compact-card.braces-card { border-left: 4px solid #3b82f6; }
+  .diary-compact-card.braces-card { border-left: 4px solid var(--pink-primary); }
   
   .diary-icon-box {
     width: 40px; height: 40px; border-radius: 12px; background: var(--pink-bg);
@@ -438,21 +438,21 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
 
   /* Braces Specific */
   .braces-dashboard-card {
-    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    background: linear-gradient(135deg, var(--pink-surface), var(--pink-bg));
     border-radius: 20px; padding: 16px; margin-bottom: 20px;
-    border: 1px solid #bfdbfe; box-shadow: 0 4px 12px rgba(59,130,246,0.1);
+    border: 1px solid var(--pink-light); box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     display: flex; justify-content: space-between; align-items: center;
     margin: 0 16px 20px;
   }
   .braces-dashboard-card .stat-box { flex: 1; text-align: center; }
-  .braces-dashboard-card .stat-val { font-size: 20px; font-weight: 700; color: #1d4ed8; margin-bottom: 2px; }
-  .braces-dashboard-card .stat-lbl { font-size: 11px; font-weight: 600; color: #3b82f6; text-transform: uppercase; }
-  .braces-dashboard-card .divider { width: 1px; height: 40px; background: #bfdbfe; }
+  .braces-dashboard-card .stat-val { font-size: 20px; font-weight: 700; color: var(--pink-primary); margin-bottom: 2px; }
+  .braces-dashboard-card .stat-lbl { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+  .braces-dashboard-card .divider { width: 1px; height: 40px; background: var(--pink-light); }
 
   .braces-timeline-wrap { padding: 0 16px 20px; position: relative; }
   .braces-timeline-wrap::before {
     content: ''; position: absolute; top: 0; bottom: 0; left: 22px;
-    width: 2px; background: #bfdbfe; z-index: 0;
+    width: 2px; background: var(--pink-light); z-index: 0;
   }
   .braces-timeline-item {
     position: relative; padding-left: 44px; margin-bottom: 20px;
@@ -460,11 +460,11 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   .braces-timeline-dot {
     position: absolute; left: 15px; top: 6px;
     width: 16px; height: 16px; border-radius: 50%;
-    background: var(--pink-surface); border: 3px solid #3b82f6;
-    z-index: 1; box-shadow: 0 0 0 3px #eff6ff;
+    background: var(--pink-surface); border: 3px solid var(--pink-primary);
+    z-index: 1; box-shadow: 0 0 0 3px var(--pink-bg);
   }
   .braces-timeline-date {
-    font-size: 12px; font-weight: 700; color: #2563eb;
+    font-size: 12px; font-weight: 700; color: var(--pink-primary);
     margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
   }
   .braces-timeline-date svg { width: 12px; height: 12px; }
@@ -2207,7 +2207,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     background: #ffffff;
   }
   body:not(.theme-neobrutalism):not(.theme-crayon):not(.theme-notion) .place-card-title-bar {
-    background: #ec4899;
+    background: var(--pink-primary);
   }
   body:not(.theme-neobrutalism):not(.theme-crayon):not(.theme-notion) .place-card-desc {
     background: #fdf2f8;
@@ -2735,7 +2735,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     position: absolute;
     top: 15px; bottom: 15px; left: 6px;
     width: 3px;
-    background: #bfdbfe;
+    background: var(--pink-light);
     border-radius: 3px;
     z-index: 0;
   }
@@ -3003,7 +3003,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     bottom: 10px;
     left: 22px;
     width: 2px;
-    background: #bfdbfe;
+    background: var(--pink-light);
     border-radius: 2px;
     z-index: 0;
   }
@@ -3031,8 +3031,8 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     z-index: 1;
   }
   #bracesTimelineWrap .tl-dot {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px #eff6ff;
+    border-color: var(--pink-primary);
+    box-shadow: 0 0 0 3px var(--pink-bg);
   }
 
   /* Ngày tháng - đơn giản, canh trái */
@@ -9663,12 +9663,12 @@ function openManageView() {
   renderFcManageList();
 }
 
-function backToStudyMain() {
+window.backToStudyMain = function() {
   currentStudyView = 'main';
   $('studyManageView').style.display = 'none';
   $('studyMainView').style.display = 'block';
   renderStudyMain();
-}
+};
 function updateDailyLimitUI() {
   const input = document.getElementById('fcDailyLimitInput');
   const display = document.getElementById('fcDailyLimitDisplay');
