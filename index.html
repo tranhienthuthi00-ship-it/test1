@@ -45,7 +45,6 @@
   }
   /* Fonts */
 body.font-nunito { --font-family: 'Nunito', sans-serif; }
- 
 body.font-comfortaa { --font-family: 'Comfortaa', cursive; }
 body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
 
@@ -666,8 +665,6 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     font-size: 22px !important;
   }
   
-  /* ===== THÊM CHIP LỌC KIẾN THỨC ===== */
-  /* (không cần vì chip đã có sẵn trong filter) */
    .other-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px; margin-bottom: 24px;
   }
@@ -2202,14 +2199,14 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
      ======================================================= */
 
   /* 1. THEME MẶC ĐỊNH (Hồng Pastel) */
-  body:not(.theme-neobrutalism):not(.theme-crayon):not(.theme-notion) .place-card-item {
+  body:not(.theme-crayon):not(.theme-notion) .place-card-item {
     border-color: #fbcfe8;
     background: #ffffff;
   }
-  body:not(.theme-neobrutalism):not(.theme-crayon):not(.theme-notion) .place-card-title-bar {
+  body:not(.theme-crayon):not(.theme-notion) .place-card-title-bar {
     background: var(--pink-primary);
   }
-  body:not(.theme-neobrutalism):not(.theme-crayon):not(.theme-notion) .place-card-desc {
+  body:not(.theme-crayon):not(.theme-notion) .place-card-desc {
     background: #fdf2f8;
   }
 
@@ -2306,27 +2303,6 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     border: 3px solid #2b2d42 !important;
     box-shadow: 4px 4px 0px #2b2d42 !important;
   }
-
-  /* 2. FIX CHO THEME NEOBRUTALISM */
-  body.theme-neobrutalism #placeCardPopupOverlay .modal {
-    border: none !important; /* Xóa cái viền đen to đùng của khung chứa */
-    box-shadow: none !important; 
-  }
-  
-  body.theme-neobrutalism #placeCardPopupOverlay .place-card-item {
-    border: 4px solid #000 !important; 
-    box-shadow: 8px 8px 0px #000 !important; 
-    background: #ffffff !important;
-    border-radius: 16px !important;
-  }
-  
-  /* Nút đóng thẻ ở theme Neobrutalism */
-  body.theme-neobrutalism #placeCardPopupOverlay .save-btn {
-    background: #a7f3d0 !important; /* Màu xanh mint đặc trưng */
-    color: #000 !important;
-    border: 3px solid #000 !important;
-    box-shadow: 4px 4px 0px #000 !important;
-  }
   /* ===== FIX VỊ TRÍ NÚT X VÀ KHUNG POP-UP ===== */
   
   /* Khung chứa: Xóa viền, cho phép nút X lòi ra ngoài */
@@ -2371,12 +2347,6 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     border-color: #2b2d42 !important;
     color: #2b2d42 !important;
     box-shadow: 3px 3px 0px #2b2d42 !important;
-  }
-  body.theme-neobrutalism .place-close-btn {
-    background: #ff90e8 !important;
-    border-color: #000 !important;
-    color: #000 !important;
-    box-shadow: 4px 4px 0px #000 !important;
   }
   body.theme-notion .place-close-btn {
     background: #d4b895 !important;
