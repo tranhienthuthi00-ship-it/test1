@@ -1249,19 +1249,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     background-attachment: fixed;
   }
 
-  /* Thêm lề đỏ dọc bên trái kiểu vở ô ly (tùy chọn) */
-  body.theme-crayon::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 40px;
-    width: 1.5px;
-    background: rgba(230,57,70,0.25);
-    pointer-events: none;
-    z-index: 0;
-  }
-
+  
   /* Viền run run cho mọi card */
   body.theme-crayon .card,
   body.theme-crayon .goal-widget,
@@ -1581,7 +1569,108 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   }
 
   /* ===== Đồng điệu màu các chỗ còn sót ===== */
+  /* ===== NÂNG CẤP RIÊNG CHO TAB HỌC TIẾNG ANH ===== */
+  
+  /* 1. Khung Header Thống kê (Nền vàng sáp, viền đen) */
+  body.theme-crayon .study-header {
+    background: var(--crayon-yellow) !important;
+    color: var(--text) !important;
+    border: 2.5px solid var(--text) !important;
+    border-radius: 12px 10px 13px 11px !important;
+    box-shadow: 3px 3px 0px rgba(43,45,66,0.35) !important;
+    filter: url(#crayon-wobble);
+  }
+  body.theme-crayon .study-header-title,
+  body.theme-crayon .study-stat-lbl {
+    color: var(--text) !important;
+  }
+  
+  /* 2. Các ô số liệu bên trong Header */
+  body.theme-crayon .study-stat-box {
+    background: rgba(255,255,255,0.6) !important;
+    border: 2px dashed var(--text) !important;
+    border-radius: 10px 8px 11px 9px !important;
+    color: var(--text) !important;
+  }
+  body.theme-crayon .study-stat-val {
+    color: var(--crayon-red) !important;
+  }
 
+  /* 3. Nút Bắt đầu học (Xanh lá sáp, viền đen) */
+  body.theme-crayon .study-main-btn {
+    background: var(--crayon-green) !important;
+    color: white !important;
+    border: 2.5px solid var(--text) !important;
+    border-radius: 12px 10px 13px 11px !important;
+    box-shadow: 3px 3px 0px rgba(43,45,66,0.4) !important;
+    filter: url(#crayon-wobble-strong);
+  }
+  body.theme-crayon .study-main-btn svg {
+    stroke: white !important;
+    stroke-width: 3 !important;
+  }
+  body.theme-crayon .study-main-btn:active {
+    transform: translate(2px, 2px) !important;
+    box-shadow: 1px 1px 0px rgba(43,45,66,0.4) !important;
+  }
+
+  /* 4. Các nút phụ (Quản lý, Import, Export, Dịch đoạn văn) */
+  body.theme-crayon .study-secondary-btn {
+    background: #fffdf5 !important;
+    color: var(--text) !important;
+    border: 2px dashed var(--text) !important;
+    border-radius: 10px 8px 11px 9px !important;
+    box-shadow: 2px 2px 0px rgba(43,45,66,0.35) !important;
+  }
+  body.theme-crayon .study-secondary-btn svg {
+    stroke: var(--text) !important;
+  }
+
+  /* 5. Thẻ Flashcard (Khung vẽ tay) */
+  body.theme-crayon .study-card {
+    border: 2.5px solid var(--text) !important;
+    border-radius: 12px 10px 13px 11px !important;
+    box-shadow: 3px 3px 0px rgba(43,45,66,0.35) !important;
+    background: #fffdf5 !important;
+    filter: url(#crayon-wobble);
+  }
+
+  /* 6. Ô nhập câu trả lời */
+  body.theme-crayon .study-answer-input {
+    border: 2px solid var(--text) !important;
+    border-radius: 10px 8px 11px 9px !important;
+    background: #fffdf5 !important;
+    box-shadow: none !important;
+  }
+  body.theme-crayon .study-answer-input:focus {
+    border-color: var(--crayon-red) !important;
+    box-shadow: 3px 3px 0px rgba(230,57,70,0.3) !important;
+  }
+
+  /* 7. Nút Đánh giá (Again, Hard, Good) */
+  body.theme-crayon .study-rating-btn {
+    border: 2px solid var(--text) !important;
+    border-radius: 10px 8px 11px 9px !important;
+    box-shadow: 2px 2px 0px var(--text) !important;
+    color: var(--text) !important;
+  }
+  body.theme-crayon .study-rating-btn:active {
+    transform: translate(2px, 2px) !important;
+    box-shadow: none !important;
+  }
+  /* Màu pastel nền cho 3 nút */
+  body.theme-crayon .study-rating-btn.again { background: #ffe5e7 !important; }
+  body.theme-crayon .study-rating-btn.hard { background: #fff3cd !important; }
+  body.theme-crayon .study-rating-btn.good { background: #d8f3dc !important; }
+
+  /* 8. Thẻ trong Quản lý thẻ (fc-card) */
+  body.theme-crayon .fc-card {
+    border: 2.5px solid var(--text) !important;
+    border-radius: 12px 10px 13px 11px !important;
+    box-shadow: 3px 3px 0px rgba(43,45,66,0.35) !important;
+    background: #fffdf5 !important;
+    filter: url(#crayon-wobble);
+  }
   /* 1. Bảng tổng hợp niềng răng */
   body.theme-crayon .braces-dashboard-card {
     background: linear-gradient(135deg, #ffe5e7, #fff3cd);
@@ -2365,45 +2454,11 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
      BIẾN Ô NHẬP NỘI DUNG THÀNH TRANG GIẤY
      ============================================================ */
 
-  /* 1. Trang giấy mặc định (Giấy vở kẻ ngang) */
-  #noteContent {
-    background-color: #fdfdfd !important;
-    background-image: 
-      linear-gradient(90deg, transparent 39px, #ffb3b3 39px, #ffb3b3 41px, transparent 41px), /* Lề đỏ */
-      repeating-linear-gradient(transparent, transparent 27px, #dbeafe 27px, #dbeafe 28px); /* Dòng kẻ xanh */
-    background-attachment: local;
-    line-height: 28px !important; /* Khớp với khoảng cách dòng kẻ */
-    padding: 10px 15px 10px 50px !important; /* Cách lề trái 50px để chừa chỗ lề đỏ */
-    border: 1.5px solid var(--border) !important;
-    border-radius: 4px !important; /* Trang giấy thường vuông vức */
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.05) !important;
-    font-family: inherit !important;
-    color: var(--text) !important;
-    resize: vertical;
-  }
   #noteContent:focus {
     outline: none !important;
     box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2) !important;
   }
 
-  /* 2. Trang giấy cho Theme Notion (Giấy Note vàng nhạt) */
-  body.theme-notion #noteContent {
-    background-color: #fdfaf6 !important;
-    background-image: 
-      linear-gradient(90deg, transparent 39px, #d4b895 39px, #d4b895 41px, transparent 41px),
-      repeating-linear-gradient(transparent, transparent 27px, #e8d8c8 27px, #e8d8c8 28px);
-    border-color: #d4b895 !important;
-  }
-
-  /* 3. Trang giấy cho Theme Bút sáp (Giấy vẽ) */
-  body.theme-crayon #noteContent {
-    background-color: #fffdf5 !important;
-    background-image: 
-      repeating-linear-gradient(transparent, transparent 27px, #fde68a 27px, #fde68a 28px); /* Chỉ có dòng kẻ vàng, không có lề đỏ */
-    padding-left: 15px !important;
-    border: 2px solid #2b2d42 !important;
-    box-shadow: 3px 3px 0px rgba(43,45,66,0.3) !important;
-  }
   /* ============================================================
      THEME COZY WINTER (LÁ THƯ MÙA ĐÔNG - BẢN HOÀN THIỆN)
      ============================================================ */
@@ -2790,157 +2845,6 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     background: var(--pink-light) !important; /* Nền màu Be */
     color: var(--pink-dark) !important; /* Chữ màu Nâu đậm */
   }
- /* ============================================================
-     THEME EDITORIAL POP (TẠP CHÍ) - ĐÃ TINH CHỈNH
-     ============================================================ */
-  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Caveat:wght@600&family=Quicksand:wght@500;700&display=swap');
-
-  body.theme-editorial {
-    --pink-bg: #C1D7FF; 
-    --pink-surface: #F3F0EA; 
-    --pink-primary: #FFC0FB; 
-    --pink-light: #E0E9FA; 
-    --pink-dark: #000000; 
-    --text: #000000;
-    --text-muted: #555555;
-    --border: #000000; 
-    --bg-gradient: #C1D7FF;
-      
-  }
-
-  body.theme-editorial {
-    background-color: #C1D7FF !important;
-    background-image: none !important; 
-  }
-
-  /* 1. CÁC THẺ (CARD) - Thêm hiệu ứng dán sticker */
-  body.theme-editorial .card,
-  body.theme-editorial .goal-widget,
-  body.theme-editorial .dash-chart-widget,
-  body.theme-editorial .suggest-card,
-  body.theme-editorial .compact-card,
-  body.theme-editorial .salary-card,
-  body.theme-editorial .bucket-list-container,
-  body.theme-editorial .event-card,
-  body.theme-editorial .timeline-card,
-  body.theme-editorial .braces-timeline-card,
-  body.theme-editorial .diary-compact-card,
-  body.theme-editorial .note-list-card,
-  body.theme-editorial .search-box,
-  body.theme-editorial .filter-btn,
-  body.theme-editorial .calendar-grid,
-  body.theme-editorial .settings-group,
-  body.theme-editorial .place-card-item,
-  body.theme-editorial .other-card {
-    background-color: var(--pink-surface) !important;
-    border: 1.5px solid #000000 !important; 
-    border-radius: 20px !important; 
-    box-shadow: 4px 4px 0px #000000 !important; 
-    filter: none !important; 
-    transform: none !important;
-    position: relative; /* Cần để neo sticker */
-  }
-
-  /* 2. STICKER TRANG TRÍ (Chỉ áp dụng cho các thẻ to) */
-  /* Thêm ngôi sao ✦ ở góc trên bên phải */
-  body.theme-editorial .other-card::after {
-    content: '✦';
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    font-size: 20px;
-    color: #000;
-    font-family: sans-serif;
-    z-index: 2;
-  }
-  /* Thêm bông hoa ✿ ở góc dưới bên trái */
-  body.theme-editorial .other-card::before {
-    content: '✿';
-    position: absolute;
-    bottom: 8px;
-    left: 12px;
-    font-size: 16px;
-    color: var(--pink-primary);
-    z-index: 2;
-  }
-
-  /* 3. TIÊU ĐỀ - Hạn chế highlight */
-  /* Các tiêu đề trong thẻ Card (Như "Địa điểm", "Ghi chú") thì KHÔNG highlight, chỉ in đậm */
-  body.theme-editorial .other-card-title {
-    font-family: 'Oswald', sans-serif !important;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: var(--pink-dark) !important;
-    background: none !important; /* Bỏ highlight */
-    padding: 0;
-    transform: none;
-  }
-
-  /* Chỉ những tiêu đề chính (như Tên địa điểm) mới có highlight */
-  body.theme-editorial .suggest-title,
-  body.theme-editorial .note-title-text,
-  body.theme-editorial .diary-title-text {
-    font-family: 'Oswald', sans-serif !important;
-    text-transform: uppercase;
-    color: var(--pink-dark) !important;
-    background: var(--pink-primary) !important;
-    display: inline-block;
-    padding: 2px 6px;
-    transform: rotate(-1deg);
-    border-radius: 4px;
-  }
-
-  /* Lời chào */
-  body.theme-editorial .greeting {
-    font-family: 'Caveat', cursive !important;
-    font-size: 32px !important;
-    background: var(--pink-light) !important;
-    padding: 0 10px;
-    border-radius: 8px;
-  }
-
-  /* 4. Nút bấm & FAB */
-  body.theme-editorial .save-btn {
-    background: var(--pink-light) !important;
-    color: #000 !important;
-    border: 1.5px solid #000 !important;
-    border-radius: 999px !important; 
-    font-family: 'Oswald', sans-serif !important;
-    box-shadow: 3px 3px 0px #000 !important;
-  }
-  
-  body.theme-editorial .fab {
-    background: var(--pink-primary) !important; 
-    border: 2px solid #000 !important;
-    border-radius: 50% !important;
-    box-shadow: 4px 4px 0px #000 !important;
-  }
-  body.theme-editorial .fab svg { stroke: #000 !important; }
-
-  body.theme-editorial .bottom-nav {
-    background: var(--pink-surface);
-    border: 1.5px solid #000;
-    border-radius: 999px;
-    box-shadow: 4px 4px 0px #000;
-  }
-  body.theme-editorial .nav-item.active { color: #d946ef !important; }
-  body.theme-editorial .nav-item.active svg { stroke: #d946ef !important; }
-
-  /* ==========================================
-     CÁC PHẦN SỬA LỖI (Giữ nguyên)
-     ========================================== */
-  body.theme-editorial .swipe-item {
-    border-radius: 20px !important;
-    overflow: hidden !important;
-    background: transparent !important;
-  }
-  body.theme-editorial .swipe-item .diary-compact-card,
-  body.theme-editorial .swipe-item .note-list-card {
-    margin: 0 !important;
-    width: 100% !important;
-    border-radius: 20px !important;
-    border: 1.5px solid #000 !important;
-  }
 /* =======================================================
      TIMELINE CHO NHẬT KÝ & NIỀNG RĂNG
      ======================================================= */
@@ -3013,7 +2917,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     margin-bottom: 2px;
   }
   #bracesTimelineWrap .tl-date {
-    color: #2563eb;
+    color: var(--pink-primary) !important;
   }
 
   /* Thẻ nội dung bên dưới ngày */
@@ -3140,12 +3044,14 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   .study-main-btn svg { width: 22px; height: 22px; }
 
   .study-secondary-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Chia làm 2 cột bằng nhau */
     gap: 10px;
+    width: 100%;
   }
   .study-secondary-btn {
-    flex: 1;
-    padding: 14px;
+    width: 100%;
+    padding: 14px 10px;
     border-radius: 14px;
     border: 1.5px dashed var(--pink-light);
     background: var(--pink-surface);
@@ -3158,7 +3064,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     justify-content: center;
     gap: 6px;
     font-family: inherit;
-    transition: all 0.15s;
+    white-space: nowrap;
   }
   .study-secondary-btn:active {
     transform: scale(0.97);
@@ -3610,7 +3516,163 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
 .streak-connector.active {
   opacity: 1;
 }
+/* ===== CHỌN NHIỀU THẺ FLASHCARD ===== */
+.fc-card { position: relative; }
+.fc-checkbox {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  background: var(--pink-surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  transition: all 0.2s;
+}
+.fc-checkbox.checked {
+  background: var(--pink-primary);
+  border-color: var(--pink-primary);
+}
+.fc-checkbox svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke: white !important;
+  stroke-width: 3 !important; /* Làm nét vẽ đậm hơn cho dễ nhìn */
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.fc-checkbox.checked svg { opacity: 1; }
+.fc-card .fc-card-top { padding-right: 30px; }
 
+.fc-bulk-bar {
+  position: fixed;
+  bottom: calc(var(--nav-bottom) + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(150%);
+  width: calc(100% - 32px);
+  max-width: 500px;
+  background: var(--pink-surface);
+  border: 2px solid var(--pink-primary);
+  border-radius: 20px;
+  padding: 12px 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 95;
+  transition: transform 0.3s ease;
+}
+.fc-bulk-bar.show { transform: translateX(-50%) translateY(0); }
+.fc-bulk-count { font-size: 14px; font-weight: 700; color: var(--text); }
+.fc-bulk-btn {
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+.fc-bulk-btn.delete { background: #dc2626; color: white; }
+  /* ===== THANH HÀNH ĐỘNG XÓA NHIỀU (ĐỒNG BỘ THEME) ===== */
+.fc-bulk-action-bar {
+  position: fixed;
+  bottom: calc(var(--nav-bottom) + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  
+  /* Sử dụng biến màu của Theme */
+  background: var(--pink-surface) !important; 
+  color: var(--text) !important;
+  border: 1.5px solid var(--border) !important;
+  
+  padding: 10px 16px;
+  border-radius: 999px;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-lg) !important;
+  z-index: 999;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  white-space: nowrap;
+}
+
+.fc-bulk-action-bar.show {
+  display: flex;
+  transform: translateX(-50%) translateY(0);
+}
+
+.fc-bulk-action-bar span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.fc-bulk-action-bar .count {
+  font-weight: 900;
+  color: var(--pink-primary);
+  font-size: 15px;
+}
+
+/* Nút Xóa (Luôn giữ màu đỏ để cảnh báo) */
+.fc-bulk-action-bar .delete-btn {
+  background: var(--pink-primary) !important;
+  color: white !important;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+}
+.fc-bulk-action-bar .delete-btn:active {
+  transform: scale(0.95);
+}
+
+/* Nút Hủy (Dùng màu nền nhạt của theme) */
+.fc-bulk-action-bar .cancel-btn {
+  background: var(--pink-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+.fc-bulk-action-bar .cancel-btn:active {
+  transform: scale(0.95);
+}
+/* ===== GIAO DIỆN GHI CHÚ APPLE NOTES ===== */
+.apple-note-card {
+  background: var(--pink-surface);
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: transform 0.2s;
+  
+  /* Thêm 2 dòng này để đảm bảo không bị đè */
+  position: relative;
+  z-index: 10; 
+}
+.apple-note-card:active {
+  transform: scale(0.98);
+}
 </style>
 </head>
 <body>
@@ -3829,7 +3891,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
         <div class="setting-options">
           <button class="theme-btn" data-theme="default">Đơn giản</button>
            
-          <button class="theme-btn" data-theme="editorial">Editorial Pop</button>
+           
           <button class="theme-btn" data-theme="crayon">🖍️ Bút sáp</button>
           <button class="theme-btn" data-theme="notion">☁️ Notion Aesthetic</button>           <button class="theme-btn" data-theme="winter">❄️ Cozy Winter</button>  
         </div>
@@ -3856,6 +3918,22 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     </div>
     
     <button class="save-btn" id="saveSettingsBtn">Lưu thay đổi</button>
+    <!-- Nút Sao lưu / Khôi phục (Toàn bộ App) -->
+<div class="settings-group" style="margin-top: 20px;">
+  <div class="settings-group-title">Dữ liệu & Sao lưu</div>
+  <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
+    Sao lưu toàn bộ Sổ tay (Địa điểm, Nhật ký, Ghi chú, Tài chính, Flashcard...) thành 1 file duy nhất.
+  </div>
+  <div class="backup-bar">
+    <button class="backup-btn" id="btnExportData">
+      <svg class="hand-icon"><use href="#icon-download"/></svg> Sao lưu
+    </button>
+    <button class="backup-btn" id="btnImportData">
+      <svg class="hand-icon"><use href="#icon-upload"/></svg> Khôi phục
+    </button>
+    <input type="file" id="importFileInput" accept=".json" style="display:none">
+  </div>
+</div>
   </div>
 </div>
 
@@ -4234,16 +4312,6 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
         <button class="credit-add-btn" id="btnAddCredit">+ Thêm khoản chi</button>
       </div>
 
-      <!-- Nút Sao lưu / Khôi phục -->
-      <div class="backup-bar">
-        <button class="backup-btn" id="btnExportData">
-          <svg class="hand-icon"><use href="#icon-download"/></svg> Sao lưu
-        </button>
-        <button class="backup-btn" id="btnImportData">
-          <svg class="hand-icon"><use href="#icon-upload"/></svg> Khôi phục
-        </button>
-        <input type="file" id="importFileInput" accept=".json" style="display:none">
-      </div>
     </div>
 
   </div>
@@ -4289,6 +4357,10 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     <svg class="hand-icon"><use href="#icon-list"/></svg>
     Quản lý thẻ
   </button>
+        <button class="study-secondary-btn" id="btnTranslatePassage">
+  <svg class="hand-icon"><use href="#icon-pencil-square"/></svg>
+  Dịch đoạn văn
+</button>
   <button class="study-secondary-btn" id="btnImportCards">
     <svg class="hand-icon"><use href="#icon-upload"/></svg>
     Import
@@ -4334,10 +4406,12 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
 
   <!-- Màn hình quản lý thẻ -->
   <div id="studyManageView" style="display:none;">
-    <div class="sub-view-header">
-      <button class="back-btn" onclick="backToStudyMain()"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
-      <div class="sub-view-title">Quản lý thẻ</div>
-    </div>
+  <div class="sub-view-header">
+    <button class="back-btn" onclick="backToStudyMain()"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
+    <div class="sub-view-title">Quản lý thẻ</div>
+    <!-- Nút bật chế độ chọn nhiều -->
+    <button id="btnToggleSelectMode" style="margin-left:auto; margin-right:12px; background:var(--pink-bg); border:1px solid var(--border); color:var(--pink-primary); font-size:12px; font-weight:700; padding:8px 14px; border-radius:999px; cursor:pointer; font-family:inherit;">Chọn</button>
+  </div>
     <!-- ⭐ CÀI ĐẶT GIỚI HẠN TỪ MỚI -->
   <div style="padding: 0 16px 16px;">
     <div class="compact-card" style="padding: 14px;">
@@ -4371,16 +4445,24 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
         <button class="clear-search" id="clearSearchFc"><svg class="hand-icon" style="width:12px;height:12px"><use href="#icon-x"/></svg></button>
       </div>
     </div>
-    <div class="study-filter-chips">
-      <div class="study-filter-chip active" data-filter="all">Tất cả</div>
-      <div class="study-filter-chip" data-filter="new">Chưa học</div>
-      <div class="study-filter-chip" data-filter="learning">Đang học</div>
-      <div class="study-filter-chip" data-filter="mastered">Đã thuộc</div>
-    </div>
-
-    <div class="fc-list" id="fcManageList"></div>
+      <div class="study-filter-chips">
+    <div class="study-filter-chip active" data-filter="all">Tất cả</div>
+    <div class="study-filter-chip" data-filter="new">Chưa học</div>
+    <div class="study-filter-chip" data-filter="learning">Đang học</div>
+    <div class="study-filter-chip" data-filter="mastered">Đã thuộc</div>
   </div>
 
+  <div class="fc-list" id="fcManageList"></div>
+</div>
+
+<!-- Thanh hành động xóa nhiều -->
+<div class="fc-bulk-action-bar" id="fcBulkActionBar">
+  <span>Đã chọn <span class="count" id="fcSelectedCount">0</span> thẻ</span>
+  <button class="delete-btn" onclick="deleteSelectedCards()">
+    <svg class="hand-icon" style="width:16px;height:16px;stroke:white;"><use href="#icon-trash"/></svg> Xóa
+  </button>
+  <button class="cancel-btn" onclick="exitSelectMode()">Hủy</button>
+</div>
 </div>
 
 <!-- Modal Thêm/Sửa Thẻ Flashcard -->
@@ -5135,14 +5217,25 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     </div>
   </div>
 </div>
-<!-- Popup Nhắc nhở học tiếng Anh -->
 <div class="confirm-overlay" id="studyReminderOverlay">
   <div class="confirm-box">
     <div class="ico" style="color: var(--pink-primary);">
       <svg class="hand-icon"><use href="#icon-bell"/></svg>
     </div>
     <h4>Đến giờ ôn bài rồi!</h4>
-    <p>Hôm nay bạn có <b id="reminderDueCount" style="color: var(--pink-primary); font-size: 18px;">0</b> từ tiếng Anh đang chờ bạn ôn tập. Học một chút nhé?</p>
+    <div style="display: flex; gap: 12px; margin: 16px 0;">
+      <!-- Ô Từ mới -->
+      <div style="flex: 1; background: var(--pink-surface); padding: 12px; border-radius: 12px; border: 1.5px solid var(--pink-light);">
+        <div id="reminderNewCount" style="font-size: 24px; font-weight: 800; color: var(--pink-primary);">0</div>
+        <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Từ mới</div>
+      </div>
+      <!-- Ô Cần ôn -->
+      <div style="flex: 1; background: var(--pink-surface); padding: 12px; border-radius: 12px; border: 1.5px solid var(--pink-light);">
+        <div id="reminderDueCount" style="font-size: 24px; font-weight: 800; color: var(--pink-dark);">0</div>
+        <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Cần ôn</div>
+      </div>
+    </div>
+    <p style="font-size: 13px; margin-bottom: 20px;">Tổng cộng <b id="reminderTotalCount" style="color: var(--pink-primary);">0</b> thẻ đang chờ bạn.</p>
     <div class="confirm-actions">
       <button class="cancel" id="btnRemindLater">Để sau</button>
       <button class="confirm" id="btnRemindNow">Học ngay</button>
@@ -5165,6 +5258,33 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
       <button class="cancel" id="btnPaymentLater">Để sau</button>
       <button class="confirm" id="btnPaymentNow">Xem ngay</button>
     </div>
+  </div>
+</div>
+  <!-- Modal Dịch đoạn văn -->
+<div class="overlay" id="translatePassageOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>Dịch đoạn văn <button id="closeTranslateModal"><svg class="hand-icon"><use href="#icon-x"/></svg></button></h2>
+
+    <div id="translateStep1">
+      <div class="field">
+        <label>Dán đoạn văn Tiếng Việt</label>
+        <textarea id="passageViInput" placeholder="Dán đoạn văn của bạn vào đây... (VD: Hôm nay trời đẹp. Tôi đi cà phê với bạn. Chúng tôi nói chuyện rất vui vẻ.)" style="min-height: 150px;"></textarea>
+      </div>
+      <button class="save-btn" id="btnSplitPassage">
+        <svg class="hand-icon"><use href="#icon-list"/></svg> Tách thành từng câu
+      </button>
+    </div>
+
+    <div id="translateStep2" style="display: none;">
+  <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
+    Đã tách thành <b id="passageSentenceCount" style="color: var(--pink-primary);">0</b> câu. Bạn có thể nhập bản dịch tiếng Anh ngay bên dưới.
+  </div>
+  <div id="passageSentenceList" style="display: flex; flex-direction: column; gap: 12px; max-height: 50vh; overflow-y: auto; padding-right: 4px; padding-bottom: 10px;"></div>
+  <button class="save-btn" id="btnSavePassageCards" style="margin-top: 10px;">
+    <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu tất cả thành thẻ
+  </button>
+</div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -5444,7 +5564,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   function applySettings() {
     document.body.className = '';
      
-    if (settings.theme === 'editorial') document.body.classList.add('theme-editorial');
+     
     if (settings.theme === 'nightsky') document.body.classList.add('theme-nightsky');
     if (settings.theme === 'crayon') document.body.classList.add('theme-crayon');
     if (settings.theme === 'notion') document.body.classList.add('theme-notion');
@@ -5642,6 +5762,9 @@ const NOTE_STATUS = {
 
   /* ==================== TAB SWITCHER ==================== */
   function switchTab(tabId) {
+    if (typeof isSelectMode !=='undefined'&& isSelectMode) {
+      exitSelectMode();
+    }
     currentTab = tabId;
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.getElementById('tab-' + tabId).classList.add('active');
@@ -6813,8 +6936,6 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
     const list = $('listNotes');
     const arr = getFilteredNotes();
 
-    const isKnowledgeView = (currentOtherCategory === 'knowledge');
-
     $('countNotes').textContent = `${arr.length} kết quả`;
     updateNoteFilterBadge();
 
@@ -6823,51 +6944,25 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
 
     if (arr.length === 0) {
       list.classList.remove('knowledge-bookshelf');
-      list.innerHTML = `<div class="empty" style="grid-column: span 2;"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-book"/></svg></div><h3>Chưa có kiến thức nào</h3><p>Bấm nút <b>+</b> để viết cuốn sổ đầu tiên.</p></div>`;
+      list.innerHTML = `<div class="empty" style="grid-column: span 2;"><div class="icon-wrap"><svg class="hand-icon"><use href="#icon-${currentOtherCategory === 'knowledge' ? 'book' : 'notebook'}"/></svg></div><h3>Chưa có dữ liệu</h3><p>Bấm nút <b>+</b> để tạo mới.</p></div>`;
       return;
     }
 
-    if (isKnowledgeView) {
-      // === GIAO DIỆN SÁCH ===
-      list.classList.add('knowledge-bookshelf');
-      list.innerHTML = arr.map(n => `
-          <div class="book-card" data-id="${n.id}" data-type="note">
-            <div class="book-date">${n.date ? fmtDate(n.date) : ''}</div>
-            <div class="book-title">${esc(n.title)}</div>
-            ${n.hashtags && n.hashtags.length > 0 ? `
-              <div class="book-tags">
-                ${n.hashtags.slice(0,2).map(t => `<span class="tag hashtag">#${esc(t)}</span>`).join('')}
-              </div>
-            ` : ''}
-          </div>
-        </div>
-      `).join('');
-      // Gắn sự kiện click Mở Sách (Xem chi tiết)
-      list.querySelectorAll('.book-card').forEach(card => {
-        card.addEventListener('click', (e) => {
-          e.preventDefault();
-          openBookViewer(card.dataset.id);
-        });
-      });
-      return;
-    }
-
-    // === Giao diện list cũ ===
+    // Đảm bảo xóa class layout sách cũ (nếu còn sót)
     list.classList.remove('knowledge-bookshelf');
+
     list.innerHTML = arr.map(n => {
       const info = INFO[n.type] || INFO.note;
       const isTask = n.type === 'task';
 
-      // ===== PHẦN LOGIC CHO VIỆC LÀM =====
+      // ===== 1. RENDER VIỆC LÀM (Task) =====
       if (isTask) {
-        const catKey = n.category || 'other'; // <-- Đã khôi phục lại dòng này
-        const catInfo = TASK_CATEGORIES[catKey] || TASK_CATEGORIES.other;
+        const catKey = n.category || 'personal';
+        const catInfo = TASK_CATEGORIES[catKey] || TASK_CATEGORIES.personal;
         const isDone = n.isCompleted;
-        // ... (giữ nguyên phần còn lại của isTask)
         const titleStyle = isDone ? 'text-decoration: line-through; color: var(--text-muted);' : '';
         const selectStyle = `font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; border:1px ${catInfo.color}; background:${catInfo.bg}; color:${catInfo.color}; cursor:pointer; outline:none; font-family:inherit; -webkit-appearance:none; -moz-appearance:none; appearance:none; text-align:center; text-align-last:center;`;
 
-        // Thêm nhãn hiển thị Lặp lại
         let repeatLabel = '';
         if (n.repeat === 'weekly') repeatLabel = ' · 🔁 Hàng tuần';
         if (n.repeat === 'monthly') repeatLabel = ' · 🔁 Hàng tháng';
@@ -6875,30 +6970,16 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
 
         return `
           <div class="note-list-card" onclick="openDetailModal('note', '${n.id}')">
-            <!-- Ô TRÒN TODO (Đã sửa lỗi bấm) -->
-            <div onclick="event.stopPropagation(); toggleTaskFromList('${n.id}')" style="
-              width: 22px; height: 22px; border-radius: 50%;
-              border: 2px solid ${isDone ? 'var(--pink-primary)' : 'var(--text-muted)'};
-              background: ${isDone ? 'var(--pink-primary)' : 'transparent'};
-              display: flex; align-items: center; justify-content: center;
-              flex-shrink: 0; cursor: pointer; transition: all 0.2s;
-              margin-top: 2px;
-            ">
+            <div onclick="event.stopPropagation(); toggleTaskFromList('${n.id}')" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid ${isDone ? 'var(--pink-primary)' : 'var(--text-muted)'}; background: ${isDone ? 'var(--pink-primary)' : 'transparent'}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; transition: all 0.2s; margin-top: 2px;">
               <svg class="hand-icon" style="width: 12px; height: 12px; stroke: white; opacity: ${isDone ? '1' : '0'};"><use href="#icon-check-circle"/></svg>
             </div>
             <div class="note-content-box">
-              <!-- HÀNG 1: Tiêu đề + Ngày -->
               <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%; gap:8px;">
                 <div class="note-title-text" style="flex:1; min-width:0; ${titleStyle}">${esc(n.title)}</div>
                 ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap; flex-shrink:0; margin-top:2px;">${fmtDate(n.date)}${repeatLabel}</span>` : ''}
               </div>
-
-              <!-- HÀNG 2: Dropdown DANH MỤC (Bỏ onchange inline để tránh lỗi click) -->
               <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
-                <select class="note-category-select" 
-                  onclick="event.stopPropagation()" 
-                  data-id="${n.id}"
-                  style="${selectStyle}">
+                <select class="note-category-select" onclick="event.stopPropagation()" data-id="${n.id}" style="${selectStyle}">
                   <option value="work" ${catKey === 'work' ? 'selected' : ''}>💼 Công việc</option>
                   <option value="personal" ${catKey === 'personal' ? 'selected' : ''}>👤 Cá nhân</option>
                   <option value="study" ${catKey === 'study' ? 'selected' : ''}>📚 Học hành</option>
@@ -6907,39 +6988,58 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
                   <option value="other" ${catKey === 'other' ? 'selected' : ''}>📦 Khác</option>
                 </select>
               </div>
-
               ${n.content ? `<div class="note-desc-text" style="margin-top:4px; ${isDone ? 'opacity:0.6;' : ''}">${esc(n.content)}</div>` : ''}
-
-              ${n.hashtags && n.hashtags.length > 0 ? `
-                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
-                  ${n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600;">#${esc(tag)}</span>`).join('')}
-                </div>
-              ` : ''}
-          </div>
+              ${n.hashtags && n.hashtags.length > 0 ? `<div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">${n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600;">#${esc(tag)}</span>`).join('')}</div>` : ''}
+            </div>
           </div>
         `;
       }
 
-      // ===== PHẦN CỦA NOTE (Hiển thị Danh mục, không có Trạng thái) =====
+      // ===== 2. RENDER KIẾN THỨC (Phong cách Apple Notes) =====
+      if (n.type === 'knowledge') {
+        return `
+          <div class="apple-note-card" onclick="openDetailModal('note', '${n.id}')">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; gap: 8px;">
+              <div class="note-title-text" style="flex: 1; min-width: 0; font-size: 15px;">${esc(n.title)}</div>
+              
+              <!-- Cụm Ngày tháng & Nút Xóa -->
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 11px; font-weight: 500; color: var(--text-muted); white-space: nowrap; margin-top: 2px;">${fmtDate(n.date)}</span>
+                <!-- Nút Xóa -->
+                <div onclick="event.stopPropagation(); askDelete('${n.id}', 'note')" style="color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px;">
+                  <svg class="hand-icon" style="width: 16px; height: 16px;"><use href="#icon-trash"/></svg>
+                </div>
+              </div>
+            </div>
+            
+            <!-- HIỂN THỊ NỘI DUNG ĐÃ ĐỊNH DẠNG (BỎ LỆNH XÓA THẺ HTML) -->
+            ${n.content ? `<div class="note-desc-text" style="font-size: 13px; margin-top: 4px; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;">${n.content}</div>` : ''}
+            
+            ${n.hashtags && n.hashtags.length > 0 ? `
+              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 6px;">
+                ${n.hashtags.map(tag => `<span style="font-size: 11.5px; color: var(--pink-primary); font-weight: 600;">#${esc(tag)}</span>`).join('')}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      // ===== 3. RENDER GHI CHÚ THƯỜNG (Note) =====
       if (n.type === 'note') {
         const catKey = n.category || 'other';
         const catInfo = TASK_CATEGORIES[catKey] || TASK_CATEGORIES.other;
         const selectStyle = `font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; border:1px ${catInfo.color}; background:${catInfo.bg}; color:${catInfo.color}; cursor:pointer; outline:none; font-family:inherit; -webkit-appearance:none; -moz-appearance:none; appearance:none; text-align:center; text-align-last:center;`;
 
         return `
-          <div class="note-list-card" onclick="openDetailModal('note', '${n.id}')">
+          <div class="note-list-card" onclick="openNoteModal('${n.id}')">
             <div class="note-icon-box ${info.cls}"><svg class="hand-icon"><use href="#icon-${n.icon || info.icon.replace('#icon-','')}"/></svg></div>
             <div class="note-content-box">
               <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%; gap:8px;">
                 <div class="note-title-text" style="flex:1; min-width:0;">${esc(n.title)}</div>
                 ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap; flex-shrink:0; margin-top:2px;">${fmtDate(n.date)}</span>` : ''}
               </div>
-
               <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
-                <select class="note-category-select" 
-                  onclick="event.stopPropagation()" 
-                  data-id="${n.id}"
-                  style="${selectStyle}">
+                <select class="note-category-select" onclick="event.stopPropagation()" data-id="${n.id}" style="${selectStyle}">
                   <option value="work" ${catKey === 'work' ? 'selected' : ''}>💼 Công việc</option>
                   <option value="personal" ${catKey === 'personal' ? 'selected' : ''}>👤 Cá nhân</option>
                   <option value="study" ${catKey === 'study' ? 'selected' : ''}>📚 Học hành</option>
@@ -6948,20 +7048,14 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
                   <option value="other" ${catKey === 'other' ? 'selected' : ''}>📦 Khác</option>
                 </select>
               </div>
-
               ${n.content ? `<div class="note-desc-text" style="margin-top:4px;">${esc(n.content)}</div>` : ''}
-
-              ${n.hashtags && n.hashtags.length > 0 ? `
-                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
-                  ${n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600;">#${esc(tag)}</span>`).join('')}
-                </div>
-              ` : ''}
+              ${n.hashtags && n.hashtags.length > 0 ? `<div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">${n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600;">#${esc(tag)}</span>`).join('')}</div>` : ''}
             </div>
           </div>
         `;
       }
 
-      // ===== PHẦN CỦA TIPS / KIẾN THỨC (Giữ nguyên Trạng thái) =====
+      // ===== 4. RENDER TIPS =====
       const currentStatus = n.status || 'idea';
       const statusInfo = NOTE_STATUS[currentStatus];
 
@@ -6974,37 +7068,29 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
                 ${n.date ? `<span style="font-size:11px; font-weight:600; color:var(--text-muted); white-space:nowrap; flex-shrink:0; margin-top:2px;">${fmtDate(n.date)}</span>` : ''}
               </div>
               <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
-                <select class="note-status-select" 
-                  onclick="event.stopPropagation()" 
-                  onchange="updateNoteStatus('${n.id}', this.value); event.stopPropagation();"
-                  data-status="${currentStatus}"
-                  style="font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; border:1px ${statusInfo.color}; background:${statusInfo.bg}; color:${statusInfo.color}; cursor:pointer; outline:none; font-family:inherit; -webkit-appearance:none; -moz-appearance:none; appearance:none; text-align:center; text-align-last:center;">
+                <select class="note-status-select" onclick="event.stopPropagation()" onchange="updateNoteStatus('${n.id}', this.value); event.stopPropagation();" data-status="${currentStatus}" style="font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; border:1px ${statusInfo.color}; background:${statusInfo.bg}; color:${statusInfo.color}; cursor:pointer; outline:none; font-family:inherit; -webkit-appearance:none; -moz-appearance:none; appearance:none; text-align:center; text-align-last:center;">
                   <option value="idea" ${currentStatus === 'idea' ? 'selected' : ''}>Ý tưởng</option>
                   <option value="review" ${currentStatus === 'review' ? 'selected' : ''}>Xem xét</option>
-                  <option value="doing" ${currentStatus === 'doing' ? 'selected' : ''}>Đang thực hiện</option>
+                  <option value="doing" ${currentStatus === 'doing' ? 'selected' : ''}>Đang làm</option>
                   <option value="done" ${currentStatus === 'done' ? 'selected' : ''}>Xong</option>
                   <option value="cancel" ${currentStatus === 'cancel' ? 'selected' : ''}>Hủy</option>
                 </select>
               </div>
               ${n.content ? `<div class="note-desc-text" style="margin-top:4px;">${esc(n.content)}</div>` : ''}
-              ${n.hashtags && n.hashtags.length > 0 ? `
-                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
-                  ${n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600;">#${esc(tag)}</span>`).join('')}
-                </div>
-              ` : ''}
+              ${n.hashtags && n.hashtags.length > 0 ? `<div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">${n.hashtags.map(tag => `<span style="font-size:12px; color:var(--pink-primary); font-weight:600;">#${esc(tag)}</span>`).join('')}</div>` : ''}
             </div>
           </div>
-        </div>
-      `;
+        `;
     }).join('');
-    // Gắn sự kiện đổi danh mục cho thẻ Ghi chú / Việc làm
+
+    // Gắn sự kiện đổi danh mục
     list.querySelectorAll('.note-category-select').forEach(sel => {
       sel.addEventListener('change', function(e) {
         e.stopPropagation();
         updateTaskCategory(this.getAttribute('data-id'), this.value);
       });
     });
-}
+  }
 
 // Hàm hiển thị thẻ bài Kiến thức
 // Biến lưu ID địa điểm đang hiện trên thẻ Gacha
@@ -7798,7 +7884,7 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
 
   /* ==================== EXPORT / IMPORT ==================== */
   $('btnExportData').addEventListener('click', () => {
-    const backup = { places, diaries, braces, notes, finances, revenues, settings, salaryData, goals, events, bills, exportedAt: new Date().toISOString(), version: 'v34' };
+    const backup = { places, diaries, braces, notes, finances, revenues, settings, salaryData, goals, events, bills, flashcards, exportedAt: new Date().toISOString(), version: 'v35' };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -7871,9 +7957,14 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
           }
         }
         if (Array.isArray(data.goals)) goals = data.goals;
-        if (Array.isArray(data.events)) events = data.events;
-        if (Array.isArray(data.bills)) bills = data.bills;
-        
+if (Array.isArray(data.events)) events = data.events;
+if (Array.isArray(data.bills)) bills = data.bills;
+
+// Khôi phục Flashcards
+if (Array.isArray(data.flashcards)) {
+  flashcards = data.flashcards;
+  saveFlashcards();
+}
         applySettings();
         saveData();
         switchTab(currentTab);
@@ -8348,6 +8439,9 @@ ${p.status === 'done' ? `<div class="visited-stamp in-list"><div class="stamp-te
 
   /* ==================== SỰ KIỆN LƯU ==================== */
   $('fab').addEventListener('click', () => {
+    if (typeof isSelectMode !=='undefined'&& isSelectMode) {
+      exitSelectMode();
+    }
     if (currentTab === 'others') {
       if (currentOtherCategory === 'place') openPlaceModal(null);
       else if (currentOtherCategory === 'goal') toast('Vui lòng thêm trực tiếp ở bảng bên dưới');
@@ -9081,7 +9175,46 @@ function renderStudyCard() {
   $('stProgressCurrent').textContent = studySession.currentIndex + 1;
   $('stProgressTotal').textContent = studySession.queue.length;
 
-  // Tạo HTML cho phần Gợi ý (nếu có ghi chú)
+  // Kiểm tra xem thẻ này có phải là thẻ "Dịch đoạn văn" đang trống đáp án không
+  const isPassageCard = (!card.en || card.en.trim() === '') && card.tag === 'Đoạn văn';
+
+  if (isPassageCard) {
+    // === GIAO DIỆN DÀNH RIÊNG CHO DỊCH ĐOẠN VĂN ===
+    $('stSessionContent').innerHTML = `
+      <div class="study-card">
+        <div class="study-card-label">Dịch sang tiếng Anh</div>
+        <div class="study-card-question">${esc(card.vi)}</div>
+        
+        <div style="margin-top:20px;">
+          <div class="study-card-label">Nhập câu tiếng Anh của bạn</div>
+          <textarea class="study-answer-input" id="stPassageAnswer" placeholder="Nhập bản dịch của bạn..."></textarea>
+        </div>
+
+        <button class="study-main-btn" style="margin-top:16px;" id="btnSavePassageAnswer">
+          <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu đáp án
+        </button>
+      </div>
+    `;
+
+    $('btnSavePassageAnswer').addEventListener('click', () => {
+      const ans = $('stPassageAnswer').value.trim();
+      if (!ans) return toast('Vui lòng nhập bản dịch');
+      
+      // Cập nhật đáp án vào thẻ
+      card.en = ans;
+      saveFlashcards();
+      toast('✅ Đã lưu đáp án!');
+      
+      // Chuyển sang thẻ tiếp theo
+      studySession.currentIndex++;
+      renderStudyCard();
+    });
+    
+    setTimeout(() => $('stPassageAnswer').focus(), 200);
+    return; // Dừng hàm tại đây
+  }
+
+  // === CÁC THẺ BÌNH THƯỜNG (Giữ nguyên code cũ của bạn) ===
   let hintHtml = '';
   if (card.note) {
     hintHtml = `
@@ -9094,22 +9227,16 @@ function renderStudyCard() {
     `;
   }
 
-  // 1 khung duy nhất: study-card chứa câu hỏi + input + nút nghe + nút kiểm tra
   $('stSessionContent').innerHTML = `
     <div class="study-card">
       <div class="study-card-label">Tiếng Việt</div>
       <div class="study-card-question">${esc(card.vi)}</div>
 
-      <!-- Khu vực chứa Loa và Nút Gợi ý -->
       <div style="margin-top:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
-        
-        <!-- Nút loa -->
         <button type="button" id="btnPlayHint" style="width:42px; height:42px; border-radius:50%; background:var(--pink-primary); border:none; color:white; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm);">
           <svg class="hand-icon" style="width:20px; height:20px; stroke:white;"><use href="#icon-bell"/></svg>
         </button>
-        
         ${hintHtml}
-        
       </div>
 
       <div style="margin-top:20px;">
@@ -9124,17 +9251,14 @@ function renderStudyCard() {
     </div>
   `;
 
-  // Gắn sự kiện
   $('btnCheckAnswer').addEventListener('click', checkAnswer);
   $('btnPlayHint').addEventListener('click', () => speakEnglish(card.en));
 
-  // Sự kiện Ẩn/Hiện Ghi chú
   const btnShowNote = $('btnShowNote');
   if (btnShowNote) {
     btnShowNote.addEventListener('click', () => {
       const noteContainer = $('hintNoteContainer');
       const isHidden = noteContainer.style.display === 'none' || noteContainer.style.display === '';
-      
       if (isHidden) {
         noteContainer.style.display = 'block';
         btnShowNote.innerHTML = `<svg class="hand-icon" style="width:14px; height:14px; stroke:var(--pink-primary);"><use href="#icon-bulb"/></svg> Ẩn gợi ý`;
@@ -9147,7 +9271,6 @@ function renderStudyCard() {
 
   setTimeout(() => $('stUserAnswer').focus(), 200);
 }
-
 function checkAnswer() {
   if (studySession.answered) return;
   const userAns = $('stUserAnswer').value.trim();
@@ -9637,6 +9760,7 @@ window.backToStudyMain = function() {
   currentStudyView = 'main';
   $('studyManageView').style.display = 'none';
   $('studyMainView').style.display = 'block';
+  if(isSelectMode)exitSelectMode();
   renderStudyMain();
 };
 function updateDailyLimitUI() {
@@ -9677,11 +9801,75 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+// ===== BIẾN TRẠNG THÁI CHO CHỌN NHIỀU =====
+let isSelectMode = false;
+let selectedFcIds = new Set();
+
+// Nút bật/tắt chế độ chọn
+const btnToggleSelectMode = $('btnToggleSelectMode');
+if (btnToggleSelectMode) {
+  btnToggleSelectMode.addEventListener('click', () => {
+    if (isSelectMode) {
+      exitSelectMode();
+    } else {
+      isSelectMode = true;
+      selectedFcIds.clear();
+      btnToggleSelectMode.textContent = 'Hủy';
+      btnToggleSelectMode.style.background = 'var(--pink-primary)';
+      btnToggleSelectMode.style.color = 'white';
+      $('fcBulkActionBar').classList.add('show');
+      renderFcManageList();
+    }
+  });
+}
+
+window.exitSelectMode = function() {
+  isSelectMode = false;
+  selectedFcIds.clear();
+  const btn = $('btnToggleSelectMode');
+  if (btn) {
+    btn.textContent = 'Chọn';
+    btn.style.background = 'var(--pink-bg)';
+    btn.style.color = 'var(--pink-primary)';
+  }
+  $('fcBulkActionBar').classList.remove('show');
+  renderFcManageList();
+};
+
+window.deleteSelectedCards = function() {
+  if (selectedFcIds.size === 0) {
+    return toast('Vui lòng chọn ít nhất 1 thẻ');
+  }
+  if (!confirm(`Xóa ${selectedFcIds.size} thẻ đã chọn? Hành động này không thể hoàn tác.`)) return;
+
+  flashcards = flashcards.filter(c => !selectedFcIds.has(c.id));
+  saveFlashcards();
+  toast(`🗑️ Đã xóa ${selectedFcIds.size} thẻ`);
+  
+  exitSelectMode();
+  renderStudyMain();
+};
+
+window.toggleSelectCard = function(id) {
+  if (selectedFcIds.has(id)) {
+    selectedFcIds.delete(id);
+  } else {
+    selectedFcIds.add(id);
+  }
+  renderFcManageList();
+};
+
+function updateSelectCount() {
+  const el = $('fcSelectedCount');
+  if (el) el.textContent = selectedFcIds.size;
+}
+
+// ===== HÀM RENDER DANH SÁCH (ĐÃ KẾT HỢP TÌM KIẾM, LỌC VÀ CHỌN NHIỀU) =====
 function renderFcManageList() {
   const list = $('fcManageList');
   let arr = flashcards.slice();
 
-  // 1. Lọc theo từ khóa tìm kiếm (Tiếng Việt, Tiếng Anh, Ghi chú, Tag)
+  // 1. Lọc tìm kiếm
   if (typeof fcSearchQuery !== 'undefined' && fcSearchQuery.trim() !== '') {
     const q = fcSearchQuery.toLowerCase().trim();
     arr = arr.filter(c => 
@@ -9692,29 +9880,40 @@ function renderFcManageList() {
     );
   }
 
-  // 2. Lọc theo nút Chip (Chưa học, Đang học, Đã thuộc)
+  // 2. Lọc theo Chip
   if (fcFilterMode === 'new') arr = arr.filter(c => !c.sr || c.sr.reps === 0);
   else if (fcFilterMode === 'learning') arr = arr.filter(c => c.sr && c.sr.reps > 0 && c.sr.interval < 21);
   else if (fcFilterMode === 'mastered') arr = arr.filter(c => c.sr && c.sr.interval >= 21);
 
-  // 3. Hiển thị thông báo nếu không có thẻ nào
+  // 3. Thông báo rỗng
   if (arr.length === 0) {
-    if (fcSearchQuery) {
+    if (typeof fcSearchQuery !== 'undefined' && fcSearchQuery) {
       list.innerHTML = `<div class="study-empty"><h3>Không tìm thấy thẻ</h3><p>Không có thẻ nào khớp với từ khóa "${esc(fcSearchQuery)}".</p></div>`;
     } else {
       list.innerHTML = `<div class="study-empty"><h3>Chưa có thẻ nào</h3><p>Bấm nút + để thêm thẻ đầu tiên.</p></div>`;
     }
+    updateSelectCount();
     return;
   }
 
-  // 4. Sắp xếp và render
+  // 4. Render danh sách
   arr.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
 
   list.innerHTML = arr.map(c => {
     const status = getCardStatus(c);
     const interval = c.sr && c.sr.interval > 0 ? `${c.sr.interval} ngày` : 'Chưa ôn';
+    const isSelected = selectedFcIds.has(c.id);
+    
     return `
-      <div class="fc-card" onclick="openFcModal('${c.id}')">
+      <div class="fc-card" onclick="${isSelectMode ? `toggleSelectCard('${c.id}')` : `openFcModal('${c.id}')`}">
+        
+        <!-- Checkbox nằm góc phải trên cùng -->
+        ${isSelectMode ? `
+          <div class="fc-checkbox ${isSelected ? 'checked' : ''}" data-id="${c.id}" onclick="event.stopPropagation(); toggleSelectCard('${c.id}')">
+            <svg class="hand-icon"><use href="#icon-check-circle"/></svg>
+          </div>
+        ` : ''}
+        
         <div class="fc-card-top">
           <div class="fc-card-vi">${esc(c.vi)}</div>
           <span class="fc-card-status ${status.cls}">${status.label}</span>
@@ -9727,6 +9926,8 @@ function renderFcManageList() {
       </div>
     `;
   }).join('');
+
+  updateSelectCount();
 }
 // Sự kiện tìm kiếm thẻ Flashcard
 document.getElementById('searchFcInput').addEventListener('input', (e) => {
@@ -9949,19 +10150,36 @@ loadFcSettings();
 
   // 2. Hàm kiểm tra nhắc nhở Học tiếng Anh (sẽ gọi đến Thanh toán nếu không có thẻ)
   function checkStudyReminder() {
-    if (typeof getDueCards === 'function') {
-      const due = getDueCards();
-      if (due.length > 0) {
-        $('reminderDueCount').textContent = due.length;
-        setTimeout(() => {
-          $('studyReminderOverlay').classList.add('show');
-        }, 1000); 
-        return; // Có thẻ học thì dừng lại, đợi người dùng tương tác
-      }
+  if (typeof getDueCards === 'function' && typeof flashcards !== 'undefined') {
+    const dueCards = getDueCards();
+    
+    // Đếm số từ MỚI (chưa từng học, reps == 0)
+    const newCardsCount = dueCards.filter(c => !c.sr || c.sr.reps === 0).length;
+    
+    // Đếm số từ CẦN ÔN (đã học nhưng đến hạn)
+    const reviewCardsCount = dueCards.length - newCardsCount;
+    
+    const totalDue = dueCards.length;
+    
+    if (totalDue > 0) {
+      // Cập nhật lên UI
+      const newEl = $('reminderNewCount');
+      const dueEl = $('reminderDueCount');
+      const totalEl = $('reminderTotalCount');
+      
+      if (newEl) newEl.textContent = newCardsCount;
+      if (dueEl) dueEl.textContent = reviewCardsCount;
+      if (totalEl) totalEl.textContent = totalDue;
+      
+      setTimeout(() => {
+        $('studyReminderOverlay').classList.add('show');
+      }, 1000); 
+      return;
     }
-    // Nếu KHÔNG có thẻ học nào cần ôn -> Chuyển thẳng sang nhắc thanh toán
-    showPaymentReminder();
   }
+  // Không có thẻ -> Chuyển sang nhắc thanh toán
+  showPaymentReminder();
+}
 
   // 3. Sự kiện nút Nhắc nhở Học tiếng Anh
   $('btnRemindLater').addEventListener('click', () => {
@@ -10324,6 +10542,174 @@ if (newCashHeader) {
   return { current: current, best: 0 }; 
   // (Phần best có thể bỏ qua nếu không hiển thị ở đây)
 }
+  /* ==================== DỊCH ĐOẠN VĂN ==================== */
+let passageSentences = []; // Mảng lưu các câu tạm thời
+
+// Mở modal
+$('btnTranslatePassage').addEventListener('click', () => {
+  $('translateStep1').style.display = 'block';
+  $('translateStep2').style.display = 'none';
+  $('passageViInput').value = '';
+  passageSentences = [];
+  $('translatePassageOverlay').classList.add('show');
+  setTimeout(() => $('passageViInput').focus(), 300);
+});
+
+$('closeTranslateModal').addEventListener('click', () => {
+  $('translatePassageOverlay').classList.remove('show');
+});
+
+// Tách câu
+$('btnSplitPassage').addEventListener('click', () => {
+  const text = $('passageViInput').value.trim();
+  if (!text) return toast('Vui lòng dán đoạn văn');
+
+  // Regex tách câu thông minh (tách theo dấu . ? ! và giữ lại dấu câu)
+  // Tránh tách các số thập phân (VD 3.14) bằng cách yêu cầu có khoảng trắng phía sau
+  const rawSentences = text.split(/(?<=[.?!])\s+/).filter(s => s.trim().length > 0);
+  
+  if (rawSentences.length === 0) return toast('Không tìm thấy câu nào');
+
+  passageSentences = rawSentences.map((s, idx) => ({
+    id: 'temp_' + idx,
+    vi: s.trim(),
+    en: '' // Sẽ nhập ở Bước 4
+  }));
+
+  renderPassageSentences();
+  $('translateStep1').style.display = 'none';
+  $('translateStep2').style.display = 'block';
+});
+
+// Hiển thị danh sách câu để duyệt/xóa
+// Hiển thị danh sách câu để duyệt/nhập bản dịch
+function renderPassageSentences() {
+  const list = $('passageSentenceList');
+  $('passageSentenceCount').textContent = passageSentences.length;
+
+  if (passageSentences.length === 0) {
+    list.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 20px;">Không còn câu nào.</div>`;
+    $('btnSavePassageCards').style.display = 'none';
+    return;
+  }
+
+  $('btnSavePassageCards').style.display = 'flex';
+
+  list.innerHTML = passageSentences.map(s => `
+    <div style="background: var(--pink-bg); padding: 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; position: relative;">
+      
+      <!-- Nút xóa câu -->
+      <button onclick="removePassageSentence('${s.id}')" style="position: absolute; top: 8px; right: 8px; background: #fef2f2; border: none; color: #dc2626; cursor: pointer; padding: 6px; border-radius: 6px;">
+        <svg class="hand-icon" style="width: 14px; height: 14px; stroke: currentColor;"><use href="#icon-trash"/></svg>
+      </button>
+
+      <!-- Câu tiếng Việt -->
+      <div style="font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.5; padding-right: 30px;">
+        <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Tiếng Việt</span>
+        ${esc(s.vi)}
+      </div>
+
+      <!-- Ô nhập câu tiếng Anh -->
+      <div>
+        <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Bản dịch tiếng Anh</span>
+        <input type="text" class="passage-en-input" data-id="${s.id}" value="${esc(s.en || '')}" placeholder="Nhập tiếng Anh (hoặc để trống)..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--pink-surface); color: var(--text); outline: none; font-family: inherit; font-size: 13.5px;">
+      </div>
+    </div>
+  `).join('');
+  
+  // Lưu giá trị vào mảng passageSentences mỗi khi gõ
+  list.querySelectorAll('.passage-en-input').forEach(input => {
+    input.addEventListener('input', (e) => {
+      const id = e.target.dataset.id;
+      const item = passageSentences.find(x => x.id === id);
+      if (item) item.en = e.target.value;
+    });
+  });
+}
+window.removePassageSentence = function(id) {
+  passageSentences = passageSentences.filter(s => s.id !== id);
+  renderPassageSentences();
+};
+
+// Lưu thành Flashcard
+  $('btnSavePassageCards').addEventListener('click', () => {
+    if (passageSentences.length === 0) return toast('Không có câu nào để lưu');
+
+    // BƯỚC SỬA LỖI: Quét lại toàn bộ DOM các ô input để lấy dữ liệu mới nhất
+    document.querySelectorAll('.passage-en-input').forEach(input => {
+      const id = input.dataset.id;
+      const item = passageSentences.find(x => x.id === id);
+      if (item) {
+        item.en = input.value; // Cập nhật lại giá trị vào mảng
+      }
+    });
+
+    let addedCount = 0;
+    const now = Date.now();
+
+    passageSentences.forEach((s, idx) => {
+      flashcards.push({
+        id: 'fc_passage_' + now + '_' + idx,
+        vi: s.vi,
+        en: s.en.trim(), // Lưu bản dịch tiếng Anh (đã được quét mới nhất)
+        note: s.en.trim() ? '' : 'Dịch đoạn văn', // Nếu chưa có đáp án, đánh dấu để lúc học cho phép nhập
+        tag: 'Đoạn văn',
+        createdAt: now + idx,
+        sr: { interval: 0, ease: 2.5, due: Date.now(), reps: 0, lapses: 0, history: [] }
+      });
+      addedCount++;
+    });
+
+    saveFlashcards();
+    $('translatePassageOverlay').classList.remove('show');
+    toast(`✅ Đã thêm ${addedCount} câu vào bộ thẻ!`);
+    
+    // Chuyển sang tab Quản lý thẻ để người dùng thấy ngay
+    openManageView();
+  });
+  /* ============================================================
+   FIX LỖI MÚI GIỜ / QUA NGÀY MỚI KHÔNG TỰ CẬP NHẬT
+   ============================================================ */
+let lastKnownDate = new Date().toLocaleDateString('sv').split(' ')[0];
+
+function checkDateChange() {
+  const currentDate = new Date().toLocaleDateString('sv').split(' ')[0];
+  
+  // Nếu ngày hiện tại khác với ngày đã lưu (tức là đã qua 12h đêm)
+  if (currentDate !== lastKnownDate) {
+    lastKnownDate = currentDate;
+    
+    // 1. Cập nhật lại giao diện Trang chủ (Streak, Việc hôm nay, v.v.)
+    if (typeof renderHome === 'function') renderHome();
+    
+    // 2. Cập nhật lại tab Nhật ký (nếu đang mở)
+    if (currentTab === 'diary' && typeof renderDiaries === 'function') {
+      renderDiaries();
+    }
+    
+    // 3. Cập nhật lại tab Tài chính (nhắc nhở thanh toán)
+    if (currentTab === 'finance' && typeof renderFinance === 'function') {
+      renderFinance();
+    }
+
+    // 4. Cập nhật lại phần Học (nếu đang mở)
+    if (currentTab === 'study' && typeof renderStudyMain === 'function') {
+      renderStudyMain();
+    }
+    
+    console.log('🌅 Đã qua ngày mới, tự động cập nhật giao diện!');
+  }
+}
+
+// Cứ mỗi 30 giây sẽ kiểm tra 1 lần (nhẹ nhàng, không tốn pin)
+setInterval(checkDateChange, 30000);
+
+// Kiểm tra ngay khi người dùng quay lại app (từ background trở về)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    checkDateChange();
+  }
+});
 })();
 </script>
 </body>
