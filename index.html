@@ -6267,20 +6267,22 @@ const NOTE_STATUS = {
       (p.note||'').toLowerCase().includes(q)
     ).slice(0, 3);
 
-    if (matchedPlaces.length > 0) {
+        if (matchedPlaces.length > 0) {
       html += `<div class="search-res-category">Địa điểm</div>`;
       matchedPlaces.forEach(p => {
         html += `
-          <div class="search-res-item" onclick="searchGoTo('place', '${p.id}')">
-            <svg class="hand-icon" style="width:16px;height:16px; stroke:var(--pink-primary);"><use href="#icon-map"/></svg>
-            <div style="flex:1; min-width:0;">
-              <div class="search-res-title">${esc(p.name)}</div>
-              <div class="search-res-desc">${esc(p.city || '')}</div>
+          <div class="search-res-item" onclick="searchGoTo('place', '${p.id}')" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 10px 12px;">
+            <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+              <svg class="hand-icon" style="width:16px;height:16px; stroke:var(--pink-primary); flex-shrink: 0;"><use href="#icon-map"/></svg>
+              <div class="search-res-title" style="font-weight: 600;">${esc(p.name)}</div>
             </div>
+            ${p.note ? `<div style="font-size: 11px; color: var(--text); padding-left: 24px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${esc(p.note)}</div>` : ''}
+            ${p.address || p.city ? `<div style="font-size: 10px; color: var(--pink-dark); padding-left: 24px;">📍 ${esc(p.address || '')} ${p.address && p.city ? '- ' : ''}${esc(p.city || '')}</div>` : ''}
           </div>
         `;
       });
     }
+
 
     const matchedDiaries = diaries.filter(d => 
   (d.title||'').toLowerCase().includes(q) || 
