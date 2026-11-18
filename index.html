@@ -2064,9 +2064,11 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   /* ===== GIAO DIỆN THẺ BÀI CHO ĐỊA ĐIỂM ===== */
   #listPlaces.place-card-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
     padding: 0 16px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .place-card-item {
     background: var(--pink-surface);
@@ -2079,8 +2081,13 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
     gap: 8px;
     cursor: pointer;
     transition: transform 0.2s;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
   .place-card-item:active { transform: scale(0.96); }
+
 /* ===== STAMP "ĐÃ ĐI" — HÌNH TRÒN CON DẤU ===== */
 @keyframes stampAppear {
   0%   { transform: rotate(-14deg) scale(0);     opacity: 0; }
@@ -2150,6 +2157,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   font-size: 10px;
   line-height: 1.05;
 }
+
 /* ===== LÀM XÁM ĐỊA ĐIỂM ĐÃ ĐI ===== */
 
 /* --- Giao diện Danh sách --- */
@@ -2178,7 +2186,7 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   opacity: 0.85;
 }
 
-/* --- Giao diện Thẻ bài --- */
+/* --- Giao diện Thẻ bài (Đã làm xám) --- */
 .place-card-item.is-done .place-card-image {
   background: #e5e7eb !important;
   border-color: #d1d5db !important;
@@ -2205,72 +2213,79 @@ body.font-museomoderno { --font-family: 'MuseoModerno', cursive; }
   color: #9ca3af !important;
   opacity: 0.75;
 }
-  .place-card-image {
-    background: var(--pink-bg);
-    border: 2px solid var(--pink-surface);
-    border-radius: 10px;
-    height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-shadow: inset 0 0 0 1.5px var(--pink-light);
-  }
-  .place-card-image svg {
-    width: 40px;
-    height: 40px;
-    stroke: var(--pink-dark);
-    stroke-width: 1.5;
-  }
-  .place-card-title-bar {
-    background: var(--pink-primary);
-    color: white;
-    border-radius: 999px;
-    padding: 6px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    font-size: 12px;
-    font-weight: 700;
-    text-align: center;
-  }
-  .place-card-title-bar .stars {
-    display: flex;
-    gap: 1px;
-  }
-  .place-card-title-bar .stars svg {
-    width: 10px;
-    height: 10px;
-  }
-  .place-card-desc {
-    background: #fffdf5;
-    border-radius: 10px;
-    padding: 8px;
-    font-size: 11px;
-    color: var(--text);
-    line-height: 1.4;
-    text-align: center;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .place-card-footer {
-    text-align: center;
-    font-size: 10px;
-    color: var(--text-muted);
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
-  .place-card-desc, .place-card-title-bar {
-    font-family: inherit;
-  }
+
+.place-card-image {
+  background: var(--pink-bg);
+  border: 2px solid var(--pink-surface);
+  border-radius: 10px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: inset 0 0 0 1.5px var(--pink-light);
+}
+.place-card-image svg {
+  width: 40px;
+  height: 40px;
+  stroke: var(--pink-dark);
+  stroke-width: 1.5;
+}
+.place-card-title-bar {
+  background: var(--pink-primary);
+  color: white;
+  border-radius: 999px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  min-height: 42px;
+  justify-content: center;
+  word-break: break-word;
+}
+.place-card-title-bar .stars {
+  display: flex;
+  gap: 1px;
+}
+.place-card-title-bar .stars svg {
+  width: 10px;
+  height: 10px;
+}
+.place-card-desc {
+  background: #fffdf5;
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 11px;
+  color: var(--text);
+  line-height: 1.4;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1;
+}
+.place-card-footer {
+  text-align: center;
+  font-size: 10px;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+.place-card-desc, .place-card-title-bar {
+  font-family: inherit;
+}
+
   /* Màu cho theme Bút sáp */
   body.theme-crayon .place-card-item { border-color: #457b9d; }
   body.theme-crayon .place-card-image { background: #ffb703; border-color: #fffdf5; box-shadow: inset 0 0 0 2px #457b9d; }
