@@ -8083,21 +8083,38 @@ if (Array.isArray(data.flashcards)) {
       }
     }
     
-    // Tải mức ưu tiên cũ (nếu đang sửa)
+        // Tải mức ưu tiên và lặp lại cũ (nếu đang sửa) hoặc mặc định
     if (id) {
       const n = notes.find(x => x.id === id);
       formTaskPriority = n.priority || 2;
       formTaskRepeat = n.repeat || 'none';
-      document.querySelectorAll('#taskRepeatPicker .opt').forEach(o => {
-        o.classList.toggle('active', o.dataset.repeat === formTaskRepeat);
-      });
     } else {
-      formTaskPriority = 2;       formTaskRepeat = 'none';       document.querySelectorAll('#taskRepeatPicker .opt').forEach(o => {         o.classList.toggle('active', o.dataset.repeat === 'none');       });
+      formTaskPriority = 2;
+      formTaskRepeat = 'none';
     }
     
+    // Đánh dấu active cho mức ưu tiên
     document.querySelectorAll('#taskPriorityPicker .opt').forEach(o => {
       o.classList.toggle('active', Number(o.dataset.p) === formTaskPriority);
+      // Gắn sự kiện click (chỉ gắn 1 lần hoặc định nghĩa gọn ở đây)
+      o.onclick = () => {
+        document.querySelectorAll('#taskPriorityPicker .opt').forEach(el => el.classList.remove('active'));
+        o.classList.add('active');
+        formTaskPriority = Number(o.dataset.p);
+      };
     });
+
+    // Đánh dấu active cho lặp lại
+    document.querySelectorAll('#taskRepeatPicker .opt').forEach(o => {
+      o.classList.toggle('active', o.dataset.repeat === formTaskRepeat);
+      // Gắn sự kiện click
+      o.onclick = () => {
+        document.querySelectorAll('#taskRepeatPicker .opt').forEach(el => el.classList.remove('active'));
+        o.classList.add('active');
+        formTaskRepeat = o.dataset.repeat;
+      };
+    });
+
     
     $('noteOverlay').classList.add('show');
     setTimeout(() => $('noteTitle').focus(), 300);
