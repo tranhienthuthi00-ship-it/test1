@@ -7144,15 +7144,19 @@ blankInputs.forEach((input, index) => {
 
 if (blankInputs.length) blankInputs[0].focus();
 }
+
 function checkClozeAnswer() {
   const card = studySession.currentCard;
   const selected = [...studySession.clozeWords].sort((a, b) => a - b);
 
   const inputs = [...document.querySelectorAll('.cloze-blank-input')];
 
-  const actual = inputs.map(input =>
-    input.value.trim().replace(/^[.,!?;:]+|[.,!?;:]+$/g, '').toLowerCase()
-  );
+  const normalize = word => word.trim()
+    .replace(/[‘’`´]/g, "'")
+    .replace(/^[.,!?;:]+|[.,!?;:]+$/g, '')
+    .toLowerCase();
+
+  const actual = inputs.map(input => normalize(input.value));
 
   if (actual.some(word => !word)) {
     toast('Hãy điền đầy đủ các ô!');
@@ -7162,15 +7166,26 @@ function checkClozeAnswer() {
 
   const words = card.en.match(/\S+/g) || [];
 
-  const expected = selected.map(index =>
-    words[index].replace(/^[.,!?;:]+|[.,!?;:]+$/g, '').toLowerCase()
-  );
+  const expected = selected.map(index => normalize(words[index]));
 
   const isCorrect =
     expected.length === actual.length &&
     expected.every((word, index) => word === actual[index]);
 
   studySession.answered = true;
+
+  // Tạo câu hoàn chỉnh và gạch chân từ cần điền
+  const answerHtml = words.map((word, index) => {
+    const punctuation = word.match(/\s*$/)?.[0] || '';
+    const cleanWord = word.trim();
+    const space = '\u00A0';
+
+    if (selected.includes(index)) {
+      return `<span style="display:inline-block;border-bottom:3px solid #BC7077;font-weight:700;padding-bottom:2px;">${esc(cleanWord)}</span>${space}`;
+    }
+
+    return esc(word.trim()) + space;
+  }).join('');
 
   $('stSessionContent').innerHTML = `
     <div class="study-card">
@@ -7188,12 +7203,10 @@ function checkClozeAnswer() {
       </div>
 
       <div class="study-answer-block study-answer-correct" style="margin-top:10px;">
-        <div class="study-answer-block-label">Đáp án đúng</div>
-        <div class="study-answer-block-text">${esc(expected.join(' '))}</div>
-      </div>
-
-      <div style="margin-top:14px;font-size:13px;color:var(--text-muted);">
-        Câu gốc: ${esc(card.en)}
+        <div class="study-answer-block-label">Câu đáp án đúng</div>
+        <div class="study-answer-block-text" style="line-height:2.5;">
+          ${answerHtml}
+        </div>
       </div>
 
       <button class="study-main-btn" id="btnNextCloze" style="margin-top:18px;">
@@ -7207,6 +7220,7 @@ function checkClozeAnswer() {
     renderClozeSessionCard();
   });
 }
+
 function renderStudyCard() {
   if (studySession.currentIndex >= studySession.queue.length) {
     $('stSessionContent').innerHTML = `
@@ -7362,9 +7376,19 @@ function checkAnswer() {
       </div>
 
       <div class="study-answer-block study-answer-correct" style="margin-top:10px;">
-        <div class="study-answer-block-label">Đáp án đúng</div>
-        <div class="study-answer-block-text">${esc(card.en)}</div>
-      </div>
+  <div class="study-answer-block-label">Câu đáp án đúng</div>
+
+  <div class="study-answer-block-text" style="line-height:2.5;">
+    ${card.en.match(/\S+\s*/g).map((word, index) => {
+      const selected = studySession.clozeWords.includes(index);
+      const space = word.match(/\s*$/)?.[0] || '';
+
+      return selected
+        ? `<span style="font-weight:700;border-bottom:2px solid currentColor;padding-bottom:2px;">${esc(word.trim())}</span>${space}`
+        : esc(word);
+    }).join('')}
+  </div>
+</div>
 
       ${card.note ? `<div style="font-size:12.5px; color:var(--text-muted); background:var(--pink-bg); padding:10px 12px; border-radius:10px; margin-top:10px;"><b>Ghi chú:</b> ${esc(card.note)}</div>` : ''}
 
