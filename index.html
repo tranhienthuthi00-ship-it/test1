@@ -7203,12 +7203,25 @@ function checkClozeAnswer() {
       </div>
 
       <div class="study-answer-block study-answer-correct" style="margin-top:10px;">
-        <div class="study-answer-block-label">Câu đáp án đúng</div>
-        <div class="study-answer-block-text" style="line-height:2.5;">
-          ${answerHtml}
-        </div>
-      </div>
+  <div class="study-answer-block-label">Câu đáp án đúng</div>
 
+  <div class="study-answer-block-text" style="line-height:2.5;">
+    ${card.en.match(/\S+\s*/g).map((word, index) => {
+      const selected = studySession.clozeWords.includes(index);
+      const space = '\u00A0';
+
+      return selected
+        ? `<span style="font-weight:700;border-bottom:2px solid currentColor;padding-bottom:2px;">${esc(word.trim())}</span>${space}`
+        : esc(word.trim()) + space;
+    }).join('')}
+  </div>
+
+  ${card.note ? `
+    <div style="font-size:12.5px;color:var(--text-muted);background:var(--pink-bg);padding:10px 12px;border-radius:10px;margin-top:10px;">
+      <b>🪄Giải thích:</b> ${esc(card.note)}
+    </div>
+  ` : ''}
+</div>
       <button class="study-main-btn" id="btnNextCloze" style="margin-top:18px;">
         Câu tiếp theo
       </button>
@@ -7219,6 +7232,9 @@ function checkClozeAnswer() {
     studySession.currentIndex++;
     renderClozeSessionCard();
   });
+    setTimeout(() => {
+    speakEnglish(card.en);
+  }, 300);
 }
 
 function renderStudyCard() {
@@ -7390,7 +7406,7 @@ function checkAnswer() {
   </div>
 </div>
 
-      ${card.note ? `<div style="font-size:12.5px; color:var(--text-muted); background:var(--pink-bg); padding:10px 12px; border-radius:10px; margin-top:10px;"><b>Ghi chú:</b> ${esc(card.note)}</div>` : ''}
+       
 
       <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-top:18px; margin-bottom:8px; text-align:center;">Bạn thấy thế nào?</div>
       <div class="study-rating-row">
