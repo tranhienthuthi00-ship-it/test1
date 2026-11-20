@@ -2034,17 +2034,50 @@
     </div>
   </div>
 
-  <div id="studySessionView" style="display:none;">
-    <div class="study-screen">
+  
+<div id="studySessionView" style="display:none;">
+  <div class="study-screen">
+
+    <!-- MÀN HÌNH CHỌN CHẾ ĐỘ -->
+    <div id="studyModeView">
       <div class="study-progress-bar">
         <div onclick="exitStudySession()" style="cursor:pointer; display:flex; align-items:center; gap:6px; color:var(--text-muted);">
-          <svg class="hand-icon" style="width:16px;height:16px;"><use href="#icon-arrow-left"/></svg> Thoát
+          <svg class="hand-icon" style="width:16px;height:16px;"><use href="#icon-arrow-left"/></svg>
+          Thoát
         </div>
-        <div><span class="progress-count" id="stProgressCurrent">0</span> / <span id="stProgressTotal">0</span></div>
+      </div>
+
+      <div class="study-card">
+        <div class="study-card-label">Chọn phương pháp học</div>
+
+        <button class="study-main-btn" onclick="startTranslationMode()">
+          Dịch câu
+        </button>
+
+        <button class="study-main-btn" style="margin-top:12px;" onclick="startClozeMode()">
+          Đục lỗ
+        </button>
+      </div>
+    </div>
+
+    <!-- MÀN HÌNH HỌC -->
+    <div id="studyPracticeView" style="display:none;">
+      <div class="study-progress-bar">
+        <div onclick="exitStudySession()" style="cursor:pointer; display:flex; align-items:center; gap:6px; color:var(--text-muted);">
+          <svg class="hand-icon" style="width:16px;height:16px;"><use href="#icon-arrow-left"/></svg>
+          Thoát
+        </div>
+        <div>
+          <span class="progress-count" id="stProgressCurrent">0</span>
+          /
+          <span id="stProgressTotal">0</span>
+        </div>
       </div>
       <div id="stSessionContent"></div>
     </div>
+
   </div>
+</div>
 
   <div id="studyManageView" style="display:none;">
     <div class="sub-view-header">
@@ -2117,9 +2150,27 @@
     </div>
 
     <div class="field">
-      <label>Đáp án tiếng Anh *</label>
-      <textarea id="fcEnInput" placeholder="VD: I went to Hanoi last year" style="min-height: 70px;"></textarea>
-    </div>
+  <label>Đáp án tiếng Anh *</label>
+  <textarea id="fcEnInput" placeholder="VD: I went to Hanoi last year" style="min-height: 70px;"></textarea>
+</div>
+
+<div class="field">
+  <label>Từ muốn đục lỗ (tuỳ chọn)</label>
+  <div id="fcClozeWordArea" style="
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    min-height:45px;
+    line-height:2.2;
+  ">
+    <span style="font-size:12px;color:var(--text-muted);">
+      Nhập câu tiếng Anh để chọn từ muốn ẩn.
+    </span>
+  </div>
+  <small style="color:var(--text-muted);">
+    Chạm vào từ để chọn hoặc bỏ chọn.
+  </small>
+</div>
 
     <div class="field">
       <label>Ghi chú (tuỳ chọn)</label>
@@ -6823,13 +6874,16 @@ function renderStudyMain() {
   $('stAccuracy').textContent = accuracy + '%';
 
   const btn = $('btnStartStudy');
-  if (due === 0) {
-    btn.disabled = true;
-    $('btnStartStudyText').textContent = total === 0 ? 'Chưa có thẻ nào' : 'Đã ôn hết hôm nay!';
-  } else {
-    btn.disabled = false;
-    $('btnStartStudyText').textContent = `Bắt đầu học (${due} thẻ)`;
-  }
+
+if (total === 0) {
+  btn.disabled = true;
+  $('btnStartStudyText').textContent = 'Chưa có thẻ nào';
+} else {
+  btn.disabled = false;
+  $('btnStartStudyText').textContent = due === 0
+    ? 'Bắt đầu học'
+    : `Bắt đầu học (${due} thẻ)`;
+}
 
   const recent = flashcards.slice().sort((a,b) => (b.createdAt||0) - (a.createdAt||0)).slice(0, 5);
   const recentBox = $('stRecentCardsList');
@@ -6858,7 +6912,16 @@ function getCardStatus(c) {
 }
 
 function startStudySession() {
+  $('studyMainView').style.display = 'none';
+  $('studyManageView').style.display = 'none';
+  $('studySessionView').style.display = 'block';
+
+  $('studyModeView').style.display = 'block';
+  $('studyPracticeView').style.display = 'none';
+}
+window.startTranslationMode = function() {
   const due = getDueCards();
+
   if (due.length === 0) {
     toast('✅ Đã ôn hết hôm nay!');
     return;
@@ -6869,13 +6932,281 @@ function startStudySession() {
   studySession.currentCard = null;
   studySession.answered = false;
 
-  $('studyMainView').style.display = 'none';
-  $('studyManageView').style.display = 'none';
-  $('studySessionView').style.display = 'block';
+  $('studyModeView').style.display = 'none';
+  $('studyPracticeView').style.display = 'block';
 
   renderStudyCard();
-}
+};
+window.startClozeMode = function() {
+  const allCards = flashcards.filter(card =>
+    card.en &&
+    card.en.trim() !== '' &&
+    card.tag !== 'Đoạn văn'
+  );
 
+  if (allCards.length === 0) {
+    toast('Chưa có câu tiếng Anh nào!');
+    return;
+  }
+
+  studySession.mode = 'cloze';
+  studySession.queue = allCards.slice().sort(() => Math.random() - 0.5);
+  studySession.currentIndex = 0;
+  studySession.currentCard = null;
+  studySession.answered = false;
+  studySession.clozeWords = [];
+
+  $('studyModeView').style.display = 'none';
+  $('studyPracticeView').style.display = 'block';
+
+  renderClozeSessionCard();
+};
+function renderClozeSessionCard() {
+  if (studySession.currentIndex >= studySession.queue.length) {
+    $('stSessionContent').innerHTML = `
+      <div class="study-card" style="text-align:center;padding:30px 20px;">
+        <div style="font-size:42px;">🎉</div>
+        <div style="font-weight:700;margin:12px 0;">Hoàn thành luyện tập!</div>
+        <button class="study-main-btn" onclick="exitStudySession()">Quay lại</button>
+      </div>
+    `;
+    return;
+  }
+
+  const card = studySession.queue[studySession.currentIndex];
+
+  studySession.currentCard = card;
+  const words = card.en.match(/\S+/g) || []; const maxBlank = Math.min(3, words.length); const blankCount = Math.floor(Math.random() * maxBlank) + 1;  studySession.clozeWords = Array.from(   { length: words.length },   (_, index) => index )   .sort(() => Math.random() - 0.5)   .slice(0, blankCount)   .sort((a, b) => a - b);
+  studySession.answered = false;
+
+  $('stProgressCurrent').textContent = studySession.currentIndex + 1;
+  $('stProgressTotal').textContent = studySession.queue.length;
+
+  renderClozeQuestion();
+}
+function renderClozePrepareCard() {
+  if (studySession.currentIndex >= studySession.queue.length) {
+    $('stSessionContent').innerHTML = `
+      <div class="study-card" style="text-align:center; padding:30px 20px;">
+        <div style="font-size:42px;">🎉</div>
+        <div style="font-weight:700; margin:12px 0;">Hoàn thành luyện tập!</div>
+        <button class="study-main-btn" onclick="exitStudySession()">Quay lại</button>
+      </div>
+    `;
+    return;
+  }
+
+  const card = studySession.queue[studySession.currentIndex];
+  studySession.currentCard = card;
+  studySession.clozeWords = [];
+
+  const words = card.en.match(/\S+\s*/g) || [];
+
+  const wordHtml = words.map((word, index) => `
+    <button
+      type="button"
+      class="cloze-word-btn"
+      data-index="${index}"
+      style="border:1px solid var(--border); background:var(--pink-bg); color:var(--text); border-radius:7px; padding:6px 4px; margin:3px; font:inherit; cursor:pointer;"
+    >${esc(word)}</button>
+  `).join('');
+
+  $('stProgressCurrent').textContent = studySession.currentIndex + 1;
+  $('stProgressTotal').textContent = studySession.queue.length;
+
+  $('stSessionContent').innerHTML = `
+    <div class="study-card">
+      <div class="study-card-label">Bước 1 · Chọn từ muốn ẩn</div>
+      <div class="study-card-question">${esc(card.vi)}</div>
+
+      <p style="font-size:13px; color:var(--text-muted); margin:14px 0;">
+        Chạm vào một hoặc nhiều từ tiếng Anh để chọn làm chỗ trống.
+      </p>
+
+      <div id="clozeWordArea" style="line-height:2.2; text-align:center;">
+        ${wordHtml}
+      </div>
+
+      <p id="clozeSelectedCount" style="font-size:12px; color:var(--text-muted); margin-top:12px;">
+        Chưa chọn từ nào
+      </p>
+
+      <button class="study-main-btn" id="btnConfirmCloze" style="margin-top:16px;">
+        Bắt đầu luyện tập
+      </button>
+    </div>
+  `;
+
+  document.querySelectorAll('.cloze-word-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const index = Number(btn.dataset.index);
+      const selected = studySession.clozeWords;
+      const position = selected.indexOf(index);
+
+      if (position >= 0) {
+        selected.splice(position, 1);
+        btn.style.background = 'var(--pink-bg)';
+        btn.style.borderColor = 'var(--border)';
+      } else {
+        selected.push(index);
+        btn.style.background = 'var(--pink-primary)';
+        btn.style.color = 'white';
+        btn.style.borderColor = 'var(--pink-primary)';
+      }
+
+      $('clozeSelectedCount').textContent =
+        selected.length ? `Đã chọn ${selected.length} từ` : 'Chưa chọn từ nào';
+    });
+  });
+
+  $('btnConfirmCloze').addEventListener('click', () => {
+    if (studySession.clozeWords.length === 0) {
+      toast('Hãy chọn ít nhất một từ để ẩn!');
+      return;
+    }
+
+    renderClozeQuestion();
+  });
+}
+function renderClozeQuestion() {
+  const card = studySession.currentCard;
+  const words = card.en.match(/\S+\s*/g) || [];
+  const selected = [...studySession.clozeWords].sort((a, b) => a - b);
+
+  const questionHtml = words.map((word, index) => {
+    const space = word.match(/\s*$/)?.[0] || '';
+
+    if (selected.includes(index)) {
+      return `
+        <input
+          type="text"
+          class="cloze-blank-input"
+          data-index="${index}"
+          autocomplete="off"
+          style="
+            display:inline-block;
+            width:85px;
+            max-width:25vw;
+            border:none;
+            border-bottom:2px solid var(--pink-primary);
+            background:var(--pink-bg);
+            border-radius:6px 6px 0 0;
+            text-align:center;
+            font:inherit;
+            color:var(--text);
+            padding:5px 2px;
+            outline:none;
+          "
+        />${space}
+      `;
+    }
+
+    return esc(word) ;
+  }).join('');
+
+  $('stSessionContent').innerHTML = `
+    <div class="study-card">
+      <div class="study-card-label">ĐỀ BÀI</div>
+
+      <div style="font-size:18px;line-height:1.8;margin:15px 0 25px;">
+        ${esc(card.vi)}
+      </div>
+
+      <div class="study-card-label">ĐIỀN TỪ CÒN THIẾU</div>
+
+      <div style="font-size:18px;line-height:2.5;text-align:center;padding:16px 4px;">
+        ${questionHtml}
+      </div>
+
+      <button class="study-main-btn" id="btnCheckCloze" style="margin-top:16px;">
+        Kiểm tra
+      </button>
+    </div>
+  `;
+
+  $('btnCheckCloze').addEventListener('click', checkClozeAnswer);
+
+const blankInputs = [...document.querySelectorAll('.cloze-blank-input')];
+
+blankInputs.forEach((input, index) => {
+  input.addEventListener('keydown', (e) => {
+    if (e.key === ' ') {
+      e.preventDefault();
+
+      const nextInput = blankInputs[index + 1];
+
+      if (nextInput) {
+        nextInput.focus();
+      }
+    }
+  });
+});
+
+if (blankInputs.length) blankInputs[0].focus();
+}
+function checkClozeAnswer() {
+  const card = studySession.currentCard;
+  const selected = [...studySession.clozeWords].sort((a, b) => a - b);
+
+  const inputs = [...document.querySelectorAll('.cloze-blank-input')];
+
+  const actual = inputs.map(input =>
+    input.value.trim().replace(/^[.,!?;:]+|[.,!?;:]+$/g, '').toLowerCase()
+  );
+
+  if (actual.some(word => !word)) {
+    toast('Hãy điền đầy đủ các ô!');
+    inputs.find(input => !input.value.trim())?.focus();
+    return;
+  }
+
+  const words = card.en.match(/\S+/g) || [];
+
+  const expected = selected.map(index =>
+    words[index].replace(/^[.,!?;:]+|[.,!?;:]+$/g, '').toLowerCase()
+  );
+
+  const isCorrect =
+    expected.length === actual.length &&
+    expected.every((word, index) => word === actual[index]);
+
+  studySession.answered = true;
+
+  $('stSessionContent').innerHTML = `
+    <div class="study-card">
+      <div style="text-align:center;font-size:32px;">
+        ${isCorrect ? '🎯' : '💪'}
+      </div>
+
+      <div style="text-align:center;font-weight:700;margin:10px 0;">
+        ${isCorrect ? 'Chính xác!' : 'Chưa chính xác'}
+      </div>
+
+      <div class="study-answer-block">
+        <div class="study-answer-block-label">Bạn đã nhập</div>
+        <div class="study-answer-block-text">${esc(actual.join(' '))}</div>
+      </div>
+
+      <div class="study-answer-block study-answer-correct" style="margin-top:10px;">
+        <div class="study-answer-block-label">Đáp án đúng</div>
+        <div class="study-answer-block-text">${esc(expected.join(' '))}</div>
+      </div>
+
+      <div style="margin-top:14px;font-size:13px;color:var(--text-muted);">
+        Câu gốc: ${esc(card.en)}
+      </div>
+
+      <button class="study-main-btn" id="btnNextCloze" style="margin-top:18px;">
+        Câu tiếp theo
+      </button>
+    </div>
+  `;
+
+  $('btnNextCloze').addEventListener('click', () => {
+    studySession.currentIndex++;
+    renderClozeSessionCard();
+  });
+}
 function renderStudyCard() {
   if (studySession.currentIndex >= studySession.queue.length) {
     $('stSessionContent').innerHTML = `
@@ -7127,6 +7458,9 @@ window.openFcModal = function(id) {
     $('fcModalTitle').textContent = 'Sửa thẻ';
     $('fcViInput').value = c.vi || '';
     $('fcEnInput').value = c.en || '';
+    fcClozeSelection = Array.isArray(c.clozeWordIndexes)
+  ? [...c.clozeWordIndexes]
+  : [];
     $('fcNoteInput').value = c.note || '';
     $('fcTagInput').value = c.tag || '';
     if (deleteBtn) deleteBtn.style.display = 'flex';
@@ -7134,14 +7468,68 @@ window.openFcModal = function(id) {
     $('fcModalTitle').textContent = 'Thêm thẻ';
     $('fcViInput').value = '';
     $('fcEnInput').value = '';
+    fcClozeSelection = [];
     $('fcNoteInput').value = '';
     $('fcTagInput').value = '';
     if (deleteBtn) deleteBtn.style.display = 'none';
   }
   $('fcModalOverlay').classList.add('show');
+  renderFcClozeWords();
   setTimeout(() => $('fcViInput').focus(), 300);
 };
+let fcClozeSelection = [];
 
+function renderFcClozeWords() {
+  const text = $('fcEnInput').value;
+  const area = $('fcClozeWordArea');
+
+  if (!text.trim()) {
+    area.innerHTML = 'Nhập câu tiếng Anh để chọn từ muốn ẩn.';
+    return;
+  }
+
+  const words = text.match(/\S+/g) || [];
+
+  area.innerHTML = words.map((word, index) => {
+    const selected = fcClozeSelection.includes(index);
+
+    return `
+      <button type="button"
+        data-index="${index}"
+        style="
+          border:1px solid var(--pink-primary);
+          background:${selected ? 'var(--pink-primary)' : 'var(--pink-bg)'};
+          color:${selected ? 'white' : 'var(--text)'};
+          border-radius:6px;
+          padding:4px 6px;
+          margin:2px;
+          font:inherit;
+          cursor:pointer;
+        ">
+        ${esc(word)}
+      </button>
+    `;
+  }).join(' ');
+
+  area.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const index = Number(btn.dataset.index);
+
+      if (fcClozeSelection.includes(index)) {
+        fcClozeSelection = fcClozeSelection.filter(i => i !== index);
+      } else {
+        fcClozeSelection.push(index);
+      }
+
+      renderFcClozeWords();
+    });
+  });
+}
+
+$('fcEnInput').addEventListener('input', () => {
+  fcClozeSelection = [];
+  renderFcClozeWords();
+});
 $('closeFcModal').addEventListener('click', () => {
   $('fcModalOverlay').classList.remove('show');
   editFcId = null;
@@ -7413,12 +7801,12 @@ $('fcSaveBtn').addEventListener('click', () => {
   if (!en) { $('fcEnInput').focus(); return toast('Nhập đáp án tiếng Anh'); }
 
   const data = {
-    vi,
-    en,
-    note: $('fcNoteInput').value.trim(),
-    tag: $('fcTagInput').value.trim()
-  };
-
+  vi,
+  en,
+  note: $('fcNoteInput').value.trim(),
+  tag: $('fcTagInput').value.trim(),
+  clozeWordIndexes: [...fcClozeSelection]
+};
   if (editFcId) {
     const c = flashcards.find(x => x.id === editFcId);
     if (c) Object.assign(c, data);
