@@ -5152,7 +5152,7 @@ if (btnToggleAllFinance) {
   });
 }
   function renderFinance() {
-    const fin = calcFinance(showAllFinanceAssets);  $('finAssetModeLabel').textContent = showAllFinanceAssets   ? '(Tất cả tài sản)'   : '(Báo cáo)';  $('btnToggleAllFinance').textContent = showAllFinanceAssets   ? 'Chỉ xem báo cáo'   : 'Xem tất cả';
+    const fin = calcFinance(showAllFinanceAssets);  $('finAssetModeLabel').textContent = showAllFinanceAssets   ? '(Tất cả)'   : '(Báo cáo)';  $('btnToggleAllFinance').textContent = showAllFinanceAssets   ? 'Chỉ xem báo cáo'   : 'Xem tất cả';
 
     $('finTotalAsset').textContent = fmtMoney(fin.totalAsset);
     $('finCashVal').textContent = fmtMoney(fin.cashTotal);
