@@ -1812,7 +1812,7 @@
   <div class="finance-carousel" id="finCarousel">
     <div class="finance-page" data-page="0">
       <div class="finance-dashboard">
-        <div class="finance-balance-label">Tổng tài sản (Báo cáo)</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px;">   <div class="finance-balance-label" style="margin:0;">     Tổng tài sản <span id="finAssetModeLabel">(Báo cáo)</span>   </div>    <button     type="button"     id="btnToggleAllFinance"     style="border:1px solid var(--pink-primary); background:var(--pink-bg); color:var(--pink-primary); padding:6px 10px; border-radius:20px; font-size:11px; font-weight:700;">     Xem tất cả   </button> </div>
         <div class="finance-balance" id="finTotalAsset">0 đ</div>
         <div class="finance-grid">
           <div class="finance-box">
@@ -3311,55 +3311,59 @@
   }
 
   /* ==================== TÍNH TOÁN TÀI CHÍNH ==================== */
-  function calcFinance() {
-    let cashTotal = 0;
-    DENOMINATIONS.forEach(d => {
-      const qty = finances.cash_counts[d] || 0;
-      cashTotal += d * qty;
-    });
+  
+function calcFinance(showAll = false) {
+  let cashTotal = 0;
+  DENOMINATIONS.forEach(d => {
+    cashTotal += d * (finances.cash_counts[d] || 0);
+  });
 
-    let newCashTotal = 0;
-    DENOMINATIONS.forEach(d => {
-      const qty = finances.new_cash_counts[d] || 0;
-      newCashTotal += d * qty;
-    });
+  let newCashTotal = 0;
+  DENOMINATIONS.forEach(d => {
+    newCashTotal += d * (finances.new_cash_counts[d] || 0);
+  });
 
-    let creditTotal = 0;
-    finances.credit_expenses.forEach(c => {
-      creditTotal += (c.amount || 0);
-    });
+  let creditTotal = 0;
+  finances.credit_expenses.forEach(c => {
+    creditTotal += (c.amount || 0);
+  });
 
-    let bracesTotal = 0;
-    braces.forEach(b => {
-      bracesTotal += (b.amount || 0);
-    });
+  let bracesTotal = 0;
+  braces.forEach(b => {
+    bracesTotal += (b.amount || 0);
+  });
 
-    let revenueTotal = 0;
-    Object.values(revenues.records).forEach(amount => {
-      revenueTotal += (Number(amount) || 0);
-    });
+  let revenueTotal = 0;
+  Object.values(revenues.records).forEach(amount => {
+    revenueTotal += (Number(amount) || 0);
+  });
 
-    let otherAssetsTotal = 0;
-    let loanOutTotal = 0;
-    let loanInTotal = creditTotal + revenueTotal;
+  let otherAssetsTotal = 0;
+  let loanOutTotal = 0;
+  let loanInTotal = creditTotal + revenueTotal;
 
-    finances.other_assets.forEach(a => {
-      if (a.include) {
-        if (a.type === 'loan_out') loanOutTotal += (a.value || 0);
-        else if (a.type === 'loan_in') loanInTotal += (a.value || 0);
-        else otherAssetsTotal += (a.value || 0);
-      }
-    });
+  finances.other_assets.forEach(a => {
+    if (showAll || a.include) {
+      if (a.type === 'loan_out') loanOutTotal += (a.value || 0);
+      else if (a.type === 'loan_in') loanInTotal += (a.value || 0);
+      else otherAssetsTotal += (a.value || 0);
+    }
+  });
 
-    let totalAsset = 0;
-    if (finances.cash_include) totalAsset += cashTotal;
-    if (finances.new_cash_include) totalAsset += newCashTotal;
-    totalAsset += otherAssetsTotal;
-    totalAsset += loanOutTotal;
-    totalAsset -= loanInTotal;
+  let totalAsset = 0;
+  if (showAll || finances.cash_include) totalAsset += cashTotal;
+  if (showAll || finances.new_cash_include) totalAsset += newCashTotal;
+  totalAsset += otherAssetsTotal;
+  totalAsset += loanOutTotal;
+  totalAsset -= loanInTotal;
 
-    return { cashTotal, newCashTotal, creditTotal, bracesTotal, revenueTotal, otherAssetsTotal, loanOutTotal, loanInTotal, totalAsset };
-  }
+  return {
+    cashTotal, newCashTotal, creditTotal, bracesTotal,
+    revenueTotal, otherAssetsTotal, loanOutTotal,
+    loanInTotal, totalAsset
+  };
+}
+
 
   /* ==================== TAB SWITCHER ==================== */
   function switchTab(tabId) {
@@ -5113,8 +5117,17 @@ function getFilteredPlaces() {
   }
 
   /* ==================== TAB 4: TÀI CHÍNH ==================== */
+  let showAllFinanceAssets = false;
+  const btnToggleAllFinance = $('btnToggleAllFinance');
+
+if (btnToggleAllFinance) {
+  btnToggleAllFinance.addEventListener('click', () => {
+    showAllFinanceAssets = !showAllFinanceAssets;
+    renderFinance();
+  });
+}
   function renderFinance() {
-    const fin = calcFinance();
+    const fin = calcFinance(showAllFinanceAssets);  $('finAssetModeLabel').textContent = showAllFinanceAssets   ? '(Tất cả tài sản)'   : '(Báo cáo)';  $('btnToggleAllFinance').textContent = showAllFinanceAssets   ? 'Chỉ xem báo cáo'   : 'Xem tất cả';
 
     $('finTotalAsset').textContent = fmtMoney(fin.totalAsset);
     $('finCashVal').textContent = fmtMoney(fin.cashTotal);
