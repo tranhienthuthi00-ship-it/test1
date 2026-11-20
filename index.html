@@ -7192,58 +7192,53 @@ function checkClozeAnswer() {
   studySession.answered = true;
 
   // Tạo câu hoàn chỉnh và gạch chân từ cần điền
-  const answerHtml = words.map((word, index) => {
-    const punctuation = word.match(/\s*$/)?.[0] || '';
-    const cleanWord = word.trim();
-    const space = '\u00A0';
+const answerHtml = words.map((word, index) => {
+  const cleanWord = word.trim();
+  const space = '\u00A0';
 
-    if (selected.includes(index)) {
-      return `<span style="display:inline-block;border-bottom:3px solid #BC7077;font-weight:700;padding-bottom:2px;">${esc(cleanWord)}</span>${space}`;
-    }
+  if (selected.includes(index)) {
+    return `<span style="display:inline-block;white-space:nowrap;color:#16A36A;font-weight:700;border-bottom:2px solid #16A36A;padding-bottom:2px;">${esc(cleanWord)}</span>${space}`;
+  }
 
-    return esc(word.trim()) + space;
-  }).join('');
+  return `<span style="display:inline-block;white-space:nowrap;">${esc(cleanWord)}</span>${space}`;
+}).join('');
 
   $('stSessionContent').innerHTML = `
-    <div class="study-card">
-      <div style="text-align:center;font-size:32px;">
-        ${isCorrect ? '🎯' : '💪'}
+  <div class="study-card">
+    <div style="text-align:center;font-size:32px;">
+      ${isCorrect ? '🎯' : '💪'}
+    </div>
+
+    <div style="text-align:center;font-weight:700;margin:10px 0;">
+      ${isCorrect ? 'Chính xác!' : 'Chưa chính xác'}
+    </div>
+
+    <div class="study-answer-block">
+      <div class="study-answer-block-label">Bạn đã nhập</div>
+      <div class="study-answer-block-text" style="color:${isCorrect ? '#16A36A' : '#DC4545'};">
+        ${esc(actual.join(' '))}
       </div>
+    </div>
 
-      <div style="text-align:center;font-weight:700;margin:10px 0;">
-        ${isCorrect ? 'Chính xác!' : 'Chưa chính xác'}
+    <div class="study-answer-block" style="margin-top:10px;">
+      <div class="study-answer-block-label">Câu đáp án đúng</div>
+      <div class="study-answer-block-text" style="   color:#222;   line-height:2;   overflow-wrap:normal;   word-break:normal;   white-space:normal; ">
+        ${answerHtml}
       </div>
+    </div>
 
-      <div class="study-answer-block">
-        <div class="study-answer-block-label">Bạn đã nhập</div>
-        <div class="study-answer-block-text">${esc(actual.join(' '))}</div>
+    ${card.note ? `
+      <div style="font-size:13px;color:var(--text);background:var(--pink-bg);padding:12px;border-radius:10px;margin-top:10px;line-height:1.8;">
+        <b>🪄 Giải thích:</b>
+        <div style="white-space:pre-line;margin-top:4px;">${esc(card.note)}</div>
       </div>
+    ` : ''}
 
-      <div class="study-answer-block study-answer-correct" style="margin-top:10px;">
-  <div class="study-answer-block-label">Câu đáp án đúng</div>
-
-  <div class="study-answer-block-text" style="line-height:2.5;">
-    ${card.en.match(/\S+\s*/g).map((word, index) => {
-      const selected = studySession.clozeWords.includes(index);
-      const space = '\u00A0';
-
-      return selected
-        ? `<span style="font-weight:700;border-bottom:2px solid currentColor;padding-bottom:2px;">${esc(word.trim())}</span>${space}`
-        : esc(word.trim()) + space;
-    }).join('')}
+    <button class="study-main-btn" id="btnNextCloze" style="margin-top:18px;">
+      Câu tiếp theo
+    </button>
   </div>
-
-  ${card.note ? `
-    <div style="font-size:12.5px;color:var(--text-muted);background:var(--pink-bg);padding:10px 12px;border-radius:10px;margin-top:10px;">
-      <b>🪄Giải thích:</b> ${esc(card.note)}
-    </div>
-  ` : ''}
-</div>
-      <button class="study-main-btn" id="btnNextCloze" style="margin-top:18px;">
-        Câu tiếp theo
-      </button>
-    </div>
-  `;
+`;
 
   $('btnNextCloze').addEventListener('click', () => {
     studySession.currentIndex++;
