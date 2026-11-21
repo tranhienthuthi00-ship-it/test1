@@ -6956,10 +6956,11 @@ window.startTranslationMode = function() {
 };
 window.startClozeMode = function() {
   const allCards = flashcards.filter(card =>
-    card.en &&
-    card.en.trim() !== '' &&
-    card.tag !== 'Đoạn văn'
-  );
+  card.en &&
+  card.en.trim() !== '' &&
+  card.tag !== 'Đoạn văn' &&
+  isNewCard(card)
+);
 
   if (allCards.length === 0) {
     toast('Chưa có câu tiếng Anh nào!');
@@ -7190,6 +7191,27 @@ function checkClozeAnswer() {
     expected.every((word, index) => word === actual[index]);
 
   studySession.answered = true;
+// Lưu kết quả Đục lỗ vào lịch sử chung
+if (!card.sr) {
+  card.sr = {
+    interval: 0,
+    ease: 2.5,
+    due: Date.now(),
+    reps: 0,
+    lapses: 0,
+    history: []
+  };
+}
+
+if (!card.sr.history) card.sr.history = [];
+
+card.sr.history.push({
+  date: Date.now(),
+  rating: 'cloze',
+  accuracy: isCorrect ? 100 : 0
+});
+
+saveFlashcards();
 
   // Tạo câu hoàn chỉnh và gạch chân từ cần điền
 const answerHtml = words.map((word, index) => {
