@@ -2105,7 +2105,6 @@
 </div>
   <!-- MÀN HÌNH SENTENCE DETECTIVE -->
 <div id="detectiveView" style="display:none;">
-  <div class="study-screen">
   <div class="study-progress-bar">
     <div onclick="exitStudySession()" style="cursor:pointer; display:flex; align-items:center; gap:6px; color:var(--text-muted);">
       <svg class="hand-icon" style="width:16px;height:16px;"><use href="#icon-arrow-left"/></svg>
@@ -2118,13 +2117,11 @@
   </div>
 
   <div class="study-card">
-    <div class="study-card-label">🔎 Sentence Detective</div>
+    <div class="study-card-label">Tìm và sửa tất cả lỗi trong câu sau.</div>
     <div id="detectiveContent"></div>
   </div>
-  </div>
 </div>
-
-<div id="studyManageView" style="display:none;">
+  <div id="studyManageView" style="display:none;">
     <div class="sub-view-header">
       <button class="back-btn" onclick="backToStudyMain()"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
       <div class="sub-view-title">Quản lý thẻ</div>
@@ -7231,32 +7228,38 @@ function renderDetectiveCard() {
       studySession.currentCard = card;
       studySession.detectivePuzzle = puzzle;
       studySession.answered = false;
+      
+let hintHtml = `
+  <button type="button" id="btnShowDetectiveNote"
+    style="margin-top:12px;background:var(--pink-bg);border:1px solid var(--border);color:var(--text-muted);font-size:12px;font-weight:600;padding:6px 14px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;">
+    <svg class="hand-icon" style="width:14px;height:14px;stroke:var(--pink-primary);">
+      <use href="#icon-bulb"/>
+    </svg>
+    Xem gợi ý
+  </button>
+
+  <div id="detectiveHintNote" style="display:none;margin-top:10px;padding:12px;font-size:13.5px;color:var(--text);line-height:1.5;text-align:left;width:100%;box-sizing:border-box;">
+    ${esc(card.vi || '')}
+  </div>
+`;
 
       $('detectiveCurrent').textContent =
         studySession.currentIndex + 1;
 
       $('detectiveContent').innerHTML = `
-        <div style="margin-bottom:16px;color:var(--text-muted);">
-          Hãy tìm và sửa tất cả lỗi trong câu sau.
-        </div>
 
         <div style="padding:16px;border-radius:14px;background:var(--pink-bg);margin-bottom:16px;line-height:1.8;font-weight:600;">
           ${esc(puzzle.corrupted)}
         </div>
-
-        <div style="margin-bottom:10px;color:var(--text-muted);">
-          Nghĩa tiếng Việt
-        </div>
-
-        <div style="margin-bottom:18px;line-height:1.7;">
-          ${esc(card.vi || '')}
-        </div>
+<div style="display:flex;flex-direction:column;align-items:center;">
+  ${hintHtml}
+</div>
 
         <textarea
           id="detectiveAnswer"
           rows="3"
           placeholder="Viết lại toàn bộ câu tiếng Anh..."
-          style="width:100%;box-sizing:border-box;padding:14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font:inherit;resize:vertical;"
+          style="width:100%;box-sizing:border-box;padding:14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);margin-top: 18px;font:inherit;resize:vertical;"
         ></textarea>
 
         <button
@@ -7267,6 +7270,24 @@ function renderDetectiveCard() {
           Kiểm tra đáp án
         </button>
       `;
+      
+const btnShowNote = $('btnShowDetectiveNote');
+
+if (btnShowNote) {
+  btnShowNote.addEventListener('click', () => {
+    const note = $('detectiveHintNote');
+    const isHidden = note.style.display === 'none';
+
+    note.style.display = isHidden ? 'block' : 'none';
+
+    btnShowNote.innerHTML = `
+      <svg class="hand-icon" style="width:14px;height:14px;stroke:var(--pink-primary);">
+        <use href="#icon-bulb"/>
+      </svg>
+      ${isHidden ? 'Ẩn gợi ý' : 'Xem gợi ý'}
+    `;
+  });
+}
 
       return;
     }
@@ -7346,7 +7367,7 @@ const comparedAnswer = Array.from(
     fcNormalize(userAnswer) === fcNormalize(puzzle.original);
 
   $('detectiveContent').innerHTML = `
-    <div style="text-align:center;padding:12px 0;">
+    <div style="text-align:center;padding:4px 0;">
       <div style="font-size:42px;">
         ${correct ? '🎉' : '💪'}
       </div>
@@ -7360,7 +7381,7 @@ const comparedAnswer = Array.from(
       </div>
     </div>
 
-    <div style="padding:14px;background:var(--pink-bg);border-radius:12px;margin:14px 0;">
+    <div style="padding:14px;background:var(--pink-bg);border-radius:12px;margin:8px 0;">
       <div style="font-weight:700;margin-bottom:8px;">
         Câu trả lời của bạn
       </div>
@@ -7388,14 +7409,14 @@ const comparedAnswer = Array.from(
 </div>
     </div>
 
-    <div style="margin-bottom:18px;">
+    <div style="margin-bottom:10px;">
       <div style="font-weight:700;margin-bottom:8px;">
-        Các dạng lỗi đã tạo
+        🪄Giải thích:
       </div>
 
-      ${puzzle.errors.map(error => `
-        <div style="padding:7px 0;">• ${esc(error)}</div>
-      `).join('')}
+      <div style="padding:7px 0;line-height:1.6;">
+  ${esc(studySession.currentCard.note || 'Chưa có ghi chú.')}
+</div>
     </div>
 
     <button
@@ -7473,7 +7494,7 @@ function renderClozePrepareCard() {
       <div class="study-card-label">Bước 1 · Chọn từ muốn ẩn</div>
       <div class="study-card-question">${esc(card.vi)}</div>
 
-      <p style="font-size:13px; color:var(--text-muted); margin:14px 0;">
+      <p style="font-size:13px; color:var(--text-muted); margin:8px 0;">
         Chạm vào một hoặc nhiều từ tiếng Anh để chọn làm chỗ trống.
       </p>
 
