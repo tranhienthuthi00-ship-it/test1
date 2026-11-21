@@ -2103,24 +2103,30 @@
 
   </div>
 </div>
-  <!-- MÀN HÌNH SENTENCE DETECTIVE -->
+  
+<!-- MÀN HÌNH SENTENCE DETECTIVE -->
 <div id="detectiveView" style="display:none;">
-  <div class="study-progress-bar">
-    <div onclick="exitStudySession()" style="cursor:pointer; display:flex; align-items:center; gap:6px; color:var(--text-muted);">
-      <svg class="hand-icon" style="width:16px;height:16px;"><use href="#icon-arrow-left"/></svg>
-      Thoát
-    </div>
-    <div>
-      <span id="detectiveCurrent">0</span> /
-      <span id="detectiveTotal">0</span>
-    </div>
-  </div>
+  <div class="study-screen" style="padding-left:16px; padding-right:16px; box-sizing:border-box; width:100%;">
 
-  <div class="study-card">
-    <div class="study-card-label">Tìm và sửa tất cả lỗi trong câu sau.</div>
-    <div id="detectiveContent"></div>
+    <div class="study-progress-bar">
+      <div onclick="exitStudySession()" style="cursor:pointer; display:flex; align-items:center; gap:6px; color:var(--text-muted);">
+        <svg class="hand-icon" style="width:16px;height:16px;"><use href="#icon-arrow-left"/></svg>
+        Thoát
+      </div>
+      <div>
+        <span id="detectiveCurrent">0</span> /
+        <span id="detectiveTotal">0</span>
+      </div>
+    </div>
+
+    <div class="study-card" style="width:100%; max-width:100%; min-width:0; box-sizing:border-box;">
+      <div class="study-card-label">🔎 Tìm và sửa lỗi trong câu sau.</div>
+      <div id="detectiveContent" style="width:100%; min-width:0; box-sizing:border-box;"></div>
+    </div>
+
   </div>
 </div>
+
   <div id="studyManageView" style="display:none;">
     <div class="sub-view-header">
       <button class="back-btn" onclick="backToStudyMain()"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
