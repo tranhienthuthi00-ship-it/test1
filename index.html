@@ -1361,6 +1361,141 @@
     background-color: var(--pink-bg) !important;
   }
 
+
+/* HABIT TRACKER */
+.habit-container {
+  padding: 16px;
+}
+
+.habit-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: var(--pink-dark);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
+}
+
+.habit-summary h3 {
+  margin: 6px 0 0;
+  font-size: 20px;
+  color: var(--pink-surface);
+}
+
+#habitTodayDate {
+  font-size: 13px;
+  color: var(--pink-surface);
+}
+
+#habitProgress {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--pink-surface);
+}
+
+.habit-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 12px;
+  margin-bottom: 10px;
+  background: var(--pink-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.habit-item.completed {
+  background: var(--pink-bg);
+}
+
+.habit-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.habit-item.completed .habit-check {
+  border-color: var(--pink-primary);
+  background: var(--pink-primary);
+}
+
+.habit-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.habit-item.completed .habit-name {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.habit-summary .bucket-progress-bg {
+  background: rgba(255,255,255,0.25);
+}
+
+.habit-summary .bucket-progress-fill {
+  background: white;
+}
+
+.habit-delete {
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 22px;
+  padding: 6px;
+  min-width: 36px;
+  min-height: 36px;
+}
+
+.habit-add-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.habit-add-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--pink-surface);
+  color: var(--text);
+  font-family: var(--font-family);
+  font-size: 14px;
+}
+
+.habit-add-row button {
+  padding: 0 18px;
+  border: none;
+  border-radius: 14px;
+  background: var(--pink-primary);
+  color: white;
+  font-weight: 700;
+  font-family: var(--font-family);
+  cursor: pointer;
+}
+
+
 </style>
 </head>
 <body>
@@ -1699,6 +1834,11 @@
         <div class="other-card-title">Bucket List</div>
         <div class="other-card-count" id="countGoalCard">0 mục</div>
       </div>
+      <div class="other-card" data-type="habit">
+        <div class="other-card-icon goal"><svg class="hand-icon"><use href="#icon-calendar"/></svg></div>
+        <div class="other-card-title">Habit Tracker</div>
+        <div class="other-card-count" id="countHabitCard">0 thói quen</div>
+      </div>
     </div>
   </div>
 
@@ -1812,6 +1952,40 @@
     </div>
     <div class="event-list" id="eventListContainer"></div>
   </div>
+  <div id="habitDetailView" style="display: none;">
+  <div class="sub-view-header">
+    <button class="back-btn" id="backToOthersFromHabitBtn">
+      <svg class="hand-icon"><use href="#icon-arrow-left"/></svg>
+    </button>
+    <div class="sub-view-title">Habit Tracker</div>
+  </div>
+
+  <div class="habit-container">
+    <div class="habit-summary">
+  <div style="width:100%;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div id="habitTodayDate"></div>
+        <h3>Hôm nay</h3>
+      </div>
+      <div id="habitProgress">0/0</div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700; color:var(--text-muted); margin-top:18px;">
+      <span style="color:white;">Tiến độ hôm nay</span>
+<span id="habitProgressPercent" style="color:white;">0%</span>
+    </div>
+
+    <div class="bucket-progress-bg">
+      <div class="bucket-progress-fill" id="habitProgressFill" style="width:0%;"></div>
+    </div>
+  </div>
+</div>
+
+    <div id="habitList"></div>
+
+  </div>
+</div>
 </div>
 
 <!-- ================= TAB 4: TÀI CHÍNH ================= -->
@@ -2641,6 +2815,36 @@
   </div>
 </div>
 
+<!-- HABIT MODAL -->
+<div class="overlay" id="habitOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>
+      <span>Thêm thói quen</span>
+      <button id="closeHabitModal">
+        <svg class="hand-icon"><use href="#icon-x"/></svg>
+      </button>
+    </h2>
+
+    <div class="field">
+      <label>Tên thói quen *</label>
+      <input type="text" id="habitModalInput" placeholder="VD: Đọc sách 15 phút">
+    </div>
+    <div class="field">
+  <label>Lặp lại</label>
+  <div class="picker" id="habitRepeatPicker">
+    <div class="opt active" data-repeat="daily">Hằng ngày</div>
+    <div class="opt" data-repeat="weekly">Hằng tuần</div>
+    <div class="opt" data-repeat="monthly">Hằng tháng</div>
+  </div>
+</div>
+
+    <button class="save-btn" id="saveHabitModalBtn">
+      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu
+    </button>
+  </div>
+</div>
+
 <div class="overlay" id="diaryOverlay">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -3137,6 +3341,8 @@ function hasPartOfSpeech(tags, type) {
   let settings = { ...SAMPLE_SETTINGS };
   let salaryData = { income: 0, expenses: [] };
   let goals = [];
+  let habits = [];
+  let habitRepeat = 'daily';
   let bills = [];
 
   let currentTab = 'home';
@@ -3305,6 +3511,10 @@ function hasPartOfSpeech(tags, type) {
       events = rawEv ? JSON.parse(rawEv) : [...SAMPLE_EVENTS];
     } catch(e) { events = [...SAMPLE_EVENTS]; }
     try {
+      const rawHabit = localStorage.getItem('HABIT_KEY');
+      habits = rawHabit ? JSON.parse(rawHabit) : [];
+    } catch(e) { habits = [];}
+    try {
       const rawBill = localStorage.getItem(BILL_KEY);
       bills = rawBill ? JSON.parse(rawBill) : [];
     } catch(e) { bills = []; }
@@ -3324,6 +3534,7 @@ function hasPartOfSpeech(tags, type) {
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
       localStorage.setItem(SALARY_KEY, JSON.stringify(salaryData));
       localStorage.setItem(GOAL_KEY, JSON.stringify(goals));
+      localStorage.setItem('HABIT_KEY', JSON.stringify(habits));
       localStorage.setItem(EVENT_KEY, JSON.stringify(events));
       localStorage.setItem(BILL_KEY, JSON.stringify(bills));
     } catch(e) { toast('⚠️ Lỗi lưu dữ liệu'); }
@@ -4582,13 +4793,15 @@ function getFilteredPlaces() {
   });
 
   /* ==================== TAB 3: KHÁC ==================== */
-  function renderOthers() {
+  
+function renderOthers() {
     const countPlaces = places.length;
     const countNotes = notes.filter(n => n.type === 'knowledge').length;
     const countTasks = notes.filter(n => n.type === 'task').length;
     const countTips = notes.filter(n => n.type === 'tip').length;
     const countGoals = goals.length;
     const countEvents = events.length;
+    const countHabits = habits.length;
 
     $('countPlaceCard').textContent = `${countPlaces} mục`;
     $('countKnowledgeCard').textContent = `${countNotes} mục`;
@@ -4596,11 +4809,14 @@ function getFilteredPlaces() {
     $('countTipCard').textContent = `${countTips} mục`;
     $('countGoalCard').textContent = `${countGoals} mục`;
     $('countEventCard').textContent = `${countEvents} mục`;
+    $('countHabitCard').textContent = `${countHabits} thói quen`;
+
     $('othersMainView').style.display = 'none';
     $('placeDetailView').style.display = 'none';
     $('othersDetailView').style.display = 'none';
     $('goalDetailView').style.display = 'none';
     $('eventDetailView').style.display = 'none';
+    $('habitDetailView').style.display = 'none';
 
     if (!currentOtherCategory) {
       $('othersMainView').style.display = 'block';
@@ -4616,12 +4832,16 @@ function getFilteredPlaces() {
     } else if (currentOtherCategory === 'event') {
       $('eventDetailView').style.display = 'block';
       renderEvents();
+    } else if (currentOtherCategory === 'habit') {
+      $('habitDetailView').style.display = 'block';
+      renderHabits();
     } else {
       $('othersDetailView').style.display = 'block';
       $('subViewTitle').textContent = INFO[currentOtherCategory]?.label || 'Danh sách';
       renderNotes();
     }
   }
+
 
   document.querySelectorAll('.other-card').forEach(card => {
     card.addEventListener('click', () => {
@@ -4648,6 +4868,10 @@ function getFilteredPlaces() {
     renderOthers();
   });
   $('backToOthersFromEventBtn').addEventListener('click', () => {
+    currentOtherCategory = null;
+    renderOthers();
+  });
+  $('backToOthersFromHabitBtn').addEventListener('click', () => {
     currentOtherCategory = null;
     renderOthers();
   });
@@ -5163,6 +5387,207 @@ function getFilteredPlaces() {
       `;
     }).join('');
   }
+  function isHabitDue(habit, today) {
+  const start = new Date(habit.createdAt + 'T00:00:00');
+  const current = new Date(today + 'T00:00:00');
+
+  const days = Math.floor(
+    (current - start) / 86400000
+  );
+
+  if (days < 0) return false;
+
+  if (habit.frequency === 'daily') return true;
+
+  if (habit.frequency === 'weekly') {
+    return days % 7 === 0;
+  }
+
+  if (habit.frequency === 'monthly') {
+    return current.getDate() === start.getDate();
+  }
+
+  return true;
+}
+function renderHabits() {
+  const today = toLocalDateStr(new Date());
+
+  $('habitTodayDate').textContent =
+    new Date().toLocaleDateString('vi-VN', {
+      weekday: 'long',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+
+  const todayHabits = habits.filter(h =>
+  isHabitDue(h, today)
+);
+
+const completed = todayHabits.filter(h =>
+  h.completedDates && h.completedDates.includes(today)
+).length;
+
+  const percent = todayHabits.length
+  ? Math.round((completed / habits.length) * 100)
+  : 0;
+
+$('habitProgress').textContent = `${completed}/${todayHabits.length}`;
+$('habitProgressPercent').textContent = `${percent}%`;
+$('habitProgressFill').style.width = `${percent}%`;
+  const list = $('habitList');
+
+  if (todayHabits.length === 0) {
+    list.innerHTML = `
+      <div style="text-align:center;padding:24px;color:var(--text-muted);">
+        Chưa có thói quen nào. Hãy thêm thói quen đầu tiên nhé!
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = todayHabits.map(h => {
+    const done = h.completedDates &&
+      h.completedDates.includes(today);
+
+    return `
+      <div class="habit-item ${done ? 'completed' : ''}">
+        <div class="habit-check" onclick="toggleHabit('${h.id}')">
+  <svg class="hand-icon" style="width:12px;height:12px;stroke:white;opacity:${done ? '1' : '0'};">
+    <use href="#icon-check-circle"/>
+  </svg>
+</div>
+        <div class="habit-name">${esc(h.name)}</div>
+        <button class="habit-delete" type="button"
+  onclick="window.deleteHabit('${h.id}')">×</button>
+      </div>
+    `;
+  }).join('');
+}
+$('habitList').addEventListener('click', function(e) {
+  const button = e.target.closest('[data-delete-habit]');
+
+  if (!button) return;
+
+  e.stopPropagation();
+
+  const id = button.getAttribute('data-delete-habit');
+
+  window.deleteHabit(id);
+});
+
+window.toggleHabit = function(id) {
+  const habit = habits.find(h => h.id === id);
+  if (!habit) return;
+
+  if (!habit.completedDates) {
+    habit.completedDates = [];
+  }
+
+  const today = toLocalDateStr(new Date());
+  const index = habit.completedDates.indexOf(today);
+
+  if (index >= 0) {
+    habit.completedDates.splice(index, 1);
+  } else {
+    habit.completedDates.push(today);
+  }
+
+  saveData();
+  renderHabits();
+  renderOthers();
+};
+
+function addHabit() {
+  const input = $('habitNewInput');
+  const name = input.value.trim();
+
+  if (!name) {
+    input.focus();
+    return toast('Nhập tên thói quen nhé!');
+  }
+
+  habits.push({
+    id: 'habit_' + Date.now(),
+    name: name,
+    completedDates: []
+  });
+
+  input.value = '';
+
+  saveData();
+  renderHabits();
+  renderOthers();
+}
+
+function openHabitModal() {
+  $('habitModalInput').value = '';
+  habitRepeat = 'daily';
+
+document.querySelectorAll('#habitRepeatPicker .opt').forEach(o => {
+  o.classList.toggle('active', o.dataset.repeat === 'daily');
+});
+  $('habitOverlay').classList.add('show');
+  setTimeout(() => $('habitModalInput').focus(), 300);
+}
+
+function closeHabitModal() {
+  $('habitOverlay').classList.remove('show');
+}
+
+$('closeHabitModal').addEventListener('click', closeHabitModal);
+document.querySelectorAll('#habitRepeatPicker .opt').forEach(o => {
+  o.addEventListener('click', () => {
+    document.querySelectorAll('#habitRepeatPicker .opt').forEach(el => {
+      el.classList.remove('active');
+    });
+
+    o.classList.add('active');
+    habitRepeat = o.dataset.repeat;
+  });
+});
+$('saveHabitModalBtn').addEventListener('click', () => {
+  const name = $('habitModalInput').value.trim();
+
+  if (!name) {
+    $('habitModalInput').focus();
+    return toast('Nhập tên thói quen nhé!');
+  }
+
+  habits.push({
+  id: 'habit_' + Date.now(),
+  name: name,
+  frequency: habitRepeat,
+  createdAt: toLocalDateStr(new Date()),
+  completedDates: []
+});
+
+  saveData();
+  renderHabits();
+  renderOthers();
+  closeHabitModal();
+});
+
+$('habitModalInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    $('saveHabitModalBtn').click();
+  }
+});
+
+
+window.deleteHabit = function(id) {
+  const habit = habits.find(h => h.id === id);
+  if (!habit) return;
+
+  if (!confirm(`Xóa thói quen "${habit.name}"?`)) return;
+
+  habits = habits.filter(h => h.id !== id);
+
+  saveData();
+  renderHabits();
+  renderOthers();
+};
+
 
   window.toggleGoal = function(id) {
     const goal = goals.find(g => g.id === id);
@@ -6209,7 +6634,8 @@ $('assetGoldPrice').addEventListener('input', updateGoldAssetValue);
       if (currentOtherCategory === 'place') openPlaceModal(null);
       else if (currentOtherCategory === 'goal') toast('Vui lòng thêm trực tiếp ở bảng bên dưới');
       else if (currentOtherCategory === 'event') openEventModal(null);
-      else if (currentOtherCategory) openNoteModal(null);
+      else if (currentOtherCategory === 'habit') openHabitModal();
+else if (currentOtherCategory) openNoteModal(null);
       else toast('Vui lòng chọn một mục để thêm');
     }
     else if (currentTab === 'diary') {
