@@ -2073,6 +2073,14 @@
     <span style="font-size:26px;">𓇼</span>
     <span>Đục lỗ</span>
   </button>
+  <button
+    class="study-main-btn"
+    onclick="startDetectiveLevel()"
+    style="margin:0;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;"
+  >
+    <span style="font-size:26px;">𓇼</span>
+    <span>Sentence Detective</span>
+  </button>
 </div>
       </div>
     </div>
@@ -2095,7 +2103,24 @@
 
   </div>
 </div>
+  <!-- MÀN HÌNH SENTENCE DETECTIVE -->
+<div id="detectiveView" style="display:none;">
+  <div class="study-progress-bar">
+    <div onclick="exitStudySession()" style="cursor:pointer; display:flex; align-items:center; gap:6px; color:var(--text-muted);">
+      <svg class="hand-icon" style="width:16px;height:16px;"><use href="#icon-arrow-left"/></svg>
+      Thoát
+    </div>
+    <div>
+      <span id="detectiveCurrent">0</span> /
+      <span id="detectiveTotal">0</span>
+    </div>
+  </div>
 
+  <div class="study-card">
+    <div class="study-card-label">🔎 Sentence Detective</div>
+    <div id="detectiveContent"></div>
+  </div>
+</div>
   <div id="studyManageView" style="display:none;">
     <div class="sub-view-header">
       <button class="back-btn" onclick="backToStudyMain()"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
@@ -2968,9 +2993,44 @@
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/compromise@14.14.4/builds/compromise.min.js"></script>
+
 <script>
 (function(){
   'use strict';
+  
+// PHÂN TÍCH LOẠI TỪ BẰNG COMPROMISE
+function analyzeSentenceParts(sentence) {
+  if (typeof window.nlp !== 'function') return [];
+
+  const doc = window.nlp(sentence);
+  const terms = doc.terms().json();
+
+  return terms.map(item => {
+    const term = item.terms[0];
+
+    return {
+      word: term.text,
+      tags: term.tags || [],
+      normal: term.normal || term.text.toLowerCase()
+    };
+  });
+}
+// KIỂM TRA NHÓM LOẠI TỪ
+function hasPartOfSpeech(tags, type) {
+  const groups = {
+    noun: ['Noun'],
+    verb: ['Verb'],
+    adjective: ['Adjective'],
+    adverb: ['Adverb'],
+    pronoun: ['Pronoun'],
+    determiner: ['Determiner']
+  };
+
+  return (groups[type] || []).some(tag =>
+    tags.includes(tag)
+  );
+}
 
   const CITIES = [
     'An Giang','Hội An','Bắc Giang','Bắc Kạn','Bạc Liêu','Bắc Ninh',
@@ -6956,11 +7016,10 @@ window.startTranslationMode = function() {
 };
 window.startClozeMode = function() {
   const allCards = flashcards.filter(card =>
-  card.en &&
-  card.en.trim() !== '' &&
-  card.tag !== 'Đoạn văn' &&
-  isNewCard(card)
-);
+    card.en &&
+    card.en.trim() !== '' &&
+    card.tag !== 'Đoạn văn'
+  );
 
   if (allCards.length === 0) {
     toast('Chưa có câu tiếng Anh nào!');
@@ -6979,6 +7038,380 @@ window.startClozeMode = function() {
 
   renderClozeSessionCard();
 };
+
+// BẮT ĐẦU SENTENCE DETECTIVE
+window.startDetectiveLevel = function() {
+  const allCards = flashcards.filter(card =>
+    card.en &&
+    card.en.trim() !== '' &&
+    card.tag !== 'Đoạn văn'
+  );
+
+  studySession.mode = 'detective';
+  studySession.detectiveLevel = 'easy';
+  studySession.queue = allCards.slice().sort(() => Math.random() - 0.5);
+  studySession.currentIndex = 0;
+  studySession.currentCard = null;
+  studySession.answered = false;
+
+  $('detectiveTotal').textContent = studySession.queue.length;
+
+  renderDetectiveCard();
+};
+
+function createPartOfSpeechErrors(sentence) {
+  const parts = analyzeSentenceParts(sentence);
+  const errors = [];
+  let result = sentence;
+
+  const irregularForms = {
+    happily: 'happy',
+    easily: 'easy',
+    angrily: 'angry',
+    busily: 'busy',
+    heavily: 'heavy',
+    lazily: 'lazy'
+  };
+
+  for (let i = 1; i < parts.length; i++) {
+    const previous = parts[i - 1];
+    const current = parts[i];
+
+    if (
+      hasPartOfSpeech(previous.tags, 'verb') &&
+      hasPartOfSpeech(current.tags, 'adverb')
+    ) {
+      const word = current.word.toLowerCase();
+
+      let adjective = '';
+
+      if (irregularForms[word]) {
+        adjective = irregularForms[word];
+      } else if (/^[a-z]+ly$/i.test(word)) {
+        adjective = word.slice(0, -2);
+      }
+
+      if (!adjective) continue;
+
+      const changed = result.replace(
+        new RegExp('\\b' + current.word + '\\b', 'i'),
+        adjective
+      );
+
+      if (changed !== result) {
+        result = changed;
+        errors.push('Loại từ: trạng từ → tính từ');
+      }
+    }
+  }
+
+  return {
+    corrupted: result,
+    errors
+  };
+}
+
+// BẮT ĐẦU SENTENCE DETECTIVE
+window.startDetectiveLevel = function() {
+  const allCards = flashcards.filter(card =>
+    card.en &&
+    card.en.trim() !== '' &&
+    card.tag !== 'Đoạn văn'
+  );
+
+  if (allCards.length === 0) {
+    toast('Chưa có câu tiếng Anh nào!');
+    return;
+  }
+
+  $('studyModeView').style.display = 'none';
+  $('studyPracticeView').style.display = 'none';
+  $('studySessionView').style.display = 'none';
+  $('detectiveView').style.display = 'block';
+
+  studySession.mode = 'detective';
+  studySession.detectiveLevel = 'easy';
+  studySession.queue = allCards.slice().sort(() => Math.random() - 0.5);
+  studySession.currentIndex = 0;
+  studySession.currentCard = null;
+  studySession.answered = false;
+
+  $('detectiveTotal').textContent = studySession.queue.length;
+
+  renderDetectiveCard();
+};
+
+
+// TẠO LỖI SENTENCE DETECTIVE
+function createDetectiveErrors(sentence, level) {
+  const target = {
+    easy: 1,
+    medium: 2,
+    hard: 3,
+    expert: 4
+  }[level] || 1;
+
+  let result = sentence;
+  const errors = [];
+
+  const rules = [
+    {
+      type: 'Ngữ pháp: quá khứ đơn',
+      test: text => /\b(went|saw|ate|bought|made|came|took|had|did|visited|played|worked|studied|lived|watched|traveled|travelled)\b/i.test(text),
+      apply: text => text.replace(
+        /\b(went|saw|ate|bought|made|came|took|had|did|visited|played|worked|studied|lived|watched|traveled|travelled)\b/i,
+        word => ({
+          went: 'go', saw: 'see', ate: 'eat', bought: 'buy',
+          made: 'make', came: 'come', took: 'take', had: 'have',
+          did: 'do', visited: 'visit', played: 'play',
+          worked: 'work', studied: 'study', lived: 'live',
+          watched: 'watch', traveled: 'travel', travelled: 'travel'
+        })[word.toLowerCase()]
+      )
+    },
+    {
+      type: 'Ngữ pháp: hiện tại đơn',
+      test: text => /\b(go|see|eat|buy|make|come|take|have|do|visit|play|work|study|live|watch|travel)\b/i.test(text),
+      apply: text => text.replace(
+        /\b(go|see|eat|buy|make|come|take|have|do|visit|play|work|study|live|watch|travel)\b/i,
+        word => ({
+          go: 'went', see: 'saw', eat: 'ate', buy: 'bought',
+          make: 'made', come: 'came', take: 'took', have: 'had',
+          do: 'did', visit: 'visited', play: 'played',
+          work: 'worked', study: 'studied', live: 'lived',
+          watch: 'watched', travel: 'traveled'
+        })[word.toLowerCase()]
+      )
+    },
+    {
+      type: 'Loại từ: trạng từ → tính từ',
+      test: text => createPartOfSpeechErrors(text).errors.length > 0,
+      apply: text => createPartOfSpeechErrors(text).corrupted
+    }
+  ];
+
+  const available = rules.filter(rule => rule.test(result));
+
+  for (const rule of available.sort(() => Math.random() - 0.5)) {
+    if (errors.length >= target) break;
+
+    const changed = rule.apply(result);
+
+    if (changed && fcNormalize(changed) !== fcNormalize(result)) {
+      result = changed;
+      errors.push(rule.type);
+    }
+  }
+
+  if (errors.length !== target) return null;
+
+  return {
+    original: sentence,
+    corrupted: result,
+    errors
+  };
+}
+
+// HIỂN THỊ CÂU ĐỐ SENTENCE DETECTIVE
+function renderDetectiveCard() {
+  const queue = studySession.queue;
+
+  while (studySession.currentIndex < queue.length) {
+    const card = queue[studySession.currentIndex];
+
+    const puzzle = createDetectiveErrors(
+      card.en,
+      studySession.detectiveLevel
+    );
+
+    if (puzzle) {
+      studySession.currentCard = card;
+      studySession.detectivePuzzle = puzzle;
+      studySession.answered = false;
+
+      $('detectiveCurrent').textContent =
+        studySession.currentIndex + 1;
+
+      $('detectiveContent').innerHTML = `
+        <div style="margin-bottom:16px;color:var(--text-muted);">
+          Hãy tìm và sửa tất cả lỗi trong câu sau.
+        </div>
+
+        <div style="padding:16px;border-radius:14px;background:var(--pink-bg);margin-bottom:16px;line-height:1.8;font-weight:600;">
+          ${esc(puzzle.corrupted)}
+        </div>
+
+        <div style="margin-bottom:10px;color:var(--text-muted);">
+          Nghĩa tiếng Việt
+        </div>
+
+        <div style="margin-bottom:18px;line-height:1.7;">
+          ${esc(card.vi || '')}
+        </div>
+
+        <textarea
+          id="detectiveAnswer"
+          rows="3"
+          placeholder="Viết lại toàn bộ câu tiếng Anh..."
+          style="width:100%;box-sizing:border-box;padding:14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font:inherit;resize:vertical;"
+        ></textarea>
+
+        <button
+          class="study-main-btn"
+          onclick="checkDetectiveAnswer()"
+          style="width:100%;margin-top:14px;"
+        >
+          Kiểm tra đáp án
+        </button>
+      `;
+
+      return;
+    }
+
+    studySession.currentIndex++;
+  }
+
+  $('detectiveContent').innerHTML = `
+    <div style="text-align:center;padding:24px 8px;">
+      <div style="font-size:40px;">🎉</div>
+      <h3>Hoàn thành thử thách!</h3>
+      <p>Không còn câu phù hợp với cấp độ này.</p>
+      <button class="study-main-btn" onclick="exitStudySession()">
+        Quay lại
+      </button>
+    </div>
+  `;
+
+  $('detectiveCurrent').textContent =
+    studySession.currentIndex;
+}
+
+// KIỂM TRA ĐÁP ÁN SENTENCE DETECTIVE
+
+window.checkDetectiveAnswer = function() {
+  const userAnswer = $('detectiveAnswer').value.trim();
+  const puzzle = studySession.detectivePuzzle;
+
+  if (!userAnswer) {
+    toast('Bạn hãy nhập câu trả lời!');
+    return;
+  }
+
+  const accuracy = compareAnswer(userAnswer, puzzle.original);
+
+  
+
+const userWords = userAnswer.split(/\s+/);
+const correctWords = puzzle.original.split(/\s+/);
+
+const maxLength = Math.max(userWords.length, correctWords.length);
+
+const comparedAnswer = Array.from(
+  { length: maxLength },
+  (_, index) => {
+    const userWord = userWords[index];
+    const correctWord = correctWords[index];
+
+    // Không nhập từ ở vị trí này: hiển thị từ đáp án màu đỏ
+    if (!userWord) {
+      return `
+        <span style="color:#dc2626;font-weight:700;">
+          ${esc(correctWord)}
+        </span>
+      `;
+    }
+
+    // Từ đúng và đúng vị trí mới được màu xanh
+    const isCorrect =
+  !!correctWord &&
+  userWords.length >= index + 1 &&
+  fcNormalize(userWord) === fcNormalize(correctWord) &&
+  userWords.slice(0, index + 1).every((word, i) =>
+    !!word && !!correctWords[i]
+  );
+    return `
+      <span style="color:${isCorrect ? '#16a34a' : '#dc2626'};font-weight:700;">
+        ${esc(userWord)}
+      </span>
+    `;
+  }
+).join(' ');
+
+  studySession.answered = true;
+
+  const correct =
+    fcNormalize(userAnswer) === fcNormalize(puzzle.original);
+
+  $('detectiveContent').innerHTML = `
+    <div style="text-align:center;padding:12px 0;">
+      <div style="font-size:42px;">
+        ${correct ? '🎉' : '💪'}
+      </div>
+
+      <div style="font-size:19px;font-weight:700;margin:12px 0;">
+        ${correct ? 'Chính xác!' : 'Hãy xem lại đáp án nhé!'}
+      </div>
+
+      <div style="font-size:24px;font-weight:700;">
+        ${accuracy}%
+      </div>
+    </div>
+
+    <div style="padding:14px;background:var(--pink-bg);border-radius:12px;margin:14px 0;">
+      <div style="font-weight:700;margin-bottom:8px;">
+        Câu trả lời của bạn
+      </div>
+
+      <div style="line-height:2;font-size:16px;">
+        ${comparedAnswer}
+      </div>
+    </div>
+
+    <div style="padding:14px;border:1px solid var(--border);border-radius:12px;margin-bottom:16px;">
+      <div style="font-weight:700;margin-bottom:8px;">
+        Đáp án đúng
+      </div>
+
+      <div style="font-weight:600;line-height:2;font-size:16px;">
+  ${puzzle.original.split(/\s+/).map((word, index) => {
+    const corruptedWords = puzzle.corrupted.split(/\s+/);
+    const changed =
+      fcNormalize(word) !== fcNormalize(corruptedWords[index] || '');
+
+    return changed
+      ? `<span style="color:#16a34a;text-decoration:underline;font-weight:800;">${esc(word)}</span>`
+      : esc(word);
+  }).join(' ')}
+</div>
+    </div>
+
+    <div style="margin-bottom:18px;">
+      <div style="font-weight:700;margin-bottom:8px;">
+        Các dạng lỗi đã tạo
+      </div>
+
+      ${puzzle.errors.map(error => `
+        <div style="padding:7px 0;">• ${esc(error)}</div>
+      `).join('')}
+    </div>
+
+    <button
+      class="study-main-btn"
+      onclick="nextDetectiveCard()"
+      style="width:100%;"
+    >
+      Câu tiếp theo
+    </button>
+  `;
+};
+
+// CHUYỂN CÂU SENTENCE DETECTIVE
+window.nextDetectiveCard = function() {
+  studySession.currentIndex++;
+  renderDetectiveCard();
+};
+
+
 function renderClozeSessionCard() {
   if (studySession.currentIndex >= studySession.queue.length) {
     $('stSessionContent').innerHTML = `
@@ -7191,27 +7624,6 @@ function checkClozeAnswer() {
     expected.every((word, index) => word === actual[index]);
 
   studySession.answered = true;
-// Lưu kết quả Đục lỗ vào lịch sử chung
-if (!card.sr) {
-  card.sr = {
-    interval: 0,
-    ease: 2.5,
-    due: Date.now(),
-    reps: 0,
-    lapses: 0,
-    history: []
-  };
-}
-
-if (!card.sr.history) card.sr.history = [];
-
-card.sr.history.push({
-  date: Date.now(),
-  rating: 'cloze',
-  accuracy: isCorrect ? 100 : 0
-});
-
-saveFlashcards();
 
   // Tạo câu hoàn chỉnh và gạch chân từ cần điền
 const answerHtml = words.map((word, index) => {
@@ -7517,11 +7929,17 @@ window.rateCard = function(rating) {
   renderStudyCard();
 };
 
+
 window.exitStudySession = function() {
   $('studySessionView').style.display = 'none';
+  $('studyModeView').style.display = 'none';
+  $('studyPracticeView').style.display = 'none';
+  $('detectiveView').style.display = 'none';
+
   $('studyMainView').style.display = 'block';
   renderStudyMain();
 };
+
 
 window.openFcModal = function(id) {
   editFcId = id || null;
