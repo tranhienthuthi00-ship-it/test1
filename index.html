@@ -8056,7 +8056,7 @@ $('deleteFcBtn').addEventListener('click', () => {
   const card = flashcards.find(x => x.id === editFcId);
   const cardName = card ? card.vi : 'thẻ này';
 
-  if (!confirm(`Xóa "${cardName}"?\nHành động này không thể hoàn tác.`)) return;
+  if (!confirm('Bạn có chắc chắn muốn xóa không?')) return;
 
   flashcards = flashcards.filter(c => c.id !== editFcId);
   saveFlashcards();
@@ -8439,7 +8439,7 @@ window.deleteSelectedCards = function() {
   if (selectedFcIds.size === 0) {
     return toast('Vui lòng chọn ít nhất 1 thẻ');
   }
-  if (!confirm(`Xóa ${selectedFcIds.size} thẻ đã chọn? Hành động này không thể hoàn tác.`)) return;
+  if (!confirm('Bạn có chắc chắn muốn xóa không?')) return;
 
   flashcards = flashcards.filter(c => !selectedFcIds.has(c.id));
   saveFlashcards();
