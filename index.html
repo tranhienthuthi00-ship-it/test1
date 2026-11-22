@@ -1363,6 +1363,45 @@
 
 
 /* HABIT TRACKER */
+.habit-week-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.habit-week-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 2px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.habit-week-day span {
+  font-size: 11px;
+}
+
+.habit-week-day strong {
+  font-size: 15px;
+  color: var(--text);
+}
+
+.habit-week-day.active {
+  background: var(--pink-dark);
+  border-color: var(--pink-dark);
+  color: white;
+}
+
+.habit-week-day.active strong {
+  color: white;
+}
 .habit-container {
   padding: 0;
 }
@@ -2391,6 +2430,7 @@
   <!-- TRANG 2: DANH SÁCH THÓI QUEN -->
   <div class="habit-page" data-page="1">
     <div class="habit-container">
+      <div class="habit-week-header" id="habitWeekHeader"></div>
       <div id="habitList"></div>
     </div>
   </div>
@@ -3247,7 +3287,16 @@
     <div class="opt active" data-repeat="daily">Hằng ngày</div>
     <div class="opt" data-repeat="weekly">Hằng tuần</div>
     <div class="opt" data-repeat="monthly">Hằng tháng</div>
+    <div class="opt" data-repeat="custom">Tùy chỉnh</div>
   </div>
+</div>
+
+<div class="field" id="habitCustomRepeatField" style="display:none;">
+  <label>Số ngày lặp lại</label>
+  <input type="number" id="habitCustomDays" min="1" placeholder="Ví dụ: 5">
+
+  <label style="margin-top:12px;">Ngày bắt đầu</label>
+  <input type="date" id="habitCustomStartDate">
 </div>
 
     <div style="display:flex; gap:10px; margin-top:12px;">
@@ -5810,7 +5859,11 @@ function renderOthers() {
     }).join('');
   }
   function isHabitDue(habit, today) {
-  const start = new Date(habit.createdAt + 'T00:00:00');
+  const startDate = habit.frequency === 'custom'
+    ? habit.customStartDate
+    : habit.createdAt;
+
+  const start = new Date(startDate + 'T00:00:00');
   const current = new Date(today + 'T00:00:00');
 
   const days = Math.floor(
@@ -5827,6 +5880,14 @@ function renderOthers() {
 
   if (habit.frequency === 'monthly') {
     return current.getDate() === start.getDate();
+  }
+
+  if (habit.frequency === 'custom') {
+    const interval = Number(habit.repeatDays);
+
+    if (!interval || interval < 1) return false;
+
+    return days % interval === 0;
   }
 
   return true;
@@ -5864,8 +5925,8 @@ function initHabitCarousel() {
 
 initHabitCarousel();
 let habitCalendarDate = new Date();
-
 let habitHeatmapDate = new Date();
+let selectedHabitDate = toLocalDateStr(new Date());
 
 
 
@@ -5977,6 +6038,41 @@ function getHabitStreak() {
 
   return streak;
 }
+function renderHabitWeekHeader() {
+  const header = $('habitWeekHeader');
+  if (!header) return;
+
+  const today = new Date();
+  let html = '';
+
+  for (let i = 6; i >= 0; i--) {
+    const dateObj = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() - i
+    );
+
+    const date = toLocalDateStr(dateObj);
+    const active = date === selectedHabitDate;
+
+    html += `
+      <button
+        type="button"
+        class="habit-week-day ${active ? 'active' : ''}"
+        onclick="window.selectHabitDate('${date}')"
+      >
+        <strong>${dateObj.getDate()}</strong>
+      </button>
+    `;
+  }
+
+  header.innerHTML = html;
+}
+
+window.selectHabitDate = function(date) {
+  selectedHabitDate = date;
+  renderHabits();
+};
 function renderHabits() {
   const today = toLocalDateStr(new Date());
 
@@ -6014,9 +6110,15 @@ $('habitTodayRate').textContent = `${percent}%`;
 $('habitStreak').textContent = `${getHabitStreak()} ngày`;
 
 renderHabitCalendar();
-  const list = $('habitList');
+  renderHabitWeekHeader();
 
-  if (todayHabits.length === 0) {
+const list = $('habitList');
+
+const selectedDateHabits = habits.filter(h =>
+  isHabitDue(h, selectedHabitDate)
+);
+
+if (selectedDateHabits.length === 0) {
     list.innerHTML = `
       <div style="text-align:center;padding:24px;color:var(--text-muted);">
         Chưa có thói quen nào. Hãy thêm thói quen đầu tiên nhé!
@@ -6025,10 +6127,9 @@ renderHabitCalendar();
     return;
   }
 
-  list.innerHTML = todayHabits.map(h => {
+  list.innerHTML = selectedDateHabits.map(h => {
     const done = h.completedDates &&
-      h.completedDates.includes(today);
-
+      h.completedDates.includes(selectedHabitDate);
     return `
       <div class="habit-item ${done ? 'completed' : ''}"
      onclick="window.editHabit('${h.id}')">
@@ -6064,13 +6165,13 @@ window.toggleHabit = function(id) {
     habit.completedDates = [];
   }
 
-  const today = toLocalDateStr(new Date());
-  const index = habit.completedDates.indexOf(today);
+  const date = selectedHabitDate;
+  const index = habit.completedDates.indexOf(date);
 
   if (index >= 0) {
     habit.completedDates.splice(index, 1);
   } else {
-    habit.completedDates.push(today);
+    habit.completedDates.push(date);
   }
 
   saveData();
@@ -6107,6 +6208,9 @@ function openHabitModal() {
   $('habitModalTitle').textContent = 'Thêm thói quen';
 $('habitSaveBtnText').textContent = 'Lưu';
   habitRepeat = 'daily';
+  $('habitCustomRepeatField').style.display = 'none';
+$('habitCustomDays').value = '';
+$('habitCustomStartDate').value = toLocalDateStr(new Date());
 
 document.querySelectorAll('#habitRepeatPicker .opt').forEach(o => {
   o.classList.toggle('active', o.dataset.repeat === 'daily');
@@ -6125,6 +6229,13 @@ window.editHabit = function(id) {
   $('habitModalTitle').textContent = 'Chỉnh sửa thói quen';
 $('habitSaveBtnText').textContent = 'Lưu thay đổi';
   habitRepeat = habit.frequency || 'daily';
+  $('habitCustomRepeatField').style.display =
+  habitRepeat === 'custom' ? 'block' : 'none';
+
+$('habitCustomDays').value = habit.repeatDays || '';
+
+$('habitCustomStartDate').value =
+  habit.customStartDate || habit.createdAt;
 
   document.querySelectorAll('#habitRepeatPicker .opt').forEach(o => {
     o.classList.toggle(
@@ -6161,6 +6272,9 @@ document.querySelectorAll('#habitRepeatPicker .opt').forEach(o => {
 
     o.classList.add('active');
     habitRepeat = o.dataset.repeat;
+
+    $('habitCustomRepeatField').style.display =
+      habitRepeat === 'custom' ? 'block' : 'none';
   });
 });
 $('saveHabitModalBtn').addEventListener('click', () => {
@@ -6171,24 +6285,49 @@ $('saveHabitModalBtn').addEventListener('click', () => {
     return toast('Nhập tên thói quen nhé!');
   }
 
-  if (editingHabitId) {
-  const habit = habits.find(h => h.id === editingHabitId);
+  const repeatDays = Number($('habitCustomDays').value);
+  const customStartDate = $('habitCustomStartDate').value;
 
-  if (habit) {
-    habit.name = name;
-    habit.frequency = habitRepeat;
+  if (habitRepeat === 'custom') {
+    if (!Number.isInteger(repeatDays) || repeatDays < 1) {
+      $('habitCustomDays').focus();
+      return toast('Nhập số ngày lặp hợp lệ nhé!');
+    }
+
+    if (!customStartDate) {
+      $('habitCustomStartDate').focus();
+      return toast('Chọn ngày bắt đầu nhé!');
+    }
   }
-} else {
-  habits.push({
-    id: 'habit_' + Date.now(),
-    name: name,
-    frequency: habitRepeat,
-    createdAt: toLocalDateStr(new Date()),
-    completedDates: []
-  });
-}
 
-editingHabitId = null;
+  if (editingHabitId) {
+    const habit = habits.find(h => h.id === editingHabitId);
+
+    if (habit) {
+      habit.name = name;
+      habit.frequency = habitRepeat;
+
+      if (habitRepeat === 'custom') {
+        habit.repeatDays = repeatDays;
+        habit.customStartDate = customStartDate;
+      } else {
+        delete habit.repeatDays;
+        delete habit.customStartDate;
+      }
+    }
+  } else {
+    habits.push({
+      id: 'habit_' + Date.now(),
+      name: name,
+      frequency: habitRepeat,
+      createdAt: toLocalDateStr(new Date()),
+      repeatDays: habitRepeat === 'custom' ? repeatDays : null,
+      customStartDate: habitRepeat === 'custom' ? customStartDate : null,
+      completedDates: []
+    });
+  }
+
+  editingHabitId = null;
 
   saveData();
   renderHabits();
