@@ -511,7 +511,18 @@
   /* ================= TAB TÀI CHÍNH ==================== */
   .finance-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; padding: 0 16px 20px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .finance-carousel::-webkit-scrollbar { display: none; }
-  .finance-page { min-width: calc(100% - 32px); scroll-snap-align: center; display: flex; flex-direction: column; gap: 16px; }
+  .finance-page {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
 
   .page-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; }
   .page-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pink-light); transition: all 0.2s; cursor: pointer; }
@@ -1549,11 +1560,16 @@
 }
 
 .habit-page {
-  min-width: calc(100% - 32px);
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
   scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  box-sizing: border-box;
 }
 /* HABIT DASHBOARD */
 .habit-dashboard-stats {
