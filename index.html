@@ -1549,11 +1549,16 @@
 }
 
 .habit-page {
-  min-width: calc(100% - 32px);
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
   scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  box-sizing: border-box;
 }
 /* HABIT DASHBOARD */
 .habit-dashboard-stats {
@@ -2376,13 +2381,13 @@
   <div class="habit-dashboard-stats">
 
     <div class="habit-stat-card">
-      <div class="habit-stat-label">🔥 Chuỗi hiện tại</div>
+      <div class="habit-stat-label">🔥 Streak</div>
       <div class="habit-stat-number" id="habitStreak">0 ngày</div>
     </div>
 
     <div class="habit-stat-card">
-      <div class="habit-stat-label">🏆 Tổng hoàn thành</div>
-      <div class="habit-stat-number" id="habitTotalCount">0</div>
+      <div class="habit-stat-label">🏆 Best day</div>
+<div class="habit-stat-number" id="habitBestDay">—</div>
     </div>
 
   </div>
@@ -6100,15 +6105,25 @@ $('habitProgress').textContent = `${completed}/${todayHabits.length}`;
 $('habitProgressPercent').textContent = `${percent}%`;
 $('habitProgressFill').style.width = `${percent}%`;
 // Cập nhật Dashboard
-const totalCompleted = habits.reduce((sum, h) => {
-  return sum + (h.completedDates ? h.completedDates.length : 0);
-}, 0);
+const completedByDate = {};
 
-$('habitTotalCount').textContent = totalCompleted;
+habits.forEach(h => {
+  (h.completedDates || []).forEach(date => {
+    completedByDate[date] =
+      (completedByDate[date] || 0) + 1;
+  });
+});
+
+const bestDay = Object.entries(completedByDate)
+  .sort((a, b) => b[1] - a[1] || b[0].localeCompare(a[0]))[0];
+
+$('habitBestDay').textContent = bestDay
+  ? bestDay[0].split('-').reverse().join('/')
+  : '—';
+
 $('habitDoneCount').textContent = completed;
 $('habitTodayRate').textContent = `${percent}%`;
 $('habitStreak').textContent = `${getHabitStreak()} ngày`;
-
 renderHabitCalendar();
   renderHabitWeekHeader();
 
