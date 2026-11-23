@@ -1549,16 +1549,11 @@
 }
 
 .habit-page {
-  flex: 0 0 100%;
-  width: 100%;
-  min-width: 0;
-  max-width: none;
-  margin: 0;
+  min-width: calc(100% - 32px);
   scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-sizing: border-box;
 }
 /* HABIT DASHBOARD */
 .habit-dashboard-stats {
@@ -2381,13 +2376,13 @@
   <div class="habit-dashboard-stats">
 
     <div class="habit-stat-card">
-      <div class="habit-stat-label">🔥 Streak</div>
+      <div class="habit-stat-label">🔥 Chuỗi hiện tại</div>
       <div class="habit-stat-number" id="habitStreak">0 ngày</div>
     </div>
 
     <div class="habit-stat-card">
-      <div class="habit-stat-label">🏆 Best day</div>
-<div class="habit-stat-number" id="habitBestDay">—</div>
+      <div class="habit-stat-label">🏆 Tổng hoàn thành</div>
+      <div class="habit-stat-number" id="habitTotalCount">0</div>
     </div>
 
   </div>
@@ -6105,25 +6100,15 @@ $('habitProgress').textContent = `${completed}/${todayHabits.length}`;
 $('habitProgressPercent').textContent = `${percent}%`;
 $('habitProgressFill').style.width = `${percent}%`;
 // Cập nhật Dashboard
-const completedByDate = {};
+const totalCompleted = habits.reduce((sum, h) => {
+  return sum + (h.completedDates ? h.completedDates.length : 0);
+}, 0);
 
-habits.forEach(h => {
-  (h.completedDates || []).forEach(date => {
-    completedByDate[date] =
-      (completedByDate[date] || 0) + 1;
-  });
-});
-
-const bestDay = Object.entries(completedByDate)
-  .sort((a, b) => b[1] - a[1] || b[0].localeCompare(a[0]))[0];
-
-$('habitBestDay').textContent = bestDay
-  ? bestDay[0].split('-').reverse().join('/')
-  : '—';
-
+$('habitTotalCount').textContent = totalCompleted;
 $('habitDoneCount').textContent = completed;
 $('habitTodayRate').textContent = `${percent}%`;
 $('habitStreak').textContent = `${getHabitStreak()} ngày`;
+
 renderHabitCalendar();
   renderHabitWeekHeader();
 
@@ -6792,26 +6777,58 @@ if (!groups[key]) groups[key] = { title: 'Khác', items: [], total: 0 };
     renderFinance();
   });
 
-  /* ==================== FINANCE CAROUSEL ==================== */
-  const carousel = $('finCarousel');
-  const dots = document.querySelectorAll('.page-dot');
+  /*/* ==================== FINANCE CAROUSEL ==================== */
+const carousel = $('finCarousel');
+const dots = document.querySelectorAll('#finPageDots .page-dot');
+const pages = carousel.querySelectorAll('.finance-page');
 
-  carousel.addEventListener('scroll', () => {
-    const pageWidth = carousel.offsetWidth;
-    if (!pageWidth) return;
-    const pageIndex = Math.round(carousel.scrollLeft / pageWidth);
-    if (pageIndex !== currentFinPage) {
-      currentFinPage = pageIndex;
-      dots.forEach((dot, idx) => dot.classList.toggle('active', idx === pageIndex));
+function updateFinanceDots() {
+  const carouselRect = carousel.getBoundingClientRect();
+  const center = carouselRect.left + carouselRect.width / 2;
+
+  let pageIndex = 0;
+  let minDistance = Infinity;
+
+  pages.forEach((page, idx) => {
+    const rect = page.getBoundingClientRect();
+    const pageCenter = rect.left + rect.width / 2;
+    const distance = Math.abs(center - pageCenter);
+
+    if (distance < minDistance) {
+      minDistance = distance;
+      pageIndex = idx;
     }
   });
 
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const page = Number(dot.dataset.page);
-      carousel.scrollTo({ left: page * carousel.offsetWidth, behavior: 'smooth' });
+  currentFinPage = pageIndex;
+
+  dots.forEach((dot, idx) => {
+    dot.classList.toggle('active', idx === pageIndex);
+  });
+}
+
+carousel.addEventListener('scroll', updateFinanceDots);
+
+dots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    const page = Number(dot.dataset.page);
+    const target = pages[page];
+
+    if (!target) return;
+
+    const carouselRect = carousel.getBoundingClientRect();
+    const pageRect = target.getBoundingClientRect();
+
+    const left = carousel.scrollLeft
+      + pageRect.left - carouselRect.left
+      - (carousel.clientWidth - target.offsetWidth) / 2;
+
+    carousel.scrollTo({
+      left: left,
+      behavior: 'smooth'
     });
   });
+});
 
   /* ==================== EXPORT / IMPORT ==================== */
   $('btnExportData').addEventListener('click', () => {
