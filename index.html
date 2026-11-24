@@ -3167,9 +3167,16 @@
       <input type="url" id="placeLink" placeholder="https://...">
     </div>
 
-    <button class="save-btn" id="savePlaceBtn">
-      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu địa điểm
-    </button>
+    <div style="display:flex; gap:10px; margin-top:12px;">
+  <button class="save-btn" id="savePlaceBtn" style="flex:1; margin-top:0;">
+    <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu địa điểm
+  </button>
+
+  <button class="save-btn" id="deletePlaceBtn"
+    style="flex:1; margin-top:0; display:none; background:#fef2f2; color:#dc2626; box-shadow:none; border:1px solid #fecaca;">
+    <svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa
+  </button>
+</div>
   </div>
 </div>
 
@@ -6957,6 +6964,10 @@ dots.forEach(dot => {
   /* ==================== FORMS ==================== */
   function openPlaceModal(id) {
     editPlaceId = id || null;
+    const deleteBtn = $('deletePlaceBtn');
+if (deleteBtn) {
+  deleteBtn.style.display = id ? 'flex' : 'none';
+}
     if (id) {
       const p = places.find(x => x.id === id);
       if (!p) return;
@@ -7498,12 +7509,27 @@ else if (currentOtherCategory) openNoteModal(null);
 
   $('savePlaceBtn').addEventListener('click', () => {
     const name = $('placeName').value.trim();
-    if (!name) { $('placeName').focus(); return toast('Nhập tên địa điểm'); }
+const city = $('placeCity').value.trim();
+
+if (!name) {
+  $('placeName').focus();
+  return toast('Nhập tên địa điểm');
+}
+
+const isDuplicate = places.some(p =>
+  p.id !== editPlaceId &&
+  (p.name || '').trim().toLocaleLowerCase('vi') === name.toLocaleLowerCase('vi') &&
+  (p.city || '').trim().toLocaleLowerCase('vi') === city.toLocaleLowerCase('vi')
+);
+
+if (isDuplicate) {
+  return toast('Địa điểm này đã tồn tại ở tỉnh/thành phố này!');
+}
     const rawTags = $('placeHashtags').value.split(',').filter(t => t.trim());
     const data = {
   name,
   price: Number($('placePrice').value) || 0,
-  city: $('placeCity').value.trim(),
+  city,
   address: $('placeAddress').value.trim(),
   date: $('placeDate').value,
   hashtags: [...new Set(rawTags.map(t => t.replace(/^#/, '')))],
@@ -7521,6 +7547,19 @@ else if (currentOtherCategory) openNoteModal(null);
     }
     saveData(); renderPlaces(); closePlaceModal(); toast('✅ Đã lưu');
   });
+    const deletePlaceBtn = $('deletePlaceBtn');
+  if (deletePlaceBtn) {
+    deletePlaceBtn.addEventListener('click', () => {
+      if (!editPlaceId) return;
+
+      const targetId = editPlaceId;
+      $('placeOverlay').classList.remove('show');
+
+      setTimeout(() => {
+        askDelete(targetId, 'place');
+      }, 200);
+    });
+  }
 
   window.formatDoc = function(command) {
     document.execCommand(command, false, null);
