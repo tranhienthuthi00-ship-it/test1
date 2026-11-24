@@ -233,6 +233,7 @@
     display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
     transition: transform 0.2s; position: relative;
   }
+  
   .note-icon-box {
     width: 40px; height: 40px; border-radius: 12px; background: var(--pink-bg);
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
@@ -1892,6 +1893,31 @@
 .habit-heatmap-day.level-4 {
   background: #B65F86;
 }
+.list-carousel {
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.list-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.list-page {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
 </style>
 </head>
 <body>
@@ -2212,7 +2238,7 @@
       </div>
       <div class="other-card" data-type="task">
         <div class="other-card-icon task"><svg class="hand-icon"><use href="#icon-list"/></svg></div>
-        <div class="other-card-title">Việc làm</div>
+        <div class="other-card-title">List</div>
         <div class="other-card-count" id="countTaskCard">0 mục</div>
       </div>
       <div class="other-card" data-type="tip">
@@ -2287,11 +2313,19 @@
   </div>
 
   <div id="othersDetailView" style="display: none;">
+    <div class="page-dots" id="listPageDots" style="display: none;">
+  <span class="page-dot active" data-page="0"></span>
+  <span class="page-dot" data-page="1"></span>
+</div>
     <div class="sub-view-header">
       <button class="back-btn" id="backToOthersBtn"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
       <div class="sub-view-title" id="subViewTitle">Ghi chú</div>
     </div>
 
+    
+
+    <div class="list-carousel" id="listCarousel">
+  <div class="list-page" data-page="0">
     <div class="toolbar">
       <div class="search-box">
         <svg class="hand-icon"><use href="#icon-search"/></svg>
@@ -2318,8 +2352,51 @@
         </div>
       </div>
     </div>
-
     <div class="note-list" id="listNotes"></div>
+  </div>
+
+  <div class="list-page" data-page="1">
+    <div id="wishlistContainer">
+  <div class="toolbar">
+    <div class="search-box">
+      <svg class="hand-icon"><use href="#icon-search"/></svg>
+      <input type="text" id="searchWishlist" placeholder="Tìm sản phẩm...">
+      <button class="clear-search" id="clearSearchWishlist">
+        <svg class="hand-icon" style="width:12px;height:12px">
+          <use href="#icon-x"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="filter-btn" id="openWishlistFilterBtn">
+      <svg class="hand-icon"><use href="#icon-filter"/></svg>
+      <span class="badge" id="wishlistFilterBadge">1</span>
+    </button>
+  </div>
+  <div class="sort-bar">
+  <span id="countWishlist">0 kết quả</span>
+
+  <div class="sort-wrapper">
+    <button class="sort-btn" id="sortWishlistBtn">
+      <svg class="hand-icon" style="width:14px;height:14px;">
+        <path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/>
+      </svg>
+      <span id="sortWishlistLabel">Ưu tiên cao nhất</span>
+    </button>
+
+    <div class="sort-menu" id="sortWishlistMenu">
+      <button data-sort="priority" class="active">Ưu tiên cao nhất <span class="check">✓</span></button>
+      <button data-sort="price-asc">Giá thấp đến cao <span class="check">✓</span></button>
+      <button data-sort="price-desc">Giá cao đến thấp <span class="check">✓</span></button>
+      <button data-sort="newest">Mới thêm <span class="check">✓</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="note-list" id="listWishlist"></div>
+</div>
+  </div>
+</div>
   </div>
 
   <div id="goalDetailView" style="display: none;">
@@ -3032,7 +3109,38 @@
     <button class="save-btn" id="resetNoteFilterBtn" style="background:#f3f4f6;color:#6b7280;box-shadow:none;margin-top:10px;">Xóa tất cả bộ lọc</button>
   </div>
 </div>
+<div class="overlay" id="wishlistFilterOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>Bộ lọc Wishlist
+      <button id="closeWishlistFilterBtn">
+        <svg class="hand-icon"><use href="#icon-x"/></svg>
+      </button>
+    </h2>
 
+    <div class="field">
+      <label>Mức độ ưu tiên</label>
+      <div class="chip-group" id="wishlistPriorityGroup">
+        <div class="chip active" data-priority="all">Tất cả</div>
+        <div class="chip" data-priority="high">Rất cần</div>
+        <div class="chip" data-priority="medium">Cần</div>
+        <div class="chip" data-priority="low">Có thể chờ</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Trạng thái mua</label>
+      <div class="chip-group" id="wishlistStatusGroup">
+        <div class="chip active" data-status="all">Tất cả</div>
+        <div class="chip" data-status="unbought">Chưa mua</div>
+        <div class="chip" data-status="bought">Đã mua</div>
+      </div>
+    </div>
+
+    <button class="save-btn" id="applyWishlistFilterBtn">Áp dụng bộ lọc</button>
+    <button class="save-btn" id="resetWishlistFilterBtn" style="background:#f3f4f6;color:#6b7280;box-shadow:none;margin-top:10px;">Xóa tất cả bộ lọc</button>
+  </div>
+</div>
 <div class="overlay" id="gachaOverlay" style="align-items: center; justify-content: center; padding: 20px;">
   <div class="place-popup-modal" style="position: relative; width: 100%; max-width: 340px;">
     <button id="gachaResetBtn" style="position: absolute; top: -12px; left: -12px; z-index: 999; width: 36px; height: 36px; border-radius: 50%; background: var(--pink-surface); border: 2.5px solid var(--pink-dark); color: var(--pink-dark); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 2px 2px 0px rgba(0,0,0,0.2); font-size: 20px; font-weight: bold; padding-bottom: 2px;">↻</button>
@@ -3288,7 +3396,57 @@
     </div>
   </div>
 </div>
+<div class="overlay" id="wishlistOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>
+      <span id="wishlistModalTitle">Thêm Wishlist</span>
+      <button id="closeWishlistModal">
+        <svg class="hand-icon"><use href="#icon-x"/></svg>
+      </button>
+    </h2>
 
+    <div class="field">
+      <label>Tên sản phẩm *</label>
+      <input type="text" id="wishlistName" placeholder="VD: Tai nghe Bluetooth">
+    </div>
+
+    <div class="field">
+      <label>Giá dự kiến (VNĐ)</label>
+      <input type="number" id="wishlistPrice" placeholder="VD: 1500000">
+    </div>
+
+    <div class="field">
+      <label>Link sản phẩm</label>
+      <input type="url" id="wishlistLink" placeholder="Dán link sản phẩm...">
+    </div>
+
+    <div class="field">
+      <label>Mức độ ưu tiên</label>
+      <div class="picker" id="wishlistFormPriority">
+        <div class="opt active" data-priority="high">Rất cần</div>
+        <div class="opt" data-priority="medium">Cần</div>
+        <div class="opt" data-priority="low">Có thể chờ</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Ghi chú</label>
+      <textarea id="wishlistNote" placeholder="Ghi chú thêm..."></textarea>
+    </div>
+
+    <div style="display:flex; gap:10px; margin-top:12px;">
+  <button class="save-btn" id="saveWishlistBtn" style="flex:1; margin-top:0;">
+    <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu
+  </button>
+
+  <button class="save-btn" id="deleteWishlistBtn"
+    style="flex:1; margin-top:0; display:none; background:#fef2f2; color:#dc2626; box-shadow:none; border:1px solid #fecaca;">
+    <svg class="hand-icon"><use href="#icon-trash"/></svg> Xóa
+  </button>
+</div>
+  </div>
+</div>
 <!-- HABIT MODAL -->
 <div class="overlay" id="habitOverlay">
   <div class="modal">
@@ -3827,6 +3985,8 @@ function hasPartOfSpeech(tags, type) {
   let places = [];
   let diaries = [];
   let notes = [];
+  let wishlists = [];
+  let sortWishlistMode = 'priority';
   let braces = [];
   let events = [];
   let finances = { cash_counts: {}, cash_include: true, new_cash_counts: {}, new_cash_include: true, credit_expenses: [], other_assets: [] };
@@ -3941,6 +4101,12 @@ function hasPartOfSpeech(tags, type) {
       const rawN = localStorage.getItem(NOTE_KEY);
       notes = rawN ? JSON.parse(rawN) : [...SAMPLE_NOTES];
     } catch(e) { notes = [...SAMPLE_NOTES]; }
+    try {
+  const rawWishlist = localStorage.getItem('WISHLIST_KEY');
+  wishlists = rawWishlist ? JSON.parse(rawWishlist) : [];
+} catch(e) {
+  wishlists = [];
+}
     if (notes.length > 0 && notes[0].isCompleted === undefined) {
       notes.forEach(n => n.isCompleted = false);
     }
@@ -4023,6 +4189,7 @@ function hasPartOfSpeech(tags, type) {
       localStorage.setItem(DIARY_KEY, JSON.stringify(diaries));
       localStorage.setItem(BRACES_KEY, JSON.stringify(braces));
       localStorage.setItem(NOTE_KEY, JSON.stringify(notes));
+      localStorage.setItem('WISHLIST_KEY', JSON.stringify(wishlists));
       localStorage.setItem(FINANCE_KEY, JSON.stringify(finances));
       localStorage.setItem(REVENUE_KEY, JSON.stringify(revenues));
       localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
@@ -4090,7 +4257,7 @@ function hasPartOfSpeech(tags, type) {
     food:   { label:'Ăn uống', icon:'#icon-food', cls:'food' },
     travel: { label:'Du lịch', icon:'#icon-travel', cls:'travel' },
     note:   { label:'Ghi chú', icon:'#icon-notebook', cls:'note' },
-    task:   { label:'Việc làm', icon:'#icon-list', cls:'task' },
+    task:   { label:'List', icon:'#icon-list', cls:'task' },
     tip:    { label:'Tips', icon:'#icon-bulb', cls:'tip' },
     knowledge: { label:'Kiến thức', icon:'#icon-book', cls:'knowledge' },
     bank:   { label:'Ngân hàng', icon:'#icon-card' },
@@ -5311,7 +5478,15 @@ function renderOthers() {
     $('goalDetailView').style.display = 'none';
     $('eventDetailView').style.display = 'none';
     $('habitDetailView').style.display = 'none';
-
+    $('listPageDots').style.display =
+  currentOtherCategory === 'task' ? 'flex' : 'none';
+  $('listCarousel').style.overflowX =
+  currentOtherCategory === 'task' ? 'auto' : 'hidden';
+  document.querySelector('.list-page[data-page="1"]').style.display =
+  currentOtherCategory === 'task' ? 'flex' : 'none';
+  if (currentOtherCategory !== 'task') {
+  $('listCarousel').scrollLeft = 0;
+}
     if (!currentOtherCategory) {
       $('othersMainView').style.display = 'block';
       return;
@@ -5576,7 +5751,142 @@ function renderOthers() {
       });
     });
   }
+function renderWishlist() {
+  const list = $('listWishlist');
+  let arr = [...wishlists];
 
+  // Tìm kiếm
+  if (searchWishlist) {
+    arr = arr.filter(item =>
+      (item.name || '').toLowerCase().includes(searchWishlist.toLowerCase())
+    );
+  }
+
+  // Lọc mức độ ưu tiên
+  if (wishlistPriority !== 'all') {
+    arr = arr.filter(item => item.priority === wishlistPriority);
+  }
+
+  // Lọc trạng thái mua
+  if (wishlistStatus === 'bought') {
+    arr = arr.filter(item => item.purchased);
+  } else if (wishlistStatus === 'unbought') {
+    arr = arr.filter(item => !item.purchased);
+  }
+
+  // Sắp xếp
+  const priorityOrder = { high: 1, medium: 2, low: 3 };
+
+  if (sortWishlistMode === 'priority') {
+    arr.sort((a, b) =>
+      (priorityOrder[a.priority] || 4) -
+      (priorityOrder[b.priority] || 4)
+    );
+  } else if (sortWishlistMode === 'price-asc') {
+    arr.sort((a, b) => (a.price || 0) - (b.price || 0));
+  } else if (sortWishlistMode === 'price-desc') {
+    arr.sort((a, b) => (b.price || 0) - (a.price || 0));
+  } else if (sortWishlistMode === 'newest') {
+    arr.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  }
+
+  $('countWishlist').textContent = `${arr.length} kết quả`;
+
+  if (arr.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="icon-wrap">♡</div>
+        <h3>Chưa có sản phẩm</h3>
+        <p>Thêm món đồ bạn muốn mua nhé.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const priorityLabels = {
+    high: 'Rất cần',
+    medium: 'Cần',
+    low: 'Có thể chờ'
+  };
+
+  list.innerHTML = arr.map(item => `
+  <div class="note-list-card"
+       style="cursor:pointer; ${item.purchased ? 'opacity:0.5;' : ''}"
+       onclick="openWishlistModal('${item.id}')">
+
+    <div style="display:flex; align-items:flex-start; gap:12px;">
+
+      <input
+        type="checkbox"
+        ${item.purchased ? 'checked' : ''}
+        onchange="toggleWishlistPurchased('${item.id}')"
+        onclick="event.stopPropagation()"
+        style="width:18px; height:18px; margin-top:3px; accent-color:var(--pink-primary); flex-shrink:0;"
+      >
+
+      <div class="note-content-box" style="flex:1; min-width:0;">
+        <div class="note-title-text">${esc(item.name)}</div>
+
+        <div style="font-size:13px; margin-top:5px;">
+          ${Number(item.price || 0).toLocaleString('vi-VN')} đ
+        </div>
+
+        <div style="
+  display:inline-block;
+text-align:center;
+min-width:100px;
+margin-top:8px;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+  background:${item.priority === 'high' ? '#FCE4E4' : item.priority === 'medium' ? '#FFF1CC' : '#E2F2E5'};
+  color:${item.priority === 'high' ? '#C62828' : item.priority === 'medium' ? '#9A6700' : '#2E7D32'};
+">
+  ${priorityLabels[item.priority] || 'Chưa phân loại'}
+</div>
+
+        ${item.note ? `
+          <div style="font-size:12px; margin-top:6px; color:var(--text-muted);">
+            ${esc(item.note)}
+          </div>
+        ` : ''}
+
+        ${item.link ? `
+          <a href="${esc(item.link)}" target="_blank" rel="noopener"
+             onclick="event.stopPropagation()"
+             style="display:inline-block; margin-top:6px; font-size:12px; color:var(--pink-primary);">
+            Xem sản phẩm ↗
+          </a>
+        ` : ''}
+      </div>
+    </div>
+  </div>
+`).join('');
+}
+window.toggleWishlistPurchased = function(id) {
+  const item = wishlists.find(x => x.id === id);
+  if (!item) return;
+
+  item.purchased = !item.purchased;
+
+  saveData();
+  renderWishlist();
+
+  toast(item.purchased ? '✓ Đã mua' : 'Đã chuyển về chưa mua');
+};
+function deleteWishlistItem(id) {
+  const item = wishlists.find(x => x.id === id);
+  if (!item) return;
+
+  if (!confirm(`Bạn có chắc muốn xóa "${item.name}"?`)) return;
+
+  wishlists = wishlists.filter(x => x.id !== id);
+
+  saveData();
+  renderWishlist();
+  toast('Đã xóa sản phẩm');
+}
   let currentGachaPlaceId = null;
 
   window.playGachaSound = function() {
@@ -5947,6 +6257,41 @@ function initHabitCarousel() {
 }
 
 initHabitCarousel();
+function initListCarousel() {
+  const carousel = $('listCarousel');
+  const dots = document.querySelectorAll('#listPageDots .page-dot');
+
+  if (!carousel) return;
+
+  carousel.addEventListener('scroll', () => {
+    const pageWidth = carousel.clientWidth;
+    if (!pageWidth) return;
+
+    const activeIndex = Math.round(
+      carousel.scrollLeft / pageWidth
+    );
+
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === activeIndex);
+    });
+    if (activeIndex === 1) {
+  renderWishlist();
+}
+  });
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const index = Number(dot.dataset.page);
+
+      carousel.scrollTo({
+        left: index * carousel.clientWidth,
+        behavior: 'smooth'
+      });
+    });
+  });
+}
+
+initListCarousel();
 let habitCalendarDate = new Date();
 let habitHeatmapDate = new Date();
 let selectedHabitDate = toLocalDateStr(new Date());
@@ -7091,6 +7436,50 @@ if (deleteBtn) {
     $('noteOverlay').classList.add('show');
     setTimeout(() => $('noteTitle').focus(), 300);
   }
+  let editWishlistId = null;
+let formWishlistPriority = 'high';
+
+window.openWishlistModal = function(id) {
+  editWishlistId = id || null;
+  $('deleteWishlistBtn').style.display = id ? 'flex' : 'none';
+
+  if (id) {
+    const item = wishlists.find(x => x.id === id);
+    if (!item) return;
+
+    $('wishlistModalTitle').textContent = 'Sửa Wishlist';
+    $('wishlistName').value = item.name || '';
+    $('wishlistPrice').value = item.price || '';
+    $('wishlistLink').value = item.link || '';
+    $('wishlistNote').value = item.note || '';
+    formWishlistPriority = item.priority || 'high';
+  } else {
+    $('wishlistModalTitle').textContent = 'Thêm Wishlist';
+    $('wishlistName').value = '';
+    $('wishlistPrice').value = '';
+    $('wishlistLink').value = '';
+    $('wishlistNote').value = '';
+    formWishlistPriority = 'high';
+  }
+
+  document.querySelectorAll('#wishlistFormPriority .opt').forEach(opt => {
+    opt.classList.toggle(
+      'active',
+      opt.dataset.priority === formWishlistPriority
+    );
+
+    opt.onclick = () => {
+      document.querySelectorAll('#wishlistFormPriority .opt')
+        .forEach(o => o.classList.remove('active'));
+
+      opt.classList.add('active');
+      formWishlistPriority = opt.dataset.priority;
+    };
+  });
+
+  $('wishlistOverlay').classList.add('show');
+  setTimeout(() => $('wishlistName').focus(), 300);
+};
   function closeNoteModal() { $('noteOverlay').classList.remove('show'); editNoteId = null; }
   function setFormNoteType(type) {
     formNoteType = type;
@@ -7450,7 +7839,24 @@ $('assetGoldPrice').addEventListener('input', updateGoldAssetValue);
     renderNotes();
     $('noteFilterOverlay').classList.remove('show');
   });
+$('openWishlistFilterBtn').addEventListener('click', () => {
+  $('wishlistFilterOverlay').classList.add('show');
+});
 
+$('closeWishlistFilterBtn').addEventListener('click', () => {
+  $('wishlistFilterOverlay').classList.remove('show');
+});
+
+['wishlistPriorityGroup', 'wishlistStatusGroup'].forEach(groupId => {
+  document.querySelectorAll(`#${groupId} .chip`).forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll(`#${groupId} .chip`).forEach(c => {
+        c.classList.remove('active');
+      });
+      chip.classList.add('active');
+    });
+  });
+});
   /* ==================== SỰ KIỆN LƯU ==================== */
   $('fab').addEventListener('click', () => {
     if (typeof isSelectMode !== 'undefined' && isSelectMode) {
@@ -7461,6 +7867,11 @@ $('assetGoldPrice').addEventListener('input', updateGoldAssetValue);
       else if (currentOtherCategory === 'goal') toast('Vui lòng thêm trực tiếp ở bảng bên dưới');
       else if (currentOtherCategory === 'event') openEventModal(null);
       else if (currentOtherCategory === 'habit') openHabitModal();
+else if (currentOtherCategory === 'task') {
+  const page = Math.round($('listCarousel').scrollLeft / $('listCarousel').clientWidth);
+  if (page === 1) openWishlistModal(null);
+  else openNoteModal(null);
+}
 else if (currentOtherCategory) openNoteModal(null);
       else toast('Vui lòng chọn một mục để thêm');
     }
@@ -7488,6 +7899,19 @@ else if (currentOtherCategory) openNoteModal(null);
 
   $('closePlaceModal').addEventListener('click', closePlaceModal);
   $('closeNoteModal').addEventListener('click', closeNoteModal);
+  $('closeWishlistModal').addEventListener('click', () => {
+  $('wishlistOverlay').classList.remove('show');
+});
+  $('deleteWishlistBtn').addEventListener('click', () => {
+  if (!editWishlistId) return;
+
+  const id = editWishlistId;
+  $('wishlistOverlay').classList.remove('show');
+
+  setTimeout(() => {
+    deleteWishlistItem(id);
+  }, 200);
+});
   $('closeDiaryModal').addEventListener('click', closeDiaryModal);
   $('diaryMilkteaToggle').addEventListener('change', (e) => {
     $('milkteaNoteField').style.display = e.target.checked ? 'block' : 'none';
@@ -7599,6 +8023,39 @@ if (isDuplicate) {
     }
     saveData(); renderNotes(); closeNoteModal(); toast('✅ Đã lưu');
   });
+  $('saveWishlistBtn').addEventListener('click', () => {
+  const name = $('wishlistName').value.trim();
+
+  if (!name) {
+    $('wishlistName').focus();
+    return toast('Nhập tên sản phẩm');
+  }
+
+  const data = {
+    name,
+    price: Number($('wishlistPrice').value) || 0,
+    link: $('wishlistLink').value.trim(),
+    note: $('wishlistNote').value.trim(),
+    priority: formWishlistPriority
+  };
+
+  if (editWishlistId) {
+    const item = wishlists.find(x => x.id === editWishlistId);
+    if (item) Object.assign(item, data);
+  } else {
+    wishlists.push({
+      id: 'w_' + Date.now(),
+      ...data,
+      purchased: false,
+      createdAt: Date.now()
+    });
+  }
+
+  saveData();
+  renderWishlist();
+  $('wishlistOverlay').classList.remove('show');
+  toast('✅ Đã lưu Wishlist');
+});
 
   $('saveDiaryBtn').addEventListener('click', () => {
     const title = $('diaryTitle').value.trim();
@@ -7757,13 +8214,54 @@ $('saveAssetBtn').addEventListener('click', () => {
   $('clearSearchNotes').addEventListener('click', () => {
     $('searchNotes').value = ''; searchNotes = ''; $('clearSearchNotes').classList.remove('show'); renderNotes();
   });
+  let searchWishlist = '';
 
+$('searchWishlist').addEventListener('input', e => {
+  searchWishlist = e.target.value.trim();
+  $('clearSearchWishlist').classList.toggle('show', !!searchWishlist);
+  renderWishlist();
+});
+
+$('clearSearchWishlist').addEventListener('click', () => {
+  $('searchWishlist').value = '';
+  searchWishlist = '';
+  $('clearSearchWishlist').classList.remove('show');
+  renderWishlist();
+});
+let wishlistPriority = 'all';
+let wishlistStatus = 'all';
+
+$('applyWishlistFilterBtn').addEventListener('click', () => {
+  wishlistPriority = document.querySelector('#wishlistPriorityGroup .chip.active').dataset.priority;
+  wishlistStatus = document.querySelector('#wishlistStatusGroup .chip.active').dataset.status;
+
+  renderWishlist();
+  $('wishlistFilterOverlay').classList.remove('show');
+});
+
+$('resetWishlistFilterBtn').addEventListener('click', () => {
+  wishlistPriority = 'all';
+  wishlistStatus = 'all';
+
+  document.querySelectorAll('#wishlistPriorityGroup .chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.priority === 'all');
+  });
+
+  document.querySelectorAll('#wishlistStatusGroup .chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.status === 'all');
+  });
+
+  renderWishlist();
+  $('wishlistFilterOverlay').classList.remove('show');
+});
   $('sortBtn').addEventListener('click', e => { e.stopPropagation(); $('sortMenu').classList.toggle('show'); });
   $('sortNotesBtn').addEventListener('click', e => { e.stopPropagation(); $('sortNotesMenu').classList.toggle('show'); });
 
   document.addEventListener('click', e => {
     if (!e.target.closest('.sort-wrapper')) {
-      $('sortMenu').classList.remove('show'); $('sortNotesMenu').classList.remove('show');
+      $('sortMenu').classList.remove('show'); 
+      $('sortNotesMenu').classList.remove('show');
+      $('sortWishlistMenu').classList.remove('show');
     }
   });
 
@@ -7783,6 +8281,26 @@ $('saveAssetBtn').addEventListener('click', () => {
       $('sortNotesMenu').classList.remove('show'); renderNotes();
     });
   });
+  $('sortWishlistBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  $('sortWishlistMenu').classList.toggle('show');
+});
+
+document.querySelectorAll('#sortWishlistMenu button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    sortWishlistMode = btn.dataset.sort;
+
+    document.querySelectorAll('#sortWishlistMenu button').forEach(b => {
+      b.classList.remove('active');
+    });
+
+    btn.classList.add('active');
+    $('sortWishlistLabel').textContent = btn.textContent.replace('✓', '').trim();
+    $('sortWishlistMenu').classList.remove('show');
+
+    renderWishlist();
+  });
+});
 
         /* ==================== XÓA ==================== */
   window.askDelete = function(id, type) {
