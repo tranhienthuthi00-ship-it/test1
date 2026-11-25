@@ -457,7 +457,11 @@
   }
 
   #noteOverlay .modal { background: #fefcf5 !important; }
-  #noteOverlay .modal h2 { color: var(--pink-dark) !important; font-family: 'Caveat', 'Quicksand', sans-serif !important; font-size: 22px !important; }
+  #noteOverlay .modal h2 {
+  color: var(--pink-dark) !important;
+  font-family: inherit !important;
+  font-size: 22px !important;
+}
 
   .other-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px; margin-bottom: 24px; }
   .other-card {
@@ -3739,6 +3743,7 @@
       <label>Lặp lại</label>
       <div class="picker" id="taskRepeatPicker">
         <div class="opt active" data-repeat="none">Không</div>
+        <div class="opt" data-repeat="daily">Hàng ngày</div>
         <div class="opt" data-repeat="weekly">Hàng tuần</div>
         <div class="opt" data-repeat="monthly">Hàng tháng</div>
         <div class="opt" data-repeat="yearly">Hàng năm</div>
@@ -5194,10 +5199,10 @@ function calcFinance(showAll = false) {
       if (task.isCompleted && task.repeat && task.repeat !== 'none' && task.date) {
         const oldDate = parseLocalDate(task.date) || new Date();
 
+        if (task.repeat === 'daily') oldDate.setDate(oldDate.getDate() + 1);
         if (task.repeat === 'weekly') oldDate.setDate(oldDate.getDate() + 7);
         if (task.repeat === 'monthly') oldDate.setMonth(oldDate.getMonth() + 1);
         if (task.repeat === 'yearly') oldDate.setFullYear(oldDate.getFullYear() + 1);
-
         const newDateStr = toLocalDateStr(oldDate);
 
         const newTask = {
