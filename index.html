@@ -4115,9 +4115,22 @@
       <label>Phần thưởng (Tùy chọn)</label>
       <input type="text" id="editGoalReward" placeholder="VD: Mua iPhone mới, Đi du lịch...">
     </div>
-    <button class="save-btn" onclick="saveGoalEdit()">
-      <svg class="hand-icon"><use href="#icon-save"/></svg> Lưu thay đổi
-    </button>
+    <div style="display:flex; gap:10px; margin-top:12px;">
+  <button class="save-btn"
+    onclick="saveGoalEdit()"
+    style="margin-top:0; flex:1;">
+    <svg class="hand-icon"><use href="#icon-save"/></svg>
+    Lưu
+  </button>
+
+  <button class="save-btn"
+    type="button"
+    onclick="deleteBucketGoal()"
+    style="background:#fef2f2;color:#dc2626;box-shadow:none;margin-top:0;border:1px solid #fecaca;flex:1;">
+    <svg class="hand-icon"><use href="#icon-trash"/></svg>
+    Xóa
+  </button>
+</div>
   </div>
 </div>
 
@@ -9077,7 +9090,25 @@ document.querySelectorAll('#sortWishlistMenu button').forEach(btn => {
     document.getElementById('editGoalReward').value = goal.reward || '';
     document.getElementById('editGoalOverlay').classList.add('show');
   };
+  window.deleteBucketGoal = function() {
+  const goalId = document.getElementById('editGoalId').value;
 
+  if (!confirm('Bạn có chắc muốn xóa mục tiêu này không?')) return;
+
+  goals = goals.filter(g => g.id !== goalId);
+
+  // Giữ lại công việc, chỉ bỏ liên kết với mục tiêu đã xóa
+  notes.forEach(n => {
+    if (n.goalId === goalId) n.goalId = '';
+  });
+
+  saveData();
+  renderBucketList();
+
+  document.getElementById('editGoalOverlay').classList.remove('show');
+
+  toast('Đã xóa mục tiêu');
+};
   window.openAddGoalModal = function() {
     document.getElementById('editGoalId').value = '';
     document.getElementById('editGoalText').value = '';
