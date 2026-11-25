@@ -5584,9 +5584,11 @@ function getFilteredPlaces() {
               ${p.city ? `<span style="font-size: 11px; font-weight: 600; color: var(--text-muted); white-space: nowrap;">📍 ${esc(p.city)}</span>` : ''}
             </div>
 
-            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              ${p.date ? `<span class="note-date-text"><svg class="hand-icon"><use href="#icon-calendar"/></svg> ${fmtDate(p.date)}</span>` : ''}
-            </div>
+            ${p.address ? `
+  <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+    📍 ${esc(p.address)}
+  </div>
+` : ''}
 
             <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 2px;">
               <span class="tag ${info.cls}"><svg class="hand-icon"><use href="${info.icon}"/></svg> ${info.label}</span>
@@ -5622,8 +5624,8 @@ function getFilteredPlaces() {
             <div class="place-card-desc">
               ${p.note ? esc(p.note) : '<i>(Chưa có ghi chú)</i>'}
             </div>
-            <div class="place-card-footer">
-  ${p.city ? `<span>📍 ${esc(p.city)}</span>` : ''}
+            <div class="place-card-footer" style="flex-wrap: wrap;">
+  ${p.address ? `<span>📍 ${esc(p.address)}</span>` : ''}
   ${p.price > 0 ? `<span>${fmtMoney(p.price)}</span>` : ''}
   ${p.hashtags && p.hashtags.length > 0 ? `<span>#${esc(p.hashtags[0])}</span>` : ''}
 </div>
