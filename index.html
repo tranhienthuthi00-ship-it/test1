@@ -483,6 +483,183 @@
   .other-card-icon svg { width: 24px; height: 24px; }
   .other-card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
   .other-card-count { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+  .schedule-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 16px 0;
+}
+
+.schedule-date-card {
+  background: var(--pink-surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.schedule-date-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.schedule-date-card h3 {
+  margin: 6px 0 0;
+  font-size: 20px;
+  color: var(--text);
+}
+
+.schedule-date-card input {
+  max-width: 145px;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  color: var(--text);
+}
+
+.schedule-progress {
+  background: var(--pink-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 15px;
+}
+
+.schedule-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.schedule-progress-bg {
+  height: 8px;
+  background: var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+#scheduleProgressFill {
+  height: 100%;
+  width: 0;
+  background: var(--pink-primary);
+  border-radius: 20px;
+  transition: width 0.3s;
+}
+
+.schedule-item {
+  display: grid;
+  grid-template-columns: 55px 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+  align-items: start;
+}
+
+.schedule-item-time {
+  padding-top: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.schedule-item-card {
+  background: var(--pink-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: var(--shadow-sm);
+}
+
+.schedule-item-card label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.schedule-item-card input {
+  margin-top: 3px;
+  accent-color: var(--pink-primary);
+}
+
+.schedule-item-note {
+  margin: 9px 0 0 25px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.schedule-item.is-done .schedule-item-card {
+  opacity: 0.6;
+}
+
+.schedule-item.is-done label span {
+  text-decoration: line-through;
+}
+.schedule-subtasks {
+  margin: 14px 0 0 25px;
+  padding-left: 12px;
+  border-left: 2px solid var(--border);
+}
+
+.schedule-subtask {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.schedule-subtask input {
+  margin-top: 2px;
+  accent-color: var(--pink-primary);
+}
+
+.schedule-subtask input:checked + span {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+.schedule-add-subtask {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 0 25px;
+}
+
+.schedule-add-subtask input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--pink-bg);
+  color: var(--text);
+  font-size: 12px;
+  outline: none;
+}
+
+.schedule-add-subtask button {
+  border: none;
+  border-radius: 10px;
+  padding: 0 13px;
+  background: var(--pink-primary);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
 
   .sub-view-header { display: flex; align-items: center; gap: 12px; padding: 0 16px 16px; }
   .back-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--pink-surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text); box-shadow: var(--shadow-sm); }
@@ -2285,6 +2462,13 @@
         <div class="other-card-title">Habit Tracker</div>
         <div class="other-card-count" id="countHabitCard">0 thói quen</div>
       </div>
+      <div class="other-card" data-type="schedule">
+  <div class="other-card-icon goal">
+    <svg class="hand-icon"><use href="#icon-calendar"/></svg>
+  </div>
+  <div class="other-card-title">Schedule</div>
+  <div class="other-card-count" id="countScheduleCard">0 kế hoạch</div>
+</div>
     </div>
   </div>
 
@@ -2338,21 +2522,18 @@
 
   <div id="othersDetailView" style="display: none;">
     <div class="page-dots" id="listPageDots" style="display: none;">
-  <span class="page-dot active" data-page="0"></span>
-  <span class="page-dot" data-page="1"></span>
-</div>
+    <span class="page-dot active" data-page="0"></span>
+    <span class="page-dot" data-page="1"></span>
+    </div>
     <div class="sub-view-header">
       <button class="back-btn" id="backToOthersBtn"><svg class="hand-icon"><use href="#icon-arrow-left"/></svg></button>
       <div class="sub-view-title" id="subViewTitle">Ghi chú</div>
     </div>
-
-    
-
     <div class="list-carousel" id="listCarousel">
-  <div class="list-page" data-page="0">
+     <div class="list-page" data-page="0">
     <div id="taskContainer">
     <div class="toolbar">
-      <div class="search-box">
+    <div class="search-box">
         <svg class="hand-icon"><use href="#icon-search"/></svg>
         <input type="text" id="searchNotes" placeholder="Tìm ghi chú, hashtag...">
         <button class="clear-search" id="clearSearchNotes"><svg class="hand-icon" style="width:12px;height:12px"><use href="#icon-x"/></svg></button>
@@ -2380,6 +2561,7 @@
     <div class="note-list" id="listNotes"></div>
     </div>
   </div>
+  
 
   <div class="list-page" data-page="1">
     <div id="wishlistContainer">
@@ -2424,6 +2606,40 @@
   </div>
 </div>
   </div>
+
+  <div id="scheduleDetailView" style="display: none;">
+
+  <div class="sub-view-header">
+    <button class="back-btn" id="backToOthersFromScheduleBtn">
+      <svg class="hand-icon"><use href="#icon-arrow-left"/></svg>
+    </button>
+    <div class="sub-view-title">Schedule</div>
+  </div>
+
+  <div class="schedule-container">
+
+    <div class="schedule-date-card">
+      <div>
+        <div class="schedule-date-label">KẾ HOẠCH TRONG NGÀY</div>
+        <h3 id="scheduleTodayTitle">Hôm nay</h3>
+      </div>
+      <input type="date" id="scheduleDate">
+    </div>
+
+    <div class="schedule-progress">
+      <div class="schedule-progress-info">
+        <span>Tiến độ hoàn thành</span>
+        <span id="scheduleProgressText">0/0</span>
+      </div>
+      <div class="schedule-progress-bg">
+        <div id="scheduleProgressFill"></div>
+      </div>
+    </div>
+
+    <div id="scheduleTimeline"></div>
+
+  </div>
+</div>
 
   <div id="goalDetailView" style="display: none;">
     <div class="sub-view-header">
@@ -3373,8 +3589,12 @@
         <div class="opt" data-p="3">Cao</div>
       </div>
     </div>
+    <div class="field" id="taskTimeField" style="display: none;">
+  <label>Giờ thực hiện</label>
+  <input type="time" id="taskTime">
+</div>
 
-    <div class="field" id="taskRepeatField" style="display: none;">
+<div class="field" id="taskRepeatField" style="display: none;">
       <label>Lặp lại</label>
       <div class="picker" id="taskRepeatPicker">
         <div class="opt active" data-repeat="none">Không</div>
@@ -5504,6 +5724,7 @@ function renderOthers() {
     $('goalDetailView').style.display = 'none';
     $('eventDetailView').style.display = 'none';
     $('habitDetailView').style.display = 'none';
+    $('scheduleDetailView').style.display = 'none';
     $('listPageDots').style.display =
   currentOtherCategory === 'task' ? 'flex' : 'none';
   $('listCarousel').style.overflowX =
@@ -5527,10 +5748,13 @@ function renderOthers() {
     } else if (currentOtherCategory === 'event') {
       $('eventDetailView').style.display = 'block';
       renderEvents();
-    } else if (currentOtherCategory === 'habit') {
-      $('habitDetailView').style.display = 'block';
-      renderHabits();
-    } else {
+   } else if (currentOtherCategory === 'habit') {
+  $('habitDetailView').style.display = 'block';
+  renderHabits();
+} else if (currentOtherCategory === 'schedule') {
+  $('scheduleDetailView').style.display = 'block';
+  renderSchedule();
+} else {
       $('othersDetailView').style.display = 'block';
       $('subViewTitle').textContent = INFO[currentOtherCategory]?.label || 'Danh sách';
       renderNotes();
@@ -5570,7 +5794,125 @@ function renderOthers() {
     currentOtherCategory = null;
     renderOthers();
   });
+  $('backToOthersFromScheduleBtn').addEventListener('click', () => {
+  currentOtherCategory = null;
+  renderOthers();
+});
+function renderSchedule() {
+  const dateInput = $('scheduleDate');
 
+  if (!dateInput.value) {
+    dateInput.value = toLocalDateStr(new Date());
+  }
+
+  const selectedDate = dateInput.value;
+
+  $('scheduleTodayTitle').textContent =
+    selectedDate === toLocalDateStr(new Date())
+      ? 'Hôm nay'
+      : fmtDate(selectedDate);
+
+  const tasks = notes
+    .filter(n => n.type === 'task' && n.date === selectedDate && n.time)
+    .sort((a, b) => a.time.localeCompare(b.time));
+
+  const doneCount = tasks.filter(n => n.isCompleted).length;
+
+  $('scheduleProgressText').textContent =
+    `${doneCount}/${tasks.length}`;
+
+  const percent = tasks.length
+    ? Math.round(doneCount / tasks.length * 100)
+    : 0;
+
+  $('scheduleProgressFill').style.width = percent + '%';
+
+  if (!tasks.length) {
+    $('scheduleTimeline').innerHTML = `
+      <div class="empty">
+        <div class="icon-wrap">📅</div>
+        <h3>Chưa có kế hoạch</h3>
+        <p>Các công việc có ngày và giờ trong List sẽ xuất hiện tại đây.</p>
+      </div>
+    `;
+    return;
+  }
+
+  $('scheduleTimeline').innerHTML = tasks.map(n => `
+  <div class="schedule-item ${n.isCompleted ? 'is-done' : ''}">
+    <div class="schedule-item-time">${n.time}</div>
+
+    <div class="schedule-item-card">
+      <label>
+        <input type="checkbox"
+          ${n.isCompleted ? 'checked' : ''}
+          onchange="toggleTaskFromSchedule('${n.id}')">
+        <span>${esc(n.title)}</span>
+      </label>
+
+      ${n.content ? `<div class="schedule-item-note">${esc(n.content)}</div>` : ''}
+
+      <div class="schedule-subtasks">
+        ${(n.subtasks || []).map(s => `
+          <label class="schedule-subtask">
+            <input type="checkbox"
+              ${s.isCompleted ? 'checked' : ''}
+              onchange="toggleScheduleSubtask('${n.id}', '${s.id}')">
+            <span>${esc(s.text)}</span>
+          </label>
+        `).join('')}
+      </div>
+
+      <div class="schedule-add-subtask">
+        <input type="text"
+          id="subtaskInput_${n.id}"
+          placeholder="+ Thêm công việc con...">
+        <button type="button"
+          onclick="addScheduleSubtask('${n.id}')">Thêm</button>
+      </div>
+    </div>
+  </div>
+`).join('');
+}
+
+window.toggleTaskFromSchedule = function(id) {
+  window.toggleTaskFromList(id);
+  renderSchedule();
+};
+window.addScheduleSubtask = function(taskId) {
+  const input = $('subtaskInput_' + taskId);
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  const task = notes.find(n => n.id === taskId);
+  if (!task) return;
+
+  if (!task.subtasks) task.subtasks = [];
+
+  task.subtasks.push({
+    id: 'sub_' + Date.now(),
+    text: text,
+    isCompleted: false
+  });
+
+  saveData();
+  renderSchedule();
+};
+window.toggleScheduleSubtask = function(taskId, subtaskId) {
+  const task = notes.find(n => n.id === taskId);
+  if (!task || !task.subtasks) return;
+
+  const subtask = task.subtasks.find(s => s.id === subtaskId);
+  if (!subtask) return;
+
+  subtask.isCompleted = !subtask.isCompleted;
+
+  saveData();
+  renderSchedule();
+};
+
+$('scheduleDate').addEventListener('change', renderSchedule);
   function getFilteredNotes() {
     let arr = notes.slice();
 
@@ -7399,7 +7741,9 @@ if (deleteBtn) {
     });
   }
 
-  function openNoteModal(id) {
+  let formSubtasks = [];
+
+function openNoteModal(id) {
     editNoteId = id || null;
     const deleteBtn = $('deleteNoteBtn');
 
@@ -7411,6 +7755,8 @@ if (deleteBtn) {
       $('noteModalTitle').textContent = 'Sửa ghi chú';
       $('noteTitle').value = n.title || '';
       $('noteDate').value = n.date || toLocalDateStr(new Date());
+      $('taskTime').value = n.time || '';
+      formSubtasks = (n.subtasks || []).map(s => ({ ...s }));
       $('noteHashtags').value = (n.hashtags || []).join(', ');
       $('noteContent').innerHTML = n.content || '';
       $('noteStatusSelect').value = n.status || 'idea';
@@ -7423,6 +7769,8 @@ if (deleteBtn) {
       $('noteModalTitle').textContent = 'Thêm ghi chú';
       $('noteTitle').value = '';
       $('noteDate').value = toLocalDateStr(new Date());
+      $('taskTime').value = '';
+      formSubtasks = [];
       $('noteHashtags').value = '';
       $('noteContent').innerHTML = '';
       $('noteStatusSelect').value = 'idea';
@@ -7532,6 +7880,14 @@ window.openWishlistModal = function(id) {
     if (prioField) {
       prioField.style.display = (type === 'task') ? 'block' : 'none';
     }
+    const timeField = $('taskTimeField');
+if (timeField) {
+  timeField.style.display = (type === 'task') ? 'block' : 'none';
+}
+const subtasksField = $('taskSubtasksField');
+if (subtasksField) {
+  subtasksField.style.display = (type === 'task') ? 'block' : 'none';
+}
     const repeatField = $('taskRepeatField');
     if (repeatField) repeatField.style.display = (type === 'task') ? 'block' : 'none';
     const isTaskOrNote = (type === 'task' || type === 'note');
@@ -8044,7 +8400,10 @@ if (isDuplicate) {
     if (!title) { $('noteTitle').focus(); return toast('Nhập tiêu đề ghi chú'); }
     const rawTags = $('noteHashtags').value.split(',').filter(t => t.trim());
     const data = {
-      title, date: $('noteDate').value,
+      title,
+date: $('noteDate').value,
+time: formNoteType === 'task' ? $('taskTime').value : '',
+subtasks: formNoteType === 'task' ? formSubtasks : [],
       hashtags: [...new Set(rawTags.map(t=>t.replace(/^#/, '')))],
       content: $('noteContent').innerHTML.trim(), type: formNoteType, icon: formNoteIcon,
       goalId: $('noteLinkedGoalId') ? $('noteLinkedGoalId').value : '',
