@@ -483,11 +483,15 @@
   .other-card-icon svg { width: 24px; height: 24px; }
   .other-card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
   .other-card-count { font-size: 12px; font-weight: 600; color: var(--text-muted); }
-  .schedule-container {
+  
+.schedule-container {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding: 16px 0;
+  padding: 16px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
 }
 
 .schedule-date-card {
@@ -500,6 +504,8 @@
   justify-content: space-between;
   gap: 12px;
   box-shadow: var(--shadow-sm);
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .schedule-date-label {
@@ -530,6 +536,8 @@
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 15px;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .schedule-progress-info {
@@ -556,26 +564,60 @@
   transition: width 0.3s;
 }
 
+#scheduleTimeline {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
 .schedule-item {
   display: grid;
-  grid-template-columns: 55px 1fr;
+  grid-template-columns: 48px minmax(0, 1fr);
   gap: 12px;
-  margin-bottom: 14px;
-  align-items: start;
+  margin-bottom: 10px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .schedule-item-time {
-  padding-top: 16px;
-  font-size: 13px;
+  position: relative;
+  align-self: stretch;
+  padding-top: 14px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--text-muted);
+  text-align: center;
+}
+
+.schedule-item-time::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 32px;
+  bottom: -11px;
+  width: 2px;
+  background: var(--border);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.schedule-item:last-child .schedule-item-time::after {
+  display: none;
 }
 
 .schedule-item-card {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
   background: var(--pink-surface);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 15px;
+  padding: 14px 12px;
   box-shadow: var(--shadow-sm);
 }
 
@@ -608,6 +650,7 @@
 .schedule-item.is-done label span {
   text-decoration: line-through;
 }
+
 .schedule-subtasks {
   margin: 14px 0 0 25px;
   padding-left: 12px;
@@ -632,10 +675,12 @@
   text-decoration: line-through;
   opacity: 0.55;
 }
+
 .schedule-add-subtask {
   display: flex;
   gap: 8px;
   margin: 12px 0 0 25px;
+  min-width: 0;
 }
 
 .schedule-add-subtask input {
@@ -661,6 +706,96 @@
   cursor: pointer;
 }
 
+
+.schedule-add-subtask input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--pink-bg);
+  color: var(--text);
+  font-size: 12px;
+  outline: none;
+}
+
+.schedule-add-subtask button {
+  border: none;
+  border-radius: 10px;
+  padding: 0 13px;
+  background: var(--pink-primary);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.schedule-summary {
+  background: var(--pink-dark);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.schedule-summary .schedule-date-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.schedule-summary .schedule-date-label,
+.schedule-summary .schedule-date-card h3 {
+  color: var(--pink-surface);
+}
+
+.schedule-summary .schedule-date-card input {
+  border: none;
+}
+
+.schedule-summary .schedule-progress {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.schedule-summary .schedule-progress-info {
+  color: var(--pink-surface);
+}
+
+.schedule-summary .schedule-progress-bg {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.schedule-summary #scheduleProgressFill {
+  background: white !important;
+}
+
+.schedule-task-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.schedule-task-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.schedule-task-heading input {
+  margin-top: 3px;
+  accent-color: var(--pink-primary);
+  cursor: pointer;
+}
   .sub-view-header { display: flex; align-items: center; gap: 12px; padding: 0 16px 16px; }
   .back-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--pink-surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text); box-shadow: var(--shadow-sm); }
   .back-btn svg { width: 20px; height: 20px; }
@@ -2618,23 +2753,29 @@
 
   <div class="schedule-container">
 
-    <div class="schedule-date-card">
-      <div>
-        <div class="schedule-date-label">KẾ HOẠCH TRONG NGÀY</div>
-        <h3 id="scheduleTodayTitle">Hôm nay</h3>
-      </div>
-      <input type="date" id="scheduleDate">
-    </div>
+    
+<div class="schedule-summary">
 
-    <div class="schedule-progress">
-      <div class="schedule-progress-info">
-        <span>Tiến độ hoàn thành</span>
-        <span id="scheduleProgressText">0/0</span>
-      </div>
-      <div class="schedule-progress-bg">
-        <div id="scheduleProgressFill"></div>
-      </div>
+  <div class="schedule-date-card">
+    <div>
+      <div class="schedule-date-label">KẾ HOẠCH TRONG NGÀY</div>
+      <h3 id="scheduleTodayTitle">Hôm nay</h3>
     </div>
+    <input type="date" id="scheduleDate">
+  </div>
+
+  <div class="schedule-progress">
+    <div class="schedule-progress-info">
+      <span>Tiến độ hoàn thành</span>
+      <span id="scheduleProgressText">0/0</span>
+    </div>
+    <div class="schedule-progress-bg">
+      <div id="scheduleProgressFill"></div>
+    </div>
+  </div>
+
+</div>
+
 
     <div id="scheduleTimeline"></div>
 
@@ -5822,11 +5963,16 @@ function renderSchedule() {
     `${doneCount}/${tasks.length}`;
 
   const percent = tasks.length
-    ? Math.round(doneCount / tasks.length * 100)
-    : 0;
+  ? Math.round(doneCount / tasks.length * 100)
+  : 0;
 
-  $('scheduleProgressFill').style.width = percent + '%';
+const progressFill = $('scheduleProgressFill');
 
+progressFill.style.width = percent + '%';
+progressFill.style.background =
+  tasks.length > 0 && doneCount === tasks.length
+    ? 'var(--pink-dark)'
+    : 'var(--pink-primary)';
   if (!tasks.length) {
     $('scheduleTimeline').innerHTML = `
       <div class="empty">
@@ -5843,33 +5989,42 @@ function renderSchedule() {
     <div class="schedule-item-time">${n.time}</div>
 
     <div class="schedule-item-card">
-      <label>
+      <div class="schedule-task-heading">
+  <input type="checkbox"
+    ${n.isCompleted ? 'checked' : ''}
+    onchange="toggleTaskFromSchedule('${n.id}')">
+
+  <span
+    class="schedule-task-title"
+    onclick="toggleScheduleExpand('${n.id}')">
+    ${esc(n.title)}
+  </span>
+</div>
+
+${n.content ? `<div class="schedule-item-note">${esc(n.content)}</div>` : ''}
+
+${n.scheduleExpanded ? `
+  <div class="schedule-subtasks">
+    ${(n.subtasks || []).map(s => `
+      <label class="schedule-subtask">
         <input type="checkbox"
-          ${n.isCompleted ? 'checked' : ''}
-          onchange="toggleTaskFromSchedule('${n.id}')">
-        <span>${esc(n.title)}</span>
+          ${s.isCompleted ? 'checked' : ''}
+          onchange="toggleScheduleSubtask('${n.id}', '${s.id}')">
+        <span>${esc(s.text)}</span>
       </label>
+    `).join('')}
+  </div>
 
-      ${n.content ? `<div class="schedule-item-note">${esc(n.content)}</div>` : ''}
-
-      <div class="schedule-subtasks">
-        ${(n.subtasks || []).map(s => `
-          <label class="schedule-subtask">
-            <input type="checkbox"
-              ${s.isCompleted ? 'checked' : ''}
-              onchange="toggleScheduleSubtask('${n.id}', '${s.id}')">
-            <span>${esc(s.text)}</span>
-          </label>
-        `).join('')}
-      </div>
-
-      <div class="schedule-add-subtask">
-        <input type="text"
-          id="subtaskInput_${n.id}"
-          placeholder="+ Thêm công việc con...">
-        <button type="button"
-          onclick="addScheduleSubtask('${n.id}')">Thêm</button>
-      </div>
+  <div class="schedule-add-subtask">
+    <input type="text"
+      id="subtaskInput_${n.id}"
+      placeholder="Thêm công việc con..."
+      onkeydown="if(event.key === 'Enter') {
+        event.preventDefault();
+        addScheduleSubtask('${n.id}');
+      }">
+  </div>
+` : ''}
     </div>
   </div>
 `).join('');
@@ -5877,6 +6032,13 @@ function renderSchedule() {
 
 window.toggleTaskFromSchedule = function(id) {
   window.toggleTaskFromList(id);
+  renderSchedule();
+};
+window.toggleScheduleExpand = function(id) {
+  const task = notes.find(n => n.id === id);
+  if (!task) return;
+
+  task.scheduleExpanded = !task.scheduleExpanded;
   renderSchedule();
 };
 window.addScheduleSubtask = function(taskId) {
@@ -5898,6 +6060,9 @@ window.addScheduleSubtask = function(taskId) {
 
   saveData();
   renderSchedule();
+
+  const nextInput = $('subtaskInput_' + taskId);
+  if (nextInput) nextInput.focus();
 };
 window.toggleScheduleSubtask = function(taskId, subtaskId) {
   const task = notes.find(n => n.id === taskId);
@@ -8266,6 +8431,10 @@ else if (currentOtherCategory === 'task') {
   if (page === 1) openWishlistModal(null);
   else openNoteModal(null);
 }
+else if (currentOtherCategory === 'schedule') {
+  openNoteModal(null);
+  setFormNoteType('task');
+}
 else if (currentOtherCategory) openNoteModal(null);
       else toast('Vui lòng chọn một mục để thêm');
     }
@@ -8418,7 +8587,19 @@ subtasks: formNoteType === 'task' ? formSubtasks : [],
     } else {
       notes.push({ id: 'n_' + Date.now(), ...data, createdAt: Date.now(), isCompleted: false });
     }
-    saveData(); renderNotes(); closeNoteModal(); toast('✅ Đã lưu');
+    saveData();
+renderNotes();
+
+if (
+  currentTab === 'others' &&
+  currentOtherCategory === 'schedule' &&
+  $('scheduleDetailView').style.display !== 'none'
+) {
+  renderSchedule();
+}
+
+closeNoteModal();
+toast('✅ Đã lưu');
   });
   $('saveWishlistBtn').addEventListener('click', () => {
   const name = $('wishlistName').value.trim();
